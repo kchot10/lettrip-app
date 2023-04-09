@@ -33,7 +33,7 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
 
 
 
-    private static String IP_ADDRESS = "43.200.234.242"; //본인 IP주소를 넣으세요.
+    private static String IP_ADDRESS = "52.78.186.3"; //본인 IP주소를 넣으세요.
 
     private static String TAG = "phptest"; //phptest log 찍으려는 용도
 
@@ -51,23 +51,6 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
 
     private TextView mTextViewResult;
 
-
-    public static String getLocalIpAddress() {
-        try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-                NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-                        return inetAddress.getHostAddress();
-                    }
-                }
-            }
-        } catch (SocketException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,60 +102,64 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                 String phone = signup_phone.getText().toString().trim();
 
                 //회원가입을 할 때 예외 처리를 해준 것이다.
-                if (email.equals("")  || pwd.equals("") || pwdcheck.equals("") || name.equals("")|| date.equals("") || phone.equals("") || spinner1.equals("- 질문을 선택해주세요 -") || question.equals("") )
-                {
-                    Toast.makeText(Signup_Php_Mysql.this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                }
-                else {
+//                if (email.equals("")  || pwd.equals("") || pwdcheck.equals("") || name.equals("")|| date.equals("") || phone.equals("") || spinner1.equals("- 질문을 선택해주세요 -") || question.equals("") )
+//                {
+//                    Toast.makeText(Signup_Php_Mysql.this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//
+//                    if(pwd.equals(pwdcheck)) {
+//                        if(pwd.length()<=5){
+//                            Toast.makeText(Signup_Php_Mysql.this, "비밀번호를 6자리 이상 입력해주세요.", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else if(!email.contains("@") || !email.contains(".com")){
+//
+//                            Toast.makeText(Signup_Php_Mysql.this, "아이디에 @ 및 .com을 포함시키세요.", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else if(phone.contains("-") || !(Integer.parseInt(String.valueOf(phone.charAt(1)))==1)){
+//
+//                            Toast.makeText(Signup_Php_Mysql.this,"올바른 전화번호 형식으로 입력해주세요..", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                        else if(date.length()<=7 || Integer.parseInt(String.valueOf(date.charAt(0))) >= 3 || Integer.parseInt(String.valueOf(date.charAt(4)))>1
+//                                || Integer.parseInt(String.valueOf(date.charAt(5)))==0  || Integer.parseInt(String.valueOf(date.charAt(6)))>3
+//                                ||(Integer.parseInt(String.valueOf(date.charAt(6)))==3  && Integer.parseInt(String.valueOf(date.charAt(7)))>1
+//                                || (Integer.parseInt(String.valueOf(date.charAt(4)))==1 &&  Integer.parseInt(String.valueOf(date.charAt(5)))>2)
+//                                ||Integer.parseInt(String.valueOf(date.charAt(7)))==0)
+//                        ) {
+//                            Toast.makeText(Signup_Php_Mysql.this, "생년월일 8자 이상 및 올바르게 입력하세요.", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                        else if (date.length()<=7 || ( Integer.parseInt(String.valueOf(date.charAt(0)))==2  && Integer.parseInt(String.valueOf(date.charAt(1)))>0
+//                                && Integer.parseInt(String.valueOf(date.charAt(2)))>2  && Integer.parseInt(String.valueOf(date.charAt(3)))>2)|| Integer.parseInt(String.valueOf(date.charAt(6)))>3
+//                                || (Integer.parseInt(String.valueOf(date.charAt(6)))==3  && Integer.parseInt(String.valueOf(date.charAt(7)))>1)
+//                                ||(Integer.parseInt(String.valueOf(date.charAt(4)))==1 &&  Integer.parseInt(String.valueOf(date.charAt(5)))>2
+//                                ||Integer.parseInt(String.valueOf(date.charAt(7)))==0)
+//                        ) {
+//                            Toast.makeText(Signup_Php_Mysql.this, "생년월일 8자 이상 및 올바르게 입력하세요.", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else {
+//
+//                            InsertData task = new InsertData(); //PHP 통신을 위한 InsertData 클래스의 task 객체 생성
+//                            //본인이 접속할 PHP 주소와 보낼 데이터를 입력해준다.
+//                            // http://43.200.234.242/0406_2/android_log_inset_php.php
+//                            task.execute("http://"+IP_ADDRESS+"/0406_2/android_log_inset_php.php",email,email,pwd,phone,name,date,spinner1,question);
+//                            Toast.makeText(Signup_Php_Mysql.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//
+//
+//                    }
+//                    else {
+//                        Toast.makeText(Signup_Php_Mysql.this, "비밀번호가 일치 하지 않습니다.", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//
+//                }
 
-                    if(pwd.equals(pwdcheck)) {
-                        if(pwd.length()<=5){
-                            Toast.makeText(Signup_Php_Mysql.this, "비밀번호를 6자리 이상 입력해주세요.", Toast.LENGTH_SHORT).show();
-                        }
-                        else if(!email.contains("@") || !email.contains(".com")){
-
-                            Toast.makeText(Signup_Php_Mysql.this, "아이디에 @ 및 .com을 포함시키세요.", Toast.LENGTH_SHORT).show();
-                        }
-                        else if(phone.contains("-") || !(Integer.parseInt(String.valueOf(phone.charAt(1)))==1)){
-
-                            Toast.makeText(Signup_Php_Mysql.this,"올바른 전화번호 형식으로 입력해주세요..", Toast.LENGTH_SHORT).show();
-
-                        }
-                        else if(date.length()<=7 || Integer.parseInt(String.valueOf(date.charAt(0))) >= 3 || Integer.parseInt(String.valueOf(date.charAt(4)))>1
-                                || Integer.parseInt(String.valueOf(date.charAt(5)))==0  || Integer.parseInt(String.valueOf(date.charAt(6)))>3
-                                ||(Integer.parseInt(String.valueOf(date.charAt(6)))==3  && Integer.parseInt(String.valueOf(date.charAt(7)))>1
-                                || (Integer.parseInt(String.valueOf(date.charAt(4)))==1 &&  Integer.parseInt(String.valueOf(date.charAt(5)))>2)
-                                ||Integer.parseInt(String.valueOf(date.charAt(7)))==0)
-                        ) {
-                            Toast.makeText(Signup_Php_Mysql.this, "생년월일 8자 이상 및 올바르게 입력하세요.", Toast.LENGTH_SHORT).show();
-
-                        }
-                        else if (date.length()<=7 || ( Integer.parseInt(String.valueOf(date.charAt(0)))==2  && Integer.parseInt(String.valueOf(date.charAt(1)))>0
-                                && Integer.parseInt(String.valueOf(date.charAt(2)))>2  && Integer.parseInt(String.valueOf(date.charAt(3)))>2)|| Integer.parseInt(String.valueOf(date.charAt(6)))>3
-                                || (Integer.parseInt(String.valueOf(date.charAt(6)))==3  && Integer.parseInt(String.valueOf(date.charAt(7)))>1)
-                                ||(Integer.parseInt(String.valueOf(date.charAt(4)))==1 &&  Integer.parseInt(String.valueOf(date.charAt(5)))>2
-                                ||Integer.parseInt(String.valueOf(date.charAt(7)))==0)
-                        ) {
-                            Toast.makeText(Signup_Php_Mysql.this, "생년월일 8자 이상 및 올바르게 입력하세요.", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-
-                            InsertData task = new InsertData(); //PHP 통신을 위한 InsertData 클래스의 task 객체 생성
-                            //본인이 접속할 PHP 주소와 보낼 데이터를 입력해준다.
-                            // http://43.200.234.242/0406_2/android_log_inset_php.php
-                            task.execute("http://"+IP_ADDRESS+"/0406_2/android_log_inset_php.php",email,email,pwd,phone,name,date,spinner1,question);
-                            Toast.makeText(Signup_Php_Mysql.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
-
-                        }
-
-
-                    }
-                    else {
-                        Toast.makeText(Signup_Php_Mysql.this, "비밀번호가 일치 하지 않습니다.", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                }
+                InsertData task = new InsertData(); //PHP 통신을 위한 InsertData 클래스의 task 객체 생성
+                task.execute("http://"+IP_ADDRESS+"/0406_2/android_log_inset_php.php",email,email,pwd,phone,name,date,spinner1,question);
+                Toast.makeText(Signup_Php_Mysql.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
 
 
 
@@ -218,11 +205,11 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
              */
             String serverURL = (String) params[0];
 
-            String useremail = (String)params[1];
+            String email = (String)params[1];
             String userid = (String)params[2];
-            String userpw = (String)params[3];
+            String password = (String)params[3];
             String userphone = (String)params[4];
-            String username = (String)params[5];
+            String name = (String)params[5];
             String userdate = (String)params[6];
             String userquestion = (String)params[7];
             String useranswer = (String)params[8];
@@ -233,9 +220,8 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
             전송할 데이터는 "이름=값" 형식이며 여러 개를 보내야 할 경우에 항목 사이에 &를 추가해준다.
             여기에 적어준 이름들은 나중에 PHP에서 사용하여 값을 얻게 된다.
              */
-            String postParameters ="useremail="+useremail+"&userid="+ userid
-                    +"&userpw="+userpw+"&userphone="+userphone+"&username="+username
-                    +"&userdate="+userdate+"&userquestion="+userquestion+"&useranswer="+useranswer;
+            // useremail=kchot10@naver.com    &userid=kchot10@naver.com   &userpw=123123
+            String postParameters ="email="+email+"&password="+password+"&name="+name;
 
             try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
                 URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
