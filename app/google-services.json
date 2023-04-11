@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "521809312211",
+    "project_id": "travelerapplication-a481e",
+    "storage_bucket": "travelerapplication-a481e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521809312211:android:981845e17045a4582c1726",
+        "android_client_info": {
+          "package_name": "com.cookandroid.travelerapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521809312211-u08r0pem67k2bing60j7vfhe70d5b8j7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEpRPhTphYp7xFGTgghv1iifWWP5omQGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521809312211-u08r0pem67k2bing60j7vfhe70d5b8j7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
