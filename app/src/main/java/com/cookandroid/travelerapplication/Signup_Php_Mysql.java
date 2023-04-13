@@ -28,6 +28,7 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
 
     private static String TAG = "phptest"; //phptest log 찍으려는 용도
 
+    // 수정사항
     private TextView signup_id;
     private TextView signup_pwd;
     private TextView signup_pwd2;
