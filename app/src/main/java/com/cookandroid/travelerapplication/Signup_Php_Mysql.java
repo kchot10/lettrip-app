@@ -35,7 +35,7 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
 
     // 충열 변경사항
 
-    // 정후님 변경사항
+    // 충열 변경사항
 
     private TextView signup_id;
     private TextView signup_pwd;
