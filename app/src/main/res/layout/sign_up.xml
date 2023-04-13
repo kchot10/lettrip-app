@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -28,53 +29,88 @@
             android:layout_width="233dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="42dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/logo"
             tools:layout_editor_absoluteX="158dp"
 
             tools:layout_editor_absoluteY="16dp" />
-
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="기본정보"
-        android:textSize="15dp"
-        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:text="이메일"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="9dp"
         tools:layout_editor_absoluteY="108dp" />
 
-    <EditText
-        android:id="@+id/signup_id"
-        android:layout_width="380dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="128dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/signup_id"
+            android:layout_width="250dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="10dp"
+            android:ems="10"
+            android:inputType="textEmailAddress" />
+
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            android:text="확인"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/code_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:ems="6"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/timerTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:textColor="#FF0000"
+            android:textSize="32sp"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/code_check_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#515674"
+            android:text="코드 확인"
+            android:visibility="invisible" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:text="비밀번호"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="11dp"
@@ -97,8 +133,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="비밀번호 확인"
+        android:layout_marginTop="5dp"
+        android:text="비밀번호 재확인"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="9dp"
         tools:layout_editor_absoluteY="272dp" />
@@ -116,34 +152,11 @@
         tools:layout_editor_absoluteY="291dp" />
 
     <TextView
-        android:id="@+id/phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="사진 url"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="356dp" />
-
-    <EditText
-        android:id="@+id/signup_phone"
-        android:layout_width="380dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:ems="10"
-        android:inputType="phone"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="377dp" />
-
-    <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:text="이름"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="11dp"
@@ -166,21 +179,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="닉네임"
+        android:layout_marginTop="5dp"
+        android:text="이미지 url"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="13dp"
-        tools:layout_editor_absoluteY="441dp" />
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="356dp" />
 
     <EditText
-        android:id="@+id/signup_date"
+        android:id="@+id/signup_image_url"
         android:layout_width="380dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
         android:ems="10"
-        android:inputType="date"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="469dp" />
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="377dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="닉네임"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="356dp" />
+
+    <EditText
+        android:id="@+id/signup_nickname"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:ems="10"
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="377dp" />
 
 
     <LinearLayout
@@ -189,11 +225,12 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/signup_button"
+            android:id="@+id/join_button"
             android:layout_width="331dp"
             android:layout_height="58dp"
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
+            android:backgroundTint="#515674"
             android:text="Join"
             android:textColor="@color/white"
             android:textSize="18dp"
@@ -206,7 +243,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"></TextView>
-
     </LinearLayout>
 
 

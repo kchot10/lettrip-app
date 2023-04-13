@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".WithdrawActivity">
+    tools:context=".LoginActivity">
+
 
     <EditText
         android:id="@+id/email_edittext"
@@ -24,11 +25,18 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/join_button"
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="#515674"
-        android:text="탈퇴하기" />
+        android:text="Login" />
 
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#515674"
+        android:text="회원가입" />
 </LinearLayout>

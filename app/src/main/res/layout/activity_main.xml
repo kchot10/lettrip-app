@@ -7,34 +7,42 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="53dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginBottom="20dp"
+            tools:layout_editor_absoluteX="9dp"
+            tools:layout_editor_absoluteY="6dp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="233dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@drawable/logo"
+            tools:layout_editor_absoluteX="158dp"
+
+            tools:layout_editor_absoluteY="16dp" />
+    </LinearLayout>
+
+
     <Button
-        android:text="send_button"
+        android:id="@+id/withdraw_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/send_button"/>
-
-    <EditText
-        android:hint="your email address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/email_edittext"/>
-
-    <EditText
-        android:hint="auth_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/code_edittext"/>
-
-    <Button
-        android:text="코드 확인"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/code_check_button"/>
-
-    <Button
-        android:text="회원탈퇴"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/withdraw_button"/>
+        android:layout_gravity="center"
+        android:backgroundTint="#515674"
+        android:text="회원탈퇴" />
 
 </LinearLayout>
