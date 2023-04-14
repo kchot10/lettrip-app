@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical"
     tools:context=".WithdrawActivity">
 
@@ -12,16 +13,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="#000000"
         android:hint="your email address"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:textColorHint="#A6A6A6" />
 
     <EditText
         android:id="@+id/password_edittext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="#000000"
         android:hint="your password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColorHint="#A6A6A6" />
 
     <Button
         android:id="@+id/join_button"

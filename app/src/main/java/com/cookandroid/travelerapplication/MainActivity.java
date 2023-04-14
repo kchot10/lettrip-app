@@ -4,6 +4,8 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, WithdrawActivity.class);
             startActivity(intent);
         });
+
+
     }
 
 }
