@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -57,7 +58,11 @@
                 <data android:host="oauth"
                     android:scheme="kakaoeaea80fc7e3f8ac8fd4c887da34a2f08" />
             </intent-filter>
-    </activity>
+        </activity>
+
+
+
+
     </application>
 
 </manifest>

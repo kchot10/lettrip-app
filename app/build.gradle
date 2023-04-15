@@ -6,6 +6,7 @@ android {
     namespace 'com.cookandroid.travelerapplication'
     compileSdk 33
 
+
     defaultConfig {
         applicationId "com.cookandroid.travelerapplication"
         minSdk 21
@@ -26,7 +27,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+
+    viewBinding{
+        enabled=true
+    }
+    dataBinding{
+        enabled=true
+    }
 }
+
+
 
 dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
@@ -40,5 +51,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //카카오로그인 관련
-    implementation "com.kakao.sdk:v2-user:2.8.6" 
+    implementation "com.kakao.sdk:v2-user:2.8.6"
+
+
+
+    //구글 로그인 관련
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+
 }
