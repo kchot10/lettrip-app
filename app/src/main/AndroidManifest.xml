@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".KakaoApplication"
+        android:name="com.cookandroid.travelerapplication.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -59,6 +59,7 @@
                     android:scheme="kakaoeaea80fc7e3f8ac8fd4c887da34a2f08" />
             </intent-filter>
         </activity>
+
 
 
 

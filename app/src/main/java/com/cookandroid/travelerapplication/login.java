@@ -17,15 +17,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 
-import com.cookandroid.travelerapplication.databinding.ActivityMainBinding;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -43,11 +41,20 @@ import java.security.NoSuchAlgorithmException;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-
-
+import com.navercorp.nid.NaverIdLoginSDK;
+import com.navercorp.nid.oauth.NidOAuthLogin;
+import com.navercorp.nid.oauth.OAuthLoginCallback;
+import com.navercorp.nid.oauth.view.NidOAuthLoginButton;
+import com.navercorp.nid.profile.NidProfileCallback;
+import com.navercorp.nid.profile.data.NidProfile;
+import com.navercorp.nid.profile.data.NidProfileResponse;
 
 
 public class login extends AppCompatActivity{
+
+
+    public static Context mContext;
+
     private ActivityResultLauncher<Intent> GoogleSignResultLauncher;
 
     @Override
@@ -87,7 +94,50 @@ public class login extends AppCompatActivity{
         //-----------------------
         //네이버 로그인 구현
         //네아로 객체 초기화
-        //NaverIdLoginSDK.INSTANCE.initialize(getApplicationContext(), "hSHzjzQDqmaiM8qbHVA4","DwmFlqg0t5", "Lettrip");
+        NaverIdLoginSDK.INSTANCE.initialize(getApplicationContext(), "hSHzjzQDqmaiM8qbHVA4","DwmFlqg0t5", "Lettrip");
+
+        NidOAuthLoginButton buttonOAuthLoginImg = findViewById(R.id.buttonOAuthLoginImg);
+        buttonOAuthLoginImg.setOAuthLogin(new OAuthLoginCallback() {
+            @Override
+            public void onSuccess() { //로그인 성공시 처리할 내용
+                String accessToken = NaverIdLoginSDK.INSTANCE.getAccessToken();
+                NidOAuthLogin mOAuthLoginModule = new NidOAuthLogin();
+                mOAuthLoginModule.callProfileApi(new NidProfileCallback<NidProfileResponse>() {
+                    @Override
+                    public void onSuccess(NidProfileResponse nidProfileResponse) {
+                        NidProfile profile = nidProfileResponse.getProfile();
+                        String email = profile.getEmail();
+                        String name = profile.getName();
+                        String profileUrl = profile.getProfileImage();
+
+                        Log.e("naver account", email);
+                        Log.e("naver account", name);
+                        Log.e("naver account", profileUrl);
+
+                    }
+
+                    @Override
+                    public void onFailure(int i, @NonNull String s) {
+
+                    }
+
+                    @Override
+                    public void onError(int i, @NonNull String s) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(int i, @NonNull String s) { //로그인 실패시 처리할 내용
+
+            }
+
+            @Override
+            public void onError(int i, @NonNull String s) { //로그인 취소시 처리할 내용
+
+            }
+        });
 
 
         //-------------------------

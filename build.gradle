@@ -4,11 +4,14 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0-alpha02'
+        classpath 'com.android.tools.build:gradle-api:7.3.1'
     }
 }
+
+
 
 plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false
 }
+

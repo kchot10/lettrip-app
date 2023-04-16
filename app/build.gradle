@@ -7,6 +7,7 @@ android {
     compileSdk 33
 
 
+
     defaultConfig {
         applicationId "com.cookandroid.travelerapplication"
         minSdk 21
@@ -29,12 +30,7 @@ android {
     }
 
 
-    viewBinding{
-        enabled=true
-    }
-    dataBinding{
-        enabled=true
-    }
+
 }
 
 
@@ -51,11 +47,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //카카오로그인 관련
-    implementation "com.kakao.sdk:v2-user:2.8.6"
+    implementation "com.kakao.sdk:v2-user:2.13.0"
+
+    //네이버로그인 관련
+    implementation 'com.navercorp.nid:oauth:5.5.0' // jdk 11
 
 
 
-    //구글 로그인 관련
-    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    //구글로그인 관련
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
 
 }
