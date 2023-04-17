@@ -182,12 +182,12 @@ public class login extends AppCompatActivity{
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String email = account != null ? account.getEmail() : ""; //이메일
             String name = account != null ? account.getDisplayName() : ""; //전체 이름
-            String photoUrl = account != null? String.valueOf(account.getPhotoUrl()) : ""; //프로필 사진 url
+            String profileUrl = account != null? String.valueOf(account.getPhotoUrl()) : ""; //프로필 사진 url
 
 
             Log.e("Google account", email);
             Log.e("Google account", name);
-            Log.e("Google account", photoUrl);
+            Log.e("Google account", profileUrl);
         } catch (ApiException e) {
             Log.e("Google account", "signInResult:failed Code = " + e.getStatusCode());
         }
@@ -202,11 +202,11 @@ public class login extends AppCompatActivity{
                 //로그인이 되어있다면
                 if(user != null){
                     //유저 정보 가져오기
-                    String kakao_email = user.getKakaoAccount().getEmail();
-                    String kakao_name = user.getKakaoAccount().getProfile().getNickname();
-                    String kakao_profilePhoto = user.getKakaoAccount().getProfile().getProfileImageUrl();
+                    String email = user.getKakaoAccount().getEmail();
+                    String name = user.getKakaoAccount().getProfile().getNickname();
+                    String profileUrl = user.getKakaoAccount().getProfile().getProfileImageUrl();
 
-                    Toast.makeText(getApplicationContext(), kakao_email + ", " + kakao_name + ", " + kakao_profilePhoto, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), email + ", " + name + ", " + profileUrl, Toast.LENGTH_LONG).show();
                 } else{
                     //로그인이 안되어 있을 때
                     Log.d("error", "로그인 안되어 있음");
