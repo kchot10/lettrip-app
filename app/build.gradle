@@ -52,9 +52,10 @@ dependencies {
     //네이버로그인 관련
     implementation 'com.navercorp.nid:oauth:5.5.0' // jdk 11
 
-
-
     //구글로그인 관련
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
+
+    implementation 'androidx.cardview:cardview:1.0.0'
+
 
 }
