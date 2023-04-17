@@ -27,7 +27,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <ImageButton
                     android:id="@+id/menuBtn"
@@ -102,6 +103,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:background="#515674"
+                android:shadowColor="#7A7A7A"
+                android:shadowDy="20"
                 android:text="LOGIN"
                 android:textColor="#D5D5D5" />
 
