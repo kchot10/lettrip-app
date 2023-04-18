@@ -26,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        findViewById(R.id.button_board).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, BoardListActivity.class);
+            startActivity(intent);
+        });
+
 
     }
 

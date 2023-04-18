@@ -95,7 +95,7 @@ public class SelectData extends AsyncTask<String,Void,String> { // 통신을 위
 
         catch (Exception e) {
 
-            Log.d(TAG, "DeleteData: Error",e);
+            Log.d(TAG, "SelectData: Error",e);
 
             return  new String("Error " + e.getMessage());
 

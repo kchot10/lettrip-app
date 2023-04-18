@@ -40,22 +40,25 @@ public class BoardListActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Board");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-                arrayList.clear();
-                for (DataSnapshot snapshot : datasnapshot.getChildren()){
-                    Board board = snapshot.getValue(Board.class);
-                    arrayList.add(board);
-                }
-                adapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("youn", String.valueOf(error.toException()));
-            }
-        });
+
+
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+//                arrayList.clear();
+//                for (DataSnapshot snapshot : datasnapshot.getChildren()){
+//                    Board board = snapshot.getValue(Board.class);
+//                    arrayList.add(board);
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.e("youn", String.valueOf(error.toException()));
+//            }
+//        });
 
         adapter = new BoardAdapter(arrayList, this);
         recyclerView.setAdapter(adapter);
