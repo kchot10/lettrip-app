@@ -18,6 +18,8 @@ public class WithdrawActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withdraw);
+        FileHelper fileHelper = new FileHelper(this);
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         email_edittext = (EditText) findViewById(R.id.email_edittext);
         password_edittext = (EditText) findViewById(R.id.password_edittext);

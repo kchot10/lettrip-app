@@ -47,10 +47,10 @@
         android:text="회원탈퇴" />
 
     <Button
-        android:id="@+id/button_login"
+        android:id="@+id/button_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="login"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:text="Board" />
 
 </LinearLayout>

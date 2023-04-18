@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -56,6 +57,8 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FileHelper fileHelper = new FileHelper(this);
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         setContentView(R.layout.sign_up);
 
@@ -151,8 +154,9 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                         timerTextView.setVisibility(View.VISIBLE);
                         code_check_button.setVisibility(View.VISIBLE);
                         // 인증 메일 전송
-                        SendMailTask sendMailTask = new SendMailTask();
-                        sendMailTask.execute(emailAddress, String.valueOf(code));
+//                        SendMailTask sendMailTask = new SendMailTask();
+//                        sendMailTask.execute(emailAddress, String.valueOf(code));
+                        Log.d("youn", code);
                         emailEditText.setFocusable(false);
                         sendButton.setVisibility(View.INVISIBLE);
                         startTimer();
