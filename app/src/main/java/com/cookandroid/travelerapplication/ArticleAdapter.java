@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHolder> {
+public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardViewHolder> {
 
 
-    private ArrayList<Board> arrayList;
+    private ArrayList<Article> arrayList;
     private Context context;
 
-    public BoardAdapter(ArrayList<Board> arrayList, Context context) {
+    public ArticleAdapter(ArrayList<Article> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -33,9 +33,9 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
     @Override
     public void onBindViewHolder(@NonNull BoardViewHolder holder, int position) {
         holder.textview_title.setText(arrayList.get(position).getTitle());
-        holder.textview_author.setText(arrayList.get(position).getAuthor());
-        holder.textview_date_of_writing.setText(arrayList.get(position).getDate_of_writing());
-        holder.textview_count_view.setText(arrayList.get(position).getCount_views());
+        holder.textview_author.setText(arrayList.get(position).getUser_id());
+        holder.textview_date_of_writing.setText(arrayList.get(position).getCreated_date());
+        holder.textview_count_view.setText(arrayList.get(position).getHit());
         holder.textview_content.setText(arrayList.get(position).getContent());
 
     }
@@ -59,6 +59,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
             this.textview_date_of_writing = itemView.findViewById(R.id.textview_date_of_writing);
             this.textview_content = itemView.findViewById(R.id.textview_content);
             this.textview_count_view = itemView.findViewById(R.id.textview_count_view);
+
         }
     }
 }

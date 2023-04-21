@@ -25,7 +25,7 @@ import java.util.Random;
 public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // 수정사항
-    private static String IP_ADDRESS = "3.34.179.249"; //본인 IP주소를 넣으세요.
+    private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
 
     private static String TAG = "phptest"; //phptest log 찍으려는 용도
 
