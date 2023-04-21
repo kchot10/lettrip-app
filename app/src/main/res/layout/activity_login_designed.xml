@@ -82,6 +82,7 @@
                 android:ems="10"
                 android:hint="ID"
                 android:inputType="textPersonName"
+                android:textColor="@color/black"
                 android:textColorHint="#B1B1B1" />
 
             <EditText
@@ -93,8 +94,10 @@
                 android:backgroundTint="#B1B1B1"
                 android:ems="10"
                 android:hint="PW"
-                android:inputType="textPersonName"
-                android:textColorHint="#B1B1B1" />
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                android:textColorHint="#B1B1B1"
+                tools:inputType="textPassword" />
 
             <Button
                 android:id="@+id/loginBtn"

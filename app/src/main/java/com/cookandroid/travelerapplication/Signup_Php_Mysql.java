@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,7 +25,7 @@ import java.util.Random;
 public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // 수정사항
-    private static String IP_ADDRESS = "3.34.179.249"; //본인 IP주소를 넣으세요.
+    private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
 
     private static String TAG = "phptest"; //phptest log 찍으려는 용도
 
@@ -56,6 +57,8 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FileHelper fileHelper = new FileHelper(this);
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         setContentView(R.layout.sign_up);
 
@@ -151,8 +154,9 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                         timerTextView.setVisibility(View.VISIBLE);
                         code_check_button.setVisibility(View.VISIBLE);
                         // 인증 메일 전송
-                        SendMailTask sendMailTask = new SendMailTask();
-                        sendMailTask.execute(emailAddress, String.valueOf(code));
+//                        SendMailTask sendMailTask = new SendMailTask();
+//                        sendMailTask.execute(emailAddress, String.valueOf(code));
+                        Log.d("youn", code);
                         emailEditText.setFocusable(false);
                         sendButton.setVisibility(View.INVISIBLE);
                         startTimer();
@@ -227,7 +231,7 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                 String code = params[1];
 
                 MailSender sender = new MailSender("kchot10@gmail.com", "akojosbblxtcelur");
-                sender.sendMail("Lettrip 이메일 인증 코드입니다.", "아래 코드를 Lettrip 이메일 인증 코드란에 입력해주세요. \n CODE : " + code, "kchot10@naver.com");
+                sender.sendMail("Lettrip 이메일 인증 코드입니다.", "아래 코드를 Lettrip 이메일 인증 코드란에 입력해주세요. \n CODE : " + code, emailAddress);
 
             } catch (Exception e) {
                 e.printStackTrace();

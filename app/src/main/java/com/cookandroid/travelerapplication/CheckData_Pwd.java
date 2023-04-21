@@ -93,7 +93,7 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
         catch (Exception e) {
 
-            Log.d(TAG, "DeleteData: Error",e);
+            Log.d(TAG, "CheckData: Error",e);
 
             return  new String("Error " + e.getMessage());
 

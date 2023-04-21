@@ -8,12 +8,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.renderscript.ScriptGroup;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -53,6 +55,7 @@ import com.navercorp.nid.profile.data.NidProfileResponse;
 public class login extends AppCompatActivity{
 
 
+    private static String IP_ADDRESS;
     public static Context mContext;
 
     private ActivityResultLauncher<Intent> GoogleSignResultLauncher;
@@ -61,6 +64,39 @@ public class login extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_designed);
+        FileHelper fileHelper = new FileHelper(this);
+        fileHelper.writeToFile("IP_ADDRESS", "54.180.24.243");
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+
+        //회원가입 버튼을 눌렀을 때
+        findViewById(R.id.joinBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, Signup_Php_Mysql.class);
+            startActivity(intent);
+        });
+
+        //로그인 버튼을 눌렀을 때
+        EditText email_edittext = findViewById(R.id.id_plainText);
+        EditText password_edittext = findViewById(R.id.pw_plainText);
+
+        findViewById(R.id.loginBtn).setOnClickListener(v -> {
+            String email = email_edittext.getText().toString().trim();
+            String pwd = password_edittext.getText().toString().trim();
+
+            CheckData_Pwd task = new CheckData_Pwd();
+            task.execute("http://"+IP_ADDRESS+"/0411/pwd_check.php",email,pwd);
+            new Handler().postDelayed(() -> {
+                String withdraw_result = task.get_return_string();
+                if (withdraw_result.equals("인증 성공")){
+                    Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                } else if (withdraw_result.equals("인증 실패")) {
+                    Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
+                } else if (withdraw_result.equals("사용자 없음")) {
+                    Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }, 500); // 0.5초 지연 시간
+        });
 
         //-----------------------
         //소셜 로그인 구현 - 카카오
