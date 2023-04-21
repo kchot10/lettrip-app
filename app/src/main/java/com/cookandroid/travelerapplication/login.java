@@ -65,6 +65,7 @@ public class login extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_designed);
         FileHelper fileHelper = new FileHelper(this);
+        fileHelper.writeToFile("IP_ADDRESS", "54.180.24.243");
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         //회원가입 버튼을 눌렀을 때

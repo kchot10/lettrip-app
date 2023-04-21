@@ -231,7 +231,7 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                 String code = params[1];
 
                 MailSender sender = new MailSender("kchot10@gmail.com", "akojosbblxtcelur");
-                sender.sendMail("Lettrip 이메일 인증 코드입니다.", "아래 코드를 Lettrip 이메일 인증 코드란에 입력해주세요. \n CODE : " + code, "kchot10@naver.com");
+                sender.sendMail("Lettrip 이메일 인증 코드입니다.", "아래 코드를 Lettrip 이메일 인증 코드란에 입력해주세요. \n CODE : " + code, emailAddress);
 
             } catch (Exception e) {
                 e.printStackTrace();

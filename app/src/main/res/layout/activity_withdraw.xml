@@ -16,6 +16,7 @@
         android:backgroundTint="#000000"
         android:hint="your email address"
         android:inputType="textEmailAddress"
+        android:textColor="@color/black"
         android:textColorHint="#A6A6A6" />
 
     <EditText
@@ -26,6 +27,7 @@
         android:backgroundTint="#000000"
         android:hint="your password"
         android:inputType="textPassword"
+        android:textColor="@color/black"
         android:textColorHint="#A6A6A6" />
 
     <Button
