@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class WithdrawActivity extends AppCompatActivity {
-    private static String IP_ADDRESS = "3.34.179.249"; //본인 IP주소를 넣으세요.
+    private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
 
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 

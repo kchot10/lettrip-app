@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardViewHolder> {
 
-
     private ArrayList<Article> arrayList;
     private Context context;
 
@@ -26,7 +25,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
     @NonNull
     @Override
     public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article_list, parent, false);
         BoardViewHolder holder = new BoardViewHolder(view);
         return holder;
     }
@@ -62,7 +61,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
                 @Override
                 public void onClick(View v) {
 
-                    int curpos = getAdapterPosition();
+                    int curpos = getAbsoluteAdapterPosition();
                     Intent intent = new Intent(context, ArticleContentActivity.class);
                     intent.putExtra("article_id", arrayList.get(curpos).getArticle_id());
                     intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());

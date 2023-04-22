@@ -16,9 +16,7 @@ public class ArticleContentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_article_content);
 
         Intent intent = getIntent();
-
         textview_content = findViewById(R.id.textview_content);
-
         textview_content.setText(intent.getStringExtra("content"));
 
 

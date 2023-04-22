@@ -120,9 +120,10 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                         else if (!check.equals("1")) {
                             Toast.makeText(Signup_Php_Mysql.this, "이메일 인증이 완료되지 않았습니다.", Toast.LENGTH_SHORT).show();
                         } else {
-                            InsertData task = new InsertData(); //PHP 통신을 위한 InsertData 클래스의 task 객체 생성
+                            InsertData_SignUp task = new InsertData_SignUp(); //PHP 통신을 위한 InsertData 클래스의 task 객체 생성
                             task.execute("http://"+IP_ADDRESS+"/0411/android_log_inset_php.php",email,hashPassword(pwd),name, image_url, nickname, provider_type);
                             Toast.makeText(Signup_Php_Mysql.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
                     else {

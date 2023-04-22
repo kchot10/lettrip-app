@@ -1,6 +1,15 @@
 package com.cookandroid.travelerapplication;
 
 public class Article {
+    private String article_id;
+    private String created_date;
+    private String modified_date;
+    private String content;
+    private String hit;
+    private String like_count;
+    private String title;
+    private String user_id;
+
     public String getArticle_id() {
         return article_id;
     }
@@ -64,13 +73,4 @@ public class Article {
     public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
-
-    private String article_id;
-    private String created_date;
-    private String modified_date;
-    private String content;
-    private String hit;
-    private String like_count;
-    private String title;
-    private String user_id;
 }

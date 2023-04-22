@@ -11,19 +11,28 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_Article extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
-    private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
+
         String serverURL = (String) params[0];
-        String email = (String)params[1];
-        String password = (String)params[2];
+        String article_id = (String)params[1];
+        String created_date = (String)params[2];
+        String modified_date = (String)params[3];
+        String content = (String)params[4];
+        String hit = (String)params[5];
+        String like_count = (String)params[6];
+        String title = (String)params[7];
+        String user_id = (String)params[8];
 
 
-        String postParameters ="email="+email+"&password="+password;
+        String postParameters ="article_id="+article_id+"&created_date="+created_date
+                +"&modified_date="+modified_date+"&content="+content
+                +"&hit="+hit+"&like_count="+like_count
+                +"&title="+title+"&user_id="+user_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -75,15 +84,6 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
             Log.d("php 값 :", sb.toString());
 
-            String result = getTwoCharsAfterString(sb.toString(), "인증에 ");
-            if (result.equals("성공")){
-                return_string = "인증 성공";
-            }else if(result.equals("실패")){
-                return_string = "인증 실패";
-            }else {
-                return_string = "사용자 없음";
-            }
-
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -93,24 +93,11 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
         catch (Exception e) {
 
-            Log.d(TAG, "CheckData_Pwd: Error",e);
+            Log.d(TAG, "InsertData_Article: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
     }
-    public String get_return_string(){
-        return return_string;
-    }
-
-    public String getTwoCharsAfterString(String str, String searchString) {
-        String result = "";
-        int index = str.indexOf(searchString);
-        if (index != -1 && index + searchString.length() + 2 <= str.length()) {
-            result = str.substring(index + searchString.length(), index + searchString.length() + 2);
-        }
-        return result;
-    }
-
 }

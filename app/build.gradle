@@ -49,6 +49,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    //Add 버튼 관련
+    implementation 'com.google.android.material:material:1.2.1'
+
     //카카오로그인 관련
     implementation "com.kakao.sdk:v2-user:2.13.0"
 

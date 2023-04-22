@@ -55,6 +55,7 @@ import com.navercorp.nid.profile.data.NidProfileResponse;
 public class login extends AppCompatActivity{
 
 
+    private static String ec2_ADDRESS = "54.180.24.243";
     private static String IP_ADDRESS;
     public static Context mContext;
 
@@ -65,7 +66,7 @@ public class login extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_designed);
         FileHelper fileHelper = new FileHelper(this);
-        fileHelper.writeToFile("IP_ADDRESS", "54.180.24.243");
+        fileHelper.writeToFile("IP_ADDRESS", ec2_ADDRESS);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         //회원가입 버튼을 눌렀을 때
