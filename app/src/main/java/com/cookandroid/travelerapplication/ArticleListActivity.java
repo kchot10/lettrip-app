@@ -21,9 +21,9 @@ public class ArticleListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_list);
         FileHelper fileHelper = new FileHelper(this);
+        fileHelper.writeToFile("IP_ADDRESS", "54.180.24.243");
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
-        IP_ADDRESS = "54.180.24.243";
         recyclerView = findViewById(R.id.RecyclerView_board);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
