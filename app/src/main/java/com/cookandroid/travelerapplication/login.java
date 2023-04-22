@@ -89,6 +89,7 @@ public class login extends AppCompatActivity{
                 String withdraw_result = task.get_return_string();
                 if (withdraw_result.equals("인증 성공")){
                     Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                    fileHelper.writeToFile("user_id", "6");
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                 } else if (withdraw_result.equals("인증 실패")) {

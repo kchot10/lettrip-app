@@ -2,7 +2,10 @@ package com.cookandroid.travelerapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import java.text.SimpleDateFormat;
@@ -17,13 +20,24 @@ public class ArticleCreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_article_create);
         FileHelper fileHelper = new FileHelper(this);
         String IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
-        fileHelper.writeToFile("user_id", "6");
 
-        EditText editText_title = findViewById(R.id.edittext_title);
+        EditText edittext_title = findViewById(R.id.edittext_title);
         EditText edittext_content = findViewById(R.id.edittext_content);
 
+        Intent intent = getIntent();
+        if (intent.getStringExtra("sign") != null){
+            findViewById(R.id.button_create).setVisibility(View.INVISIBLE);
+            findViewById(R.id.button_update).setVisibility(View.VISIBLE);
+
+            edittext_title.setText(intent.getStringExtra("title").trim());
+            edittext_content.setText(intent.getStringExtra("content").trim());
+            String modified_date = getCurrentTime();
+
+            // Update 하는 task 만들기
+        }
+
         findViewById(R.id.button_create).setOnClickListener(v -> {
-            String title = editText_title.getText().toString().trim();
+            String title = edittext_title.getText().toString().trim();
             String content = edittext_content.getText().toString().trim();
 
             if (title.equals("") || content.equals("")){
