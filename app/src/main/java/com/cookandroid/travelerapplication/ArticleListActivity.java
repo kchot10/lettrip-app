@@ -23,6 +23,7 @@ public class ArticleListActivity extends AppCompatActivity {
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
+        IP_ADDRESS = "54.180.24.243";
         recyclerView = findViewById(R.id.RecyclerView_board);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);

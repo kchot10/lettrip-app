@@ -36,7 +36,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
         holder.textview_author.setText(arrayList.get(position).getUser_id());
         holder.textview_date_of_writing.setText(arrayList.get(position).getCreated_date());
         holder.textview_count_view.setText(arrayList.get(position).getHit());
-        holder.textview_content.setText(arrayList.get(position).getContent());
 
     }
 
@@ -49,7 +48,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
         TextView textview_title;
         TextView textview_author;
         TextView textview_date_of_writing;
-        TextView textview_content;
         TextView textview_count_view;
 
         public BoardViewHolder(@NonNull View itemView) {
@@ -57,8 +55,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
             this.textview_title = itemView.findViewById(R.id.textview_title);
             this.textview_author = itemView.findViewById(R.id.textview_author);
             this.textview_date_of_writing = itemView.findViewById(R.id.textview_date_of_writing);
-            this.textview_content = itemView.findViewById(R.id.textview_content);
             this.textview_count_view = itemView.findViewById(R.id.textview_count_view);
+            
+            
 
         }
     }
