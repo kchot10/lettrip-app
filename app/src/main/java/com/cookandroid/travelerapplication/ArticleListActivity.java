@@ -50,9 +50,15 @@ public class ArticleListActivity extends AppCompatActivity {
             new Handler().postDelayed(() -> {
                 adapter = new ArticleAdapter(articleArrayList, this);
                 recyclerView.setAdapter(adapter);
-            }, 2000); // 0.5초 지연 시간
+            }, 1000); // 0.5초 지연 시간
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Refresh();
     }
 }

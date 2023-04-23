@@ -36,6 +36,24 @@ public class ArticleCreateActivity extends AppCompatActivity {
             // Update 하는 task 만들기
         }
 
+        findViewById(R.id.button_update).setOnClickListener(v -> {
+            String title = edittext_title.getText().toString().trim();
+            String content = edittext_content.getText().toString().trim();
+
+            if (title.equals("") || content.equals("")){
+                Toast.makeText(this, "제목 또는 내용을 입력하세요", Toast.LENGTH_SHORT).show();
+            } else {
+                String currentTime = getCurrentTime();
+                String modified_date = currentTime;
+                String article_id = intent.getStringExtra("article_id").trim();
+
+                UpdateData_Article task = new UpdateData_Article();
+                task.execute("http://"+IP_ADDRESS+"/0422/UpdateData_Article.php", article_id, modified_date, content, title);
+
+                finish();
+            }
+        });
+
         findViewById(R.id.button_create).setOnClickListener(v -> {
             String title = edittext_title.getText().toString().trim();
             String content = edittext_content.getText().toString().trim();

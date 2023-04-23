@@ -60,6 +60,7 @@ public class CommentListActivity extends AppCompatActivity {
                 }
                 InsertData_Comment task = new InsertData_Comment();
                 task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", parent_comment_id, user_id);
+                Refresh();
             }
         });
 
@@ -78,7 +79,7 @@ public class CommentListActivity extends AppCompatActivity {
             new Handler().postDelayed(() -> {
                 adapter = new CommentAdapter(commentArrayList, this);
                 recyclerView.setAdapter(adapter);
-            }, 2000); // 0.5초 지연 시간
+            }, 1000); // 0.5초 지연 시간
         }catch (Exception e){
             e.printStackTrace();
         }

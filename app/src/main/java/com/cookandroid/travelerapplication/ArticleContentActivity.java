@@ -29,7 +29,11 @@ public class ArticleContentActivity extends AppCompatActivity {
         findViewById(R.id.button_update).setOnClickListener(v -> {
             Intent intent = new Intent(this, ArticleCreateActivity.class);
             intent.putExtra("sign", "1");
+            intent.putExtra("title", intent_article.getStringExtra("title"));
+            intent.putExtra("content", intent_article.getStringExtra("content"));
+            intent.putExtra("article_id", intent_article.getStringExtra("article_id"));
             startActivity(intent);
+            finish();
         });
 
         findViewById(R.id.button_comment).setOnClickListener(v -> {
