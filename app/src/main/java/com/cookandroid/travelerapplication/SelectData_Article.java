@@ -31,7 +31,14 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // 통�
     protected String doInBackground(String... params) {
         String serverURL = (String) params[0];
 
-        String postParameters ="";
+        String postParameters = "";
+        try {
+            String article_id = (String) params[1];
+            postParameters ="article_id="+article_id;
+        }catch (Exception e){
+        }
+
+        Log.d("youn", postParameters+"이만큼 됐음");
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -82,6 +89,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // 통�
             bufferedReader.close();
 
             Log.d("php 값 :", sb.toString());
+
             parseJSONArray(sb.toString());
 
 
