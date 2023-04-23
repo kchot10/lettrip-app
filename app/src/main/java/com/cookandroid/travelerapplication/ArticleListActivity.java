@@ -28,12 +28,16 @@ public class ArticleListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.RecyclerView_board);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         Refresh();
 
         findViewById(R.id.button_refresh).setOnClickListener(v -> {
             Refresh();
+        });
+
+        findViewById(R.id.button_add).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ArticleCreateActivity.class);
+            startActivity(intent);
         });
 
     }
@@ -50,10 +54,5 @@ public class ArticleListActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-        findViewById(R.id.button_add).setOnClickListener(v -> {
-            Intent intent = new Intent(this, ArticleCreateActivity.class);
-            startActivity(intent);
-        });
     }
 }

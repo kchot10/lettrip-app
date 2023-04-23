@@ -59,17 +59,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
+
                 public void onClick(View v) {
                     int curpos = getAbsoluteAdapterPosition();
                     Intent intent;
-                    FileHelper fileHelper = new FileHelper(context);
-                    String user_id = fileHelper.readFromFile("user_id").trim();
-                    if (user_id.equals(arrayList.get(curpos).getUser_id().trim())){
-                        intent = new Intent(context, ArticleCreateActivity.class);
-                        intent.putExtra("sign", "1");
-                    }else {
-                        intent = new Intent(context, ArticleContentActivity.class);
-                    }
+                    intent = new Intent(context, ArticleContentActivity.class);
                     intent.putExtra("article_id", arrayList.get(curpos).getArticle_id());
                     intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
                     intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());

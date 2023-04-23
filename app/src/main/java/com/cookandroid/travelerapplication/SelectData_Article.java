@@ -25,7 +25,6 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
     public SelectData_Article(ArrayList<Article> articleArrayList) {
         this.articleArrayList = articleArrayList;
     }
-
     private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
@@ -97,7 +96,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
 
         catch (Exception e) {
 
-            Log.d(TAG, "CheckDataData: Error",e);
+            Log.d(TAG, "SelectData_Article: Error",e);
 
             return  new String("Error " + e.getMessage());
 

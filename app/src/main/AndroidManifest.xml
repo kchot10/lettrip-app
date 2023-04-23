@@ -24,7 +24,7 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Signup_Php_Mysql"
             android:exported="true">
@@ -40,8 +40,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
@@ -59,11 +57,10 @@
         </activity>
         <activity
             android:name=".ArticleContentActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ArticleListActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>
