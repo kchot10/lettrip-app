@@ -33,7 +33,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         holder.textview_content.setText(arrayList.get(position).getContent());
-        holder.textview_user_id.setText(arrayList.get(position).getUser_id());
+        holder.textview_user_id.setText(arrayList.get(position).getName());
         holder.textview_created_date.setText(arrayList.get(position).getCreated_date());
 
     }
@@ -73,6 +73,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 intent.putExtra("mentioned_user_id", arrayList.get(curpos).getMentioned_user_id());
                 intent.putExtra("parent_comment_id", arrayList.get(curpos).getParent_comment_id());
                 intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
+                intent.putExtra("name", arrayList.get(curpos).getName());
                 context.startActivity(intent);
             });
 

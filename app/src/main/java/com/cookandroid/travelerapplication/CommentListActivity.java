@@ -1,6 +1,5 @@
 package com.cookandroid.travelerapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.EditText;

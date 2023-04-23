@@ -36,10 +36,6 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             String article_id = (String) params[1];
             String parent_comment_id = (String) params[2];
             postParameters ="article_id="+article_id+"&parent_comment_id="+parent_comment_id;
-            Log.d("youn", postParameters+"\n");
-            Log.d("youn", postParameters+"\n");
-            Log.d("youn", postParameters+"\n");
-            Log.d("youn", postParameters+"\n");
         }catch (Exception e){
         }
 
@@ -149,6 +145,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             String like_count = jsonObject.getString("like_count");
             String title = jsonObject.getString("title");
             String user_id = jsonObject.getString("user_id");
+            String name = jsonObject.getString("name");
 
             article.setArticle_id(articleId);
             article.setCreated_date(createdDate);
@@ -158,6 +155,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             article.setLike_count(like_count);
             article.setTitle(title);
             article.setUser_id(user_id);
+            article.setName(name);
 
             articleArrayList.add(article);
 
@@ -183,6 +181,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             String mentioned_user_id = jsonObject.getString("mentioned_user_id");
             String parent_comment_id = jsonObject.getString("parent_comment_id");
             String user_id = jsonObject.getString("user_id");
+            String name = jsonObject.getString("name");
 
             comment.setComment_id(comment_id);
             comment.setCreated_date(createdDate);
@@ -192,6 +191,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             comment.setMentioned_user_id(mentioned_user_id);
             comment.setParent_comment_id(parent_comment_id);
             comment.setUser_id(user_id);
+            comment.setName(name);
 
             articleArrayList.add(comment);
 

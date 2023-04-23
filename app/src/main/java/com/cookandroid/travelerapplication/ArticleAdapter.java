@@ -33,7 +33,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
     @Override
     public void onBindViewHolder(@NonNull BoardViewHolder holder, int position) {
         holder.textview_title.setText(arrayList.get(position).getTitle());
-        holder.textview_author.setText(arrayList.get(position).getUser_id());
+        holder.textview_author.setText(arrayList.get(position).getName());
         holder.textview_date_of_writing.setText(arrayList.get(position).getCreated_date());
         holder.textview_count_view.setText(arrayList.get(position).getHit());
 
@@ -70,6 +70,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
                 intent.putExtra("like_count", arrayList.get(curpos).getLike_count());
                 intent.putExtra("title", arrayList.get(curpos).getTitle());
                 intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
+                intent.putExtra("name", arrayList.get(curpos).getName());
                 context.startActivity(intent);
             });
 

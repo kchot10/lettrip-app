@@ -11,6 +11,16 @@ public class Comment {
     private String mentioned_user_id;
     private String parent_comment_id;
 
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getComment_id() {
         return comment_id;
     }
