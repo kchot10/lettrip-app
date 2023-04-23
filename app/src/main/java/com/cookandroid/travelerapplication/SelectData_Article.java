@@ -34,11 +34,14 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // 통�
         String postParameters = "";
         try {
             String article_id = (String) params[1];
-            postParameters ="article_id="+article_id;
+            String parent_comment_id = (String) params[2];
+            postParameters ="article_id="+article_id+"&parent_comment_id="+parent_comment_id;
+            Log.d("youn", postParameters+"\n");
+            Log.d("youn", postParameters+"\n");
+            Log.d("youn", postParameters+"\n");
+            Log.d("youn", postParameters+"\n");
         }catch (Exception e){
         }
-
-        Log.d("youn", postParameters+"이만큼 됐음");
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -90,7 +93,12 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // 통�
 
             Log.d("php 값 :", sb.toString());
 
-            parseJSONArray(sb.toString());
+            try{
+                parseJSONArray(sb.toString());
+            }catch (Exception e){
+                Log.d("youn", "JSON Error\n");
+            }
+
 
 
 
@@ -123,8 +131,6 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // 통�
 
 //        parseJSONArray_Article(jsonArray);
 //        parseJSONArray_Comment(jsonArray);
-
-
     }
 
     private void parseJSONArray_Article(JSONArray jsonArray) throws JSONException {

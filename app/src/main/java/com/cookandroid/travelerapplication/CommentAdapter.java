@@ -1,6 +1,7 @@
 package com.cookandroid.travelerapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             this.textview_content = itemView.findViewById(R.id.textview_content);
             this.textview_user_id = itemView.findViewById(R.id.textview_user_id);
             this.textview_created_date = itemView.findViewById(R.id.textview_created_date);
+
+            itemView.setOnClickListener(v -> {
+                int curpos = getAbsoluteAdapterPosition();
+                Intent intent;
+                intent = new Intent(context, CommentListActivity.class);
+                intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());
+                intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
+                intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());
+                intent.putExtra("content", arrayList.get(curpos).getContent());
+                intent.putExtra("article_id", arrayList.get(curpos).getArticle_id());
+                intent.putExtra("mentioned_user_id", arrayList.get(curpos).getMentioned_user_id());
+                intent.putExtra("parent_comment_id", arrayList.get(curpos).getParent_comment_id());
+                intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
+                context.startActivity(intent);
+            });
+
+
 
         }
     }

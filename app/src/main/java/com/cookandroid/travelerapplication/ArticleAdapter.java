@@ -58,24 +58,19 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
             this.textview_date_of_writing = itemView.findViewById(R.id.textview_date_of_writing);
             this.textview_count_view = itemView.findViewById(R.id.textview_count_view);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-
-                public void onClick(View v) {
-                    int curpos = getAbsoluteAdapterPosition();
-                    Intent intent;
-                    intent = new Intent(context, ArticleContentActivity.class);
-                    intent.putExtra("article_id", arrayList.get(curpos).getArticle_id());
-                    intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
-                    intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());
-                    intent.putExtra("content", arrayList.get(curpos).getContent());
-                    intent.putExtra("hit", arrayList.get(curpos).getHit());
-                    intent.putExtra("like_count", arrayList.get(curpos).getLike_count());
-                    intent.putExtra("title", arrayList.get(curpos).getTitle());
-                    intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
-                    context.startActivity(intent);
-
-                }
+            itemView.setOnClickListener(v -> {
+                int curpos = getAbsoluteAdapterPosition();
+                Intent intent;
+                intent = new Intent(context, ArticleContentActivity.class);
+                intent.putExtra("article_id", arrayList.get(curpos).getArticle_id());
+                intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
+                intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());
+                intent.putExtra("content", arrayList.get(curpos).getContent());
+                intent.putExtra("hit", arrayList.get(curpos).getHit());
+                intent.putExtra("like_count", arrayList.get(curpos).getLike_count());
+                intent.putExtra("title", arrayList.get(curpos).getTitle());
+                intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
+                context.startActivity(intent);
             });
 
         }

@@ -54,9 +54,12 @@ public class CommentListActivity extends AppCompatActivity {
                 String created_date = currentTime;
                 String modified_date = currentTime;
                 String user_id = fileHelper.readFromFile("user_id");
-
+                String parent_comment_id = getIntent().getStringExtra("comment_id");
+                if (parent_comment_id == null){
+                    parent_comment_id = "0";
+                }
                 InsertData_Comment task = new InsertData_Comment();
-                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", "0", user_id);
+                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", parent_comment_id, user_id);
             }
         });
 
@@ -65,8 +68,12 @@ public class CommentListActivity extends AppCompatActivity {
     public void Refresh() {
         ArrayList<Comment> commentArrayList = new ArrayList<>();
         SelectData_Article task = new SelectData_Article(commentArrayList);
+        String parent_comment_id = getIntent().getStringExtra("comment_id");
+        if (parent_comment_id == null){
+            parent_comment_id = "0";
+        }
+        task.execute("http://" + IP_ADDRESS + "/0422/selectdata_comment.php", article_id, parent_comment_id);
 
-        task.execute("http://" + IP_ADDRESS + "/0422/selectdata_comment.php", article_id);
         try {
             new Handler().postDelayed(() -> {
                 adapter = new CommentAdapter(commentArrayList, this);
