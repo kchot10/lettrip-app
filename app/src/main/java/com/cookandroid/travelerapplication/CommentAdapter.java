@@ -60,6 +60,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 int curpos = getAbsoluteAdapterPosition();
                 Intent intent;
                 intent = new Intent(context, CommentListActivity.class);
+
+                if (!arrayList.get(curpos).getParent_comment_id().equals("0")){
+                    ((CommentListActivity) v.getContext()).setEditText(arrayList.get(curpos).getUser_id());
+                    return;
+                }
                 intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());
                 intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
                 intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());

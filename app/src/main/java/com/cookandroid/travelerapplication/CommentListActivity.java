@@ -23,6 +23,8 @@ public class CommentListActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private String article_id;
 
+    private EditText edittext_content;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class CommentListActivity extends AppCompatActivity {
         FileHelper fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", "54.180.24.243");
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
-        EditText edittext_content = findViewById(R.id.edittext_content);
+        edittext_content = findViewById(R.id.edittext_content);
         article_id = getIntent().getStringExtra("article_id");
 
         recyclerView = findViewById(R.id.RecyclerView_comment);
@@ -90,5 +92,9 @@ public class CommentListActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String currentTime = sdf.format(date);
         return currentTime;
+    }
+
+    public void setEditText(String user_id) {
+        edittext_content.setText("@"+user_id+" ");
     }
 }
