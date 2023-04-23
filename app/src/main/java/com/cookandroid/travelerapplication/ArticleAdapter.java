@@ -41,6 +41,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
 
     @Override
     public int getItemCount() {
+
         return (arrayList != null ? arrayList.size() : 0);
     }
 

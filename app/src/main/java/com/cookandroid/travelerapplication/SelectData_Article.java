@@ -20,11 +20,12 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // 통�
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
-    public ArrayList<Article> articleArrayList;
+    public ArrayList articleArrayList;
 
-    public SelectData_Article(ArrayList<Article> articleArrayList) {
+    public <T> SelectData_Article(ArrayList<T> articleArrayList) {
         this.articleArrayList = articleArrayList;
     }
+
     private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
@@ -81,12 +82,9 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // 통�
             bufferedReader.close();
 
             Log.d("php 값 :", sb.toString());
+            parseJSONArray(sb.toString());
 
-            try {
-                parseJSONArray(sb.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -107,6 +105,21 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // 통�
     private void parseJSONArray(String result) throws JSONException {
         // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
         JSONArray jsonArray = new JSONArray(result);
+
+        try {
+            jsonArray.getJSONObject(0).getString("hit");
+            parseJSONArray_Article(jsonArray);
+        }catch (Exception e){
+            parseJSONArray_Comment(jsonArray);
+        }
+
+//        parseJSONArray_Article(jsonArray);
+//        parseJSONArray_Comment(jsonArray);
+
+
+    }
+
+    private void parseJSONArray_Article(JSONArray jsonArray) throws JSONException {
 
         // JSONArray로부터 데이터 추출
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -133,6 +146,40 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // 통�
             article.setUser_id(user_id);
 
             articleArrayList.add(article);
+
+        }
+    }
+
+    private void parseJSONArray_Comment(JSONArray jsonArray) throws JSONException {
+        // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
+
+        // JSONArray로부터 데이터 추출
+        for (int i = 0; i < jsonArray.length(); i++) {
+
+
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            Comment comment = new Comment();
+
+            String comment_id = jsonObject.getString("comment_id");
+            String createdDate = jsonObject.getString("created_date");
+            String modified_date = jsonObject.getString("modified_date");
+            String content = jsonObject.getString("content");
+            String article_id = jsonObject.getString("article_id");
+            String mentioned_user_id = jsonObject.getString("mentioned_user_id");
+            String parent_comment_id = jsonObject.getString("parent_comment_id");
+            String user_id = jsonObject.getString("user_id");
+
+            comment.setComment_id(comment_id);
+            comment.setCreated_date(createdDate);
+            comment.setModified_date(modified_date);
+            comment.setContent(content);
+            comment.setArticle_id(article_id);
+            comment.setMentioned_user_id(mentioned_user_id);
+            comment.setParent_comment_id(parent_comment_id);
+            comment.setUser_id(user_id);
+
+            articleArrayList.add(comment);
 
         }
     }
