@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.comment;
 
 public class Comment {
 

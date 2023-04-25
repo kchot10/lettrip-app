@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -11,28 +11,37 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class InsertData_Article extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_SignUp extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
     @Override
     protected String doInBackground(String... params) {
-
+            /*
+            PHP 파일을 실행시킬 수 있는 주소와 전송할 데이터를 준비한다.
+            POST 방식으로 데이터 전달시에는 데이터가 주소에 직접 입력되지 않는다.
+            이 값들은 InsertData 객체.excute 에서 매개변수로 준 값들이 배열 개념으로 차례대로 들어가
+            값을 받아오는 개념이다.
+             */
         String serverURL = (String) params[0];
-        String article_id = (String)params[1];
-        String created_date = (String)params[2];
-        String modified_date = (String)params[3];
-        String content = (String)params[4];
-        String hit = (String)params[5];
-        String like_count = (String)params[6];
-        String title = (String)params[7];
-        String user_id = (String)params[8];
+        String email = (String)params[1];
+        String password = (String)params[2];
+        String name = (String)params[3];
+        String image_url = (String)params[4];
+        String nickname = (String)params[5];
+        String provider_type = (String)params[6];
 
 
-        String postParameters ="article_id="+article_id+"&created_date="+created_date
-                +"&modified_date="+modified_date+"&content="+content
-                +"&hit="+hit+"&like_count="+like_count
-                +"&title="+title+"&user_id="+user_id;
+
+            /*
+            HTTP 메세지 본문에 포함되어 전송되기 때문에 따로 데이터를 준비해야한다.
+            전송할 데이터는 "이름=값" 형식이며 여러 개를 보내야 할 경우에 항목 사이에 &를 추가해준다.
+            여기에 적어준 이름들은 나중에 PHP에서 사용하여 값을 얻게 된다.
+             */
+        // useremail=kchot10@naver.com    &userid=kchot10@naver.com   &userpw=123123
+        String postParameters ="email="+email+"&password="+password
+                +"&name="+name+"&image_url="+image_url
+                +"&nickname="+nickname+"&provider_type="+provider_type;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -93,7 +102,7 @@ public class InsertData_Article extends AsyncTask<String,Void,String> { // 통�
 
         catch (Exception e) {
 
-            Log.d(TAG, "InsertData_Article: Error",e);
+            Log.d(TAG, "InsertData: Error",e);
 
             return  new String("Error " + e.getMessage());
 

@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.article;
 
 public class Article {
     private String article_id;

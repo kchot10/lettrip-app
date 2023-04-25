@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.article;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.cookandroid.travelerapplication.comment.CommentListActivity;
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.R;
 
 public class ArticleContentActivity extends AppCompatActivity {
 

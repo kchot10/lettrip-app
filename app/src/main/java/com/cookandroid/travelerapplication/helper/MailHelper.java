@@ -1,29 +1,23 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.helper;
 
 import android.util.Log;
 import java.util.Properties;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.BodyPart;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
-public class MailSender extends javax.mail.Authenticator {
+public class MailHelper extends javax.mail.Authenticator {
     private String mailhost = "smtp.gmail.com"; // 이메일 발송에 사용할 서버의 호스트명
     private String user; // 이메일 발송에 사용할 계정의 이메일 주소
     private String password; // 이메일 발송에 사용할 계정의 비밀번호
     private Session session;
 
-    public MailSender(String user, String password) {
+    public MailHelper(String user, String password) {
         this.user = user;
         this.password = password;
 

@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -11,19 +11,28 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class CheckData_Email extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_Comment extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
-
-    private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
+
         String serverURL = (String) params[0];
-        String email = (String)params[1];
+        String comment_id = (String)params[1];
+        String created_date = (String)params[2];
+        String modified_date = (String)params[3];
+        String content = (String)params[4];
+        String article_id = (String)params[5];
+        String mentioned_user_id = (String)params[6];
+        String parent_comment_id = (String)params[7];
+        String user_id = (String)params[8];
 
 
-        String postParameters ="email="+email;
+        String postParameters ="comment_id="+comment_id+"&created_date="+created_date
+                +"&modified_date="+modified_date+"&content="+content
+                +"&article_id="+article_id+"&mentioned_user_id="+mentioned_user_id
+                +"&parent_comment_id="+parent_comment_id+"&user_id="+user_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -75,13 +84,6 @@ public class CheckData_Email extends AsyncTask<String,Void,String> { // 통신�
 
             Log.d("php 값 :", sb.toString());
 
-            String result = getTwoCharsAfterString(sb.toString(), "사용 ");
-            if (result.equals("가능")){
-                return_string = "성공";
-            }else {
-                return_string = "실패";
-            }
-
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -91,24 +93,11 @@ public class CheckData_Email extends AsyncTask<String,Void,String> { // 통신�
 
         catch (Exception e) {
 
-            Log.d(TAG, "CheckData_Email: Error",e);
+            Log.d(TAG, "InsertData_Comment: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
     }
-    public String get_return_string(){
-        return return_string;
-    }
-
-    public String getTwoCharsAfterString(String str, String searchString) {
-        String result = "";
-        int index = str.indexOf(searchString);
-        if (index != -1 && index + searchString.length() + 2 <= str.length()) {
-            result = str.substring(index + searchString.length(), index + searchString.length() + 2);
-        }
-        return result;
-    }
-
 }
