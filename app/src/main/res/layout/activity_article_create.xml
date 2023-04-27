@@ -6,50 +6,107 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingTop="10dp"
+    android:paddingRight="15dp"
+    android:paddingBottom="10dp"
     android:visibility="visible"
     tools:context=".article.ArticleCreateActivity">
 
-    <EditText
-        android:id="@+id/edittext_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#B1B1B1"
-        android:ems="10"
-        android:hint="(제목)"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="#B1B1B1"
-        android:textSize="30dp" />
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/edittext_content"
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/back" />
+
+        <TextView
+            android:id="@+id/createArticle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="45dp"
+            android:layout_weight="1"
+            android:text="게시글 작성"
+            android:textAlignment="center"
+            android:textColor="#515674"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#B1B1B1"
-        android:ems="10"
-        android:hint="(내용)"
-        android:textColor="@color/black"
-        android:textColorHint="#B1B1B1"
-        android:textSize="30dp" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="CREATE" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="update"
-        android:visibility="invisible" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edittext_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:backgroundTint="#B1B1B1"
+                    android:ems="10"
+                    android:hint="제목"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="#B1B1B1"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/edittext_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:backgroundTint="#B1B1B1"
+                    android:ems="10"
+                    android:hint="내용"
+                    android:textColor="@color/black"
+                    android:textColorHint="#B1B1B1"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/button_create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="#515674"
+                    android:elevation="7dp"
+                    android:text="CREATE" />
+
+                <Button
+                    android:id="@+id/button_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="update"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

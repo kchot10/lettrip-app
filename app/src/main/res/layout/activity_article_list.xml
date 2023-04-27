@@ -32,7 +32,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/backBtn"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:backgroundTint="@color/white"
@@ -43,20 +43,13 @@
                     android:id="@+id/edittext_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="45dp"
                     android:layout_weight="1"
                     android:text="게시글 목록"
                     android:textAlignment="center"
                     android:textColor="#515674"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
-                <ImageButton
-                    android:id="@+id/imageButton2"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:backgroundTint="@color/white"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/search" />
 
             </LinearLayout>
 
@@ -78,6 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:backgroundTint="#515674"
                     android:text="Refresh"
                     android:textSize="10dp" />
 
@@ -86,6 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:backgroundTint="#515674"
                     android:text="ADD"
                     android:textSize="10dp" />
 

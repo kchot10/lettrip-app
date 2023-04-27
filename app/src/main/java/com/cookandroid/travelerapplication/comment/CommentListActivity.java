@@ -32,7 +32,7 @@ public class CommentListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment_list);
+        setContentView(R.layout.activity_comment);
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         edittext_content = findViewById(R.id.edittext_content);
