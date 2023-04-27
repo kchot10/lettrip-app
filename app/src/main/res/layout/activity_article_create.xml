@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:visibility="visible"
-    tools:context=".ArticleCreateActivity">
+    tools:context=".article.ArticleCreateActivity">
 
     <EditText
         android:id="@+id/edittext_title"

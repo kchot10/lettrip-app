@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.comment;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +8,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.task.InsertData_Comment;
+import com.cookandroid.travelerapplication.task.SelectData_Article;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

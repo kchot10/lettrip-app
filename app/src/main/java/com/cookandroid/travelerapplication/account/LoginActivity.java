@@ -1,7 +1,6 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.account;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -9,12 +8,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
-import android.renderscript.ScriptGroup;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -26,6 +22,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.MainActivity;
+import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.task.CheckData_Pwd;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -52,7 +52,7 @@ import com.navercorp.nid.profile.data.NidProfile;
 import com.navercorp.nid.profile.data.NidProfileResponse;
 
 
-public class login extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity{
 
 
     private static String ec2_ADDRESS = "43.201.36.46";
@@ -64,14 +64,14 @@ public class login extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_designed);
+        setContentView(R.layout.activity_login);
         FileHelper fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", ec2_ADDRESS);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         //회원가입 버튼을 눌렀을 때
         findViewById(R.id.joinBtn).setOnClickListener(v -> {
-            Intent intent = new Intent(this, Signup_Php_Mysql.class);
+            Intent intent = new Intent(this, SignUpActivity.class);
             startActivity(intent);
         });
 
@@ -91,7 +91,7 @@ public class login extends AppCompatActivity{
                     Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
 
                     // user id 챙겨오는 task 필요.
-                    fileHelper.writeToFile("user_id", "6");
+                    fileHelper.writeToFile("user_id", "1");
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                 } else if (withdraw_result.equals("인증 실패")) {
@@ -105,7 +105,7 @@ public class login extends AppCompatActivity{
         //-----------------------
         //소셜 로그인 구현 - 카카오
         //키 해쉬 발급
-        Log.d("getKeyHash", "" + getKeyHash(login.this));
+        Log.d("getKeyHash", "" + getKeyHash(LoginActivity.this));
 
         ImageButton button = findViewById(R.id.kakaoLogin_btn);
 
@@ -121,10 +121,10 @@ public class login extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 //카톡 설치 여부 확인
-                if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(login.this)){ //카톡이 설치 되어 있으면
-                    UserApiClient.getInstance().loginWithKakaoTalk(login.this, callback);
+                if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){ //카톡이 설치 되어 있으면
+                    UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
                 } else{ //카카오톡이 설치 되어 있지 않으면
-                    UserApiClient.getInstance().loginWithKakaoAccount(login.this, callback);
+                    UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
                 }
             }
 

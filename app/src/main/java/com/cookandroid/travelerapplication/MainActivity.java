@@ -5,9 +5,13 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.cookandroid.travelerapplication.article.ArticleListActivity;
+import com.cookandroid.travelerapplication.account.WithdrawActivity;
+import com.cookandroid.travelerapplication.helper.FileHelper;
+
 public class MainActivity extends AppCompatActivity {
 
-    private static String IP_ADDRESS = "3.34.179.249"; //본인 IP주소를 넣으세요.
+    private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
 
 
     String code;

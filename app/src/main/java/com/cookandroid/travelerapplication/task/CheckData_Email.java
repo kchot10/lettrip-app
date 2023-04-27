@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -11,19 +11,19 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class CheckData_Email extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
+
 
     private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
         String serverURL = (String) params[0];
         String email = (String)params[1];
-        String password = (String)params[2];
 
 
-        String postParameters ="email="+email+"&password="+password;
+        String postParameters ="email="+email;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -75,13 +75,11 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
             Log.d("php 값 :", sb.toString());
 
-            String result = getTwoCharsAfterString(sb.toString(), "인증에 ");
-            if (result.equals("성공")){
-                return_string = "인증 성공";
-            }else if(result.equals("실패")){
-                return_string = "인증 실패";
+            String result = getTwoCharsAfterString(sb.toString(), "사용 ");
+            if (result.equals("가능")){
+                return_string = "성공";
             }else {
-                return_string = "사용자 없음";
+                return_string = "실패";
             }
 
 
@@ -93,7 +91,7 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
         catch (Exception e) {
 
-            Log.d(TAG, "CheckData_Pwd: Error",e);
+            Log.d(TAG, "CheckData_Email: Error",e);
 
             return  new String("Error " + e.getMessage());
 

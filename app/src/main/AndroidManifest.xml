@@ -17,27 +17,27 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".CommentListActivity"
+            android:name=".comment.CommentListActivity"
             android:exported="true" >
         </activity>
         <activity
-            android:name=".ArticleCreateActivity"
+            android:name=".article.ArticleCreateActivity"
             android:exported="false" />
         <activity
-            android:name=".WithdrawActivity"
+            android:name=".account.WithdrawActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".Signup_Php_Mysql"
+            android:name=".account.SignUpActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".login"
+            android:name=".account.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,10 +60,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ArticleContentActivity"
+            android:name=".article.ArticleContentActivity"
             android:exported="true" />
         <activity
-            android:name=".ArticleListActivity"
+            android:name=".article.ArticleListActivity"
             android:exported="true">
 
         </activity>

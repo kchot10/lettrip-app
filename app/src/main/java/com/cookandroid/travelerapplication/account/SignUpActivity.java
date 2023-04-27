@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.account;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,12 +17,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.helper.MailHelper;
+import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.task.CheckData_Email;
+import com.cookandroid.travelerapplication.task.InsertData_SignUp;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Locale;
 import java.util.Random;
 
-public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // 수정사항
     private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
@@ -60,7 +66,7 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.activity_sign_up);
 
         signup_id = (EditText) findViewById(R.id.signup_id);
         signup_pwd = (EditText) findViewById(R.id.signup_pwd);
@@ -107,27 +113,27 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                 //회원가입을 할 때 예외 처리를 해준 것이다.
                 if (email.equals("")  || pwd.equals("") || pwdcheck.equals("") || name.equals("") || image_url.equals("") || nickname.equals("") || code.equals(""))
                 {
-                    Toast.makeText(Signup_Php_Mysql.this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if(pwd.equals(pwdcheck)) {
                         if(pwd.length()<=5){
-                            Toast.makeText(Signup_Php_Mysql.this, "비밀번호를 6자리 이상 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "비밀번호를 6자리 이상 입력해주세요.", Toast.LENGTH_SHORT).show();
                         }
                         else if(!email.contains("@") || !email.contains(".com")){
-                            Toast.makeText(Signup_Php_Mysql.this, "아이디에 @ 및 .com을 포함시키세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "아이디에 @ 및 .com을 포함시키세요.", Toast.LENGTH_SHORT).show();
                         }
                         else if (!check.equals("1")) {
-                            Toast.makeText(Signup_Php_Mysql.this, "이메일 인증이 완료되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "이메일 인증이 완료되지 않았습니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             InsertData_SignUp task = new InsertData_SignUp(); //PHP 통신을 위한 InsertData 클래스의 task 객체 생성
                             task.execute("http://"+IP_ADDRESS+"/0411/android_log_inset_php.php",email,hashPassword(pwd),name, image_url, nickname, provider_type);
-                            Toast.makeText(Signup_Php_Mysql.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
                     else {
-                        Toast.makeText(Signup_Php_Mysql.this, "비밀번호가 일치 하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "비밀번호가 일치 하지 않습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -140,7 +146,7 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
 
 
                 if (emailAddress.isEmpty()) {
-                    Toast.makeText(Signup_Php_Mysql.this, "이메일 주소를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "이메일 주소를 입력해주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -161,10 +167,10 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                         emailEditText.setFocusable(false);
                         sendButton.setVisibility(View.INVISIBLE);
                         startTimer();
-                        Toast.makeText(Signup_Php_Mysql.this, "사용 가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "사용 가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
                     } else if (result.equals("실패")) {
                         emailEditText.setText("");
-                        Toast.makeText(Signup_Php_Mysql.this, "중복된 이메일이 있습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "중복된 이메일이 있습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }, 500); // 0.5초 지연 시간
 
@@ -181,13 +187,13 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                 code_edittext.setVisibility(View.INVISIBLE);
                 timerTextView.setVisibility(View.INVISIBLE);
                 code_check_button.setVisibility(View.INVISIBLE);
-                Toast.makeText(Signup_Php_Mysql.this, "인증 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, "인증 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 check="1";
             } else if (code.equals("0")) {
-                Toast.makeText(Signup_Php_Mysql.this, "코드가 만료되었습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, "코드가 만료되었습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(Signup_Php_Mysql.this, "코드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, "코드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -231,7 +237,7 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
                 String emailAddress = params[0];
                 String code = params[1];
 
-                MailSender sender = new MailSender("kchot10@gmail.com", "akojosbblxtcelur");
+                MailHelper sender = new MailHelper("kchot10@gmail.com", "akojosbblxtcelur");
                 sender.sendMail("Lettrip 이메일 인증 코드입니다.", "아래 코드를 Lettrip 이메일 인증 코드란에 입력해주세요. \n CODE : " + code, emailAddress);
 
             } catch (Exception e) {
@@ -242,7 +248,7 @@ public class Signup_Php_Mysql extends AppCompatActivity implements AdapterView.O
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(Signup_Php_Mysql.this, "인증 메일을 발송했습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, "인증 메일을 발송했습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 

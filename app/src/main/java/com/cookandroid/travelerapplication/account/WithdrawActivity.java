@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.account;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.task.CheckData_Pwd;
+import com.cookandroid.travelerapplication.task.DeleteData;
 
 public class WithdrawActivity extends AppCompatActivity {
     private static String IP_ADDRESS; //본인 IP주소를 넣으세요.

@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -11,18 +11,28 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DeleteData extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_Article extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
-    private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
+
         String serverURL = (String) params[0];
-        String email = (String)params[1];
+        String article_id = (String)params[1];
+        String created_date = (String)params[2];
+        String modified_date = (String)params[3];
+        String content = (String)params[4];
+        String hit = (String)params[5];
+        String like_count = (String)params[6];
+        String title = (String)params[7];
+        String user_id = (String)params[8];
 
 
-        String postParameters ="email="+email;
+        String postParameters ="article_id="+article_id+"&created_date="+created_date
+                +"&modified_date="+modified_date+"&content="+content
+                +"&hit="+hit+"&like_count="+like_count
+                +"&title="+title+"&user_id="+user_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -83,12 +93,11 @@ public class DeleteData extends AsyncTask<String,Void,String> { // 통신을 위
 
         catch (Exception e) {
 
-            Log.d(TAG, "DeleteData: Error",e);
+            Log.d(TAG, "InsertData_Article: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
     }
-
 }

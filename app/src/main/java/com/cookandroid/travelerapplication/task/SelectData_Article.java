@@ -1,8 +1,11 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.cookandroid.travelerapplication.comment.Comment;
+import com.cookandroid.travelerapplication.article.Article;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,13 +1,19 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.article;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.task.InsertData_Article;
+import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.task.UpdateData_Article;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -21,6 +27,7 @@ public class ArticleCreateActivity extends AppCompatActivity {
         FileHelper fileHelper = new FileHelper(this);
         String IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
+        Log.d("youn", IP_ADDRESS);
         EditText edittext_title = findViewById(R.id.edittext_title);
         EditText edittext_content = findViewById(R.id.edittext_content);
 
@@ -66,6 +73,7 @@ public class ArticleCreateActivity extends AppCompatActivity {
                 String modified_date = currentTime;
                 String user_id = fileHelper.readFromFile("user_id");
 
+                Log.d("youn", "user_id: "+user_id);
                 InsertData_Article task = new InsertData_Article();
                 task.execute("http://"+IP_ADDRESS+"/0422/InsertData_Article.php","0",created_date, modified_date,content, "0", "0", title, user_id);
 
