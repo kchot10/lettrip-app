@@ -87,17 +87,16 @@ public class LoginActivity extends AppCompatActivity{
             task.execute("http://"+IP_ADDRESS+"/0411/pwd_check.php",email,pwd);
             new Handler().postDelayed(() -> {
                 String withdraw_result = task.get_return_string();
-                if (withdraw_result.equals("인증 성공")){
-                    Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
-
-                    // user id 챙겨오는 task 필요.
-                    fileHelper.writeToFile("user_id", "1");
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
-                } else if (withdraw_result.equals("인증 실패")) {
+                if (withdraw_result.equals("인증 실패")) {
                     Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
                 } else if (withdraw_result.equals("사용자 없음")) {
                     Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                    Log.d("youn", withdraw_result);
+                    fileHelper.writeToFile("user_id", withdraw_result);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
                 }
             }, 500); // 0.5초 지연 시간
         });

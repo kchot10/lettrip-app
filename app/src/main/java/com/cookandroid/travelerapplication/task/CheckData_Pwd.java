@@ -77,7 +77,8 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
             String result = getTwoCharsAfterString(sb.toString(), "인증에 ");
             if (result.equals("성공")){
-                return_string = "인증 성공";
+
+                return_string = getTwoCharsAfterString(sb.toString(), "user_id:");
             }else if(result.equals("실패")){
                 return_string = "인증 실패";
             }else {
@@ -104,13 +105,20 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
         return return_string;
     }
 
+
+
     public String getTwoCharsAfterString(String str, String searchString) {
         String result = "";
         int index = str.indexOf(searchString);
-        if (index != -1 && index + searchString.length() + 2 <= str.length()) {
-            result = str.substring(index + searchString.length(), index + searchString.length() + 2);
+        if (index != -1) {
+            int endIndex = str.indexOf(" ", index + searchString.length());
+            if (endIndex == -1) {
+                endIndex = str.length();
+            }
+            result = str.substring(index + searchString.length(), endIndex);
         }
         return result;
     }
+
 
 }
