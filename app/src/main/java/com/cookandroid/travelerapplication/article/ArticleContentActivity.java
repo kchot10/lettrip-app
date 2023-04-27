@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cookandroid.travelerapplication.comment.CommentListActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.task.DeleteData_Article;
 
 public class ArticleContentActivity extends AppCompatActivity {
 
@@ -18,17 +19,26 @@ public class ArticleContentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article_content);
+        setContentView(R.layout.activity_article_content2);
 
         Intent intent_article = getIntent();
         textview_content = findViewById(R.id.textview_content);
         textview_content.setText(intent_article.getStringExtra("content"));
-
         FileHelper fileHelper = new FileHelper(this);
+        String IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         String user_id = fileHelper.readFromFile("user_id").trim();
+
         if (user_id.equals(intent_article.getStringExtra("user_id"))) {
             findViewById(R.id.button_update).setVisibility(View.VISIBLE);
+            findViewById(R.id.button_delete).setVisibility(View.VISIBLE);
         }
+
+        findViewById(R.id.button_delete).setOnClickListener(v -> {
+            String article_id = intent_article.getStringExtra("article_id").trim();
+            DeleteData_Article task = new DeleteData_Article();
+            task.execute("http://"+IP_ADDRESS+"/0411/deletedata_article.php",article_id);
+            finish();
+        });
 
         findViewById(R.id.button_update).setOnClickListener(v -> {
             Intent intent = new Intent(this, ArticleCreateActivity.class);

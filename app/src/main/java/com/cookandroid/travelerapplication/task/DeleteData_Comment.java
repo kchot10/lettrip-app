@@ -1,6 +1,5 @@
 package com.cookandroid.travelerapplication.task;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -11,20 +10,16 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
-    ProgressDialog progressDialog;
+public class DeleteData_Comment extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
     private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
         String serverURL = (String) params[0];
-        String email = (String)params[1];
-        String password = (String)params[2];
-        String provider_type = (String)params[3];
+        String comment_id = (String)params[1];
 
-
-        String postParameters ="email="+email+"&password="+password+"&provider_type="+provider_type;
+        String postParameters ="comment_id="+comment_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -76,16 +71,6 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
             Log.d("php 값 :", sb.toString());
 
-            String result = getTwoCharsAfterString(sb.toString(), "인증에 ");
-            if (result.equals("성공")){
-
-                return_string = getTwoCharsAfterString(sb.toString(), "user_id:");
-            }else if(result.equals("실패")){
-                return_string = "인증 실패";
-            }else {
-                return_string = "사용자 없음";
-            }
-
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -95,31 +80,12 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
         catch (Exception e) {
 
-            Log.d(TAG, "CheckData_Pwd: Error",e);
+            Log.d(TAG, "DeleteData: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
     }
-    public String get_return_string(){
-        return return_string;
-    }
-
-
-
-    public String getTwoCharsAfterString(String str, String searchString) {
-        String result = "";
-        int index = str.indexOf(searchString);
-        if (index != -1) {
-            int endIndex = str.indexOf(" ", index + searchString.length());
-            if (endIndex == -1) {
-                endIndex = str.length();
-            }
-            result = str.substring(index + searchString.length(), endIndex);
-        }
-        return result;
-    }
-
 
 }

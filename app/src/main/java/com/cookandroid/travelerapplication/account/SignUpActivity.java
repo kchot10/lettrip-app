@@ -107,7 +107,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 String name = signup_name.getText().toString().trim();
                 String image_url = signup_image_url.getText().toString().trim();
                 String nickname = signup_nickname.getText().toString().trim();
-                String provider_type = "0";
 
 
                 //회원가입을 할 때 예외 처리를 해준 것이다.
@@ -127,7 +126,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                             Toast.makeText(SignUpActivity.this, "이메일 인증이 완료되지 않았습니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             InsertData_SignUp task = new InsertData_SignUp(); //PHP 통신을 위한 InsertData 클래스의 task 객체 생성
-                            task.execute("http://"+IP_ADDRESS+"/0411/android_log_inset_php.php",email,hashPassword(pwd),name, image_url, nickname, provider_type);
+                            task.execute("http://"+IP_ADDRESS+"/0411/android_log_inset_php.php",email,hashPassword(pwd),name, image_url, nickname, "LOCAL");
                             Toast.makeText(SignUpActivity.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         }

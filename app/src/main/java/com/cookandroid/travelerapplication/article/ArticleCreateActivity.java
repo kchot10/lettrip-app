@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.task.DeleteData;
+import com.cookandroid.travelerapplication.task.DeleteData_Article;
 import com.cookandroid.travelerapplication.task.InsertData_Article;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.task.UpdateData_Article;
@@ -35,13 +37,12 @@ public class ArticleCreateActivity extends AppCompatActivity {
         if (intent.getStringExtra("sign") != null){
             findViewById(R.id.button_create).setVisibility(View.INVISIBLE);
             findViewById(R.id.button_update).setVisibility(View.VISIBLE);
-
+            findViewById(R.id.button_delete).setVisibility(View.VISIBLE);
             edittext_title.setText(intent.getStringExtra("title").trim());
             edittext_content.setText(intent.getStringExtra("content").trim());
-            String modified_date = getCurrentTime();
 
-            // Update 하는 task 만들기
         }
+
 
         findViewById(R.id.button_update).setOnClickListener(v -> {
             String title = edittext_title.getText().toString().trim();
