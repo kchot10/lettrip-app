@@ -25,7 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.MainActivity;
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.task.CheckData_Email;
 import com.cookandroid.travelerapplication.task.CheckData_Pwd;
+import com.cookandroid.travelerapplication.task.InsertData_SignUp;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -51,6 +53,8 @@ import com.navercorp.nid.profile.NidProfileCallback;
 import com.navercorp.nid.profile.data.NidProfile;
 import com.navercorp.nid.profile.data.NidProfileResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -58,6 +62,10 @@ public class LoginActivity extends AppCompatActivity{
     private static String ec2_ADDRESS = "13.209.42.162";
     private static String IP_ADDRESS;
     public static Context mContext;
+    FileHelper fileHelper;
+    String email;
+    String pwd;
+    String provider_type;
 
     private ActivityResultLauncher<Intent> GoogleSignResultLauncher;
 
@@ -65,7 +73,7 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        FileHelper fileHelper = new FileHelper(this);
+        fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", ec2_ADDRESS);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
@@ -80,25 +88,10 @@ public class LoginActivity extends AppCompatActivity{
         EditText password_edittext = findViewById(R.id.pw_plainText);
 
         findViewById(R.id.loginBtn).setOnClickListener(v -> {
-            String email = email_edittext.getText().toString().trim();
-            String pwd = password_edittext.getText().toString().trim();
-
-            CheckData_Pwd task = new CheckData_Pwd();
-            task.execute("http://"+IP_ADDRESS+"/0411/pwd_check.php",email,pwd, "LOCAL");
-            new Handler().postDelayed(() -> {
-                String withdraw_result = task.get_return_string();
-                if (withdraw_result.equals("인증 실패")) {
-                    Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
-                } else if (withdraw_result.equals("사용자 없음")) {
-                    Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
-                    Log.d("youn", withdraw_result);
-                    fileHelper.writeToFile("user_id", withdraw_result);
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
-                }
-            }, 500); // 0.5초 지연 시간
+            email = email_edittext.getText().toString().trim();
+            pwd = password_edittext.getText().toString().trim();
+            provider_type = "LOCAL";
+            checkData_Pwd_function(email, pwd, provider_type);
         });
 
         //-----------------------
@@ -145,13 +138,26 @@ public class LoginActivity extends AppCompatActivity{
                     @Override
                     public void onSuccess(NidProfileResponse nidProfileResponse) {
                         NidProfile profile = nidProfileResponse.getProfile();
-                        String email = profile.getEmail();
+                        email = profile.getEmail();
                         String name = profile.getName();
                         String profileUrl = profile.getProfileImage();
 
-                        Log.e("naver account", email);
-                        Log.e("naver account", name);
-                        Log.e("naver account", profileUrl);
+                        String social = "NAVER";
+                        CheckData_Email checkData_email = new CheckData_Email();
+                        checkData_email.execute("http://"+IP_ADDRESS+"/0411/email_check.php",email);
+                        new Handler().postDelayed(() -> {
+                            String result = checkData_email.get_return_string();
+                            if (result.equals("실패")) {
+                                checkData_Pwd_function(email, social, social);
+                            } else if (result.equals("성공")) {
+                                InsertData_SignUp task = new InsertData_SignUp(); //PHP 통신을 위한 InsertData 클래스의 task 객체 생성
+                                task.execute("http://"+IP_ADDRESS+"/0411/android_log_inset_php.php",email,hashPassword(social),name, profileUrl, name, social);
+                                new Handler().postDelayed(() -> {
+                                    checkData_Pwd_function(email, social, social);
+                                }, 500); // 0.5초 지연 시간
+
+                                }
+                        }, 500); // 0.5초 지연 시간
 
                     }
 
@@ -216,6 +222,7 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) { //사용자에 대한 정보 가져오기
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -227,6 +234,8 @@ public class LoginActivity extends AppCompatActivity{
             Log.e("Google account", email);
             Log.e("Google account", name);
             Log.e("Google account", profileUrl);
+
+
         } catch (ApiException e) {
             Log.e("Google account", "signInResult:failed Code = " + e.getStatusCode());
         }
@@ -279,6 +288,31 @@ public class LoginActivity extends AppCompatActivity{
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String hashPassword(String plainTextPassword) {
+        String salt = BCrypt.gensalt();
+        return BCrypt.hashpw(plainTextPassword, salt);
+    }
+
+    private void checkData_Pwd_function(String email, String pwd, String provider_type) {
+
+        CheckData_Pwd task = new CheckData_Pwd();
+        task.execute("http://"+IP_ADDRESS+"/0411/pwd_check.php",email,pwd, provider_type);
+        new Handler().postDelayed(() -> {
+            String withdraw_result = task.get_return_string();
+            if (withdraw_result.equals("인증 실패")) {
+                Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
+            } else if (withdraw_result.equals("사용자 없음")) {
+                Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                Log.d("youn", withdraw_result);
+                fileHelper.writeToFile("user_id", withdraw_result);
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }
+        }, 500); // 0.5초 지연 시간
     }
 
 }
