@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity{
             String pwd = password_edittext.getText().toString().trim();
 
             CheckData_Pwd task = new CheckData_Pwd();
-            task.execute("http://"+IP_ADDRESS+"/0411/pwd_check.php",email,pwd);
+            task.execute("http://"+IP_ADDRESS+"/0411/pwd_check.php",email,pwd, "LOCAL");
             new Handler().postDelayed(() -> {
                 String withdraw_result = task.get_return_string();
                 if (withdraw_result.equals("인증 실패")) {

@@ -21,9 +21,10 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
         String serverURL = (String) params[0];
         String email = (String)params[1];
         String password = (String)params[2];
+        String provider_type = (String)params[3];
 
 
-        String postParameters ="email="+email+"&password="+password;
+        String postParameters ="email="+email+"&password="+password+"&provider_type="+provider_type;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
