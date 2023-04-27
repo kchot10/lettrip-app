@@ -18,6 +18,13 @@
         android:textSize="30dp" />
 
     <Button
+        android:id="@+id/button_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="delete"
+        android:visibility="invisible" />
+
+    <Button
         android:id="@+id/button_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
