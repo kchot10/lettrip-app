@@ -29,7 +29,6 @@ public class CommentListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_list);
         FileHelper fileHelper = new FileHelper(this);
-        fileHelper.writeToFile("IP_ADDRESS", "54.180.24.243");
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         edittext_content = findViewById(R.id.edittext_content);
         article_id = getIntent().getStringExtra("article_id");

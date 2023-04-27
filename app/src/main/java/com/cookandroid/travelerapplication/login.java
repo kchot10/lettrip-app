@@ -55,7 +55,7 @@ import com.navercorp.nid.profile.data.NidProfileResponse;
 public class login extends AppCompatActivity{
 
 
-    private static String ec2_ADDRESS = "54.180.24.243";
+    private static String ec2_ADDRESS = "43.201.36.46";
     private static String IP_ADDRESS;
     public static Context mContext;
 
