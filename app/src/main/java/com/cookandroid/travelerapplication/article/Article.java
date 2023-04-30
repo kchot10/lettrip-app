@@ -2,7 +2,10 @@ package com.cookandroid.travelerapplication.article;
 
 public class Article {
     private String article_id;
+
     private String created_date;
+
+
     private String modified_date;
     private String content;
     private String hit;

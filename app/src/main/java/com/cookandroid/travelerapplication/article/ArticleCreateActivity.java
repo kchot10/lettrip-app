@@ -9,9 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cookandroid.travelerapplication.MainActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.task.DeleteData;
-import com.cookandroid.travelerapplication.task.DeleteData_Article;
 import com.cookandroid.travelerapplication.task.InsertData_Article;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.task.UpdateData_Article;
@@ -37,7 +36,7 @@ public class ArticleCreateActivity extends AppCompatActivity {
         if (intent.getStringExtra("sign") != null){
             findViewById(R.id.button_create).setVisibility(View.INVISIBLE);
             findViewById(R.id.button_update).setVisibility(View.VISIBLE);
-            findViewById(R.id.button_delete).setVisibility(View.VISIBLE);
+            findViewById(R.id.deleteBtn).setVisibility(View.VISIBLE);
             edittext_title.setText(intent.getStringExtra("title").trim());
             edittext_content.setText(intent.getStringExtra("content").trim());
 
@@ -84,7 +83,10 @@ public class ArticleCreateActivity extends AppCompatActivity {
 
         });
 
-
+        findViewById(R.id.backBtn).setOnClickListener(v -> {
+            Intent intent2 = new Intent(this, ArticleListActivity.class);
+            startActivity(intent);
+        });
 
     }
 

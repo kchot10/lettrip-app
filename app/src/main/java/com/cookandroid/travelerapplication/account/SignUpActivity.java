@@ -160,8 +160,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                         timerTextView.setVisibility(View.VISIBLE);
                         code_check_button.setVisibility(View.VISIBLE);
                         // 인증 메일 전송
-//                        SendMailTask sendMailTask = new SendMailTask();
-//                        sendMailTask.execute(emailAddress, String.valueOf(code));
+                        SendMailTask sendMailTask = new SendMailTask();
+                        sendMailTask.execute(emailAddress, String.valueOf(code));
                         Log.d("youn", code);
                         emailEditText.setFocusable(false);
                         sendButton.setVisibility(View.INVISIBLE);

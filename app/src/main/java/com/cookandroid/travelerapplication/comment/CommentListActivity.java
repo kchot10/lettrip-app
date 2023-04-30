@@ -35,39 +35,17 @@ public class CommentListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comment);
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
-        edittext_content = findViewById(R.id.edittext_content);
         article_id = getIntent().getStringExtra("article_id");
 
-        recyclerView = findViewById(R.id.RecyclerView_comment);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+
         Refresh();
 
-        findViewById(R.id.button_refresh).setOnClickListener(v -> {
-            Refresh();
-        });
+        //findViewById(R.id.button_refresh).setOnClickListener(v -> {
+        //    Refresh();
+        //});
 
 
-        findViewById(R.id.button_add).setOnClickListener(v -> {
-            String content = edittext_content.getText().toString().trim();
 
-            if (content.equals("")){
-                Toast.makeText(this, "내용을 입력하세요", Toast.LENGTH_SHORT).show();
-            } else {
-                String currentTime = getCurrentTime();
-                String created_date = currentTime;
-                String modified_date = currentTime;
-                String user_id = fileHelper.readFromFile("user_id");
-                String parent_comment_id = getIntent().getStringExtra("comment_id");
-                if (parent_comment_id == null){
-                    parent_comment_id = "0";
-                }
-                InsertData_Comment task = new InsertData_Comment();
-                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", parent_comment_id, user_id);
-                Refresh();
-            }
-        });
 
     }
 
@@ -89,13 +67,7 @@ public class CommentListActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    private String getCurrentTime() {
-        // 현재 시간 가져오기
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String currentTime = sdf.format(date);
-        return currentTime;
-    }
+
 
     public void setEditText(String user_id) {
         edittext_content.setText("@"+user_id+" ");

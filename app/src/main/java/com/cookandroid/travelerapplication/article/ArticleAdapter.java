@@ -27,24 +27,35 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
     @NonNull
     @Override
     public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article_list, parent, false);
-        BoardViewHolder holder = new BoardViewHolder(view);
-        return holder;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.item_article_list, parent, false);
+        return new BoardViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BoardViewHolder holder, int position) {
-        holder.textview_title.setText(arrayList.get(position).getTitle());
-        holder.textview_author.setText(arrayList.get(position).getName());
-        holder.textview_date_of_writing.setText(arrayList.get(position).getCreated_date());
-        holder.textview_count_view.setText(arrayList.get(position).getHit());
-
+        Article item = arrayList.get(position);
+        holder.setItem(item);
     }
 
     @Override
     public int getItemCount() {
+        return arrayList.size();
+    }
 
-        return (arrayList != null ? arrayList.size() : 0);
+    public void addItem(Article item){
+        arrayList.add(item);
+    }
+    public void setItems(ArrayList<Article> items){
+        this.arrayList = items;
+    }
+
+    public Article getItem(int position){
+        return arrayList.get(position);
+    }
+
+    public void setItem(int position, Article item){
+        arrayList.set(position, item);
     }
 
     public class BoardViewHolder extends RecyclerView.ViewHolder {
@@ -52,6 +63,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
         TextView textview_author;
         TextView textview_date_of_writing;
         TextView textview_count_view;
+        TextView textview_count_like;
 
         public BoardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,5 +89,15 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
             });
 
         }
+
+        public void setItem(Article item){
+            textview_title.setText(item.getTitle());
+            textview_author.setText(item.getName());
+            textview_date_of_writing.setText(item.getCreated_date());
+            textview_count_view.setText(item.getHit());
+            textview_count_like.setText(item.getLike_count());
+        }
     }
+
+
 }

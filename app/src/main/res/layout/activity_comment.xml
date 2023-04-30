@@ -3,7 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".comment.CommentListActivity" />
+    android:padding="10dp"
+    tools:context=".comment.CommentListActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32sp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/profilePhoto"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            tools:src="@tools:sample/avatars" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="7dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="서정후"
+                android:textColor="#777777"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="04/27 00:00"
+                android:textColor="#A1A1A1"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="동성로 OOO카페 추천합니다!"
+        android:textColor="#000000" />
+</LinearLayout>

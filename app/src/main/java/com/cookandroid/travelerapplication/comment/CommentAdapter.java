@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.task.DeleteData_Article;
 import com.cookandroid.travelerapplication.task.DeleteData_Comment;
 
 import java.util.ArrayList;
@@ -69,7 +68,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             this.textview_content = itemView.findViewById(R.id.textview_content);
             this.textview_user_id = itemView.findViewById(R.id.textview_user_id);
             this.textview_created_date = itemView.findViewById(R.id.textview_created_date);
-            this.button_delete = itemView.findViewById(R.id.button_delete);
+            this.button_delete = itemView.findViewById(R.id.deleteBtn);
             FileHelper fileHelper = new FileHelper(context);
 
             button_delete.setOnClickListener(v -> {
