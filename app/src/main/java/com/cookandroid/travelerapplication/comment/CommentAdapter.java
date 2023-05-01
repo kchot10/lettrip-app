@@ -34,7 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_comment, parent, false);
         CommentViewHolder holder = new CommentViewHolder(view);
         return holder;
     }
@@ -93,7 +93,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 intent = new Intent(context, CommentListActivity.class);
 
                 if (!arrayList.get(curpos).getParent_comment_id().equals("0")){
-                    ((CommentListActivity) v.getContext()).setEditText(arrayList.get(curpos).getName(), arrayList.get(curpos).getUser_id());
+                    ((CommentListActivity) v.getContext()).setEditText(arrayList.get(curpos).getName(), arrayList.get(curpos).getUser_id()); //오류 발생
                     return;
                 }
                 intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());

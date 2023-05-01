@@ -87,10 +87,18 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/button_update"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="120dp"
+                android:backgroundTint="#515674"
+                android:text="update"
+                android:textSize="11sp" />
+
+            <Button
                 android:id="@+id/deleteBtn"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="190dp"
                 android:backgroundTint="#515674"
                 android:text="delete"
                 android:textSize="11sp" />

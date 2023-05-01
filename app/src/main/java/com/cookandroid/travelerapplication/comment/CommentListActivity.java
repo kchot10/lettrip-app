@@ -3,21 +3,15 @@ package com.cookandroid.travelerapplication.comment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.R;
-import com.cookandroid.travelerapplication.task.InsertData_Comment;
 import com.cookandroid.travelerapplication.task.SelectData_Article;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class CommentListActivity extends AppCompatActivity {
 
@@ -69,7 +63,7 @@ public class CommentListActivity extends AppCompatActivity {
     }
 
 
-    public void setEditText(String user_id) {
+    public void setEditText(String user_id, String userId) {
         edittext_content.setText("@"+user_id+" ");
     }
 }

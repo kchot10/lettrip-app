@@ -1,11 +1,14 @@
 package com.cookandroid.travelerapplication.article;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +42,14 @@ public class ArticleContentActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
     private String article_id;
+    private TextView textview_name;
+    private TextView textView_date;
+    private ImageView profilePhoto;
+    private TextView textview_count_view;
+    private TextView board_comment;
 
 
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +60,23 @@ public class ArticleContentActivity extends AppCompatActivity {
         textview_content.setText(intent_article.getStringExtra("content"));
         textview_title = findViewById(R.id.textview_title);
         textview_title.setText(intent_article.getStringExtra("title"));
+        textview_name = findViewById(R.id.textview_name);
+        textview_name.setText(intent_article.getStringExtra("name"));
+        textView_date = findViewById(R.id.textView_date);
+        textView_date.setText(intent_article.getStringExtra("created_date"));
+        profilePhoto = findViewById(R.id.profilePhoto);
+        //Glide.with(this).load(intent_article.getStringExtra("image_url")).load(profilePhoto);
+        textview_count_view = findViewById(R.id.textview_count_view);
+        textview_count_view.setText(" " + intent_article.getStringExtra("hit"));
+        board_comment = findViewById(R.id.board_comment);
+        board_comment.setText(" " + intent_article.getStringExtra("like_count"));
+
+
+        ArrayList<Article> articleArrayList = new ArrayList<>();
+        SelectData_Article task = new SelectData_Article(articleArrayList);
+        task.execute("http://" + IP_ADDRESS + "/0422/selectdata_article.php");
+
+
 
         FileHelper fileHelper = new FileHelper(this);
         String IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
@@ -66,6 +91,7 @@ public class ArticleContentActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ArticleListActivity.class);
             startActivity(intent);
         });
+
 
         //댓글 관련
         edittext_content = findViewById(R.id.edittext_content);
@@ -88,22 +114,42 @@ public class ArticleContentActivity extends AppCompatActivity {
                 if (parent_comment_id == null){
                     parent_comment_id = "0";
                 }
-                InsertData_Comment task = new InsertData_Comment();
-                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", parent_comment_id, user_id);
+                InsertData_Comment task2 = new InsertData_Comment();
+                task2.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", parent_comment_id, user_id);
                 Refresh();
             }
+
+
+            ArrayList<Comment> commentArrayList = new ArrayList<>();
+            SelectData_Article task2 = new SelectData_Article(commentArrayList);
+            String parent_comment_id = getIntent().getStringExtra("comment_id");
+            if (parent_comment_id == null){
+                parent_comment_id = "0";
+            }
+            task2.execute("http://" + IP_ADDRESS + "/0422/selectdata_comment.php", article_id, parent_comment_id);
+
+            try {
+                new Handler().postDelayed(() -> {
+                    adapter = new CommentAdapter(commentArrayList, this);
+                    recyclerView.setAdapter(adapter);
+                }, 1000); // 0.5초 지연 시간
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         });
 
 
 
         findViewById(R.id.deleteBtn).setOnClickListener(v -> {
             String article_id = intent_article.getStringExtra("article_id").trim();
-            DeleteData_Article task = new DeleteData_Article();
-            task.execute("http://"+IP_ADDRESS+"/0411/deletedata_article.php",article_id);
+            DeleteData_Article task2 = new DeleteData_Article();
+            task2.execute("http://"+IP_ADDRESS+"/0411/deletedata_article.php",article_id);
             finish();
         });
 
-        /*findViewById(R.id.button_update).setOnClickListener(v -> {
+        //게시글 수정버튼
+        findViewById(R.id.button_update).setOnClickListener(v -> {
             Intent intent = new Intent(this, ArticleCreateActivity.class);
             intent.putExtra("sign", "1");
             intent.putExtra("title", intent_article.getStringExtra("title"));
@@ -111,13 +157,10 @@ public class ArticleContentActivity extends AppCompatActivity {
             intent.putExtra("article_id", intent_article.getStringExtra("article_id"));
             startActivity(intent);
             finish();
-        }); */
-
-        findViewById(R.id.button_add).setOnClickListener(v -> {
-            Intent intent = new Intent(this, CommentListActivity.class);
-            intent.putExtra("article_id", intent_article.getStringExtra("article_id"));
-            startActivity(intent);
         });
+
+
+
     }
 
     private String getCurrentTime() {

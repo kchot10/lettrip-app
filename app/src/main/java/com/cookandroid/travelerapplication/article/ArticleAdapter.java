@@ -29,6 +29,18 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
     public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_article_list, parent, false);
+
+        BoardViewHolder viewHolder = new BoardViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int position = viewHolder.getAdapterPosition();
+                if(position != RecyclerView.NO_POSITION){
+                    context.startActivity(new Intent(context, ArticleContentActivity.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                }
+            }
+        });
         return new BoardViewHolder(view);
     }
 
@@ -71,6 +83,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
             this.textview_author = itemView.findViewById(R.id.textview_author);
             this.textview_date_of_writing = itemView.findViewById(R.id.textview_date_of_writing);
             this.textview_count_view = itemView.findViewById(R.id.textview_count_view);
+            this.textview_count_like = itemView.findViewById(R.id.board_comment);
 
             itemView.setOnClickListener(v -> {
                 int curpos = getAbsoluteAdapterPosition();
@@ -85,6 +98,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
                 intent.putExtra("title", arrayList.get(curpos).getTitle());
                 intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
                 intent.putExtra("name", arrayList.get(curpos).getName());
+                intent.putExtra("image_url", arrayList.get(curpos).getImage_url());
                 context.startActivity(intent);
             });
 
@@ -94,8 +108,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
             textview_title.setText(item.getTitle());
             textview_author.setText(item.getName());
             textview_date_of_writing.setText(item.getCreated_date());
-            textview_count_view.setText(item.getHit());
-            textview_count_like.setText(item.getLike_count());
+            textview_count_view.setText(" " + item.getHit());
+            textview_count_like.setText(" " + item.getLike_count());
         }
     }
 
