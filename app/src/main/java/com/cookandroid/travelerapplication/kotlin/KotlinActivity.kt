@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class KotlinActivity : AppCompatActivity() {
     companion object {
         const val BASE_URL = "https://dapi.kakao.com/"
-        const val API_KEY = "KakaoAK b066261c4e1af27a764a28804ace4ab2"  // REST API 키
+        const val API_KEY = "KakaoAK 43a9d1617d8fb89af04db23790b3dd22"  // REST API 키
     }
 
     private val listItems = arrayListOf<ListLayout>()   // 리사이클러 뷰 아이템
