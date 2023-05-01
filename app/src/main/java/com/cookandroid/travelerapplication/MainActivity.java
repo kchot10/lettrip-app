@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.cookandroid.travelerapplication.article.ArticleListActivity;
 import com.cookandroid.travelerapplication.account.WithdrawActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.travel.TravelActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ArticleListActivity.class);
             startActivity(intent);
         });
+
+        findViewById(R.id.button_travel).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, TravelActivity.class);
+            startActivity(intent);
+        });
+
+
 
 
     }

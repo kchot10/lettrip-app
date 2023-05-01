@@ -1,5 +1,6 @@
 package com.cookandroid.travelerapplication.kotlin
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,6 +54,7 @@ class KotlinActivity : AppCompatActivity() {
         etSearchField = findViewById(R.id.et_search_field)
         tvPageNumber = findViewById(R.id.tv_pageNumber)
 
+        val builder = AlertDialog.Builder(this)
 
         // 리사이클러 뷰
         rvList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -60,6 +63,18 @@ class KotlinActivity : AppCompatActivity() {
         listAdapter.setItemClickListener(object: ListAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 val mapPoint = MapPoint.mapPointWithGeoCoord(listItems[position].y, listItems[position].x)
+
+                builder.setMessage("["+listItems[position].name+"]로 선택하시겠습니까?")
+                builder.setPositiveButton("확인") { dialog, which ->
+                    intent.putExtra("name", listItems[position].name)
+                    setResult(RESULT_OK, intent);
+                    finish()
+                }
+                builder.setNegativeButton("취소") { dialog, which ->
+                    // Cancel 버튼을 눌렀을 때의 동작
+                }
+                builder.show()
+
                 Log.d("listItems", "listItems[position].category_group_code: "+listItems[position].category_group_code)
                 Log.d("listItems", "listItems[position].category_group_name: "+listItems[position].category_group_name)
                 mapView.setMapCenterPointAndZoomLevel(mapPoint, 1, true)
