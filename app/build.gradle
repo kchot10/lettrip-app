@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    //kotlin 혼용
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
@@ -49,6 +51,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    //kotlin 관련
+    implementation files('libs/libDaumMapAndroid.jar')
 
     //카카오로그인 관련
     implementation "com.kakao.sdk:v2-user:2.13.0"
