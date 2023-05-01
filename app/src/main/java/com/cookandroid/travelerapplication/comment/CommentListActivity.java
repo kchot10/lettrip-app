@@ -3,6 +3,7 @@ package com.cookandroid.travelerapplication.comment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +27,10 @@ public class CommentListActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private String article_id;
-
+    TextView textView_mention;
     private EditText edittext_content;
+
+    private String mentioned_user_id = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class CommentListActivity extends AppCompatActivity {
                     parent_comment_id = "0";
                 }
                 InsertData_Comment task = new InsertData_Comment();
-                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", parent_comment_id, user_id);
+                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, mentioned_user_id, parent_comment_id, user_id);
                 Refresh();
             }
         });
@@ -97,7 +100,9 @@ public class CommentListActivity extends AppCompatActivity {
         return currentTime;
     }
 
-    public void setEditText(String user_id) {
-        edittext_content.setText("@"+user_id+" ");
+    public void setEditText(String user_name, String user_id) {
+        textView_mention = findViewById(R.id.textView_mention);
+        textView_mention.setText("@"+user_name+" ");
+        mentioned_user_id = user_id;
     }
 }

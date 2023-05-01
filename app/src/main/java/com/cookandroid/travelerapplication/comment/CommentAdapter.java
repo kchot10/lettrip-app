@@ -42,6 +42,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+        String mentioned_user_name = arrayList.get(position).getMentioned_user_name();
+        if (!mentioned_user_name.equals("null")) {
+            holder.textview_mentioned_user_name.setText("@"+mentioned_user_name+" ");
+        }else {
+            holder.textview_mentioned_user_name.setText("");
+        }
         holder.textview_content.setText(arrayList.get(position).getContent());
         holder.textview_user_id.setText(arrayList.get(position).getName());
         holder.textview_created_date.setText(arrayList.get(position).getCreated_date());
@@ -57,6 +63,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
+        TextView textview_mentioned_user_name;
         TextView textview_content;
         TextView textview_user_id;
         TextView textview_created_date;
@@ -66,6 +73,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.textview_mentioned_user_name = itemView.findViewById(R.id.textview_mentioned_user_name);
             this.textview_content = itemView.findViewById(R.id.textview_content);
             this.textview_user_id = itemView.findViewById(R.id.textview_user_id);
             this.textview_created_date = itemView.findViewById(R.id.textview_created_date);
@@ -86,7 +94,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 intent = new Intent(context, CommentListActivity.class);
 
                 if (!arrayList.get(curpos).getParent_comment_id().equals("0")){
-                    ((CommentListActivity) v.getContext()).setEditText(arrayList.get(curpos).getName());
+                    ((CommentListActivity) v.getContext()).setEditText(arrayList.get(curpos).getName(), arrayList.get(curpos).getUser_id());
                     return;
                 }
                 intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());
