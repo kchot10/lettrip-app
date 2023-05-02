@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -11,15 +12,32 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="lettrip"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelerApplication"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".comment.CommentListActivity"
-            android:exported="true" >
+            android:name=".travel.PlaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".travel.TravelActivity"
+            android:exported="false" />
+        <activity
+            android:name=".kotlin.KotlinActivity"
+            android:exported="true">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
+        <activity
+            android:name=".comment.CommentListActivity"
+            android:exported="true" />
         <activity
             android:name=".article.ArticleCreateActivity"
             android:exported="false" />
@@ -28,7 +46,13 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".account.SignUpActivity"
             android:exported="true">
@@ -39,11 +63,13 @@
         <activity
             android:name=".account.LoginActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
@@ -64,9 +90,11 @@
             android:exported="true" />
         <activity
             android:name=".article.ArticleListActivity"
-            android:exported="true">
+            android:exported="true" />
 
-        </activity>
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="eaea80fc7e3f8ac8fd4c887da34a2f08" />
     </application>
 
 </manifest>

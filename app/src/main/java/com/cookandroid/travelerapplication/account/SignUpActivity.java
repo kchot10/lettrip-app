@@ -236,7 +236,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 String emailAddress = params[0];
                 String code = params[1];
 
-                MailHelper sender = new MailHelper("kchot10@gmail.com", "akojosbblxtcelur");
+                MailHelper sender = new MailHelper("kchot10@gmail.com", "qcixhdqihejkoryk");
                 sender.sendMail("Lettrip 이메일 인증 코드입니다.", "아래 코드를 Lettrip 이메일 인증 코드란에 입력해주세요. \n CODE : " + code, emailAddress);
 
             } catch (Exception e) {
