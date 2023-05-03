@@ -32,31 +32,55 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/editText_departdate"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="20230501"
-        android:inputType="date"
-        android:textColor="@color/black"
-        android:textColorHint="@color/gray" />
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/editText_lastdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="20230503"
-        android:inputType="date"
-        android:textColor="@color/black"
-        android:textColorHint="@color/gray" />
+        <EditText
+            android:id="@+id/editText_departdate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="20230501"
+            android:inputType="date"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="~"
+            android:textColor="@color/black"
+            android:textSize="30dp" />
+
+        <EditText
+            android:id="@+id/editText_lastdate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="20230503"
+            android:inputType="date"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/button_travel_upload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#2196F3"
+            android:text="TRAVEL UPLOAD" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,15 +95,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ADD PLACE" />
+            android:text="ADD PLACE"
+            android:visibility="invisible" />
 
-        <Button
-            android:id="@+id/button_travel_upload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#2196F3"
-            android:text="TRAVEL UPLOAD" />
     </LinearLayout>
 
 </LinearLayout>

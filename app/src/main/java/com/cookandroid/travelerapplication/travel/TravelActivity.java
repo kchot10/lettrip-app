@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -61,12 +62,16 @@ public class TravelActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(this, "여행 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                         fileHelper.writeToFile("travel_id", withdraw_result);
+                        findViewById(R.id.button_travel_upload).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.button_add_place).setVisibility(View.VISIBLE);
+                        editText_departdate.setFocusable(false);
+                        editText_lastdate.setFocusable(false);
+
                     }
                 }, 500); // 0.5초 지연 시간
 //                InsertData_Travel_Region insertData_travel_region = new InsertData_Travel_Region();
 //                insertData_travel_region.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel_Region.php",user_id,visited, depart_date,last_date, total_cost);
 //                Toast.makeText(this, "여행 추가 php 파일 실행", Toast.LENGTH_SHORT).show();
-                finish();
             }
 
         });
