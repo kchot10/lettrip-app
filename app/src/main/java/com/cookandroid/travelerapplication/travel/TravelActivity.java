@@ -39,10 +39,15 @@ public class TravelActivity extends AppCompatActivity {
             String last_date = editText_lastdate.getText().toString().trim();
             String total_cost = "0";
 
-            InsertData_Travel insertData_travel = new InsertData_Travel();
-            insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",user_id,visited, depart_date,last_date, total_cost);
-            Toast.makeText(this, "여행 추가 php 파일 실행", Toast.LENGTH_SHORT);
-            finish();
+            if (depart_date.equals("") || last_date.equals("")){
+                Toast.makeText(this, "시작 또는 마지막 날짜를 입력하세요", Toast.LENGTH_SHORT).show();
+            }else {
+                InsertData_Travel insertData_travel = new InsertData_Travel();
+                insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",user_id,visited, depart_date,last_date, total_cost);
+                Toast.makeText(this, "여행 추가 php 파일 실행", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
         });
 
             findViewById(R.id.button_add_place).setOnClickListener(v -> {
