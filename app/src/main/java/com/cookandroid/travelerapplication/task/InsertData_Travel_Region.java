@@ -11,20 +11,27 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_Travel_Region extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
-    private String return_string = "";
+    private String return_string;
     @Override
     protected String doInBackground(String... params) {
+
         String serverURL = (String) params[0];
-        String email = (String)params[1];
-        String password = (String)params[2];
-        String provider_type = (String)params[3];
+        String user_id = (String)params[1];
+        String depart_date = (String)params[2];
+        String last_date = (String)params[3];
+        String number_of_courses = (String)params[4];
+        String total_cost = (String)params[5];
+        String travel_id = (String)params[6];
 
 
-        String postParameters ="email="+email+"&password="+password+"&provider_type="+provider_type;
+
+        String postParameters ="user_id="+user_id+"&depart_date="+depart_date
+                +"&last_date="+last_date+"&number_of_courses="+number_of_courses
+                +"&total_cost="+total_cost+"&travel_id="+travel_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -76,13 +83,14 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
             Log.d("php 값 :", sb.toString());
 
-            String result = getTwoCharsAfterString(sb.toString(), "인증에 ");
+            String result = getTwoCharsAfterString(sb.toString(), "불러오기 ");
+            Log.d("lettrip", result);
             if (result.equals("성공")){
-                return_string = getTwoCharsAfterString(sb.toString(), "user_id:");
-            }else if(result.equals("실패")){
-                return_string = "인증 실패";
-            }else {
-                return_string = "사용자 없음";
+                return_string = getTwoCharsAfterString(sb.toString(), "travel_region_id:");
+            }else if(result.equals("실패")) {
+                return_string = "실패";
+            }else{
+                return_string = "에러";
             }
 
 
@@ -94,18 +102,17 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
         catch (Exception e) {
 
-            Log.d(TAG, "CheckData_Pwd: Error",e);
+            Log.d(TAG, "InsertData_Travel_Region: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
     }
-    public String get_return_string(){
+
+    public String getReturn_string() {
         return return_string;
     }
-
-
 
     public String getTwoCharsAfterString(String str, String searchString) {
         String result = "";
@@ -119,6 +126,5 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
         }
         return result;
     }
-
-
 }
+
