@@ -78,7 +78,6 @@ public class CheckData_Pwd extends AsyncTask<String,Void,String> { // 통신을 
 
             String result = getTwoCharsAfterString(sb.toString(), "인증에 ");
             if (result.equals("성공")){
-
                 return_string = getTwoCharsAfterString(sb.toString(), "user_id:");
             }else if(result.equals("실패")){
                 return_string = "인증 실패";

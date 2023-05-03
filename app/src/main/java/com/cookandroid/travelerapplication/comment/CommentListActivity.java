@@ -95,7 +95,7 @@ public class CommentListActivity extends AppCompatActivity {
     private String getCurrentTime() {
         // 현재 시간 가져오기
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
         String currentTime = sdf.format(date);
         return currentTime;
     }

@@ -16,20 +16,22 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
+    private String return_string;
     @Override
     protected String doInBackground(String... params) {
 
         String serverURL = (String) params[0];
         String user_id = (String)params[1];
-        String visited = (String)params[2];
-        String depart_date = (String)params[3];
-        String last_date = (String)params[4];
-        String total_cost = (String)params[5];
+        String created_date = (String)params[2];
+        String is_visited = (String)params[3];
+        String depart_date = (String)params[4];
+        String last_date = (String)params[5];
+        String total_cost = (String)params[6];
 
 
-        String postParameters ="user_id="+user_id+"&visited="+visited
-                +"&depart_date="+depart_date+"&last_date="+last_date
-                +"&total_cost="+total_cost;
+        String postParameters ="user_id="+user_id+"&created_date="+created_date
+                +"&is_visited="+is_visited+"&depart_date="+depart_date
+                +"&last_date="+last_date+"&total_cost="+total_cost;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -81,6 +83,16 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
 
             Log.d("php 값 :", sb.toString());
 
+            String result = getTwoCharsAfterString(sb.toString(), "불러오기 ");
+            Log.d("lettrip", result);
+            if (result.equals("성공")){
+                return_string = getTwoCharsAfterString(sb.toString(), "travel_id:");
+            }else if(result.equals("실패")) {
+                return_string = "실패";
+            }else{
+                return_string = "에러";
+            }
+
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -96,6 +108,23 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
 
         }
 
+    }
+
+    public String getReturn_string() {
+        return return_string;
+    }
+
+    public String getTwoCharsAfterString(String str, String searchString) {
+        String result = "";
+        int index = str.indexOf(searchString);
+        if (index != -1) {
+            int endIndex = str.indexOf(" ", index + searchString.length());
+            if (endIndex == -1) {
+                endIndex = str.length();
+            }
+            result = str.substring(index + searchString.length(), endIndex);
+        }
+        return result;
     }
 }
 
