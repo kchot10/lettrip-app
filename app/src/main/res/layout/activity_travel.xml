@@ -19,7 +19,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/gray"
+            android:popupBackground="@color/white"
+            android:entries="@array/my_array_state" />
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:popupBackground="@color/white"
+            android:backgroundTint="@color/gray" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/LinearLayout_travel"

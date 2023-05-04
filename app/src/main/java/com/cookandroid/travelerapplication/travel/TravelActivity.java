@@ -8,7 +8,10 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.R;
@@ -30,6 +33,25 @@ public class TravelActivity extends AppCompatActivity {
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         String user_id = fileHelper.readFromFile("user_id");
+
+        Spinner spinner = findViewById(R.id.spinner);
+        Spinner spinner2 = findViewById(R.id.spinner2);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String arrayName = parent.getItemAtPosition(position).toString().trim();
+                int arrayId = getResources().getIdentifier(arrayName, "array", getPackageName());
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(TravelActivity.this, arrayId, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner2.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         findViewById(R.id.button_travel_upload).setOnClickListener(v -> {
             String created_date = getCurrentTime();
