@@ -113,7 +113,7 @@ public class TravelActivity extends AppCompatActivity {
                         Toast.makeText(this, "여행 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                         fileHelper.writeToFile("travel_region_id", withdraw_result);
                         ((ViewGroup) findViewById(R.id.button_travel_region_upload).getParent()).removeView(findViewById(R.id.button_travel_region_upload));
-                        findViewById(R.id.button_add_place).setVisibility(View.VISIBLE);
+                        findViewById(R.id.button_add_cource).setVisibility(View.VISIBLE);
                         editText_departdate.setFocusable(false);
                         editText_lastdate.setFocusable(false);
                     }
@@ -121,7 +121,7 @@ public class TravelActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.button_add_place).setOnClickListener(v -> {
+        findViewById(R.id.button_add_cource).setOnClickListener(v -> {
             Intent intent = new Intent(TravelActivity.this, PlaceActivity.class);
             startActivity(intent);
         });
