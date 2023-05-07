@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     style="?attr/spinnerDropDownItemStyle"
     android:layout_width="match_parent"
     android:layout_height="?attr/dropdownListPreferredItemHeight"
+    android:background="#DEE0E8"
+    android:ellipsize="marquee"
     android:includeFontPadding="false"
-    android:textColor="#000000"
-    android:background="@drawable/rectangle_button"
+    android:singleLine="true"
     android:text="시/도 선택"
-    android:textSize="14sp"/>
+    android:textColor="#4F5A80"
+    android:textSize="14sp"
+    android:textStyle="bold" />

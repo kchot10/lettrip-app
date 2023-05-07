@@ -103,20 +103,35 @@
             android:layout_marginTop="7dp"
             android:clipToPadding="false"
             android:orientation="horizontal"
-            android:stateListAnimator="@null"
-            android:translationZ="10dp">
+            >
 
             <Spinner
                 android:id="@+id/cityDropdown"
-                android:layout_width="87dp"
+                android:layout_width="100dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="7dp"
                 android:layout_marginBottom="7dp"
                 android:background="@drawable/rectangle_button"
                 android:elevation="5dp"
+                android:overlapAnchor="false"
+                android:popupBackground="@color/white"
                 android:spinnerStyle="@style/CustomSpinnerStyle"
-                />
+                android:textColor="@color/black" />
+
+            <Spinner
+                android:id="@+id/cityDropdown_detail"
+                android:layout_width="100dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/rectangle_button"
+                android:elevation="5dp"
+                android:overlapAnchor="false"
+                android:popupBackground="@color/white"
+                android:spinnerStyle="@style/CustomSpinnerStyle"
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/dateBtn"
