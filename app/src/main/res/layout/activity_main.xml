@@ -71,4 +71,20 @@
         android:text="course"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/button_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="후기 기록하기"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/button_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="코스 계획하기"
+        android:textColor="@color/white" />
+
 </LinearLayout>

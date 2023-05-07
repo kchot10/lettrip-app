@@ -13,8 +13,24 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/gray</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 
 
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="CalendarViewCustomTheme" parent="Theme.AppCompat.Light">
+        <item name="android:dateTextAppearance">@style/CalendarViewCustomTextAppearance</item>
+    </style>
+
+    <style name="CalendarViewCustomTextAppearance">
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:background">#FFFFFF</item>
+    </style>
+
+
 </resources>

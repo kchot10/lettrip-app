@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/menuBtn"
+            android:layout_width="47dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/menu" />
+
+        <ImageButton
+            android:id="@+id/logoBtn"
+            android:layout_width="60dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/logo" />
+
+        <ImageButton
+            android:id="@+id/heartBtn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/heart" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/recordTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:text="후기 기록하기"
+                android:textColor="#4F5A80"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="54dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="11dp"
+                android:background="#4F5A80"
+                android:text="등록"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edittext_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15px"
+            android:backgroundTint="#CCCCCC"
+            android:ems="10"
+            android:hint="후기 제목을 입력하세요."
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#CCCCCC"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:stateListAnimator="@null"
+            android:translationZ="10dp">
+
+            <Spinner
+                android:id="@+id/cityDropdown"
+                android:layout_width="87dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/rectangle_button"
+                android:elevation="5dp"
+                android:spinnerStyle="@style/CustomSpinnerStyle"
+                />
+
+            <Button
+                android:id="@+id/dateBtn"
+                android:layout_width="87dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/rectangle_button"
+                android:elevation="5dp"
+                android:text="날짜 선택"
+                android:textColor="#D1D1D1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/costText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="총 비용 설정 : "
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editTextText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#CCCCCC"
+                android:ems="10"
+                android:hint="총 비용을 입력하세요."
+                android:inputType="text"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="315dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addPlaceBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#4F5A80"
+        android:text="장소 추가하기"
+        android:textColor="#FFFFFF"
+        android:textSize="19sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/leftArrowBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            app:srcCompat="@drawable/left_arrow" />
+
+        <ImageButton
+            android:id="@+id/rightArrowBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            app:srcCompat="@drawable/right_arrow" />
+
+        <ImageButton
+            android:id="@+id/homeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            app:srcCompat="@drawable/home" />
+
+        <ImageButton
+            android:id="@+id/refreshBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            app:srcCompat="@drawable/refresh" />
+
+        <ImageButton
+            android:id="@+id/userBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            app:srcCompat="@drawable/user" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -35,13 +35,13 @@ public class CommentListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment_list);
+        //setContentView(R.layout.activity_comment_list);
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         edittext_content = findViewById(R.id.edittext_content);
         article_id = getIntent().getStringExtra("article_id");
 
-        recyclerView = findViewById(R.id.RecyclerView_comment);
+        //recyclerView = findViewById(R.id.RecyclerView_comment);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -101,7 +101,7 @@ public class CommentListActivity extends AppCompatActivity {
     }
 
     public void setEditText(String user_name, String user_id) {
-        textView_mention = findViewById(R.id.textView_mention);
+        //textView_mention = findViewById(R.id.textView_mention);
         textView_mention.setText("@"+user_name+" ");
         mentioned_user_id = user_id;
     }

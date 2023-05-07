@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="298dp"
+    android:layout_height="413dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingBottom="7dp"
+    android:theme="@style/CalendarViewCustomTheme">
+
+    <TextView
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="#4F5A80"
+        android:paddingLeft="24dp"
+        android:paddingTop="27dp"
+        android:text="2023년 05월 04일 목요일"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#FFFFFF"
+        android:focusedMonthDateColor="#FFFFFF"
+        android:selectedWeekBackgroundColor="#DBDDE4"
+        android:unfocusedMonthDateColor="#FFFFFF"
+        android:weekNumberColor="#4F5A80" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:backgroundTint="#FFFFFF"
+            android:text="cancel"
+            android:textColor="#4F5A80"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/okBtn"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:backgroundTint="#FFFFFF"
+            android:elevation="0dp"
+            android:text="OK"
+            android:textColor="#4F5A80"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -28,7 +28,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
     @Override
     public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_article_list, parent, false);
+        View view = inflater.inflate(R.layout.fragment_article_ltem, parent, false);
 
         BoardViewHolder viewHolder = new BoardViewHolder(view);
         view.setOnClickListener(new View.OnClickListener(){

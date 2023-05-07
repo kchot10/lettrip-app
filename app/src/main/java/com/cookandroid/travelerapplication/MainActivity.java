@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.cookandroid.travelerapplication.article.ArticleListActivity;
 import com.cookandroid.travelerapplication.account.WithdrawActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.travel.CourseActivity;
 import com.cookandroid.travelerapplication.travel.TravelActivity;
 
@@ -42,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.button_course).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CourseActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.button_record).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RecordMain.class);
             startActivity(intent);
         });
 

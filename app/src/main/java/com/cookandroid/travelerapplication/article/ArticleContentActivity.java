@@ -159,8 +159,6 @@ public class ArticleContentActivity extends AppCompatActivity {
             finish();
         });
 
-
-
     }
 
     private String getCurrentTime() {
