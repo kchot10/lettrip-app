@@ -107,13 +107,14 @@
 
             <Spinner
                 android:id="@+id/cityDropdown"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="7dp"
                 android:layout_marginBottom="7dp"
+                android:layout_weight="1"
                 android:background="@drawable/rectangle_button"
-                android:elevation="5dp"
+                android:elevation="4dp"
                 android:overlapAnchor="false"
                 android:popupBackground="@color/white"
                 android:spinnerStyle="@style/CustomSpinnerStyle"
@@ -121,28 +122,52 @@
 
             <Spinner
                 android:id="@+id/cityDropdown_detail"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="7dp"
                 android:layout_marginBottom="7dp"
+                android:layout_weight="1"
+                android:elevation="4dp"
                 android:background="@drawable/rectangle_button"
-                android:elevation="5dp"
                 android:overlapAnchor="false"
                 android:popupBackground="@color/white"
                 android:spinnerStyle="@style/CustomSpinnerStyle"
                 android:textColor="@color/black" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal">
+
             <Button
-                android:id="@+id/dateBtn"
-                android:layout_width="87dp"
+                android:id="@+id/dateBtn_start"
+                android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="7dp"
                 android:layout_marginBottom="7dp"
+                android:layout_weight="1"
                 android:background="@drawable/rectangle_button"
                 android:elevation="5dp"
-                android:text="날짜 선택"
+                android:text="출발 날짜 선택"
+                android:textColor="#D1D1D1" />
+
+            <Button
+                android:id="@+id/dateBtn_end"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginBottom="7dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangle_button"
+                android:elevation="5dp"
+                android:text="도착 날짜 선택"
                 android:textColor="#D1D1D1" />
         </LinearLayout>
 
@@ -159,7 +184,7 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/editTextText2"
+                android:id="@+id/costEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#CCCCCC"
