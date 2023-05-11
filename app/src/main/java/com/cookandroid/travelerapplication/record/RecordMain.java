@@ -58,7 +58,6 @@ public class RecordMain extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-                String selectedCity;
                 switch (position) {
                     case 0:
                         setCitySpinnerAdapterItem(R.array.city_array_default);
@@ -223,8 +222,8 @@ public class RecordMain extends AppCompatActivity {
         });
 
         findViewById(R.id.button_travel_upload).setOnClickListener(v -> {
-            String province = "JEJU";
-            String city = "제주";
+            String province = spinner.getSelectedItem().toString().trim();;
+            String city = spinner2.getSelectedItem().toString().trim();;
             String number_of_courses = "0";
             String created_date = getCurrentTime();
             String visited = "0";
