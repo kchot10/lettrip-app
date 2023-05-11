@@ -55,26 +55,73 @@ public class RecordMain extends AppCompatActivity {
         spinner2 = findViewById(R.id.cityDropdown_detail);
         spinner2.setAdapter(adapter2);
 
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
                 String selectedCity;
-                switch(position){
+                switch (position) {
                     case 0:
                         setCitySpinnerAdapterItem(R.array.city_array_default);
-                        selectedCity = spinner2.getSelectedItem().toString(); //도시명 받아오기 - db 저장 필요
                         break;
                     case 1:
                         setCitySpinnerAdapterItem(R.array.서울특별시);
                         break;
+                    case 2:
+                        setCitySpinnerAdapterItem(R.array.광주광역시);
+                        break;
+                    case 3:
+                        setCitySpinnerAdapterItem(R.array.대구광역시);
+                        break;
+                    case 4:
+                        setCitySpinnerAdapterItem(R.array.대전광역시);
+                        break;
+                    case 5:
+                        setCitySpinnerAdapterItem(R.array.부산광역시);
+                        break;
+                    case 6:
+                        setCitySpinnerAdapterItem(R.array.울산광역시);
+                        break;
+                    case 7:
+                        setCitySpinnerAdapterItem(R.array.인천광역시);
+                        break;
+                    case 8:
+                        setCitySpinnerAdapterItem(R.array.강원도);
+                        break;
+                    case 9:
+                        setCitySpinnerAdapterItem(R.array.경기도);
+                        break;
+                    case 10:
+                        setCitySpinnerAdapterItem(R.array.경상남도);
+                        break;
+                    case 11:
+                        setCitySpinnerAdapterItem(R.array.경상북도);
+                        break;
+                    case 12:
+                        setCitySpinnerAdapterItem(R.array.전라남도);
+                        break;
+                    case 13:
+                        setCitySpinnerAdapterItem(R.array.전라북도);
+                        break;
+                    case 14:
+                        setCitySpinnerAdapterItem(R.array.충청남도);
+                        break;
+                    case 15:
+                        setCitySpinnerAdapterItem(R.array.충청북도);
+                        break;
+                    case 16:
+                        setCitySpinnerAdapterItem(R.array.제주특별자치도);
+                        break;
+                    case 17:
+                        setCitySpinnerAdapterItem(R.array.세종특별자치시);
+                        break;
+                    // 다른 case문들을 추가하여 필요한 도시 목록을 처리합니다.
                 }
+
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Toast toast = Toast.makeText(getApplicationContext(), "도시를 선택하세요.", Toast.LENGTH_LONG);
             }
         });
 
