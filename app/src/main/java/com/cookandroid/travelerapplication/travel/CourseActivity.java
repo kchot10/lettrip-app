@@ -47,13 +47,13 @@ public class CourseActivity extends AppCompatActivity {
             String arrived_time = getCurrentTime_custom(hour, min);
             String cost = editText_cost.getText().toString().trim();
             String day_count = editText_day_count.getText().toString().trim();
-            String place_id = "1";
+            String place_id = fileHelper.readFromFile("place_id");
             String review_review_id = "1";
-            String travel_id = "1";
+            String travel_id = fileHelper.readFromFile("travel_id");
 
             InsertData_Course insertData_course = new InsertData_Course();
             insertData_course.execute("http://"+IP_ADDRESS+"/0503/InsertData_Course.php",arrived_time,cost,day_count, place_id,review_review_id, travel_id);
-
+            finish();
         });
 
         findViewById(R.id.button_place_search).setOnClickListener(v -> {
