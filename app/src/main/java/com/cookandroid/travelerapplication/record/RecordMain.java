@@ -176,13 +176,17 @@ public class RecordMain extends AppCompatActivity {
         });
 
         findViewById(R.id.button_travel_upload).setOnClickListener(v -> {
+            String province = "JEJU";
+            String city = "제주";
+            String number_of_courses = "0";
             String created_date = getCurrentTime();
             String visited = "0";
             String depart_date = dateBtn_start.getText().toString().trim();
             String last_date = dateBtn_end.getText().toString().trim();
             String total_cost = costEdittext.getText().toString().trim();
             InsertData_Travel insertData_travel = new InsertData_Travel();
-            insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",user_id,created_date,visited, depart_date,last_date, total_cost);
+            insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",
+                    user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses);
         });
     }
 
