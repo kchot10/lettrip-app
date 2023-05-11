@@ -27,6 +27,7 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
         String depart_date = (String)params[4];
         String last_date = (String)params[5];
         String total_cost = (String)params[6];
+        // 없는거 : city, number_of_courses, , province(행정구역)
 
 
         String postParameters ="user_id="+user_id+"&created_date="+created_date

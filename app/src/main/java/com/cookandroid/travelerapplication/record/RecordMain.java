@@ -1,50 +1,43 @@
 package com.cookandroid.travelerapplication.record;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.DialogFragment;
 
-import com.cookandroid.travelerapplication.MainActivity;
 import com.cookandroid.travelerapplication.R;
-import com.cookandroid.travelerapplication.travel.CourseActivity;
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.task.InsertData_Travel;
 
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class RecordMain extends AppCompatActivity {
+
+    String IP_ADDRESS, user_id;
     private EditText edittext_title;
     Spinner spinner;
     Spinner spinner2;
     ArrayAdapter<CharSequence> adapter;
     ArrayAdapter<CharSequence> adapter2;
-    DatePickerDialog datePickerDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_main);
+        FileHelper fileHelper = new FileHelper(this);
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        user_id = fileHelper.readFromFile("user_id");
 
         //제목
         edittext_title = findViewById(R.id.edittext_title);
@@ -170,7 +163,6 @@ public class RecordMain extends AppCompatActivity {
 
         //총 비용 입력
         EditText costEdittext = findViewById(R.id.costEditText);
-        String cost = costEdittext.getText().toString();
         //받아 온 비용 db 저장하기
 
 
@@ -182,12 +174,30 @@ public class RecordMain extends AppCompatActivity {
 
             }
         });
+
+        findViewById(R.id.button_travel_upload).setOnClickListener(v -> {
+            String created_date = getCurrentTime();
+            String visited = "0";
+            String depart_date = dateBtn_start.getText().toString().trim();
+            String last_date = dateBtn_end.getText().toString().trim();
+            String total_cost = costEdittext.getText().toString().trim();
+            InsertData_Travel insertData_travel = new InsertData_Travel();
+            insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",user_id,created_date,visited, depart_date,last_date, total_cost);
+        });
     }
 
     private void setCitySpinnerAdapterItem(int array_resource) {
         adapter = new ArrayAdapter<>(this, R.layout.spinner_layout, (String[])getResources().getStringArray(array_resource));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter);
+    }
+
+    private String getCurrentTime() {
+        // 현재 시간 가져오기
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        String currentTime = sdf.format(date);
+        return currentTime;
     }
 
 }

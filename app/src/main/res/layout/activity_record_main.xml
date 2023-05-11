@@ -75,7 +75,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/button_travel_upload"
                 android:layout_width="54dp"
                 android:layout_height="27dp"
                 android:layout_marginTop="11dp"
