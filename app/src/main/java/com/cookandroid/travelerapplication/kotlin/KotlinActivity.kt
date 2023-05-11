@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cookandroid.travelerapplication.R
+import com.cookandroid.travelerapplication.task.InsertData_Place
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -67,6 +68,12 @@ class KotlinActivity : AppCompatActivity() {
                 builder.setMessage("["+listItems[position].name+"]로 선택하시겠습니까?")
                 builder.setPositiveButton("확인") { dialog, which ->
                     intent.putExtra("name", listItems[position].name)
+                    intent.putExtra("road", listItems[position].road)
+                    intent.putExtra("address", listItems[position].address)
+                    intent.putExtra("location_x", listItems[position].x.toString())
+                    intent.putExtra("location_y", listItems[position].y.toString())
+                    intent.putExtra("category_group_code", listItems[position].category_group_code)
+                    intent.putExtra("category_group_name", listItems[position].category_group_name)
                     setResult(RESULT_OK, intent);
                     finish()
                 }

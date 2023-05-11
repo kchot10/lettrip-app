@@ -11,7 +11,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class InsertData_Course extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_Place extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
@@ -20,17 +20,20 @@ public class InsertData_Course extends AsyncTask<String,Void,String> { // 통신
     protected String doInBackground(String... params) {
 
         String serverURL = (String) params[0];
-        String arrived_time = (String)params[1];
-        String cost = (String)params[2];
-        String day_count = (String)params[3];
-        String place_id = (String)params[4];
-        String review_review_id = (String)params[5];
-        String travel_id = (String)params[6];
+        String category_code = (String)params[1];
+        String category_name = (String)params[2];
+        String city = (String)params[3];
+        String location_point = (String)params[4];
+        String place_name = (String)params[5];
+        String province = (String)params[6];
+        String total_rating = (String)params[7];
+
+        // category_code,category_name, city, location_point, place_name, province, total_rating)
 
 
-        String postParameters ="arrived_time="+arrived_time+"&cost="+cost
-                +"&day_count="+day_count+"&place_id="+place_id
-                +"&review_review_id="+review_review_id+"&travel_id="+travel_id;
+        String postParameters ="category_code="+category_code+"&category_name="+category_name
+                +"&city="+city+"&location_point="+location_point
+                +"&place_name="+place_name+"&province="+province+"&total_rating="+total_rating;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -85,7 +88,7 @@ public class InsertData_Course extends AsyncTask<String,Void,String> { // 통신
             String result = getTwoCharsAfterString(sb.toString(), "불러오기 ");
             Log.d("lettrip", result);
             if (result.equals("성공")){
-                return_string = getTwoCharsAfterString(sb.toString(), "travel_id:");
+                return_string = getTwoCharsAfterString(sb.toString(), "place_id:");
             }else if(result.equals("실패")) {
                 return_string = "실패";
             }else{
@@ -101,7 +104,7 @@ public class InsertData_Course extends AsyncTask<String,Void,String> { // 통신
 
         catch (Exception e) {
 
-            Log.d(TAG, "InsertData_Course: Error",e);
+            Log.d(TAG, "InsertData_Place: Error",e);
 
             return  new String("Error " + e.getMessage());
 

@@ -154,8 +154,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/rectangle_button"
                 android:elevation="5dp"
-                android:text="출발 날짜 선택"
-                android:textColor="#D1D1D1" />
+                android:hint="출발 날짜 선택"
+                android:textColorHint="@color/gray" />
 
             <Button
                 android:id="@+id/dateBtn_end"
@@ -167,8 +167,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/rectangle_button"
                 android:elevation="5dp"
-                android:text="도착 날짜 선택"
-                android:textColor="#D1D1D1" />
+                android:hint="도착 날짜 선택"
+                android:textColorHint="@color/gray" />
         </LinearLayout>
 
         <LinearLayout

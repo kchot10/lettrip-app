@@ -2,6 +2,7 @@ package com.cookandroid.travelerapplication.record;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
+import com.cookandroid.travelerapplication.travel.CourseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,6 +29,10 @@ public class RecordMain extends AppCompatActivity {
 
     String IP_ADDRESS, user_id;
     private EditText edittext_title;
+
+    Button dateBtn_start, dateBtn_end;
+
+    EditText costEdittext;
     Spinner spinner;
     Spinner spinner2;
     ArrayAdapter<CharSequence> adapter;
@@ -38,6 +44,14 @@ public class RecordMain extends AppCompatActivity {
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
+        dateBtn_start = findViewById(R.id.dateBtn_start);
+        dateBtn_end = findViewById(R.id.dateBtn_end);
+        costEdittext = findViewById(R.id.costEditText);
+        //받아 온 비용 db 저장하기
+
+
+        //장소 추가해서 리사이클러뷰 추가하기
+        Button addPlaceBtn = findViewById(R.id.addPlaceBtn);
 
         //제목
         edittext_title = findViewById(R.id.edittext_title);
@@ -124,9 +138,7 @@ public class RecordMain extends AppCompatActivity {
             }
         });
 
-
-        //날짜 선택
-        Button dateBtn_start = findViewById(R.id.dateBtn_start);
+        //날짜 지정
         dateBtn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,8 +177,6 @@ public class RecordMain extends AppCompatActivity {
                 dialog.show();
             }
         });
-
-        Button dateBtn_end = findViewById(R.id.dateBtn_end);
         dateBtn_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,7 +198,7 @@ public class RecordMain extends AppCompatActivity {
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
                         dateBtn_end.setText(selectedDate);
-                        //날짜 db 저장하기
+                        findViewById(R.id.addPlaceBtn).setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -206,33 +216,19 @@ public class RecordMain extends AppCompatActivity {
             }
         });
 
-
-        //총 비용 입력
-        EditText costEdittext = findViewById(R.id.costEditText);
-        //받아 온 비용 db 저장하기
-
-
-        //장소 추가해서 리사이클러뷰 추가하기
-        Button addPlaceBtn = findViewById(R.id.addPlaceBtn);
-        addPlaceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        findViewById(R.id.button_travel_upload).setOnClickListener(v -> {
         });
 
-        findViewById(R.id.button_travel_upload).setOnClickListener(v -> {
-            String province = spinner.getSelectedItem().toString().trim();;
-            String city = spinner2.getSelectedItem().toString().trim();;
-            String number_of_courses = "0";
-            String created_date = getCurrentTime();
-            String visited = "0";
-            String depart_date = dateBtn_start.getText().toString().trim();
-            String last_date = dateBtn_end.getText().toString().trim();
-            String total_cost = costEdittext.getText().toString().trim();
-            InsertData_Travel insertData_travel = new InsertData_Travel();
-            insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",
-                    user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses);
+        findViewById(R.id.addPlaceBtn).setOnClickListener(v -> {
+            if (dateBtn_start.getText().toString().trim().equals("") || dateBtn_end.getText().toString().trim().equals("")){
+                Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
+            }else {
+                TravelUpload();
+                Intent intent = new Intent(this, CourseActivity.class);
+                intent.putExtra("province", spinner.getSelectedItem().toString().trim());
+                intent.putExtra("city", spinner.getSelectedItem().toString().trim());
+                startActivity(intent);
+            }
         });
     }
 
@@ -248,6 +244,20 @@ public class RecordMain extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
         String currentTime = sdf.format(date);
         return currentTime;
+    }
+
+    private void TravelUpload(){
+        String province = spinner.getSelectedItem().toString().trim();
+        String city = spinner2.getSelectedItem().toString().trim();
+        String number_of_courses = "0";
+        String created_date = getCurrentTime();
+        String visited = "0";
+        String depart_date = dateBtn_start.getText().toString().trim();
+        String last_date = dateBtn_end.getText().toString().trim();
+        String total_cost = costEdittext.getText().toString().trim();
+        InsertData_Travel insertData_travel = new InsertData_Travel();
+        insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",
+                user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses);
     }
 
 }
