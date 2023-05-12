@@ -1,6 +1,6 @@
 package com.cookandroid.travelerapplication.record;
 
-public class Record {
+public class Course {
     private String arrived_time;
     private String cost;
     private String day_count;

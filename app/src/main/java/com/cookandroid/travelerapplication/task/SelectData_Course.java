@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.cookandroid.travelerapplication.comment.Comment;
 import com.cookandroid.travelerapplication.article.Article;
+import com.cookandroid.travelerapplication.record.Course;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,13 +20,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SelectData_Record extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_Course extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
     public ArrayList articleArrayList;
 
-    public <T> SelectData_Record(ArrayList<T> articleArrayList) {
+    public <T> SelectData_Course(ArrayList<T> articleArrayList) {
         this.articleArrayList = articleArrayList;
     }
 
@@ -36,9 +37,8 @@ public class SelectData_Record extends AsyncTask<String,Void,String> { // 통신
 
         String postParameters = "";
         try {
-            String article_id = (String) params[1];
-            String parent_comment_id = (String) params[2];
-            postParameters ="article_id="+article_id+"&parent_comment_id="+parent_comment_id;
+            String travel_id = (String) params[1];
+            postParameters ="travel_id="+travel_id;
         }catch (Exception e){
         }
 
@@ -121,86 +121,25 @@ public class SelectData_Record extends AsyncTask<String,Void,String> { // 통신
         // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
         JSONArray jsonArray = new JSONArray(result);
 
-        try {
-            jsonArray.getJSONObject(0).getString("hit");
-            parseJSONArray_Article(jsonArray);
-        }catch (Exception e){
-            parseJSONArray_Comment(jsonArray);
-        }
-
-//        parseJSONArray_Article(jsonArray);
-//        parseJSONArray_Comment(jsonArray);
-    }
-
-    private void parseJSONArray_Article(JSONArray jsonArray) throws JSONException {
-
-        // JSONArray로부터 데이터 추출
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            Article article = new Article();
+            Course course = new Course();
 
-            String articleId = jsonObject.getString("article_id");
-            String createdDate = jsonObject.getString("created_date");
-            String modified_date = jsonObject.getString("modified_date");
-            String content = jsonObject.getString("content");
-            String hit = jsonObject.getString("hit");
-            String like_count = jsonObject.getString("like_count");
-            String title = jsonObject.getString("title");
-            String user_id = jsonObject.getString("user_id");
-            String name = jsonObject.getString("name");
+            String arrived_time = jsonObject.getString("arrived_time");
+            String cost = jsonObject.getString("cost");
+            String day_count = jsonObject.getString("day_count");
+            String place_name = jsonObject.getString("place_name");
 
-            article.setArticle_id(articleId);
-            article.setCreated_date(createdDate);
-            article.setModified_date(modified_date);
-            article.setContent(content);
-            article.setHit(hit);
-            article.setLike_count(like_count);
-            article.setTitle(title);
-            article.setUser_id(user_id);
-            article.setName(name);
+            course.setArrived_time(arrived_time);
+            course.setCost(cost);
+            course.setDay_count(day_count);
+            course.setPlace_name(place_name);
 
-            articleArrayList.add(article);
+            articleArrayList.add(course);
 
         }
-    }
 
-    private void parseJSONArray_Comment(JSONArray jsonArray) throws JSONException {
-        // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
-
-        // JSONArray로부터 데이터 추출
-        for (int i = 0; i < jsonArray.length(); i++) {
-
-
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-            Comment comment = new Comment();
-
-            String comment_id = jsonObject.getString("comment_id");
-            String createdDate = jsonObject.getString("created_date");
-            String modified_date = jsonObject.getString("modified_date");
-            String content = jsonObject.getString("content");
-            String article_id = jsonObject.getString("article_id");
-            String mentioned_user_id = jsonObject.getString("mentioned_user_id");
-            String parent_comment_id = jsonObject.getString("parent_comment_id");
-            String user_id = jsonObject.getString("user_id");
-            String name = jsonObject.getString("name");
-            String mentioned_user_name = jsonObject.getString("mentioned_user_name");
-
-            comment.setComment_id(comment_id);
-            comment.setCreated_date(createdDate);
-            comment.setModified_date(modified_date);
-            comment.setContent(content);
-            comment.setArticle_id(article_id);
-            comment.setMentioned_user_id(mentioned_user_id);
-            comment.setParent_comment_id(parent_comment_id);
-            comment.setUser_id(user_id);
-            comment.setName(name);
-            comment.setMentioned_user_name(mentioned_user_name);
-
-            articleArrayList.add(comment);
-
-        }
     }
 
     public String get_return_string(){

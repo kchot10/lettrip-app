@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication.travel;
+package com.cookandroid.travelerapplication.record;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;

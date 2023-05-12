@@ -73,6 +73,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="#515674"
                     android:text="Refresh"
+                    android:textColor="@color/white"
                     android:textSize="10dp" />
 
                 <Button
@@ -82,6 +83,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="#515674"
                     android:text="ADD"
+                    android:textColor="@color/white"
                     android:textSize="10dp" />
 
                 <Spinner

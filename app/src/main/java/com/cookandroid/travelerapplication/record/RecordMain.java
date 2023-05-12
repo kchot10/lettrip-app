@@ -1,12 +1,11 @@
 package com.cookandroid.travelerapplication.record;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,8 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
-import com.cookandroid.travelerapplication.task.SelectData_Record;
-import com.cookandroid.travelerapplication.travel.CourseActivity;
+import com.cookandroid.travelerapplication.task.SelectData_Course;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import java.util.Locale;
 
 public class RecordMain extends AppCompatActivity {
 
-    String IP_ADDRESS, user_id;
+    String IP_ADDRESS, user_id, travel_id;
     private EditText edittext_title;
 
     Button dateBtn_start, dateBtn_end;
@@ -57,20 +55,12 @@ public class RecordMain extends AppCompatActivity {
         dateBtn_start = findViewById(R.id.dateBtn_start);
         dateBtn_end = findViewById(R.id.dateBtn_end);
         costEdittext = findViewById(R.id.costEditText);
-        //장소 추가해서 리사이클러뷰 추가하기
-        Button addPlaceBtn = findViewById(R.id.addPlaceBtn);
-
         recyclerView = findViewById(R.id.RecyclerView_Record);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-//        Refresh();
+        travel_id = "0";
 
-        findViewById(R.id.button_refresh).setOnClickListener(v -> {
-//            Refresh();
-        });
-
-        //제목
 
         //도시 선택
         adapter = ArrayAdapter.createFromResource(this, R.array.my_array_state, R.layout.spinner_layout);
@@ -255,27 +245,30 @@ public class RecordMain extends AppCompatActivity {
             startActivity(intent);
 
         });
+
     }
-//    public void Refresh() {
-//        // Record class, SelectData_Record task, RecordAdapter
-//        ArrayList<Record> articleArrayList = new ArrayList<>();
-//        SelectData_Record task = new SelectData_Record(articleArrayList);
-//        task.execute("http://" + IP_ADDRESS + "/0503/selectdata_record.php");
-//        try {
-//            new Handler().postDelayed(() -> {
-//                adapter = new RecordAdapter(articleArrayList, this);
-//                recyclerView.setAdapter(recyclerView_adapter);
-//            }, 1000); // 0.5초 지연 시간
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Refresh();
-//    }
+    public void Refresh() {
+        // Record class, SelectData_Record task, RecordAdapter
+        ArrayList<Course> courseArrayList = new ArrayList<>();
+        SelectData_Course task = new SelectData_Course(courseArrayList);
+        travel_id = fileHelper.readFromFile("travel_id");
+        Log.d("lettrip", "travel_id:"+travel_id);
+        task.execute("http://" + IP_ADDRESS + "/0503/selectdata_course.php", travel_id);
+        try {
+            new Handler().postDelayed(() -> {
+                recyclerView_adapter = new CourseAdapter(courseArrayList, this);
+                recyclerView.setAdapter(recyclerView_adapter);
+            }, 1000); // 0.5초 지연 시간
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Refresh();
+    }
 
     private void setCitySpinnerAdapterItem(int array_resource) {
         adapter = new ArrayAdapter<>(this, R.layout.spinner_layout, (String[])getResources().getStringArray(array_resource));

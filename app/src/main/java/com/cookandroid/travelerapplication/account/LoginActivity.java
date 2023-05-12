@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.MainActivity;
+import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.task.CheckData_Email;
 import com.cookandroid.travelerapplication.task.CheckData_Pwd;

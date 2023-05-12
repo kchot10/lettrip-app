@@ -45,14 +45,6 @@
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/heart" />
 
-        <Button
-            android:id="@+id/button_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="refresh"
-            android:textColor="@color/white" />
-
     </LinearLayout>
 
     <LinearLayout
