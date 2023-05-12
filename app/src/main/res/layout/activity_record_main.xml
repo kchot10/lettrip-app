@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -44,6 +45,14 @@
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/heart" />
 
+        <Button
+            android:id="@+id/button_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="refresh"
+            android:textColor="@color/white" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -76,26 +85,13 @@
 
             <Button
                 android:id="@+id/button_travel_upload"
-                android:layout_width="54dp"
+                android:layout_width="wrap_content"
                 android:layout_height="27dp"
                 android:layout_marginTop="11dp"
                 android:background="#4F5A80"
-                android:text="등록"
+                android:text="최초 등록"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/edittext_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15px"
-            android:backgroundTint="#CCCCCC"
-            android:ems="10"
-            android:hint="후기 제목을 입력하세요."
-            android:inputType="text"
-            android:textColor="#000000"
-            android:textColorHint="#CCCCCC"
-            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -190,12 +186,13 @@
                 android:backgroundTint="#CCCCCC"
                 android:ems="10"
                 android:hint="총 비용을 입력하세요."
-                android:inputType="text"
+                android:inputType="number"
                 android:textColor="#000000"
                 android:textSize="15sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecyclerView_Record"
             android:layout_width="match_parent"
             android:layout_height="315dp"
             android:layout_marginTop="15dp"
@@ -211,7 +208,8 @@
         android:background="#4F5A80"
         android:text="장소 추가하기"
         android:textColor="#FFFFFF"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"

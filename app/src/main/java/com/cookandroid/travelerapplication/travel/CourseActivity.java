@@ -29,12 +29,17 @@ public class CourseActivity extends AppCompatActivity {
 
     String IP_ADDRESS;
     FileHelper fileHelper;
+    String city, province, depart_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        province = getIntent().getStringExtra("province");
+        city = getIntent().getStringExtra("city");
+        depart_date = getIntent().getStringExtra("depart_date");
+
 
         findViewById(R.id.button_add_cource).setOnClickListener(v -> {
             EditText editText_arrived_time_hour = findViewById(R.id.editText_arrived_time_hour);
@@ -65,9 +70,10 @@ public class CourseActivity extends AppCompatActivity {
     private String getCurrentTime_custom(String hour, String min) {
         // 현재 시간 가져오기
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2023, 5, 5, Integer.parseInt(hour), Integer.parseInt(min), 0);
+        int RealMonth_const = 1;
+        calendar.set(2023, 5-RealMonth_const, 5, Integer.parseInt(hour), Integer.parseInt(min), 0);
         Date date = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(depart_date+" hh:mm:ss", Locale.getDefault());
         String currentTime = sdf.format(date);
         return currentTime;
     }
@@ -86,8 +92,6 @@ public class CourseActivity extends AppCompatActivity {
                     String location_point = "POINT("+x+","+y+")";
                     String category_code = result.getData().getStringExtra("category_group_code");
                     String category_name = result.getData().getStringExtra("category_group_name");
-                    String province = result.getData().getStringExtra("province");
-                    String city = result.getData().getStringExtra("city");
                     String total_rating = "3";
 
                     InsertData_Place insertData_place = new InsertData_Place();

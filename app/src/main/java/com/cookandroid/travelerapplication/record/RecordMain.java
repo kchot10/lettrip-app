@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,13 +17,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
+import com.cookandroid.travelerapplication.task.SelectData_Record;
 import com.cookandroid.travelerapplication.travel.CourseActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -35,28 +41,36 @@ public class RecordMain extends AppCompatActivity {
     EditText costEdittext;
     Spinner spinner;
     Spinner spinner2;
+    FileHelper fileHelper;
     ArrayAdapter<CharSequence> adapter;
     ArrayAdapter<CharSequence> adapter2;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerView_adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_main);
-        FileHelper fileHelper = new FileHelper(this);
+        fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
         dateBtn_start = findViewById(R.id.dateBtn_start);
         dateBtn_end = findViewById(R.id.dateBtn_end);
         costEdittext = findViewById(R.id.costEditText);
-        //받아 온 비용 db 저장하기
-
-
         //장소 추가해서 리사이클러뷰 추가하기
         Button addPlaceBtn = findViewById(R.id.addPlaceBtn);
 
-        //제목
-        edittext_title = findViewById(R.id.edittext_title);
-        String title = String.valueOf(edittext_title.getText()); //제목 받아오기 - db 저장 필요
+        recyclerView = findViewById(R.id.RecyclerView_Record);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+//        Refresh();
 
+        findViewById(R.id.button_refresh).setOnClickListener(v -> {
+//            Refresh();
+        });
+
+        //제목
 
         //도시 선택
         adapter = ArrayAdapter.createFromResource(this, R.array.my_array_state, R.layout.spinner_layout);
@@ -198,7 +212,6 @@ public class RecordMain extends AppCompatActivity {
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
                         dateBtn_end.setText(selectedDate);
-                        findViewById(R.id.addPlaceBtn).setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -215,22 +228,54 @@ public class RecordMain extends AppCompatActivity {
                 dialog.show();
             }
         });
-
-        findViewById(R.id.button_travel_upload).setOnClickListener(v -> {
+        Button button_travel_upload = findViewById(R.id.button_travel_upload);
+        button_travel_upload.setOnClickListener(v -> {
+            if (dateBtn_start.getText().toString().trim().equals("") || dateBtn_end.getText().toString().trim().equals("")){
+                Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
+            } else if (spinner.getSelectedItem().toString().trim().equals("도 선택") || spinner.getSelectedItem().toString().trim().equals("시 선택")) {
+                Toast.makeText(this,"도/시를 입력하세요",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"총 비용을 입력하세요",Toast.LENGTH_SHORT).show();
+            } else {
+                findViewById(R.id.addPlaceBtn).setVisibility(View.VISIBLE);
+                button_travel_upload.setVisibility(View.INVISIBLE);
+                spinner.setEnabled(false);
+                spinner2.setEnabled(false);
+                dateBtn_end.setEnabled(false);
+                dateBtn_start.setEnabled(false);
+                costEdittext.setEnabled(false);
+                TravelUpload();
+            }
         });
 
         findViewById(R.id.addPlaceBtn).setOnClickListener(v -> {
-            if (dateBtn_start.getText().toString().trim().equals("") || dateBtn_end.getText().toString().trim().equals("")){
-                Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
-            }else {
-                TravelUpload();
-                Intent intent = new Intent(this, CourseActivity.class);
-                intent.putExtra("province", spinner.getSelectedItem().toString().trim());
-                intent.putExtra("city", spinner.getSelectedItem().toString().trim());
-                startActivity(intent);
-            }
+            Intent intent = new Intent(this, CourseActivity.class);
+            intent.putExtra("province", spinner.getSelectedItem().toString().trim());
+            intent.putExtra("city", spinner2.getSelectedItem().toString().trim());
+            intent.putExtra("depart_date", dateBtn_start.getText().toString().trim());
+            startActivity(intent);
+
         });
     }
+//    public void Refresh() {
+//        // Record class, SelectData_Record task, RecordAdapter
+//        ArrayList<Record> articleArrayList = new ArrayList<>();
+//        SelectData_Record task = new SelectData_Record(articleArrayList);
+//        task.execute("http://" + IP_ADDRESS + "/0503/selectdata_record.php");
+//        try {
+//            new Handler().postDelayed(() -> {
+//                adapter = new RecordAdapter(articleArrayList, this);
+//                recyclerView.setAdapter(recyclerView_adapter);
+//            }, 1000); // 0.5초 지연 시간
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Refresh();
+//    }
 
     private void setCitySpinnerAdapterItem(int array_resource) {
         adapter = new ArrayAdapter<>(this, R.layout.spinner_layout, (String[])getResources().getStringArray(array_resource));
@@ -258,6 +303,18 @@ public class RecordMain extends AppCompatActivity {
         InsertData_Travel insertData_travel = new InsertData_Travel();
         insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",
                 user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses);
+
+        new Handler().postDelayed(() -> {
+            String withdraw_result = insertData_travel.getReturn_string();
+            if (withdraw_result.equals("실패")) {
+                Toast.makeText(this, "여행 추가는 완료되었으나 travel_id를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+            } else if (withdraw_result.equals("에러")) {
+                Toast.makeText(this, "여행 추가가 에러났습니다.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "여행 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                fileHelper.writeToFile("travel_id", withdraw_result);
+            }
+        }, 500); // 0.5초 지연 시간
     }
 
 }
