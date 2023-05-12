@@ -83,6 +83,17 @@
                 android:background="#4F5A80"
                 android:text="최초 등록"
                 android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/button_travel_update"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_marginTop="11dp"
+                android:background="#009688"
+                android:text="최종 등록"
+                android:textColor="#FFFFFF"
+                android:visibility="invisible" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -157,30 +168,6 @@
                 android:elevation="5dp"
                 android:hint="도착 날짜 선택"
                 android:textColorHint="@color/gray" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/costText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="총 비용 설정 : "
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/costEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#CCCCCC"
-                android:ems="10"
-                android:hint="총 비용을 입력하세요."
-                android:inputType="number"
-                android:textColor="#000000"
-                android:textSize="15sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

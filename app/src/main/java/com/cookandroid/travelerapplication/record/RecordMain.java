@@ -1,6 +1,8 @@
 package com.cookandroid.travelerapplication.record;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +25,8 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
+import com.cookandroid.travelerapplication.task.UpdateData_Article;
+import com.cookandroid.travelerapplication.task.UpdateData_Travel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,10 +37,10 @@ public class RecordMain extends AppCompatActivity {
 
     String IP_ADDRESS, user_id, travel_id;
     private EditText edittext_title;
+    ArrayList<Course> courseArrayList;
+    int sum = 0, number_of_courses = 0;
 
     Button dateBtn_start, dateBtn_end;
-
-    EditText costEdittext;
     Spinner spinner;
     Spinner spinner2;
     FileHelper fileHelper;
@@ -54,12 +58,12 @@ public class RecordMain extends AppCompatActivity {
         user_id = fileHelper.readFromFile("user_id");
         dateBtn_start = findViewById(R.id.dateBtn_start);
         dateBtn_end = findViewById(R.id.dateBtn_end);
-        costEdittext = findViewById(R.id.costEditText);
         recyclerView = findViewById(R.id.RecyclerView_Record);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         travel_id = "0";
+        courseArrayList = new ArrayList<>();
 
 
         //도시 선택
@@ -108,27 +112,18 @@ public class RecordMain extends AppCompatActivity {
                         setCitySpinnerAdapterItem(R.array.경기도);
                         break;
                     case 10:
-                        setCitySpinnerAdapterItem(R.array.경상남도);
+                        setCitySpinnerAdapterItem(R.array.경상도);
                         break;
                     case 11:
-                        setCitySpinnerAdapterItem(R.array.경상북도);
+                        setCitySpinnerAdapterItem(R.array.전라도);
                         break;
                     case 12:
-                        setCitySpinnerAdapterItem(R.array.전라남도);
+                        setCitySpinnerAdapterItem(R.array.충청도);
                         break;
                     case 13:
-                        setCitySpinnerAdapterItem(R.array.전라북도);
-                        break;
-                    case 14:
-                        setCitySpinnerAdapterItem(R.array.충청남도);
-                        break;
-                    case 15:
-                        setCitySpinnerAdapterItem(R.array.충청북도);
-                        break;
-                    case 16:
                         setCitySpinnerAdapterItem(R.array.제주특별자치도);
                         break;
-                    case 17:
+                    case 14:
                         setCitySpinnerAdapterItem(R.array.세종특별자치시);
                         break;
                     // 다른 case문들을 추가하여 필요한 도시 목록을 처리합니다.
@@ -232,9 +227,14 @@ public class RecordMain extends AppCompatActivity {
                 spinner2.setEnabled(false);
                 dateBtn_end.setEnabled(false);
                 dateBtn_start.setEnabled(false);
-                costEdittext.setEnabled(false);
+                button_travel_upload.setVisibility(View.INVISIBLE);
+                findViewById(R.id.button_travel_update).setVisibility(View.VISIBLE);
                 TravelUpload();
             }
+        });
+
+        findViewById(R.id.button_travel_update).setOnClickListener(v -> {
+            showConfirmationDialog();
         });
 
         findViewById(R.id.addPlaceBtn).setOnClickListener(v -> {
@@ -249,10 +249,9 @@ public class RecordMain extends AppCompatActivity {
     }
     public void Refresh() {
         // Record class, SelectData_Record task, RecordAdapter
-        ArrayList<Course> courseArrayList = new ArrayList<>();
+        courseArrayList = new ArrayList<>();
         SelectData_Course task = new SelectData_Course(courseArrayList);
         travel_id = fileHelper.readFromFile("travel_id");
-        Log.d("lettrip", "travel_id:"+travel_id);
         task.execute("http://" + IP_ADDRESS + "/0503/selectdata_course.php", travel_id);
         try {
             new Handler().postDelayed(() -> {
@@ -262,6 +261,42 @@ public class RecordMain extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+    }
+
+    private void showConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("확인");
+        builder.setMessage("최종 등록 하시겠습니까?");
+
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 예 버튼 클릭 시 동작
+                dialog.dismiss();
+                sum = 0; number_of_courses = 0;
+                for (int i = 0; i < courseArrayList.size(); i++){
+                    sum += Integer.parseInt(courseArrayList.get(i).getCost());
+                    number_of_courses += 1;
+                }
+                travel_id = fileHelper.readFromFile("travel_id");
+                UpdateData_Travel updateData_travel = new UpdateData_Travel();
+                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(sum));
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 아니오 버튼 클릭 시 동작
+                dialog.dismiss();
+                // 여기에 원하는 동작을 추가하세요.
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -292,7 +327,7 @@ public class RecordMain extends AppCompatActivity {
         String visited = "0";
         String depart_date = dateBtn_start.getText().toString().trim();
         String last_date = dateBtn_end.getText().toString().trim();
-        String total_cost = costEdittext.getText().toString().trim();
+        String total_cost = "0";
         InsertData_Travel insertData_travel = new InsertData_Travel();
         insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",
                 user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses);
