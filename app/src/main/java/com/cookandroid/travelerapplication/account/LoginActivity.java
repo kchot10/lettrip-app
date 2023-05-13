@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.MainActivity;
+import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.task.CheckData_Email;
 import com.cookandroid.travelerapplication.task.CheckData_Pwd;
@@ -59,7 +59,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class LoginActivity extends AppCompatActivity{
 
 
-    private static String ec2_ADDRESS = "52.79.130.173";
+    private static String ec2_ADDRESS = "3.34.45.231";
     private static String IP_ADDRESS;
     public static Context mContext;
     FileHelper fileHelper;

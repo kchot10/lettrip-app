@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -75,27 +76,25 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/button"
-                android:layout_width="54dp"
+                android:id="@+id/button_travel_upload"
+                android:layout_width="wrap_content"
                 android:layout_height="27dp"
                 android:layout_marginTop="11dp"
                 android:background="#4F5A80"
-                android:text="등록"
+                android:text="최초 등록"
                 android:textColor="#FFFFFF" />
-        </LinearLayout>
 
-        <EditText
-            android:id="@+id/edittext_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15px"
-            android:backgroundTint="#CCCCCC"
-            android:ems="10"
-            android:hint="후기 제목을 입력하세요."
-            android:inputType="text"
-            android:textColor="#000000"
-            android:textColorHint="#CCCCCC"
-            android:textSize="18sp" />
+            <Button
+                android:id="@+id/button_travel_update"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_marginTop="11dp"
+                android:background="#009688"
+                android:text="최종 등록"
+                android:textColor="#FFFFFF"
+                android:visibility="invisible" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,8 +153,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/rectangle_button"
                 android:elevation="5dp"
-                android:text="출발 날짜 선택"
-                android:textColor="#D1D1D1" />
+                android:hint="출발 날짜 선택"
+                android:textColorHint="@color/gray" />
 
             <Button
                 android:id="@+id/dateBtn_end"
@@ -167,35 +166,12 @@
                 android:layout_weight="1"
                 android:background="@drawable/rectangle_button"
                 android:elevation="5dp"
-                android:text="도착 날짜 선택"
-                android:textColor="#D1D1D1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/costText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="총 비용 설정 : "
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/costEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#CCCCCC"
-                android:ems="10"
-                android:hint="총 비용을 입력하세요."
-                android:inputType="text"
-                android:textColor="#000000"
-                android:textSize="15sp" />
+                android:hint="도착 날짜 선택"
+                android:textColorHint="@color/gray" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecyclerView_Record"
             android:layout_width="match_parent"
             android:layout_height="315dp"
             android:layout_marginTop="15dp"
@@ -211,7 +187,8 @@
         android:background="#4F5A80"
         android:text="장소 추가하기"
         android:textColor="#FFFFFF"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"

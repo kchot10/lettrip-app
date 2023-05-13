@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,22 +53,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Article"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/button_travel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="travel"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/button_course"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="course"
         android:textColor="@color/white" />
 
     <Button

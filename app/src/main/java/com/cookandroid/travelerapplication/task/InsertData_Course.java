@@ -101,7 +101,7 @@ public class InsertData_Course extends AsyncTask<String,Void,String> { // 통신
 
         catch (Exception e) {
 
-            Log.d(TAG, "InsertData_Travel: Error",e);
+            Log.d(TAG, "InsertData_Course: Error",e);
 
             return  new String("Error " + e.getMessage());
 

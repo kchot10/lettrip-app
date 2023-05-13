@@ -2,7 +2,6 @@ package com.cookandroid.travelerapplication.article;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -16,10 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cookandroid.travelerapplication.MainActivity;
 import com.cookandroid.travelerapplication.comment.Comment;
 import com.cookandroid.travelerapplication.comment.CommentAdapter;
-import com.cookandroid.travelerapplication.comment.CommentListActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.task.DeleteData_Article;

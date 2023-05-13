@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication;
+package com.cookandroid.travelerapplication.account;
 
 import android.app.Application;
 
