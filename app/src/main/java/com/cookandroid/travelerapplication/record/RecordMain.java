@@ -174,7 +174,7 @@ public class RecordMain extends AppCompatActivity {
         //받아 온 비용 db 저장하기
 
 
-        //장소 추가해서 리사이클러뷰 추가하기
+        //장소 추가 버튼 눌러서 리사이클러뷰 추가하기
         Button addPlaceBtn = findViewById(R.id.addPlaceBtn);
         addPlaceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
