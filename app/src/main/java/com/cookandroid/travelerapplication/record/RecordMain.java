@@ -1,23 +1,30 @@
 package com.cookandroid.travelerapplication.record;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +32,6 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
-import com.cookandroid.travelerapplication.task.UpdateData_Article;
 import com.cookandroid.travelerapplication.task.UpdateData_Travel;
 
 import java.text.SimpleDateFormat;
@@ -33,7 +39,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class RecordMain extends AppCompatActivity {
+public class RecordMain extends AppCompatActivity implements S3Uploader.OnUploadListener {
+
+    private static final int REQUEST_CODE_PERMISSION = 100;
+    private static final int REQUEST_CODE_IMAGE = 200;
+
+    private Button uploadButton;
+    private ImageView imageView;
+    private ProgressBar progressBar;
+
+    private S3Uploader s3Uploader;
 
     String IP_ADDRESS, user_id, travel_id;
     private EditText edittext_title;
@@ -54,6 +69,26 @@ public class RecordMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_main);
         fileHelper = new FileHelper(this);
+        uploadButton = findViewById(R.id.uploadButton_s3);
+        imageView = findViewById(R.id.imageView_s3);
+        progressBar = findViewById(R.id.progressBar_s3);
+        s3Uploader = new S3Uploader(this);
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestImageUpload();
+            }
+        });
+
+        findViewById(R.id.button_down_s3).setOnClickListener(v -> {
+            String imageUrl = "https://lettripbucket.s3.ap-northeast-2.amazonaws.com/1516b285-750f-4aef-bddf-74f80d5e1cee.png";
+            ImageUtils.DownloadImageTask downloadImageTask = new ImageUtils.DownloadImageTask(imageView);
+            downloadImageTask.execute(imageUrl);
+        });
+
+
+
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
         dateBtn_start = findViewById(R.id.dateBtn_start);
@@ -246,7 +281,43 @@ public class RecordMain extends AppCompatActivity {
 
         });
 
+
+        requestPermissions();
     }
+    private void requestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_CODE_PERMISSION);
+        }
+    }
+
+    private void requestImageUpload() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE_IMAGE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri imageUri = data.getData();
+                if (imageUri != null) {
+                    uploadImage(imageUri);
+                }
+            }
+        }
+    }
+
+    private void uploadImage(Uri imageUri) {
+        progressBar.setVisibility(View.VISIBLE);
+        uploadButton.setEnabled(false);
+        s3Uploader.uploadImage(imageUri, this);
+    }
+
     public void Refresh() {
         // Record class, SelectData_Record task, RecordAdapter
         courseArrayList = new ArrayList<>();
@@ -345,4 +416,22 @@ public class RecordMain extends AppCompatActivity {
         }, 500); // 0.5초 지연 시간
     }
 
+    @Override
+    public void onProgress(int progress) {
+        progressBar.setProgress(progress);
+    }
+
+    @Override
+    public void onSuccess(String imageUrl) {
+        progressBar.setVisibility(View.GONE);
+        uploadButton.setEnabled(true);
+        Toast.makeText(this, "이미지 업로드 성공: " + imageUrl, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailure() {
+        progressBar.setVisibility(View.GONE);
+        uploadButton.setEnabled(true);
+        Toast.makeText(this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
+    }
 }

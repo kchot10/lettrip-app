@@ -3,12 +3,23 @@ package com.cookandroid.travelerapplication.record;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.R;
@@ -19,11 +30,25 @@ import com.cookandroid.travelerapplication.task.InsertData_Place;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-public class CourseActivity extends AppCompatActivity {
+public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUploadListener {
+
+    private static final int REQUEST_CODE_PERMISSION = 100;
+    private static final int REQUEST_CODE_IMAGE = 200;
+
+    ArrayList<String> imageArrayList;
+    private S3Uploader s3Uploader;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+
 
     String IP_ADDRESS;
     FileHelper fileHelper;
@@ -44,6 +69,23 @@ public class CourseActivity extends AppCompatActivity {
         EditText editText_arrived_time_hour = findViewById(R.id.editText_arrived_time_hour);
         EditText editText_arrived_time_min = findViewById(R.id.editText_arrived_time_min);
         EditText editText_cost = findViewById(R.id.editText_cost);
+
+
+
+        recyclerView = findViewById(R.id.RecyclerView_placePhoto);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        Refresh();
+
+        findViewById(R.id.button_place_add).setOnClickListener(v -> {
+                requestImageUpload();
+        });
+
+        // S3Uploader 초기화
+        s3Uploader = new S3Uploader(this);
+
+        imageArrayList = new ArrayList<>();
 
 
         findViewById(R.id.button_add_cource).setOnClickListener(v -> {
@@ -76,6 +118,45 @@ public class CourseActivity extends AppCompatActivity {
             Intent intent = new Intent(this, KotlinActivity.class);
             getKotlinActivityResult.launch(intent);
         });
+
+        requestPermissions();
+    }
+
+
+    private void requestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_CODE_PERMISSION);
+        }
+    }
+
+    private void requestImageUpload() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri imageUri = data.getData();
+                if (imageUri != null) {
+                    uploadImage(imageUri);
+                }
+            }
+        }
+    }
+
+    private void uploadImage(Uri imageUri) {
+        s3Uploader.uploadImage(imageUri, this);
+    }
+
+    private void Refresh() {
+        adapter = new ImageAdapter(imageArrayList, this);
+        recyclerView.setAdapter(adapter);
     }
 
     private String getCurrentTime_custom(String hour, String min) {
@@ -135,4 +216,22 @@ public class CourseActivity extends AppCompatActivity {
                 }
             }
     );
+
+    @Override
+    public void onProgress(int progress) {
+    }
+
+    @Override
+    public void onSuccess(String imageUrl) {
+        // 해결되면 주석해제
+//        imageArrayList.add(imageUrl);
+        imageArrayList.add("https://lettripbucket.s3.ap-northeast-2.amazonaws.com/1516b285-750f-4aef-bddf-74f80d5e1cee.png");
+        Toast.makeText(this, "이미지 업로드 성공: " + imageUrl, Toast.LENGTH_SHORT).show();
+        Refresh();
+    }
+
+    @Override
+    public void onFailure() {
+        Toast.makeText(this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
+    }
 }

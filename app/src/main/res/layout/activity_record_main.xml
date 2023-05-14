@@ -36,6 +36,26 @@
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/logo" />
 
+        <Button
+            android:id="@+id/uploadButton_s3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="upld"
+            android:textColor="@color/white" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_s3"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/button_down_s3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <ImageButton
             android:id="@+id/heartBtn"
             android:layout_width="50dp"
@@ -44,6 +64,12 @@
             android:backgroundTint="@color/white"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/heart" />
+
+        <ImageView
+            android:id="@+id/imageView_s3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </LinearLayout>
 
