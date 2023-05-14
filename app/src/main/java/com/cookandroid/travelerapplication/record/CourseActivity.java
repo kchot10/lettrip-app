@@ -84,7 +84,7 @@ public class CourseActivity extends AppCompatActivity {
         int RealMonth_const = 1;
         calendar.set(2023, 5-RealMonth_const, 5, Integer.parseInt(hour), Integer.parseInt(min), 0);
         Date date = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat(depart_date+" hh:mm:ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(depart_date+" HH:mm:ss", Locale.getDefault());
         String currentTime = sdf.format(date);
         return currentTime;
     }
@@ -112,7 +112,7 @@ public class CourseActivity extends AppCompatActivity {
                     String address = result.getData().getStringExtra("address");
                     String x = result.getData().getStringExtra("location_x");
                     String y = result.getData().getStringExtra("location_y");
-                    String location_point = "POINT("+x+","+y+")";
+                    String location_point = "POINT("+x+" "+y+")";
                     String category_code = result.getData().getStringExtra("category_group_code");
                     String category_name = result.getData().getStringExtra("category_group_name");
                     String total_rating = "3";
