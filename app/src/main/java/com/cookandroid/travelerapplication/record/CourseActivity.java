@@ -7,11 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.R;
@@ -22,8 +19,6 @@ import com.cookandroid.travelerapplication.task.InsertData_Place;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -38,7 +33,7 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course);
+        setContentView(R.layout.activity_record_course);
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         province = getIntent().getStringExtra("province");
