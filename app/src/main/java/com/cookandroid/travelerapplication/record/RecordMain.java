@@ -39,16 +39,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class RecordMain extends AppCompatActivity implements S3Uploader.OnUploadListener {
+public class RecordMain extends AppCompatActivity{
 
-    private static final int REQUEST_CODE_PERMISSION = 100;
-    private static final int REQUEST_CODE_IMAGE = 200;
-
-    private Button uploadButton;
-    private ImageView imageView;
-    private ProgressBar progressBar;
-
-    private S3Uploader s3Uploader;
 
     String IP_ADDRESS, user_id, travel_id;
     private EditText edittext_title;
@@ -69,25 +61,6 @@ public class RecordMain extends AppCompatActivity implements S3Uploader.OnUpload
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_main);
         fileHelper = new FileHelper(this);
-        uploadButton = findViewById(R.id.uploadButton_s3);
-        imageView = findViewById(R.id.imageView_s3);
-        progressBar = findViewById(R.id.progressBar_s3);
-        s3Uploader = new S3Uploader(this);
-
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestImageUpload();
-            }
-        });
-
-        findViewById(R.id.button_down_s3).setOnClickListener(v -> {
-            String imageUrl = "https://lettripbucket.s3.ap-northeast-2.amazonaws.com/1516b285-750f-4aef-bddf-74f80d5e1cee.png";
-            ImageUtils.DownloadImageTask downloadImageTask = new ImageUtils.DownloadImageTask(imageView);
-            downloadImageTask.execute(imageUrl);
-        });
-
-
 
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
@@ -281,43 +254,7 @@ public class RecordMain extends AppCompatActivity implements S3Uploader.OnUpload
 
         });
 
-
-        requestPermissions();
     }
-    private void requestPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_CODE_PERMISSION);
-        }
-    }
-
-    private void requestImageUpload() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_CODE_IMAGE);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri imageUri = data.getData();
-                if (imageUri != null) {
-                    uploadImage(imageUri);
-                }
-            }
-        }
-    }
-
-    private void uploadImage(Uri imageUri) {
-        progressBar.setVisibility(View.VISIBLE);
-        uploadButton.setEnabled(false);
-        s3Uploader.uploadImage(imageUri, this);
-    }
-
     public void Refresh() {
         // Record class, SelectData_Record task, RecordAdapter
         courseArrayList = new ArrayList<>();
@@ -416,22 +353,4 @@ public class RecordMain extends AppCompatActivity implements S3Uploader.OnUpload
         }, 500); // 0.5초 지연 시간
     }
 
-    @Override
-    public void onProgress(int progress) {
-        progressBar.setProgress(progress);
-    }
-
-    @Override
-    public void onSuccess(String imageUrl) {
-        progressBar.setVisibility(View.GONE);
-        uploadButton.setEnabled(true);
-        Toast.makeText(this, "이미지 업로드 성공: " + imageUrl, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onFailure() {
-        progressBar.setVisibility(View.GONE);
-        uploadButton.setEnabled(true);
-        Toast.makeText(this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
-    }
 }
