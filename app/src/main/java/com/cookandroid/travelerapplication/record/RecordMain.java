@@ -61,9 +61,10 @@ public class RecordMain extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_main);
         fileHelper = new FileHelper(this);
-
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
+
+        edittext_title = findViewById(R.id.edittext_title);
         dateBtn_start = findViewById(R.id.dateBtn_start);
         dateBtn_end = findViewById(R.id.dateBtn_end);
         recyclerView = findViewById(R.id.RecyclerView_Record);
@@ -336,9 +337,10 @@ public class RecordMain extends AppCompatActivity{
         String depart_date = dateBtn_start.getText().toString().trim();
         String last_date = dateBtn_end.getText().toString().trim();
         String total_cost = "0";
+        String title = edittext_title.getText().toString().trim();
         InsertData_Travel insertData_travel = new InsertData_Travel();
         insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",
-                user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses);
+                user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses, title);
 
         new Handler().postDelayed(() -> {
             String withdraw_result = insertData_travel.getReturn_string();
