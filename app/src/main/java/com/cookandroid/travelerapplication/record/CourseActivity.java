@@ -15,11 +15,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.R;
@@ -27,13 +27,13 @@ import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.kotlin.KotlinActivity;
 import com.cookandroid.travelerapplication.task.InsertData_Course;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
+import com.cookandroid.travelerapplication.task.InsertData_Review;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUploadListener {
@@ -49,12 +49,15 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
     private RecyclerView.LayoutManager layoutManager;
 
 
-
     String IP_ADDRESS;
     FileHelper fileHelper;
     String city, province, depart_date;
 
+
     Button button_place_search;
+
+    EditText editText_detailed_review;
+    RatingBar edit_rating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,8 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
         EditText editText_arrived_time_hour = findViewById(R.id.editText_arrived_time_hour);
         EditText editText_arrived_time_min = findViewById(R.id.editText_arrived_time_min);
         EditText editText_cost = findViewById(R.id.editText_cost);
+        editText_detailed_review = findViewById(R.id.editText_detailed_review);
+        edit_rating = findViewById(R.id.edit_rating);
 
 
 
@@ -78,8 +83,8 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
         recyclerView.setLayoutManager(layoutManager);
         Refresh();
 
-        findViewById(R.id.button_place_add).setOnClickListener(v -> {
-                requestImageUpload();
+        findViewById(R.id.button_image_add).setOnClickListener(v -> {
+            requestImageUpload();
         });
 
         // S3Uploader 초기화
@@ -87,6 +92,51 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
 
         imageArrayList = new ArrayList<>();
 
+        findViewById(R.id.button_add_review).setOnClickListener(v -> {
+            if (button_place_search.getText().toString().trim().equals("장소 검색")){
+                Toast.makeText(this, "장소를 입력하세요", Toast.LENGTH_SHORT).show();
+            } else if (editText_day_count.getText().toString().trim().equals("")) {
+                Toast.makeText(this, "일차를 입력하세요", Toast.LENGTH_SHORT).show();
+            } else if (editText_arrived_time_min.getText().toString().trim().equals("")||editText_arrived_time_hour.getText().toString().trim().equals("")) {
+                Toast.makeText(this, "도착 시간을 입력하세요", Toast.LENGTH_SHORT).show();
+            } else if (editText_cost.getText().toString().trim().equals("")) {
+                Toast.makeText(this, "비용을 입력하세요", Toast.LENGTH_SHORT).show();
+            } else if (editText_detailed_review.getText().toString().trim().equals("")) {
+                Toast.makeText(this, "상세 후기를 입력하세요", Toast.LENGTH_SHORT).show();
+            }
+
+            else {
+                String created_date = getCurrentTime();
+                String detailed_review = editText_detailed_review.getText().toString().trim();
+                String rating = Float.toString(edit_rating.getRating());
+                String solo_friendly_rating = Float.toString(edit_rating.getRating()); //Todo: 일단 똑같이했는데 아마 혼밥 여행 관련인듯
+                String visit_times = "1";
+                String place_id = fileHelper.readFromFile("place_id");
+                String user_id = fileHelper.readFromFile("user_id");
+
+                InsertData_Review insertData_review = new InsertData_Review();
+                insertData_review.execute("http://"+IP_ADDRESS+"/0503/InsertData_Review.php"
+                        ,created_date,detailed_review,rating, solo_friendly_rating,visit_times, place_id, user_id);
+                new Handler().postDelayed(() -> {
+                    String withdraw_result = insertData_review.getReturn_string();
+                    if (withdraw_result.equals("실패")) {
+                        Toast.makeText(this, "리뷰 추가는 완료되었으나 review_id를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                    } else if (withdraw_result.equals("에러")) {
+                        Toast.makeText(this, "리뷰 추가가 에러났습니다.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "리뷰 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                        fileHelper.writeToFile("review_id", withdraw_result);
+                        findViewById(R.id.button_image_add).setVisibility(View.VISIBLE);
+                        findViewById(R.id.button_add_cource).setVisibility(View.VISIBLE);
+                        findViewById(R.id.button_add_review).setVisibility(View.INVISIBLE);
+                        edit_rating.setEnabled(false);
+                        editText_detailed_review.setEnabled(false);
+                    }
+                }, 1000); // 0.5초 지연 시간
+
+            }
+
+        });
 
         findViewById(R.id.button_add_cource).setOnClickListener(v -> {
             if (button_place_search.getText().toString().trim().equals("장소 검색")){
@@ -211,7 +261,10 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                             Toast.makeText(this, "장소 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                             fileHelper.writeToFile("place_id", withdraw_result);
                         }
-                    }, 500); // 0.5초 지연 시간
+
+                    }, 1000); // 0.5초 지연 시간
+
+
 
                 }
             }
@@ -233,5 +286,13 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
     @Override
     public void onFailure() {
         Toast.makeText(this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
+    }
+
+    private String getCurrentTime() {
+        // 현재 시간 가져오기
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        String currentTime = sdf.format(date);
+        return currentTime;
     }
 }

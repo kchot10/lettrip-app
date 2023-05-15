@@ -80,12 +80,21 @@
                     android:textStyle="bold" />
 
                 <Button
+                    android:id="@+id/button_add_review"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:backgroundTint="#4F5A80"
+                    android:text="최초 등록"
+                    android:textColor="@color/white" />
+
+                <Button
                     android:id="@+id/button_add_cource"
                     android:layout_width="70dp"
                     android:layout_height="40dp"
-                    android:backgroundTint="#4F5A80"
+                    android:backgroundTint="#009688"
                     android:text="등록"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -247,7 +256,7 @@
                 android:orientation="horizontal">
 
                 <RatingBar
-                    android:id="@+id/ratingBar"
+                    android:id="@+id/edit_rating"
                     style="?android:attr/ratingBarStyleIndicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -267,12 +276,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_place_add"
+                android:id="@+id/button_image_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="ADD"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="invisible" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/RecyclerView_placePhoto"
@@ -285,7 +295,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/editText_detailed_review"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="30dp"

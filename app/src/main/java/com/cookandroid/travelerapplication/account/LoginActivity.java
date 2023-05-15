@@ -155,8 +155,7 @@ public class LoginActivity extends AppCompatActivity{
                                 new Handler().postDelayed(() -> {
                                     checkData_Pwd_function(email, social, social);
                                 }, 500); // 0.5초 지연 시간
-
-                                }
+                            }
                         }, 500); // 0.5초 지연 시간
 
                     }
@@ -345,7 +344,7 @@ public class LoginActivity extends AppCompatActivity{
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
-        }, 500); // 0.5초 지연 시간
+        }, 1000); // 0.5초 지연 시간
 
 
 
