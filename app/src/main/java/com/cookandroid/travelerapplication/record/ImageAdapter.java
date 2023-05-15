@@ -14,10 +14,10 @@ import com.cookandroid.travelerapplication.R;
 import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
-    private ArrayList<String> arrayList;
+    private ArrayList<ImageReview> arrayList;
     private Context context;
 
-    public ImageAdapter(ArrayList<String> arrayList, Context context) {
+    public ImageAdapter(ArrayList<ImageReview> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -34,7 +34,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
 //         이미지 로드 및 표시
         Glide.with(holder.itemView.getContext())
-                .load(arrayList.get(position))
+                .load(arrayList.get(position).getImageUrl())
                 .into(holder.imageView_review);
     }
 

@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +25,7 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.kotlin.KotlinActivity;
 import com.cookandroid.travelerapplication.task.InsertData_Course;
+import com.cookandroid.travelerapplication.task.InsertData_Image;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
 import com.cookandroid.travelerapplication.task.InsertData_Review;
 
@@ -41,7 +41,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
     private static final int REQUEST_CODE_PERMISSION = 100;
     private static final int REQUEST_CODE_IMAGE = 200;
 
-    ArrayList<String> imageArrayList;
+    ArrayList<ImageReview> arrayList_image_review;
     private S3Uploader s3Uploader;
 
     private RecyclerView recyclerView;
@@ -90,7 +90,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
         // S3Uploader 초기화
         s3Uploader = new S3Uploader(this);
 
-        imageArrayList = new ArrayList<>();
+        arrayList_image_review = new ArrayList<>();
 
         findViewById(R.id.button_add_review).setOnClickListener(v -> {
             if (button_place_search.getText().toString().trim().equals("장소 검색")){
@@ -155,8 +155,19 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                 depart_date = addDays(depart_date, day_count);
                 String arrived_time = getCurrentTime_custom(hour, min);
                 String place_id = fileHelper.readFromFile("place_id");
-                String review_review_id = "1";
+                String review_review_id = fileHelper.readFromFile("review_id");
                 String travel_id = fileHelper.readFromFile("travel_id");
+
+                for (int i = 0; i < arrayList_image_review.size(); i++) {
+                    InsertData_Image insertData_image = new InsertData_Image();
+                    insertData_image.execute("http://" + IP_ADDRESS + "/0503/InsertData_Image.php"
+                            , arrayList_image_review.get(i).getFileSize()
+                            , arrayList_image_review.get(i).getOriginalFileName()
+                            , arrayList_image_review.get(i).getStoredFileName()
+                            , arrayList_image_review.get(i).getImageUrl()
+                            , review_review_id);
+                }
+
 
                 InsertData_Course insertData_course = new InsertData_Course();
                 insertData_course.execute("http://"+IP_ADDRESS+"/0503/InsertData_Course.php",arrived_time,cost,day_count, place_id,review_review_id, travel_id);
@@ -205,7 +216,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
     }
 
     private void Refresh() {
-        adapter = new ImageAdapter(imageArrayList, this);
+        adapter = new ImageAdapter(arrayList_image_review, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -275,10 +286,10 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
     }
 
     @Override
-    public void onSuccess(String imageUrl) {
+    public void onSuccess(String imageUrl, String fileSize, String originalFileName, String storedFileName) {
         // 해결되면 주석해제
-//        imageArrayList.add(imageUrl);
-        imageArrayList.add("https://lettripbucket.s3.ap-northeast-2.amazonaws.com/1516b285-750f-4aef-bddf-74f80d5e1cee.png");
+        ImageReview image_review = new ImageReview(imageUrl, fileSize, originalFileName, storedFileName);
+        arrayList_image_review.add(image_review);
         Toast.makeText(this, "이미지 업로드 성공: " + imageUrl, Toast.LENGTH_SHORT).show();
         Refresh();
     }

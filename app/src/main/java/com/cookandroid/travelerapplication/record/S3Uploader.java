@@ -9,16 +9,19 @@ import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.mobileconnectors.s3.transfermanager.Upload;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.UUID;
 
 public class S3Uploader {
     private static final String ACCESS_KEY = ""; // AWS 액세스 키
@@ -28,11 +31,14 @@ public class S3Uploader {
 
     private TransferUtility transferUtility;
 
+    private String mStoredFileName;
+
     Context mContext;
 
     public S3Uploader(Context context) {
         mContext = context;
         BasicAWSCredentials credentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);
+
         AmazonS3Client s3Client = new AmazonS3Client(credentials);
         transferUtility = TransferUtility.builder()
                 .context(context.getApplicationContext())
@@ -40,30 +46,28 @@ public class S3Uploader {
                 .s3Client(s3Client)
                 .build();
     }
-    public void displayImageFromUri(Uri imageUri, ImageView imageView) {
-        try {
-            InputStream inputStream = mContext.getContentResolver().openInputStream(imageUri);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            imageView.setImageBitmap(bitmap);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void uploadImage(Uri imageUri, final OnUploadListener listener) {
         String filePath = getRealPathFromUri(mContext, imageUri);
         File file = new File(filePath);
+        mStoredFileName = getStoredFileName(file.getName());
         TransferObserver observer = transferUtility.upload(
                 BUCKET_NAME, // 버킷 이름
-                file.getName(), // 업로드할 파일 이름 (원하는 대로 수정 가능)
-                file // 업로드할 파일 객체
+                mStoredFileName, // 업로드할 파일 이름 (원하는 대로 수정 가능)
+                file, // 업로드할 파일 객체
+                CannedAccessControlList.PublicRead
         );
+
         observer.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
                 if (state == TransferState.COMPLETED) {
-                    String imageUrl = "https://" + BUCKET_NAME + ".s3." + REGION + ".amazonaws.com/" + file.getName(); // 업로드된 파일 URL
-                    listener.onSuccess(imageUrl);
+                    String imageUrl = "https://" + BUCKET_NAME + ".s3." + REGION + ".amazonaws.com/" + mStoredFileName; // 업로드된 파일 URL
+                    String fileSize = String.valueOf(file.length());
+                    String originalFileName = file.getName();
+                    String storedFileName = mStoredFileName;
+
+                    listener.onSuccess(imageUrl, fileSize, originalFileName, storedFileName);
                 } else if (state == TransferState.FAILED || state == TransferState.CANCELED) {
                     listener.onFailure();
                 }
@@ -80,6 +84,18 @@ public class S3Uploader {
                 listener.onFailure();
             }
         });
+
+    }
+
+    private String getStoredFileName(String fileName) {
+        // UUID를 사용하여 저장된 파일 이름 생성
+        String uuid = UUID.randomUUID().toString();
+        int extensionIndex = fileName.lastIndexOf(".");
+        if (extensionIndex != -1) {
+            String extension = fileName.substring(extensionIndex);
+            return uuid + extension;
+        }
+        return uuid;
     }
 
     public String getRealPathFromUri(Context context, Uri uri) {
@@ -99,7 +115,7 @@ public class S3Uploader {
 
     public interface OnUploadListener {
         void onProgress(int progress);
-        void onSuccess(String imageUrl);
+        void onSuccess(String imageUrl,String fileSize,String originalFileName,String storedFileName);
         void onFailure();
     }
 }
