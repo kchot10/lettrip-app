@@ -5,6 +5,16 @@ public class Course {
     private String cost;
     private String day_count;
     private String place_name;
+    private String stored_file_url;
+
+    public String getStored_file_url() {
+        return stored_file_url;
+    }
+
+    public void setStored_file_url(String stored_file_url) {
+        this.stored_file_url = stored_file_url;
+    }
+
 
     public String getArrived_time() {
         return arrived_time;

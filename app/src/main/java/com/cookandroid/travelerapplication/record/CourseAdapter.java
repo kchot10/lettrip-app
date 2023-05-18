@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cookandroid.travelerapplication.R;
 
 import java.util.ArrayList;
+import com.bumptech.glide.Glide;
+import android.widget.ImageView;
+
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
 
@@ -33,6 +36,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     @Override
     public void onBindViewHolder(@NonNull CourseAdapter.CourseViewHolder holder, int position) {
+        Glide.with(holder.itemView.getContext())
+                .load(arrayList.get(position).getStored_file_url())
+                .into(holder.placePhoto);
         holder.textview_place_name.setText(arrayList.get(position).getPlace_name());
         holder.textview_arrived_time.setText(arrayList.get(position).getArrived_time());
         holder.textview_cost.setText(arrayList.get(position).getCost());
@@ -45,11 +51,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     }
 
     public class CourseViewHolder extends RecyclerView.ViewHolder {
+        ImageView placePhoto;
         TextView textview_place_name;
         TextView textview_arrived_time;
         TextView textview_cost;
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.placePhoto = itemView.findViewById(R.id.placePhoto);
             this.textview_place_name = itemView.findViewById(R.id.textView_place_name);
             this.textview_arrived_time = itemView.findViewById(R.id.textView_arrived_time);
             this.textview_cost = itemView.findViewById(R.id.textView_cost);

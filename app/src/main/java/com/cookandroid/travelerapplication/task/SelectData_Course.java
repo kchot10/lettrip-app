@@ -130,11 +130,13 @@ public class SelectData_Course extends AsyncTask<String,Void,String> { // 통신
             String cost = jsonObject.getString("cost");
             String day_count = jsonObject.getString("day_count");
             String place_name = jsonObject.getString("place_name");
+            String stored_file_url = jsonObject.getString("stored_file_url");
 
             course.setArrived_time(arrived_time);
             course.setCost(cost);
             course.setDay_count(day_count);
             course.setPlace_name(place_name);
+            course.setStored_file_url(stored_file_url);
 
             articleArrayList.add(course);
 

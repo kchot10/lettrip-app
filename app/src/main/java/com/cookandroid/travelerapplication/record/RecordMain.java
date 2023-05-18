@@ -1,30 +1,22 @@
 package com.cookandroid.travelerapplication.record;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,7 +37,7 @@ public class RecordMain extends AppCompatActivity{
     String IP_ADDRESS, user_id, travel_id;
     private EditText edittext_title;
     ArrayList<Course> courseArrayList;
-    int sum = 0, number_of_courses = 0;
+    int total_cost = 0, number_of_courses = 0;
 
     Button dateBtn_start, dateBtn_end;
     Spinner spinner;
@@ -283,14 +275,14 @@ public class RecordMain extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int which) {
                 // 예 버튼 클릭 시 동작
                 dialog.dismiss();
-                sum = 0; number_of_courses = 0;
+                total_cost = 0; number_of_courses = 0;
                 for (int i = 0; i < courseArrayList.size(); i++){
-                    sum += Integer.parseInt(courseArrayList.get(i).getCost());
+                    total_cost += Integer.parseInt(courseArrayList.get(i).getCost());
                     number_of_courses += 1;
                 }
                 travel_id = fileHelper.readFromFile("travel_id");
                 UpdateData_Travel updateData_travel = new UpdateData_Travel();
-                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(sum));
+                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(total_cost));
                 finish();
             }
         });
