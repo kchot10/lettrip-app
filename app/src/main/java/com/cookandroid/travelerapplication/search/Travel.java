@@ -1,0 +1,40 @@
+package com.cookandroid.travelerapplication.search;
+
+public class Travel {
+    String city;
+    String total_cost;
+    String travel_theme;
+    String places;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getTotal_cost() {
+        return total_cost;
+    }
+
+    public void setTotal_cost(String total_cost) {
+        this.total_cost = total_cost;
+    }
+
+    public String getTravel_theme() {
+        return travel_theme;
+    }
+
+    public void setTravel_theme(String travel_theme) {
+        this.travel_theme = travel_theme;
+    }
+
+    public String getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(String places) {
+        this.places = places;
+    }
+}
