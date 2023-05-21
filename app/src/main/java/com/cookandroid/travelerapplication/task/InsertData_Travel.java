@@ -31,6 +31,7 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
         String city = (String)params[8];
         String number_of_courses = (String)params[9];
         String title = (String)params[10];
+        String travel_theme = (String)params[11];
         // 없는거 : province(행정구역), city, number_of_courses
 
 
@@ -39,7 +40,7 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
                 +"&last_date="+last_date+"&total_cost="+total_cost
                 +"&province="+province
                 +"&city="+city+"&number_of_courses="+number_of_courses
-                +"&title="+title;
+                +"&title="+title+"&travel_theme="+travel_theme;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.

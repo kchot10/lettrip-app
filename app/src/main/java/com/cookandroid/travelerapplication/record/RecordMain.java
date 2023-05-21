@@ -42,6 +42,8 @@ public class RecordMain extends AppCompatActivity{
     Button dateBtn_start, dateBtn_end;
     Spinner spinner;
     Spinner spinner2;
+
+    Spinner spinner3;
     FileHelper fileHelper;
     ArrayAdapter<CharSequence> adapter;
     ArrayAdapter<CharSequence> adapter2;
@@ -77,6 +79,7 @@ public class RecordMain extends AppCompatActivity{
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2 = findViewById(R.id.cityDropdown_detail);
         spinner2.setAdapter(adapter2);
+        spinner3 = findViewById(R.id.themeDropdown);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
@@ -220,7 +223,8 @@ public class RecordMain extends AppCompatActivity{
                 Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
             } else if (spinner.getSelectedItem().toString().trim().equals("도 선택") || spinner.getSelectedItem().toString().trim().equals("시 선택")) {
                 Toast.makeText(this,"도/시를 입력하세요",Toast.LENGTH_SHORT).show();
-                Toast.makeText(this,"총 비용을 입력하세요",Toast.LENGTH_SHORT).show();
+            }else if (spinner3.getSelectedItem().toString().trim().equals("테마 선택")) {
+                Toast.makeText(this,"여행 테마를 선택하세요",Toast.LENGTH_SHORT).show();
             } else {
                 findViewById(R.id.addPlaceBtn).setVisibility(View.VISIBLE);
                 button_travel_upload.setVisibility(View.INVISIBLE);
@@ -330,9 +334,10 @@ public class RecordMain extends AppCompatActivity{
         String last_date = dateBtn_end.getText().toString().trim();
         String total_cost = "0";
         String title = edittext_title.getText().toString().trim();
+        String theme = spinner3.getSelectedItem().toString().trim();
         InsertData_Travel insertData_travel = new InsertData_Travel();
         insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",
-                user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses, title);
+                user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses, title, theme);
 
         new Handler().postDelayed(() -> {
             String withdraw_result = insertData_travel.getReturn_string();
