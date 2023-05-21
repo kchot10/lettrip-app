@@ -1,6 +1,8 @@
 package com.cookandroid.travelerapplication.search;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.comment.CommentListActivity;
 
 import java.util.ArrayList;
 
@@ -17,11 +20,11 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
 
 
     ArrayList<Travel> arrayList;
-    Context mContext;
+    Context context;
 
     public TravelAdapter(ArrayList<Travel> arrayList, Context mContext) {
         this.arrayList = arrayList;
-        this.mContext = mContext;
+        this.context = mContext;
     }
 
     @NonNull
@@ -54,6 +57,24 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
             this.textView_city = itemView.findViewById(R.id.textView_city);
             this.textView_total_cost = itemView.findViewById(R.id.textView_total_cost);
             this.textView_places = itemView.findViewById(R.id.textView_places);
+
+            itemView.setOnClickListener(v -> {
+                int curpos = getAbsoluteAdapterPosition();
+                Intent intent;
+                intent = new Intent(context, RecordMainSearch.class);]
+                intent.putExtra("travel_id", arrayList.get(curpos).getTravel_id());
+                intent.putExtra("number_of_courses", arrayList.get(curpos).getNumber_of_courses());
+//                intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());
+//                intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
+//                intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());
+//                intent.putExtra("content", arrayList.get(curpos).getContent());
+//                intent.putExtra("article_id", arrayList.get(curpos).getArticle_id());
+//                intent.putExtra("mentioned_user_id", arrayList.get(curpos).getMentioned_user_id());
+//                intent.putExtra("parent_comment_id", arrayList.get(curpos).getParent_comment_id());
+//                intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
+//                intent.putExtra("name", arrayList.get(curpos).getName());
+                context.startActivity(intent);
+            });
         }
     }
 }

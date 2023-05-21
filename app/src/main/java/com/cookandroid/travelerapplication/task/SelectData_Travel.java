@@ -131,11 +131,15 @@ public class SelectData_Travel extends AsyncTask<String,Void,String> { // 통신
             String total_cost = jsonObject.getString("total_cost");
             String city = jsonObject.getString("city");
             String places = jsonObject.getString("places");
+            String travel_id = jsonObject.getString("travel_id");
+            String number_of_courses = jsonObject.getString("number_of_courses");
 
             travel.setTravel_theme(travel_theme);
             travel.setTotal_cost(total_cost);
             travel.setCity(city);
             travel.setPlaces(places);
+            travel.setTravel_id(travel_id);
+            travel.setNumber_of_courses(number_of_courses);
 
             articleArrayList.add(travel);
 

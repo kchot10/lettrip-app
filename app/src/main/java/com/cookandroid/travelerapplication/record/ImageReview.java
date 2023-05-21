@@ -7,6 +7,9 @@ public class ImageReview {
     String originalFileName;
     String storedFileName;
 
+    public ImageReview() {
+    }
+
     public ImageReview(String imageUrl, String fileSize, String originalFileName, String storedFileName) {
         this.imageUrl = imageUrl;
         this.fileSize = fileSize;

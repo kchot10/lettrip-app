@@ -7,6 +7,7 @@ import android.util.Log;
 import com.cookandroid.travelerapplication.comment.Comment;
 import com.cookandroid.travelerapplication.article.Article;
 import com.cookandroid.travelerapplication.record.Course;
+import com.cookandroid.travelerapplication.record.ImageReview;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,13 +21,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SelectData_Course extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_ImageFile extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
     public ArrayList articleArrayList;
 
-    public <T> SelectData_Course(ArrayList<T> articleArrayList) {
+    public <T> SelectData_ImageFile(ArrayList<T> articleArrayList) {
         this.articleArrayList = articleArrayList;
     }
 
@@ -37,8 +38,8 @@ public class SelectData_Course extends AsyncTask<String,Void,String> { // 통신
 
         String postParameters = "";
         try {
-            String travel_id = (String) params[1];
-            postParameters ="travel_id="+travel_id;
+            String review_id = (String) params[1];
+            postParameters ="review_id="+review_id;
         }catch (Exception e){
         }
 
@@ -109,7 +110,7 @@ public class SelectData_Course extends AsyncTask<String,Void,String> { // 통신
 
         catch (Exception e) {
 
-            Log.d(TAG, "SelectData_Course: Error",e);
+            Log.d(TAG, "SelectData_ImageFile: Error",e);
 
             return  new String("Error " + e.getMessage());
 
@@ -124,23 +125,12 @@ public class SelectData_Course extends AsyncTask<String,Void,String> { // 통신
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            Course course = new Course();
+            ImageReview imageReview = new ImageReview();
 
-            String arrived_time = jsonObject.getString("arrived_time");
-            String cost = jsonObject.getString("cost");
-            String day_count = jsonObject.getString("day_count");
-            String place_name = jsonObject.getString("place_name");
             String stored_file_url = jsonObject.getString("stored_file_url");
-            String review_id = jsonObject.getString("review_id");
+            imageReview.setImageUrl(stored_file_url);
 
-            course.setArrived_time(arrived_time);
-            course.setCost(cost);
-            course.setDay_count(day_count);
-            course.setPlace_name(place_name);
-            course.setStored_file_url(stored_file_url);
-            course.setReview_id(review_id);
-
-            articleArrayList.add(course);
+            articleArrayList.add(imageReview);
 
         }
 

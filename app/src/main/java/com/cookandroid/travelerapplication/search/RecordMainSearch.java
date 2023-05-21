@@ -6,55 +6,64 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.EditText;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.article.Article;
+import com.cookandroid.travelerapplication.article.ArticleAdapter;
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.task.SelectData_Travel;
+import com.cookandroid.travelerapplication.record.Course;
+import com.cookandroid.travelerapplication.record.CourseAdapter;
+import com.cookandroid.travelerapplication.task.SelectData_Article;
+import com.cookandroid.travelerapplication.task.SelectData_Course;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity {
-    ArrayList<Travel> travelArrayList;
+public class RecordMainSearch extends AppCompatActivity {
+
+
+    ArrayList<Course> courseArrayList;
     String IP_ADDRESS;
+    String travel_id;
     FileHelper fileHelper;
-    EditText editText_city;
     RecyclerView recyclerView;
     RecyclerView.Adapter recyclerView_adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_record_main_search);
+
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
-        editText_city = findViewById(R.id.editText_city);
-        recyclerView = findViewById(R.id.RecyclerView_Travel);
+        recyclerView = findViewById(R.id.recyclerView_course);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        findViewById(R.id.button_search).setOnClickListener(v -> {
-            Refresh();
-        });
+        travel_id = getIntent().getStringExtra("travel_id");
+        Refresh();
+
     }
 
     public void Refresh() {
         // Record class, SelectData_Record task, RecordAdapter
-        travelArrayList = new ArrayList<>();
-        SelectData_Travel task = new SelectData_Travel(travelArrayList);
-        String city = editText_city.getText().toString().trim();
-        task.execute("http://" + IP_ADDRESS + "/0503/selectdata_travel.php", city);
+        courseArrayList = new ArrayList<>();
+        SelectData_Course task = new SelectData_Course(courseArrayList);
+        task.execute("http://" + IP_ADDRESS + "/0503/selectdata_course.php", travel_id);
         try {
             new Handler().postDelayed(() -> {
-                recyclerView_adapter = new TravelAdapter(travelArrayList, this);
+                recyclerView_adapter = new CourseAdapter(courseArrayList, this);
                 recyclerView.setAdapter(recyclerView_adapter);
             }, 1000); // 0.5초 지연 시간
         }catch (Exception e){
             e.printStackTrace();
         }
 
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Refresh();
     }
 }

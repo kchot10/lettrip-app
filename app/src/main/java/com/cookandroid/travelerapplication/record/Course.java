@@ -6,6 +6,15 @@ public class Course {
     private String day_count;
     private String place_name;
     private String stored_file_url;
+    private String review_id;
+
+    public String getReview_id() {
+        return review_id;
+    }
+
+    public void setReview_id(String review_id) {
+        this.review_id = review_id;
+    }
 
     public String getStored_file_url() {
         return stored_file_url;

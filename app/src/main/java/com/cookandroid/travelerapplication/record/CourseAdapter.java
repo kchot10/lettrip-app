@@ -1,6 +1,7 @@
 package com.cookandroid.travelerapplication.record;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import com.cookandroid.travelerapplication.R;
 
 import java.util.ArrayList;
 import com.bumptech.glide.Glide;
+import com.cookandroid.travelerapplication.search.CourseActivitySearch;
+import com.cookandroid.travelerapplication.search.RecordMainSearch;
+
 import android.widget.ImageView;
 
 
@@ -61,6 +65,23 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             this.textview_place_name = itemView.findViewById(R.id.textView_place_name);
             this.textview_arrived_time = itemView.findViewById(R.id.textView_arrived_time);
             this.textview_cost = itemView.findViewById(R.id.textView_cost);
+
+            itemView.setOnClickListener(v -> {
+                int curpos = getAbsoluteAdapterPosition();
+                Intent intent;
+                intent = new Intent(context, CourseActivitySearch.class);
+                intent.putExtra("review_id", arrayList.get(curpos).getReview_id());
+//                intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());
+//                intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
+//                intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());
+//                intent.putExtra("content", arrayList.get(curpos).getContent());
+//                intent.putExtra("article_id", arrayList.get(curpos).getArticle_id());
+//                intent.putExtra("mentioned_user_id", arrayList.get(curpos).getMentioned_user_id());
+//                intent.putExtra("parent_comment_id", arrayList.get(curpos).getParent_comment_id());
+//                intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
+//                intent.putExtra("name", arrayList.get(curpos).getName());
+                context.startActivity(intent);
+            });
         }
     }
 }

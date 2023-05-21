@@ -6,6 +6,25 @@ public class Travel {
     String travel_theme;
     String places;
 
+    String travel_id;
+    String number_of_courses;
+
+    public String getTravel_id() {
+        return travel_id;
+    }
+
+    public void setTravel_id(String travel_id) {
+        this.travel_id = travel_id;
+    }
+
+    public String getNumber_of_courses() {
+        return number_of_courses;
+    }
+
+    public void setNumber_of_courses(String number_of_courses) {
+        this.number_of_courses = number_of_courses;
+    }
+
     public String getCity() {
         return city;
     }
