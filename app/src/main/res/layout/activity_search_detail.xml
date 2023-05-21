@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF"
     android:orientation="vertical">
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="20dp"
-            android:text="상세 코스 보기"
+            android:text="상세 후기 보기"
             android:textColor="#4F5A80 "
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -47,11 +47,9 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/search_theme"
             android:gravity="center"
-            android:paddingLeft="7dp"
             android:paddingTop="3dp"
-            android:paddingRight="7dp"
             android:paddingBottom="3dp"
-            android:text="문화 여행"
+            android:text="공원"
             android:textAlignment="center"
             android:textColor="#93BEFF "
             android:textSize="13sp" />
@@ -78,7 +76,7 @@
             android:paddingTop="2dp"
             android:paddingRight="16dp"
             android:paddingBottom="3dp"
-            android:text="대구"
+            android:text="경상감영공원"
             android:textAlignment="center" />
 
         <LinearLayout
@@ -92,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="총 비용 : 100,000원"
+                android:text="비용 : 0원"
                 android:textColor="#838383 " />
 
             <TextView
@@ -101,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="코스 수 : 4개"
+                android:text="도착 시간 : 13시 00분"
                 android:textColor="#838383 " />
         </LinearLayout>
 
@@ -109,12 +107,33 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="580dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginRight="40dp" >
+        android:layout_height="141dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginBottom="21dp"
+        android:background="#F4F6FA"
+        android:paddingLeft="17dp"
+        android:paddingTop="12dp"
+        android:paddingRight="17dp"
+        android:paddingBottom="12dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <EditText
+        android:id="@+id/detailReview"
+        android:layout_width="350dp"
+        android:layout_height="410dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/search_detail_textbox"
+        android:ems="10"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:hint="후기를 입력하세요."
+        android:inputType="text"
+        android:padding="25dp"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
