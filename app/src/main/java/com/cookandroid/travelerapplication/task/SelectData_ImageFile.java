@@ -1,9 +1,17 @@
 package com.cookandroid.travelerapplication.task;
 
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.cookandroid.travelerapplication.comment.Comment;
+import com.cookandroid.travelerapplication.article.Article;
+import com.cookandroid.travelerapplication.record.Course;
+import com.cookandroid.travelerapplication.record.ImageReview;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -11,36 +19,29 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_ImageFile extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
-    private String return_string;
+    public ArrayList articleArrayList;
+
+    public <T> SelectData_ImageFile(ArrayList<T> articleArrayList) {
+        this.articleArrayList = articleArrayList;
+    }
+
+    private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
-
         String serverURL = (String) params[0];
-        String user_id = (String)params[1];
-        String created_date = (String)params[2];
-        String is_visited = (String)params[3];
-        String depart_date = (String)params[4];
-        String last_date = (String)params[5];
-        String total_cost = (String)params[6];
-        String province = (String)params[7];
-        String city = (String)params[8];
-        String number_of_courses = (String)params[9];
-        String title = (String)params[10];
-        String travel_theme = (String)params[11];
-        // 없는거 : province(행정구역), city, number_of_courses
 
-
-        String postParameters ="user_id="+user_id+"&created_date="+created_date
-                +"&is_visited="+is_visited+"&depart_date="+depart_date
-                +"&last_date="+last_date+"&total_cost="+total_cost
-                +"&province="+province
-                +"&city="+city+"&number_of_courses="+number_of_courses
-                +"&title="+title+"&travel_theme="+travel_theme;
+        String postParameters = "";
+        try {
+            String review_id = (String) params[1];
+            postParameters ="review_id="+review_id;
+        }catch (Exception e){
+        }
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -92,15 +93,13 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
 
             Log.d("php 값 :", sb.toString());
 
-            String result = getTwoCharsAfterString(sb.toString(), "불러오기 ");
-            Log.d("lettrip", result);
-            if (result.equals("성공")){
-                return_string = getTwoCharsAfterString(sb.toString(), "travel_id:");
-            }else if(result.equals("실패")) {
-                return_string = "실패";
-            }else{
-                return_string = "에러";
+            try{
+                parseJSONArray(sb.toString());
+            }catch (Exception e){
+                Log.d("youn", "JSON Error\n");
             }
+
+
 
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
@@ -111,7 +110,7 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
 
         catch (Exception e) {
 
-            Log.d(TAG, "InsertData_Travel: Error",e);
+            Log.d(TAG, "SelectData_ImageFile: Error",e);
 
             return  new String("Error " + e.getMessage());
 
@@ -119,21 +118,35 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
 
     }
 
-    public String getReturn_string() {
+    private void parseJSONArray(String result) throws JSONException {
+        // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
+        JSONArray jsonArray = new JSONArray(result);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            ImageReview imageReview = new ImageReview();
+
+            String stored_file_url = jsonObject.getString("stored_file_url");
+            imageReview.setImageUrl(stored_file_url);
+
+            articleArrayList.add(imageReview);
+
+        }
+
+    }
+
+    public String get_return_string(){
         return return_string;
     }
 
     public String getTwoCharsAfterString(String str, String searchString) {
         String result = "";
         int index = str.indexOf(searchString);
-        if (index != -1) {
-            int endIndex = str.indexOf(" ", index + searchString.length());
-            if (endIndex == -1) {
-                endIndex = str.length();
-            }
-            result = str.substring(index + searchString.length(), endIndex);
+        if (index != -1 && index + searchString.length() + 2 <= str.length()) {
+            result = str.substring(index + searchString.length(), index + searchString.length() + 2);
         }
         return result;
     }
-}
 
+}

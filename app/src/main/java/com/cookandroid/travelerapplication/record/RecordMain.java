@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,7 +24,6 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
-import com.cookandroid.travelerapplication.task.UpdateData_Article;
 import com.cookandroid.travelerapplication.task.UpdateData_Travel;
 
 import java.text.SimpleDateFormat;
@@ -33,16 +31,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class RecordMain extends AppCompatActivity {
+public class RecordMain extends AppCompatActivity{
+
 
     String IP_ADDRESS, user_id, travel_id;
     private EditText edittext_title;
     ArrayList<Course> courseArrayList;
-    int sum = 0, number_of_courses = 0;
+    int total_cost = 0, number_of_courses = 0;
 
     Button dateBtn_start, dateBtn_end;
     Spinner spinner;
     Spinner spinner2;
+
+    Spinner spinner3;
     FileHelper fileHelper;
     ArrayAdapter<CharSequence> adapter;
     ArrayAdapter<CharSequence> adapter2;
@@ -56,6 +57,8 @@ public class RecordMain extends AppCompatActivity {
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
+
+        edittext_title = findViewById(R.id.edittext_title);
         dateBtn_start = findViewById(R.id.dateBtn_start);
         dateBtn_end = findViewById(R.id.dateBtn_end);
         recyclerView = findViewById(R.id.RecyclerView_Record);
@@ -76,6 +79,7 @@ public class RecordMain extends AppCompatActivity {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2 = findViewById(R.id.cityDropdown_detail);
         spinner2.setAdapter(adapter2);
+        spinner3 = findViewById(R.id.themeDropdown);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
@@ -219,7 +223,8 @@ public class RecordMain extends AppCompatActivity {
                 Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
             } else if (spinner.getSelectedItem().toString().trim().equals("도 선택") || spinner.getSelectedItem().toString().trim().equals("시 선택")) {
                 Toast.makeText(this,"도/시를 입력하세요",Toast.LENGTH_SHORT).show();
-                Toast.makeText(this,"총 비용을 입력하세요",Toast.LENGTH_SHORT).show();
+            }else if (spinner3.getSelectedItem().toString().trim().equals("테마 선택")) {
+                Toast.makeText(this,"여행 테마를 선택하세요",Toast.LENGTH_SHORT).show();
             } else {
                 findViewById(R.id.addPlaceBtn).setVisibility(View.VISIBLE);
                 button_travel_upload.setVisibility(View.INVISIBLE);
@@ -274,14 +279,14 @@ public class RecordMain extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // 예 버튼 클릭 시 동작
                 dialog.dismiss();
-                sum = 0; number_of_courses = 0;
+                total_cost = 0; number_of_courses = 0;
                 for (int i = 0; i < courseArrayList.size(); i++){
-                    sum += Integer.parseInt(courseArrayList.get(i).getCost());
+                    total_cost += Integer.parseInt(courseArrayList.get(i).getCost());
                     number_of_courses += 1;
                 }
                 travel_id = fileHelper.readFromFile("travel_id");
                 UpdateData_Travel updateData_travel = new UpdateData_Travel();
-                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(sum));
+                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(total_cost));
                 finish();
             }
         });
@@ -328,9 +333,11 @@ public class RecordMain extends AppCompatActivity {
         String depart_date = dateBtn_start.getText().toString().trim();
         String last_date = dateBtn_end.getText().toString().trim();
         String total_cost = "0";
+        String title = edittext_title.getText().toString().trim();
+        String theme = spinner3.getSelectedItem().toString().trim();
         InsertData_Travel insertData_travel = new InsertData_Travel();
         insertData_travel.execute("http://"+IP_ADDRESS+"/0503/InsertData_Travel.php",
-                user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses);
+                user_id,created_date,visited, depart_date,last_date, total_cost, province, city, number_of_courses, title, theme);
 
         new Handler().postDelayed(() -> {
             String withdraw_result = insertData_travel.getReturn_string();

@@ -1,6 +1,5 @@
 package com.cookandroid.travelerapplication.task;
 
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,7 +11,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_Review extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
@@ -21,26 +20,19 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
     protected String doInBackground(String... params) {
 
         String serverURL = (String) params[0];
-        String user_id = (String)params[1];
-        String created_date = (String)params[2];
-        String is_visited = (String)params[3];
-        String depart_date = (String)params[4];
-        String last_date = (String)params[5];
-        String total_cost = (String)params[6];
-        String province = (String)params[7];
-        String city = (String)params[8];
-        String number_of_courses = (String)params[9];
-        String title = (String)params[10];
-        String travel_theme = (String)params[11];
-        // 없는거 : province(행정구역), city, number_of_courses
+        String created_date = (String)params[1];
+        String detailed_review = (String)params[2];
+        String rating = (String)params[3];
+        String solo_friendly_rating = (String)params[4];
+        String visit_times = (String)params[5];
+        String place_id = (String)params[6];
+        String user_id = (String)params[7];
 
 
-        String postParameters ="user_id="+user_id+"&created_date="+created_date
-                +"&is_visited="+is_visited+"&depart_date="+depart_date
-                +"&last_date="+last_date+"&total_cost="+total_cost
-                +"&province="+province
-                +"&city="+city+"&number_of_courses="+number_of_courses
-                +"&title="+title+"&travel_theme="+travel_theme;
+        String postParameters ="created_date="+created_date+"&detailed_review="+detailed_review
+                +"&rating="+rating+"&solo_friendly_rating="+solo_friendly_rating
+                +"&visit_times="+visit_times+"&place_id="+place_id
+                +"&user_id="+user_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -95,7 +87,7 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
             String result = getTwoCharsAfterString(sb.toString(), "불러오기 ");
             Log.d("lettrip", result);
             if (result.equals("성공")){
-                return_string = getTwoCharsAfterString(sb.toString(), "travel_id:");
+                return_string = getTwoCharsAfterString(sb.toString(), "review_id:");
             }else if(result.equals("실패")) {
                 return_string = "실패";
             }else{
@@ -111,7 +103,7 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
 
         catch (Exception e) {
 
-            Log.d(TAG, "InsertData_Travel: Error",e);
+            Log.d(TAG, "InsertData_Review: Error",e);
 
             return  new String("Error " + e.getMessage());
 
@@ -136,4 +128,3 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
         return result;
     }
 }
-

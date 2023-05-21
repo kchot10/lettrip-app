@@ -71,4 +71,11 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    // s3 관련
+    def aws_version = "2.17.+"
+    implementation 'com.amazonaws:aws-android-sdk-cognito:'+aws_version
+    implementation 'com.amazonaws:aws-android-sdk-s3:'+aws_version
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:'+aws_version){ transitive = true }
+
 }

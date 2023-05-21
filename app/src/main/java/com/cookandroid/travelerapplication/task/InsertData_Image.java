@@ -1,6 +1,5 @@
 package com.cookandroid.travelerapplication.task;
 
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,7 +11,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_Image extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
@@ -21,26 +20,22 @@ public class InsertData_Travel extends AsyncTask<String,Void,String> { // 통신
     protected String doInBackground(String... params) {
 
         String serverURL = (String) params[0];
-        String user_id = (String)params[1];
-        String created_date = (String)params[2];
-        String is_visited = (String)params[3];
-        String depart_date = (String)params[4];
-        String last_date = (String)params[5];
-        String total_cost = (String)params[6];
-        String province = (String)params[7];
-        String city = (String)params[8];
-        String number_of_courses = (String)params[9];
-        String title = (String)params[10];
-        String travel_theme = (String)params[11];
-        // 없는거 : province(행정구역), city, number_of_courses
+        String file_size = (String)params[1];
+        String original_file_name = (String)params[2];
+        String stored_file_name = (String)params[3];
+        String stored_file_url = (String)params[4];
+        String review_id = (String)params[5];
 
+        String postParameters ="file_size="+file_size+"&original_file_name="+original_file_name
+                +"&stored_file_name="+stored_file_name+"&stored_file_url="+stored_file_url
+                +"&review_id="+review_id;
 
-        String postParameters ="user_id="+user_id+"&created_date="+created_date
-                +"&is_visited="+is_visited+"&depart_date="+depart_date
-                +"&last_date="+last_date+"&total_cost="+total_cost
-                +"&province="+province
-                +"&city="+city+"&number_of_courses="+number_of_courses
-                +"&title="+title+"&travel_theme="+travel_theme;
+//        +"&created_date="+created_date
+//                +"&is_visited="+is_visited+"&depart_date="+depart_date
+//                +"&last_date="+last_date+"&total_cost="+total_cost
+//                +"&province="+province
+//                +"&city="+city+"&number_of_courses="+number_of_courses
+//                +"&title="+title;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.

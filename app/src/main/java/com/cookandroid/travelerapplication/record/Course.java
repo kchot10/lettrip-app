@@ -5,6 +5,35 @@ public class Course {
     private String cost;
     private String day_count;
     private String place_name;
+    private String stored_file_url;
+    private String review_id;
+
+    private String category_name;
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
+    public String getReview_id() {
+        return review_id;
+    }
+
+    public void setReview_id(String review_id) {
+        this.review_id = review_id;
+    }
+
+    public String getStored_file_url() {
+        return stored_file_url;
+    }
+
+    public void setStored_file_url(String stored_file_url) {
+        this.stored_file_url = stored_file_url;
+    }
+
 
     public String getArrived_time() {
         return arrived_time;

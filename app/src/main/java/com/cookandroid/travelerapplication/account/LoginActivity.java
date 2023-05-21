@@ -59,7 +59,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class LoginActivity extends AppCompatActivity{
 
 
-    private static String ec2_ADDRESS = "3.34.45.231";
+    private static String ec2_ADDRESS = "52.79.40.186";
     private static String IP_ADDRESS;
     public static Context mContext;
     FileHelper fileHelper;
@@ -155,8 +155,7 @@ public class LoginActivity extends AppCompatActivity{
                                 new Handler().postDelayed(() -> {
                                     checkData_Pwd_function(email, social, social);
                                 }, 500); // 0.5초 지연 시간
-
-                                }
+                            }
                         }, 500); // 0.5초 지연 시간
 
                     }
@@ -345,7 +344,7 @@ public class LoginActivity extends AppCompatActivity{
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
-        }, 500); // 0.5초 지연 시간
+        }, 1000); // 0.5초 지연 시간
 
 
 

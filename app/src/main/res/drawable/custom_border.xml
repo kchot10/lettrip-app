@@ -1,0 +1,12 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" /> <!-- 백그라운드 색상을 하얀색(#FFFFFF)으로 설정 -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/gray" />
+    <corners
+        android:radius="8dp"
+        android:topLeftRadius="0dp"
+        android:topRightRadius="0dp"
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="0dp" />
+</shape>

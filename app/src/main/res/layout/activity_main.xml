@@ -71,4 +71,12 @@
         android:text="코스 계획하기"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/button_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="여행 검색하기"
+        android:textColor="@color/white" />
+
 </LinearLayout>

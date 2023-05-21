@@ -24,13 +24,13 @@ public class InsertData_Course extends AsyncTask<String,Void,String> { // 통신
         String cost = (String)params[2];
         String day_count = (String)params[3];
         String place_id = (String)params[4];
-        String review_review_id = (String)params[5];
+        String review_id = (String)params[5];
         String travel_id = (String)params[6];
 
 
         String postParameters ="arrived_time="+arrived_time+"&cost="+cost
                 +"&day_count="+day_count+"&place_id="+place_id
-                +"&review_review_id="+review_review_id+"&travel_id="+travel_id;
+                +"&review_id="+review_id+"&travel_id="+travel_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.

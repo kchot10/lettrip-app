@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="클릭해서 여행 기록 작성하기 →"
+            android:text="클릭해서 상세후기 보러가기 →"
             android:textColor="#8D8D8D" />
 
     </LinearLayout>
