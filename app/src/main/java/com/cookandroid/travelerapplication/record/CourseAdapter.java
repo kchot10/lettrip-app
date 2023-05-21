@@ -71,15 +71,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 Intent intent;
                 intent = new Intent(context, CourseActivitySearch.class);
                 intent.putExtra("review_id", arrayList.get(curpos).getReview_id());
-//                intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());
-//                intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
-//                intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());
-//                intent.putExtra("content", arrayList.get(curpos).getContent());
-//                intent.putExtra("article_id", arrayList.get(curpos).getArticle_id());
-//                intent.putExtra("mentioned_user_id", arrayList.get(curpos).getMentioned_user_id());
-//                intent.putExtra("parent_comment_id", arrayList.get(curpos).getParent_comment_id());
-//                intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
-//                intent.putExtra("name", arrayList.get(curpos).getName());
+
+                intent.putExtra("arrived_time", arrayList.get(curpos).getArrived_time());
+                intent.putExtra("cost", arrayList.get(curpos).getCost());
+                intent.putExtra("place_name", arrayList.get(curpos).getPlace_name());
+                intent.putExtra("category_name", arrayList.get(curpos).getCategory_name());
+
                 context.startActivity(intent);
             });
         }

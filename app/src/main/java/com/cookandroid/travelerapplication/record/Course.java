@@ -8,6 +8,16 @@ public class Course {
     private String stored_file_url;
     private String review_id;
 
+    private String category_name;
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
     public String getReview_id() {
         return review_id;
     }

@@ -40,7 +40,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
         holder.textView_city.setText(arrayList.get(position).getCity());
         holder.textView_places.setText(arrayList.get(position).getPlaces());
         holder.textView_travel_theme.setText(arrayList.get(position).getTravel_theme());
-        holder.textView_total_cost.setText(arrayList.get(position).getTotal_cost());
+        holder.textView_total_cost.setText(arrayList.get(position).getTotal_cost()+"원");
     }
 
     @Override
@@ -67,15 +67,6 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
                 intent.putExtra("total_cost", arrayList.get(curpos).getTotal_cost());
                 intent.putExtra("number_of_courses", arrayList.get(curpos).getNumber_of_courses());
                 intent.putExtra("travel_theme", arrayList.get(curpos).getTravel_theme());
-//                intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());
-//                intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
-//                intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());
-//                intent.putExtra("content", arrayList.get(curpos).getContent());
-//                intent.putExtra("article_id", arrayList.get(curpos).getArticle_id());
-//                intent.putExtra("mentioned_user_id", arrayList.get(curpos).getMentioned_user_id());
-//                intent.putExtra("parent_comment_id", arrayList.get(curpos).getParent_comment_id());
-//                intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
-//                intent.putExtra("name", arrayList.get(curpos).getName());
                 context.startActivity(intent);
             });
         }
