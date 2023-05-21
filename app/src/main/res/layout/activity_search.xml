@@ -53,41 +53,53 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinner_province"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black" />
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_button"
+            android:elevation="4dp"
+            android:entries="@array/my_array_state"
+            android:popupBackground="@color/white" />
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/spinner_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/black" />
+            android:background="@drawable/rectangle_button"
+            android:elevation="4dp"
+            android:entries="@array/array_cost"
+            android:popupBackground="@color/white" />
 
         <Spinner
-            android:id="@+id/spinner3"
+            android:id="@+id/spinner_number_of_courses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/black" />
+            android:layout_marginRight="5dp"
+            android:background="@drawable/rectangle_button"
+            android:elevation="4dp"
+            android:entries="@array/array_number_of_courses"
+            android:popupBackground="@color/white" />
 
         <Spinner
-            android:id="@+id/spinner4"
+            android:id="@+id/spinner_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/black" />
-
-        <Spinner
-            android:id="@+id/spinner5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/black" />
+            android:background="@drawable/rectangle_button"
+            android:elevation="4dp"
+            android:entries="@array/array_theme"
+            android:popupBackground="@color/white" />
     </LinearLayout>
 
     <LinearLayout

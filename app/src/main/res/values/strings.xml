@@ -5,6 +5,38 @@
     <string name="naver_client_secret">DwmFlqg0t5</string>
     <string name="naver_client_name">Lettrip</string>
 
+    <string-array name="array_cost">
+        <item>비용</item>
+        <item>0~10만원</item>
+        <item>10~20만원</item>
+        <item>20~30만원</item>
+        <item>30~40만원</item>
+        <item>40~50만원</item>
+        <item>50~60만원</item>
+        <item>60~70만원</item>
+        <item>70~80만원</item>
+        <item>80~90만원</item>
+        <item>90~100만원</item>
+        <item>100만원 이상</item>
+    </string-array>
+
+    <string-array name="array_number_of_courses">
+        <item>코스 수</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>10 이상</item>
+    </string-array>
+
+
+
     <string-array name="array_theme">
         <item>테마 선택</item>
         <item>문화 여행</item>
