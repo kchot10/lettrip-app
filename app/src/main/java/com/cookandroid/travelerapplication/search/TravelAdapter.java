@@ -63,7 +63,10 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
                 Intent intent;
                 intent = new Intent(context, RecordMainSearch.class);
                 intent.putExtra("travel_id", arrayList.get(curpos).getTravel_id());
+                intent.putExtra("city", arrayList.get(curpos).getCity());
+                intent.putExtra("total_cost", arrayList.get(curpos).getTotal_cost());
                 intent.putExtra("number_of_courses", arrayList.get(curpos).getNumber_of_courses());
+                intent.putExtra("travel_theme", arrayList.get(curpos).getTravel_theme());
 //                intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());
 //                intent.putExtra("created_date", arrayList.get(curpos).getCreated_date());
 //                intent.putExtra("modified_date", arrayList.get(curpos).getModified_date());
