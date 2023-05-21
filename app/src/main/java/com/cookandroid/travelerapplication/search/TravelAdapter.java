@@ -61,7 +61,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
             itemView.setOnClickListener(v -> {
                 int curpos = getAbsoluteAdapterPosition();
                 Intent intent;
-                intent = new Intent(context, RecordMainSearch.class);]
+                intent = new Intent(context, RecordMainSearch.class);
                 intent.putExtra("travel_id", arrayList.get(curpos).getTravel_id());
                 intent.putExtra("number_of_courses", arrayList.get(curpos).getNumber_of_courses());
 //                intent.putExtra("comment_id", arrayList.get(curpos).getComment_id());
