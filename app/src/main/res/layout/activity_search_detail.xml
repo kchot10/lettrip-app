@@ -118,7 +118,7 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <EditText
+    <TextView
         android:id="@+id/detailReview"
         android:layout_width="350dp"
         android:layout_height="410dp"
@@ -128,10 +128,9 @@
         android:ems="10"
         android:foregroundGravity="center"
         android:gravity="center"
-        android:hint="후기를 입력하세요."
+        android:hint="후기가 출력됩니다."
         android:inputType="text"
         android:padding="25dp"
-        android:textAlignment="viewStart"
         android:textColor="#000000"
         android:textSize="15sp" />
 
