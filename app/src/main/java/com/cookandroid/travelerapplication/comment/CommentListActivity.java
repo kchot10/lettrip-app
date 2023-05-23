@@ -1,7 +1,11 @@
 package com.cookandroid.travelerapplication.comment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cookandroid.travelerapplication.MbEditText;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.task.InsertData_Comment;
@@ -22,34 +27,38 @@ import java.util.Locale;
 
 public class CommentListActivity extends AppCompatActivity {
 
+    TextView textview_created_date_comment, textview_user_id_comment, textview_content_comment;
     private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private String article_id;
     TextView textView_mention;
-    private EditText edittext_content;
+    private MbEditText edittext_content;
 
     private String mentioned_user_id = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_comment_list);
+        setContentView(R.layout.activity_comment_list);
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         edittext_content = findViewById(R.id.edittext_content);
         article_id = getIntent().getStringExtra("article_id");
+        TextView textView_mention = findViewById(R.id.textView_mention);
+        textview_user_id_comment = findViewById(R.id.textview_user_id_comment);
+        textview_created_date_comment = findViewById(R.id.textview_created_date_comment);
+        textview_content_comment = findViewById(R.id.textview_content_comment);
+        textview_user_id_comment.setText(getIntent().getStringExtra("name"));
+        textview_content_comment.setText(getIntent().getStringExtra("content"));
+        textview_created_date_comment.setText(getIntent().getStringExtra("created_date"));
 
-        //recyclerView = findViewById(R.id.RecyclerView_comment);
+        recyclerView = findViewById(R.id.RecyclerView_comment);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         Refresh();
-
-        findViewById(R.id.button_refresh).setOnClickListener(v -> {
-            Refresh();
-        });
 
 
         findViewById(R.id.button_add).setOnClickListener(v -> {
@@ -69,7 +78,26 @@ public class CommentListActivity extends AppCompatActivity {
                 InsertData_Comment task = new InsertData_Comment();
                 task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, mentioned_user_id, parent_comment_id, user_id);
                 Refresh();
+                textView_mention.setText("");
+                edittext_content.setText("");
+                edittext_content.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
+        });
+
+        textView_mention.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CommentListActivity.this);
+            builder.setMessage("언급자를 지우시겠습니까?");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    textView_mention.setText("");
+                    mentioned_user_id = "0";
+                }
+            });
+            builder.setNegativeButton("취소", null);
+            builder.show();
         });
 
     }
@@ -101,7 +129,7 @@ public class CommentListActivity extends AppCompatActivity {
     }
 
     public void setEditText(String user_name, String user_id) {
-        //textView_mention = findViewById(R.id.textView_mention);
+        textView_mention = findViewById(R.id.textView_mention);
         textView_mention.setText("@"+user_name+" ");
         mentioned_user_id = user_id;
     }

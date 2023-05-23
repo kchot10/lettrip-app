@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cookandroid.travelerapplication.MbEditText;
 import com.cookandroid.travelerapplication.comment.Comment;
 import com.cookandroid.travelerapplication.comment.CommentAdapter;
 import com.cookandroid.travelerapplication.helper.FileHelper;
@@ -39,7 +40,7 @@ public class ArticleContentActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     private String article_id;
 
-    private EditText edittext_content;
+    private MbEditText edittext_content;
 
 
     @Override
@@ -76,10 +77,10 @@ public class ArticleContentActivity extends AppCompatActivity {
 
         if (user_id_login.equals(getIntent().getStringExtra("user_id"))) {
             findViewById(R.id.button_update).setVisibility(View.VISIBLE);
-            findViewById(R.id.button_delete).setVisibility(View.VISIBLE);
+            findViewById(R.id.button_delete_article).setVisibility(View.VISIBLE);
         }
 
-        findViewById(R.id.button_delete).setOnClickListener(v -> {
+        findViewById(R.id.button_delete_article).setOnClickListener(v -> {
             String article_id = getIntent().getStringExtra("article_id").trim();
             DeleteData_Article task = new DeleteData_Article();
             task.execute("http://"+IP_ADDRESS+"/0411/deletedata_article.php",article_id);
