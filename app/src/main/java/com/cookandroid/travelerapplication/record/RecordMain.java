@@ -141,7 +141,6 @@ public class RecordMain extends AppCompatActivity{
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
         //날짜 지정
         dateBtn_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,12 +219,21 @@ public class RecordMain extends AppCompatActivity{
         });
         Button button_travel_upload = findViewById(R.id.button_travel_upload);
         button_travel_upload.setOnClickListener(v -> {
+
             if (dateBtn_start.getText().toString().trim().equals("") || dateBtn_end.getText().toString().trim().equals("")){
                 Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
             } else if (spinner.getSelectedItem().toString().trim().equals("도 선택") || spinner.getSelectedItem().toString().trim().equals("시 선택")) {
                 Toast.makeText(this,"도/시를 입력하세요",Toast.LENGTH_SHORT).show();
             }else if (spinner3.getSelectedItem().toString().trim().equals("테마 선택")) {
                 Toast.makeText(this,"여행 테마를 선택하세요",Toast.LENGTH_SHORT).show();
+            } else if (subtractDates(dateBtn_start.getText().toString(), dateBtn_end.getText().toString()) > 0) {
+                Toast.makeText(this,"마지막 날짜가 시작 날짜보다 앞에 있습니다. 날짜를 다시 입력하세요",Toast.LENGTH_SHORT).show();
+                dateBtn_start.setText("");
+                dateBtn_end.setText("");
+            } else if (subtractDates(getCurrentTime(), dateBtn_end.getText().toString()) < 0) {
+                Toast.makeText(this,"마지막 날짜가 오늘 날짜보다 뒤에 있습니다. 날짜를 다시 입력하세요",Toast.LENGTH_SHORT).show();
+                dateBtn_start.setText("");
+                dateBtn_end.setText("");
             } else {
                 findViewById(R.id.addPlaceBtn).setVisibility(View.VISIBLE);
                 button_travel_upload.setVisibility(View.INVISIBLE);
@@ -252,7 +260,11 @@ public class RecordMain extends AppCompatActivity{
             startActivity(intent);
 
         });
+
+
     }
+
+
     public void Refresh() {
         // Record class, SelectData_Record task, RecordAdapter
         courseArrayList = new ArrayList<>();
