@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,15 +17,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.helper.MailHelper;
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.helper.SendMail;
 import com.cookandroid.travelerapplication.task.CheckData_Email;
 import com.cookandroid.travelerapplication.task.InsertData_SignUp;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Locale;
-import java.util.Random;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -162,21 +160,16 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                         SendMail mailServer = new SendMail(getApplicationContext());
                         mailServer.execute(emailAddress);
                         new Handler().postDelayed(() -> {
-                            Toast.makeText(getApplicationContext(), mailServer.getReturnString(), Toast.LENGTH_SHORT).show();
                             code = mailServer.getEmailCode();
                         }, 1000);
                         emailEditText.setFocusable(false);
                         sendButton.setVisibility(View.INVISIBLE);
                         startTimer();
-                        //Toast.makeText(SignUpActivity.this, "사용 가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
                     } else if (result.equals("실패")) {
                         emailEditText.setText("");
                         Toast.makeText(SignUpActivity.this, "중복된 이메일이 있습니다.", Toast.LENGTH_SHORT).show();
                     }
-                }, 500); // 0.5초 지연 시간
-
-
-
+                }, 1000); // 0.5초 지연 시간
             }
         });
 
@@ -228,28 +221,5 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             }
         };
         countDownTimer.start();
-    }
-
-    private class SendMailTask extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-            try {
-                String emailAddress = params[0];
-                String code = params[1];
-
-                MailHelper sender = new MailHelper("kchot10@gmail.com", "qcixhdqihejkoryk");
-                sender.sendMail("Lettrip 이메일 인증 코드입니다.", "아래 코드를 Lettrip 이메일 인증 코드란에 입력해주세요. \n CODE : " + code, emailAddress);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Toast.makeText(SignUpActivity.this, "인증 메일을 발송했습니다.", Toast.LENGTH_SHORT).show();
-        }
     }
 }

@@ -1,9 +1,10 @@
-package com.cookandroid.travelerapplication.account;
+package com.cookandroid.travelerapplication.helper;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
+
+import com.cookandroid.travelerapplication.helper.GMailSender;
+
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 

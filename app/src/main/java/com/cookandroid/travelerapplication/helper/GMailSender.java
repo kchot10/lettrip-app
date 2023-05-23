@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication.account;
+package com.cookandroid.travelerapplication.helper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -46,7 +46,8 @@ public class GMailSender extends javax.mail.Authenticator {
     } //생성된 이메일 인증코드 반환
 
     private String createEmailCode() { //이메일 인증코드 생성
-        return CodeGenerator.generateCode();
+        CodeGenerator codeGenerator = new CodeGenerator();
+        return codeGenerator.generateCode();
     }
 
     protected PasswordAuthentication getPasswordAuthentication() {

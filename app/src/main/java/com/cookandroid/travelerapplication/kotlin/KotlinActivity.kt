@@ -65,8 +65,7 @@ class KotlinActivity : AppCompatActivity() {
             override fun onClick(v: View, position: Int) {
                 val mapPoint = MapPoint.mapPointWithGeoCoord(listItems[position].y, listItems[position].x)
 
-                builder.setMessage("["+listItems[position].name+"]로 선택하시겠습니까?")
-                builder.setPositiveButton("확인") { dialog, which ->
+                builder.setPositiveButton("확인") { _, _ ->
                     intent.putExtra("name", listItems[position].name)
                     intent.putExtra("road", listItems[position].road)
                     intent.putExtra("address", listItems[position].address)
@@ -77,9 +76,11 @@ class KotlinActivity : AppCompatActivity() {
                     setResult(RESULT_OK, intent);
                     finish()
                 }
-                builder.setNegativeButton("취소") { dialog, which ->
+
+                builder.setNegativeButton("취소") { _, _ ->
                     // Cancel 버튼을 눌렀을 때의 동작
                 }
+
                 builder.show()
 
                 Log.d("listItems", "listItems[position].category_group_code: "+listItems[position].category_group_code)
