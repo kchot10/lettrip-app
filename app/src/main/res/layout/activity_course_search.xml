@@ -129,7 +129,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_imageFile"
                 android:layout_width="match_parent"
-                android:layout_height="315dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp">
 

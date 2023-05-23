@@ -35,6 +35,7 @@
             android:background="@drawable/search_box"
             android:ems="10"
             android:inputType="textPersonName"
+            android:paddingLeft="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/gray" />
 

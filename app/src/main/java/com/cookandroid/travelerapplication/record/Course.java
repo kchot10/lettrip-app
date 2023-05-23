@@ -9,6 +9,15 @@ public class Course {
     private String review_id;
 
     private String category_name;
+    private String rating;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
     public String getCategory_name() {
         return category_name;
