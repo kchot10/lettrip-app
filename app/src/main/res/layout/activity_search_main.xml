@@ -23,7 +23,7 @@
             app:srcCompat="@drawable/menu" />
 
         <EditText
-            android:id="@+id/searchBox"
+            android:id="@+id/editText_city"
             android:layout_width="228dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -35,7 +35,7 @@
             android:textColor="#000000" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/button_search"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
@@ -61,7 +61,7 @@
                 android:layout_height="match_parent">
 
                 <Spinner
-                    android:id="@+id/spinnerCity"
+                    android:id="@+id/spinner_province"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -72,7 +72,7 @@
                     android:textAlignment="center" />
 
                 <Spinner
-                    android:id="@+id/spinnerCost"
+                    android:id="@+id/spinner_cost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -83,7 +83,7 @@
                     android:textAlignment="center" />
 
                 <Spinner
-                    android:id="@+id/spinnerCourseNum"
+                    android:id="@+id/spinner_number_of_courses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -94,7 +94,7 @@
                     android:textAlignment="center" />
 
                 <Spinner
-                    android:id="@+id/spinnerTheme"
+                    android:id="@+id/spinner_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -109,6 +109,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerView_Travel"
         android:layout_width="match_parent"
         android:layout_height="620dp"
         android:layout_marginLeft="30dp"

@@ -52,6 +52,8 @@ public class WithdrawActivity extends AppCompatActivity {
                             DeleteData dtask = new DeleteData(); //PHP 통신을 위한 DeleteData 클래스의 task 객체 생성
                             dtask.execute("http://"+IP_ADDRESS+"/0411/withdraw.php",email);
                             Toast.makeText(WithdrawActivity.this, "회원탈퇴에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
+
+
                         } else if (withdraw_result.equals("인증 실패")) {
                             Toast.makeText(WithdrawActivity.this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
                         } else if (withdraw_result.equals("사용자 없음")) {
