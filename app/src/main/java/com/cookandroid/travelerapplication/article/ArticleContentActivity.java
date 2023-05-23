@@ -1,11 +1,11 @@
 package com.cookandroid.travelerapplication.article;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,73 +30,71 @@ import java.util.Locale;
 
 public class ArticleContentActivity extends AppCompatActivity {
 
-    TextView textview_content;
-    TextView textview_title;
-    private EditText edittext_content;
-    private Button button_delete;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
     private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
+    TextView textview_name, textView_date, textview_title, textview_content, textview_count_view, board_comment;
+
+    ImageView profilePhoto;
+    RecyclerView recyclerView_comment;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager;
     private String article_id;
-    private TextView textview_name;
-    private TextView textView_date;
-    private ImageView profilePhoto;
-    private TextView textview_count_view;
-    private TextView board_comment;
+
+    private EditText edittext_content;
 
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_content2);
-
-        Intent intent_article = getIntent();
-        textview_content = findViewById(R.id.textview_content);
-        textview_content.setText(intent_article.getStringExtra("content"));
+        edittext_content = findViewById(R.id.edittext_content);
+        textview_name = findViewById(R.id.textview_user_id);
+        textView_date = findViewById(R.id.textview_created_date);
         textview_title = findViewById(R.id.textview_title);
-        textview_title.setText(intent_article.getStringExtra("title"));
-        textview_name = findViewById(R.id.textview_name);
-        textview_name.setText(intent_article.getStringExtra("name"));
-        textView_date = findViewById(R.id.textView_date);
-        textView_date.setText(intent_article.getStringExtra("created_date"));
-        profilePhoto = findViewById(R.id.profilePhoto);
-        //Glide.with(this).load(intent_article.getStringExtra("image_url")).load(profilePhoto);
+        textview_content = findViewById(R.id.textview_content);
         textview_count_view = findViewById(R.id.textview_count_view);
-        textview_count_view.setText(" " + intent_article.getStringExtra("hit"));
         board_comment = findViewById(R.id.board_comment);
-        board_comment.setText(" " + intent_article.getStringExtra("like_count"));
-
-
-        ArrayList<Article> articleArrayList = new ArrayList<>();
-        SelectData_Article task = new SelectData_Article(articleArrayList);
-        task.execute("http://" + IP_ADDRESS + "/0422/selectdata_article.php");
-
-
-
+        // Todo: img_url 불러와서 profilePhoto에 Gilde로 이미지 넣기.
+        textview_name.setText(getIntent().getStringExtra("name"));
+        textView_date.setText(getIntent().getStringExtra("created_date"));
+        textview_title.setText(getIntent().getStringExtra("title"));
+        textview_content.setText(getIntent().getStringExtra("content"));
+        textview_count_view.setText(getIntent().getStringExtra("hit"));
+        //Todo: comment_number(댓글 수)의 데이터를 실제론 못들고왔음.
+        //board_comment.setText(getIntent().getStringExtra("comment_number"));
         FileHelper fileHelper = new FileHelper(this);
-        String IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
-        String user_id = fileHelper.readFromFile("user_id").trim();
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        String user_id_login = fileHelper.readFromFile("user_id").trim();
+        article_id = getIntent().getStringExtra("article_id");
 
-        if (user_id.equals(intent_article.getStringExtra("user_id"))) {
+
+        recyclerView_comment = findViewById(R.id.recyclerView_comment);
+        recyclerView_comment.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView_comment.setLayoutManager(layoutManager);
+        Refresh();
+
+
+        if (user_id_login.equals(getIntent().getStringExtra("user_id"))) {
             findViewById(R.id.button_update).setVisibility(View.VISIBLE);
-            findViewById(R.id.deleteBtn).setVisibility(View.VISIBLE);
+            findViewById(R.id.button_delete).setVisibility(View.VISIBLE);
         }
 
-        findViewById(R.id.backBtn).setOnClickListener(v -> {
-            Intent intent = new Intent(this, ArticleListActivity.class);
-            startActivity(intent);
+        findViewById(R.id.button_delete).setOnClickListener(v -> {
+            String article_id = getIntent().getStringExtra("article_id").trim();
+            DeleteData_Article task = new DeleteData_Article();
+            task.execute("http://"+IP_ADDRESS+"/0411/deletedata_article.php",article_id);
+            finish();
         });
 
-
-        //댓글 관련
-        edittext_content = findViewById(R.id.edittext_content);
-
-        recyclerView = findViewById(R.id.recyclerView_comment);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        findViewById(R.id.button_update).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ArticleCreateActivity.class);
+            intent.putExtra("sign", "1");
+            intent.putExtra("title", getIntent().getStringExtra("title"));
+            intent.putExtra("content", getIntent().getStringExtra("content"));
+            intent.putExtra("article_id", getIntent().getStringExtra("article_id"));
+            startActivity(intent);
+            finish();
+        });
 
         findViewById(R.id.button_add).setOnClickListener(v -> {
             String content = edittext_content.getText().toString().trim();
@@ -111,59 +109,16 @@ public class ArticleContentActivity extends AppCompatActivity {
                 if (parent_comment_id == null){
                     parent_comment_id = "0";
                 }
-                InsertData_Comment task2 = new InsertData_Comment();
-                task2.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", parent_comment_id, user_id);
+                InsertData_Comment task = new InsertData_Comment();
+                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", parent_comment_id, user_id_login);
                 Refresh();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                edittext_content.setText("");
+                edittext_content.clearFocus();
             }
-
-
-            ArrayList<Comment> commentArrayList = new ArrayList<>();
-            SelectData_Article task2 = new SelectData_Article(commentArrayList);
-            String parent_comment_id = getIntent().getStringExtra("comment_id");
-            if (parent_comment_id == null){
-                parent_comment_id = "0";
-            }
-            task2.execute("http://" + IP_ADDRESS + "/0422/selectdata_comment.php", article_id, parent_comment_id);
-
-            try {
-                new Handler().postDelayed(() -> {
-                    adapter = new CommentAdapter(commentArrayList, this);
-                    recyclerView.setAdapter(adapter);
-                }, 1000); // 0.5초 지연 시간
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
         });
 
-
-
-        findViewById(R.id.deleteBtn).setOnClickListener(v -> {
-            String article_id = intent_article.getStringExtra("article_id").trim();
-            DeleteData_Article task2 = new DeleteData_Article();
-            task2.execute("http://"+IP_ADDRESS+"/0411/deletedata_article.php",article_id);
-            finish();
-        });
-
-        //게시글 수정버튼
-        findViewById(R.id.button_update).setOnClickListener(v -> {
-            Intent intent = new Intent(this, ArticleCreateActivity.class);
-            intent.putExtra("sign", "1");
-            intent.putExtra("title", intent_article.getStringExtra("title"));
-            intent.putExtra("content", intent_article.getStringExtra("content"));
-            intent.putExtra("article_id", intent_article.getStringExtra("article_id"));
-            startActivity(intent);
-            finish();
-        });
-
-    }
-
-    private String getCurrentTime() {
-        // 현재 시간 가져오기
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String currentTime = sdf.format(date);
-        return currentTime;
     }
 
     public void Refresh() {
@@ -178,10 +133,17 @@ public class ArticleContentActivity extends AppCompatActivity {
         try {
             new Handler().postDelayed(() -> {
                 adapter = new CommentAdapter(commentArrayList, this);
-                recyclerView.setAdapter(adapter);
+                recyclerView_comment.setAdapter(adapter);
             }, 1000); // 0.5초 지연 시간
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+    private String getCurrentTime() {
+        // 현재 시간 가져오기
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String currentTime = sdf.format(date);
+        return currentTime;
     }
 }

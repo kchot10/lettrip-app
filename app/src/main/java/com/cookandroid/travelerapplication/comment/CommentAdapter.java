@@ -76,7 +76,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             this.textview_content = itemView.findViewById(R.id.textview_content);
             this.textview_user_id = itemView.findViewById(R.id.textview_user_id);
             this.textview_created_date = itemView.findViewById(R.id.textview_created_date);
-            this.button_delete = itemView.findViewById(R.id.deleteBtn);
+            this.button_delete = itemView.findViewById(R.id.button_delete);
             FileHelper fileHelper = new FileHelper(context);
 
             button_delete.setOnClickListener(v -> {
@@ -84,6 +84,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 String IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
                 DeleteData_Comment task = new DeleteData_Comment();
                 task.execute("http://"+IP_ADDRESS+"/0411/deletedata_comment.php",arrayList.get(curpos).getComment_id());
+                arrayList.remove(curpos);
+                notifyItemRemoved(curpos);
+                notifyItemRangeChanged(curpos, arrayList.size());
             });
 
             itemView.setOnClickListener(v -> {
