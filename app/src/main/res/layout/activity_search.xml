@@ -81,6 +81,19 @@
                     android:textAlignment="center" />
 
                 <Spinner
+                    android:id="@+id/spinner_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_spinner_item"
+                    android:elevation="4dp"
+                    android:entries="@array/city_array_default"
+                    android:popupBackground="@color/white"
+                    android:textAlignment="center" />
+
+                <Spinner
                     android:id="@+id/spinner_cost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

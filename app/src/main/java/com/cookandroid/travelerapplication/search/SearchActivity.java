@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,11 +23,12 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<Travel> travelArrayList;
     String IP_ADDRESS;
     String total_cost, province, number_of_courses, travel_theme;
-    Spinner spinner_cost, spinner_province, spinner_theme, spinner_number_of_courses;
+    Spinner spinner_cost, spinner_province, spinner_city, spinner_theme, spinner_number_of_courses;
     FileHelper fileHelper;
     EditText editText_city;
     RecyclerView recyclerView;
     RecyclerView.Adapter recyclerView_adapter;
+    ArrayAdapter<CharSequence> adapter;
     private RecyclerView.LayoutManager layoutManager;
 
 
@@ -43,6 +45,7 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         spinner_cost = findViewById(R.id.spinner_cost);
         spinner_province = findViewById(R.id.spinner_province);
+        spinner_city = findViewById(R.id.spinner_city);
         spinner_number_of_courses = findViewById(R.id.spinner_number_of_courses);
         spinner_theme = findViewById(R.id.spinner_theme);
         spinner_cost.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -93,17 +96,84 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        spinner_province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                switch (position) {
+                    case 0:
+                        setCitySpinnerAdapterItem(R.array.city_array_default);
+                        break;
+                    case 1:
+                        setCitySpinnerAdapterItem(R.array.서울특별시);
+                        break;
+                    case 2:
+                        setCitySpinnerAdapterItem(R.array.광주광역시);
+                        break;
+                    case 3:
+                        setCitySpinnerAdapterItem(R.array.대구광역시);
+                        break;
+                    case 4:
+                        setCitySpinnerAdapterItem(R.array.대전광역시);
+                        break;
+                    case 5:
+                        setCitySpinnerAdapterItem(R.array.부산광역시);
+                        break;
+                    case 6:
+                        setCitySpinnerAdapterItem(R.array.울산광역시);
+                        break;
+                    case 7:
+                        setCitySpinnerAdapterItem(R.array.인천광역시);
+                        break;
+                    case 8:
+                        setCitySpinnerAdapterItem(R.array.강원도);
+                        break;
+                    case 9:
+                        setCitySpinnerAdapterItem(R.array.경기도);
+                        break;
+                    case 10:
+                        setCitySpinnerAdapterItem(R.array.경상도);
+                        break;
+                    case 11:
+                        setCitySpinnerAdapterItem(R.array.전라도);
+                        break;
+                    case 12:
+                        setCitySpinnerAdapterItem(R.array.충청도);
+                        break;
+                    case 13:
+                        setCitySpinnerAdapterItem(R.array.제주특별자치도);
+                        break;
+                    case 14:
+                        setCitySpinnerAdapterItem(R.array.세종특별자치시);
+                        break;
+                    // 다른 case문들을 추가하여 필요한 도시 목록을 처리합니다.
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
 
         findViewById(R.id.button_search).setOnClickListener(v -> {
             Refresh();
         });
     }
 
+    private void setCitySpinnerAdapterItem(int array_resource) {
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, (String[]) getResources().getStringArray(array_resource));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_city.setAdapter(adapter);
+    }
+
+
     public void Refresh() {
         // Record class, SelectData_Record task, RecordAdapter
         travelArrayList = new ArrayList<>();
         SelectData_Travel task = new SelectData_Travel(travelArrayList);
-        String city = editText_city.getText().toString().trim();
+        String city = spinner_city.getSelectedItem().toString().trim();
         province = spinner_province.getSelectedItem().toString().trim();
         number_of_courses = spinner_number_of_courses.getSelectedItem().toString().trim();
         travel_theme = spinner_theme.getSelectedItem().toString().trim();
