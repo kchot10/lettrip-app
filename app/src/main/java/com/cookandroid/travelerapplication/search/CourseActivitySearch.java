@@ -23,7 +23,7 @@ public class CourseActivitySearch extends AppCompatActivity {
     String IP_ADDRESS;
     String review_id;
     String travel_id;
-    TextView textView_category_search, textView_place_name_search, textView_cost_search, textView_arrived_time_search;
+    TextView textView_category_search, textView_place_name_search, textView_cost_search, textView_arrived_time_search, textView_detailed_review;
 
     FileHelper fileHelper;
     RecyclerView recyclerView;
@@ -38,10 +38,14 @@ public class CourseActivitySearch extends AppCompatActivity {
         textView_place_name_search = findViewById(R.id.textView_place_name_search);
         textView_cost_search = findViewById(R.id.textView_cost_search);
         textView_arrived_time_search = findViewById(R.id.textView_arrived_time_search);
+        textView_detailed_review = findViewById(R.id.textView_detailed_review);
         textView_category_search.setText(getIntent().getStringExtra("category_name"));
         textView_place_name_search.setText(getIntent().getStringExtra("place_name"));
         textView_cost_search.setText(getIntent().getStringExtra("cost")+"원");
         textView_arrived_time_search.setText(getIntent().getStringExtra("arrived_time"));
+        textView_detailed_review.setText(getIntent().getStringExtra("detailed_review"));
+
+
 
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");

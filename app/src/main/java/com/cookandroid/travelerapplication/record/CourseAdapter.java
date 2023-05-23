@@ -83,6 +83,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 intent.putExtra("cost", arrayList.get(curpos).getCost());
                 intent.putExtra("place_name", arrayList.get(curpos).getPlace_name());
                 intent.putExtra("category_name", arrayList.get(curpos).getCategory_name());
+                intent.putExtra("detailed_review", arrayList.get(curpos).getDetailed_review());
 
                 context.startActivity(intent);
             });

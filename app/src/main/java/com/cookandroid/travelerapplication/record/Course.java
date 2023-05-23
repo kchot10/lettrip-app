@@ -10,6 +10,15 @@ public class Course {
 
     private String category_name;
     private String rating;
+    private String detailed_review;
+
+    public String getDetailed_review() {
+        return detailed_review;
+    }
+
+    public void setDetailed_review(String detailed_review) {
+        this.detailed_review = detailed_review;
+    }
 
     public String getRating() {
         return rating;
