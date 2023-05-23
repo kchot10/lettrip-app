@@ -155,18 +155,20 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                     String result = task.get_return_string();
                     if (result.equals("성공")) {
                         // 6자리 랜덤 숫자 생성
-                        code = CodeGenerator.generateCode();
                         code_edittext.setVisibility(View.VISIBLE);
                         timerTextView.setVisibility(View.VISIBLE);
                         code_check_button.setVisibility(View.VISIBLE);
                         // 인증 메일 전송
-                        SendMailTask sendMailTask = new SendMailTask();
-                        sendMailTask.execute(emailAddress, String.valueOf(code));
-                        Log.d("youn", code);
+                        SendMail mailServer = new SendMail(getApplicationContext());
+                        mailServer.execute(emailAddress);
+                        new Handler().postDelayed(() -> {
+                            Toast.makeText(getApplicationContext(), mailServer.getReturnString(), Toast.LENGTH_SHORT).show();
+                            code = mailServer.getEmailCode();
+                        }, 1000);
                         emailEditText.setFocusable(false);
                         sendButton.setVisibility(View.INVISIBLE);
                         startTimer();
-                        Toast.makeText(SignUpActivity.this, "사용 가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SignUpActivity.this, "사용 가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
                     } else if (result.equals("실패")) {
                         emailEditText.setText("");
                         Toast.makeText(SignUpActivity.this, "중복된 이메일이 있습니다.", Toast.LENGTH_SHORT).show();
@@ -248,22 +250,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         @Override
         protected void onPostExecute(Void aVoid) {
             Toast.makeText(SignUpActivity.this, "인증 메일을 발송했습니다.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    public static class CodeGenerator {
-        private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        private static final int CODE_LENGTH = 6;
-
-        public static String generateCode() {
-            Random random = new Random();
-            StringBuilder codeBuilder = new StringBuilder(CODE_LENGTH);
-            for (int i = 0; i < CODE_LENGTH; i++) {
-                int randomIndex = random.nextInt(CHARACTERS.length());
-                codeBuilder.append(CHARACTERS.charAt(randomIndex));
-            }
-            return codeBuilder.toString();
         }
     }
 }
