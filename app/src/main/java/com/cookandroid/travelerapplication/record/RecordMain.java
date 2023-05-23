@@ -26,13 +26,14 @@ import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
 import com.cookandroid.travelerapplication.task.UpdateData_Travel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class RecordMain extends AppCompatActivity{
-
 
     String IP_ADDRESS, user_id, travel_id;
     private EditText edittext_title;
@@ -244,13 +245,13 @@ public class RecordMain extends AppCompatActivity{
 
         findViewById(R.id.addPlaceBtn).setOnClickListener(v -> {
             Intent intent = new Intent(this, CourseActivity.class);
+            intent.putExtra("total_day_count", subtractDates(dateBtn_end.getText().toString(), dateBtn_start.getText().toString()));
             intent.putExtra("province", spinner.getSelectedItem().toString().trim());
             intent.putExtra("city", spinner2.getSelectedItem().toString().trim());
             intent.putExtra("depart_date", dateBtn_start.getText().toString().trim());
             startActivity(intent);
 
         });
-
     }
     public void Refresh() {
         // Record class, SelectData_Record task, RecordAdapter
@@ -350,6 +351,29 @@ public class RecordMain extends AppCompatActivity{
                 fileHelper.writeToFile("travel_id", withdraw_result);
             }
         }, 500); // 0.5초 지연 시간
+    }
+
+    public int subtractDates(String dateString1, String dateString2) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date1 = format.parse(dateString1);
+            Date date2 = format.parse(dateString2);
+
+            Calendar cal1 = Calendar.getInstance();
+            cal1.setTime(date1);
+
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(date2);
+
+            long differenceInMillis = cal1.getTimeInMillis() - cal2.getTimeInMillis();
+            long differenceInDays = differenceInMillis / (24 * 60 * 60 * 1000);
+
+            return (int) differenceInDays;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
 }

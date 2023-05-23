@@ -15,6 +15,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,6 +94,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
 
         arrayList_image_review = new ArrayList<>();
 
+
         findViewById(R.id.button_add_review).setOnClickListener(v -> {
             if (button_place_search.getText().toString().trim().equals("장소 검색")){
                 Toast.makeText(this, "장소를 입력하세요", Toast.LENGTH_SHORT).show();
@@ -136,6 +139,88 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
 
             }
 
+        });
+        editText_day_count.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                int max_day_count = getIntent().getIntExtra("total_day_count", 1);
+                String day_count = editText_day_count.getText().toString();
+                if (day_count.isEmpty()){
+                    return;
+                }else {
+                    int value = Integer.parseInt(day_count);
+                    if ( value > max_day_count || 1 > value) {
+                        Toast.makeText(getApplicationContext(), "1부터 "+ max_day_count+ "사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        editText_day_count.setText("");
+                    }
+                }
+            }
+        });
+
+        editText_arrived_time_hour.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                String hour = editText_arrived_time_hour.getText().toString();
+                if (hour.isEmpty()){
+                    return;
+                } else {
+                    int value = Integer.parseInt(hour);
+                    // 값이 1~24 사이인지 확인합니다.
+                    if (value >= 0 && value <= 23) {
+                        editText_arrived_time_min.setText("0");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "0부터 23 사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        editText_arrived_time_hour.setText("");
+                    }
+                }
+            }
+        });
+
+        editText_arrived_time_min.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                String min = editText_arrived_time_min.getText().toString();
+                if (min.isEmpty()){
+                    return;
+                } else {
+                    int value = Integer.parseInt(min);
+                    if (value >= 0 && value <= 59) {
+                    } else {
+                        Toast.makeText(getApplicationContext(), "0부터 59 사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        editText_arrived_time_min.setText("");
+                    }
+                }
+            }
+        });
+
+
+
+        editText_detailed_review.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 입력 변경 중의 동작
+                int maxLines = 10; // 최대 허용 라인 수
+                String[] lines = editText_detailed_review.getText().toString().split("\n");
+                if (lines.length > maxLines) {
+                    // 최대 허용 라인 수를 초과한 경우 입력 제거
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < maxLines; i++) {
+                        sb.append(lines[i]).append("\n");
+                    }
+                    editText_detailed_review.setText(sb.toString().trim());
+                    editText_detailed_review.setSelection(editText_detailed_review.getText().length());
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        edit_rating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+            // 최소값과 최대값 설정
+            float minValue = 1.0f;
+            // 현재 선택된 별점이 최소값보다 작은 경우 최소값으로 설정
+            if (rating < minValue) {
+                ratingBar.setRating(minValue);
+            }
         });
 
         findViewById(R.id.button_add_cource).setOnClickListener(v -> {

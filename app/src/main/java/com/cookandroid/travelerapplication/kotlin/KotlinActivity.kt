@@ -65,6 +65,7 @@ class KotlinActivity : AppCompatActivity() {
             override fun onClick(v: View, position: Int) {
                 val mapPoint = MapPoint.mapPointWithGeoCoord(listItems[position].y, listItems[position].x)
 
+                builder.setMessage("["+listItems[position].name+"]로 선택하시겠습니까?")
                 builder.setPositiveButton("확인") { _, _ ->
                     intent.putExtra("name", listItems[position].name)
                     intent.putExtra("road", listItems[position].road)
