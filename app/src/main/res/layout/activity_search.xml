@@ -32,10 +32,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:backgroundTint="#B1B1B1"
+            android:background="@drawable/search_box"
             android:ems="10"
-            android:hint="edit city"
             android:inputType="textPersonName"
+            android:paddingLeft="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/gray" />
 
@@ -46,58 +46,94 @@
             android:adjustViewBounds="true"
             android:backgroundTint="@color/white"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/heart" />
+            app:srcCompat="@drawable/search" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/search_spinner"
         android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/spinner_province"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/rectangle_button"
-            android:elevation="4dp"
-            android:entries="@array/my_array_state"
-            android:popupBackground="@color/white" />
+        <HorizontalScrollView
+            android:id="@+id/searchScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <Spinner
-            android:id="@+id/spinner_cost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/rectangle_button"
-            android:elevation="4dp"
-            android:entries="@array/array_cost"
-            android:popupBackground="@color/white" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <Spinner
-            android:id="@+id/spinner_number_of_courses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/rectangle_button"
-            android:elevation="4dp"
-            android:entries="@array/array_number_of_courses"
-            android:popupBackground="@color/white" />
+                <Spinner
+                    android:id="@+id/spinner_province"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_spinner_item"
+                    android:elevation="4dp"
+                    android:entries="@array/my_array_state"
+                    android:popupBackground="@color/white"
+                    android:textAlignment="center" />
 
-        <Spinner
-            android:id="@+id/spinner_theme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/rectangle_button"
-            android:elevation="4dp"
-            android:entries="@array/array_theme"
-            android:popupBackground="@color/white" />
+                <Spinner
+                    android:id="@+id/spinner_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_spinner_item"
+                    android:elevation="4dp"
+                    android:entries="@array/city_array_default"
+                    android:popupBackground="@color/white"
+                    android:textAlignment="center" />
+
+                <Spinner
+                    android:id="@+id/spinner_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_spinner_item"
+                    android:elevation="4dp"
+                    android:entries="@array/array_cost"
+                    android:popupBackground="@color/white"
+                    android:textAlignment="center" />
+
+                <Spinner
+                    android:id="@+id/spinner_number_of_courses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_spinner_item"
+                    android:elevation="4dp"
+                    android:entries="@array/array_number_of_courses"
+                    android:popupBackground="@color/white"
+                    android:textAlignment="center" />
+
+                <Spinner
+                    android:id="@+id/spinner_theme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_spinner_item"
+                    android:elevation="4dp"
+                    android:entries="@array/array_theme"
+                    android:popupBackground="@color/white"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
     </LinearLayout>
 
     <LinearLayout

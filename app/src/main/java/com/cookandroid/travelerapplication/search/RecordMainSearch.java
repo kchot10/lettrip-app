@@ -74,9 +74,4 @@ public class RecordMainSearch extends AppCompatActivity {
         }
 
     }
-
-    protected void onResume() {
-        super.onResume();
-        Refresh();
-    }
 }

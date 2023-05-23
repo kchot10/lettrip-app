@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView_daycount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
@@ -99,9 +99,15 @@
                     android:textColor="#838383 " />
 
                 <RatingBar
-                    android:id="@+id/ratingBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp" />
+                    android:id="@+id/ratingBar_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:rating="5"
+                    android:stepSize="1"
+                    style="?android:attr/ratingBarStyleIndicator"
+                    />
 
                 <TextView
                     android:id="@+id/detailText"

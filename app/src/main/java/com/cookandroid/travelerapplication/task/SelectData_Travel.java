@@ -39,7 +39,14 @@ public class SelectData_Travel extends AsyncTask<String,Void,String> { // 통신
         String postParameters = "";
         try {
             String city = (String) params[1];
-            postParameters ="city="+city;
+            String province = (String) params[2];
+            String total_cost = (String) params[3];
+            String number_of_courses = (String) params[4];
+            String travel_theme = (String) params[5];
+            postParameters ="city="+city+"&province="+province
+                    +"&total_cost="+total_cost+"&number_of_courses="+number_of_courses
+                    +"&travel_theme="+travel_theme;
+
         }catch (Exception e){
         }
 

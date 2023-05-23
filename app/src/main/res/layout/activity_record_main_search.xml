@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -28,10 +29,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:gravity="top"
-                android:padding="5dp"
                 android:text="상세 코스 보기"
                 android:textColor="#4F5A80"
                 android:textSize="20sp"
@@ -41,14 +38,16 @@
                 android:id="@+id/textView_theme_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/custom_border"
+                android:layout_marginLeft="11dp"
+                android:background="@drawable/search_theme"
                 android:gravity="center"
-                android:padding="5dp"
+                android:paddingLeft="7dp"
+                android:paddingTop="3dp"
+                android:paddingRight="7dp"
+                android:paddingBottom="3dp"
                 android:text="문화 여행"
-                android:textColor="#4F5A80"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textColor="#93BEFF "
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -56,6 +55,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="#B2EBF2"
+                    android:background="@drawable/search_city"
                     android:gravity="center"
                     android:text="대구" />
 
@@ -92,14 +92,16 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="총 비용 :" />
+                    android:text="총 비용 :"
+                    android:textColor="#838383 " />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="코스 수 :" />
+                    android:text="코스 수 :"
+                    android:textColor="#838383 " />
             </LinearLayout>
 
             <LinearLayout
@@ -112,14 +114,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="100,000원" />
+                    android:text="100,000원"
+                    android:textColor="#838383 " />
 
                 <TextView
                     android:id="@+id/textView_number_of_courses_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="4" />
+                    android:text="4"
+                    android:textColor="#838383 " />
             </LinearLayout>
 
         </LinearLayout>
