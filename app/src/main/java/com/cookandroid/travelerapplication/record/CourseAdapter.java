@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cookandroid.travelerapplication.R;
 
 import java.util.ArrayList;
-import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.search.CourseActivitySearch;
 import com.cookandroid.travelerapplication.search.RecordMainSearch;
 
@@ -40,9 +39,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     @Override
     public void onBindViewHolder(@NonNull CourseAdapter.CourseViewHolder holder, int position) {
-        Glide.with(holder.itemView.getContext())
-                .load(arrayList.get(position).getStored_file_url())
-                .into(holder.placePhoto);
+        //Glide.with(holder.itemView.getContext())
+                //.load(arrayList.get(position).getStored_file_url())
+                //.into(holder.placePhoto);
         holder.textview_place_name.setText(arrayList.get(position).getPlace_name());
         holder.textview_arrived_time.setText(arrayList.get(position).getArrived_time());
         holder.textview_cost.setText(arrayList.get(position).getCost());
