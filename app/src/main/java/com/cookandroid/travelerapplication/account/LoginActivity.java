@@ -221,8 +221,6 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        //---------------------
-        //소셜 로그인 탈퇴
 
 
     }

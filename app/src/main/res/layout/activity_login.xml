@@ -142,7 +142,7 @@
                     android:textColor="#B1B1B1" />
             </LinearLayout>
 
-            <EditText
+            <TextView
                 android:id="@+id/snsLoginText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
