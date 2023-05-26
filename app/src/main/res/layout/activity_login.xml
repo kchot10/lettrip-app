@@ -119,18 +119,10 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/findID_Btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
-                    android:text="ID찾기"
-                    android:textColor="#B1B1B1" />
-
-                <Button
                     android:id="@+id/findPW_Btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
+                    android:background="@color/white"
                     android:text="PW찾기"
                     android:textColor="#B1B1B1" />
 
@@ -149,6 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:ems="10"
+                android:enabled="false"
                 android:gravity="center"
                 android:inputType="textPersonName"
                 android:text="SNS 간편 로그인"

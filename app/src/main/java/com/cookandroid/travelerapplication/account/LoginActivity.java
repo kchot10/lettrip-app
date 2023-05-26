@@ -7,12 +7,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -42,6 +44,7 @@ import com.kakao.sdk.user.model.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
@@ -76,6 +79,11 @@ public class LoginActivity extends AppCompatActivity{
         fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", ec2_ADDRESS);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+
+        findViewById(R.id.findPW_Btn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, FindPwdActivity.class);
+            startActivity(intent);
+        });
 
         //회원가입 버튼을 눌렀을 때
         findViewById(R.id.joinBtn).setOnClickListener(v -> {
