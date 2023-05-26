@@ -134,6 +134,7 @@ public class SelectData_Travel_Mypage extends AsyncTask<String,Void,String> { //
             String places = jsonObject.getString("places");
             String travel_id = jsonObject.getString("travel_id");
             String number_of_courses = jsonObject.getString("number_of_courses");
+            String user_id = jsonObject.getString("user_id");
 
             travel.setTravel_theme(travel_theme);
             travel.setTotal_cost(total_cost);
@@ -141,6 +142,7 @@ public class SelectData_Travel_Mypage extends AsyncTask<String,Void,String> { //
             travel.setPlaces(places);
             travel.setTravel_id(travel_id);
             travel.setNumber_of_courses(number_of_courses);
+            travel.setUser_id(user_id);
 
             articleArrayList.add(travel);
 
