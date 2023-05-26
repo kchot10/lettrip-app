@@ -78,6 +78,8 @@ public class ArticleContentActivity extends AppCompatActivity {
         recyclerView_comment.setLayoutManager(layoutManager);
         Refresh();
 
+        UpdateData_Article_Hit updateData_article_hit = new UpdateData_Article_Hit();
+        updateData_article_hit.execute("http://"+IP_ADDRESS+"/0422/UpdateData_Article_Hit.php", article_id);
 
         if (user_id_login.equals(getIntent().getStringExtra("user_id"))) {
             findViewById(R.id.button_update).setVisibility(View.VISIBLE);

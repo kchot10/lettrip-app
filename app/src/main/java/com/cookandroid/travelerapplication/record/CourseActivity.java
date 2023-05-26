@@ -180,7 +180,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                     int value = Integer.parseInt(hour);
                     // 값이 1~24 사이인지 확인합니다.
                     if (value >= 0 && value <= 23) {
-                        editText_arrived_time_min.setText("0");
+                        editText_arrived_time_min.setText("00");
                     } else {
                         Toast.makeText(getApplicationContext(), "0부터 23 사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show();
                         editText_arrived_time_hour.setText("");
