@@ -10,13 +10,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.SelectData_Travel;
+import com.cookandroid.travelerapplication.task.SelectData_Travel_Mypage;
 
+import java.sql.Ref;
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
@@ -48,6 +51,13 @@ public class SearchActivity extends AppCompatActivity {
         spinner_city = findViewById(R.id.spinner_city);
         spinner_number_of_courses = findViewById(R.id.spinner_number_of_courses);
         spinner_theme = findViewById(R.id.spinner_theme);
+
+        if (getIntent().getStringExtra("search/mypage").equals("mypage")){
+            LinearLayout layout  = findViewById(R.id.linearLayout_category);
+            layout.getLayoutParams().height = 0;
+            layout.requestLayout();
+            Refresh();
+        }
         spinner_cost.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -170,26 +180,41 @@ public class SearchActivity extends AppCompatActivity {
 
 
     public void Refresh() {
-        // Record class, SelectData_Record task, RecordAdapter
-        travelArrayList = new ArrayList<>();
-        SelectData_Travel task = new SelectData_Travel(travelArrayList);
-        String city = spinner_city.getSelectedItem().toString().trim();
-        province = spinner_province.getSelectedItem().toString().trim();
-        number_of_courses = spinner_number_of_courses.getSelectedItem().toString().trim();
-        travel_theme = spinner_theme.getSelectedItem().toString().trim();
-        Toast.makeText(this, "total_cost"+total_cost+
-                "province"+province+
-                "number_of_courses"+number_of_courses+
-                "travel_theme"+travel_theme, Toast.LENGTH_LONG).show();
-        task.execute("http://" + IP_ADDRESS + "/0503/selectdata_travel.php", city, province, total_cost, number_of_courses,travel_theme);
-        try {
-            new Handler().postDelayed(() -> {
-                recyclerView_adapter = new TravelAdapter(travelArrayList, this);
-                recyclerView.setAdapter(recyclerView_adapter);
-            }, 1000); // 0.5초 지연 시간
-        }catch (Exception e){
-            e.printStackTrace();
+        if (getIntent().getStringExtra("search/mypage").equals("mypage")){
+            travelArrayList = new ArrayList<>();
+            SelectData_Travel_Mypage task = new SelectData_Travel_Mypage(travelArrayList);
+            String user_id = fileHelper.readFromFile("user_id");
+            task.execute("http://" + IP_ADDRESS + "/0503/selectdata_travel_mypage.php", user_id);
+            try {
+                new Handler().postDelayed(() -> {
+                    recyclerView_adapter = new TravelAdapter(travelArrayList, this);
+                    recyclerView.setAdapter(recyclerView_adapter);
+                }, 1000); // 0.5초 지연 시간
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return;
+        }else{
+            // Record class, SelectData_Record task, RecordAdapter
+            travelArrayList = new ArrayList<>();
+            SelectData_Travel task = new SelectData_Travel(travelArrayList);
+            String city = spinner_city.getSelectedItem().toString().trim();
+            province = spinner_province.getSelectedItem().toString().trim();
+            number_of_courses = spinner_number_of_courses.getSelectedItem().toString().trim();
+            travel_theme = spinner_theme.getSelectedItem().toString().trim();
+            Toast.makeText(this, "total_cost"+total_cost+
+                    "province"+province+
+                    "number_of_courses"+number_of_courses+
+                    "travel_theme"+travel_theme, Toast.LENGTH_LONG).show();
+            task.execute("http://" + IP_ADDRESS + "/0503/selectdata_travel.php", city, province, total_cost, number_of_courses,travel_theme);
+            try {
+                new Handler().postDelayed(() -> {
+                    recyclerView_adapter = new TravelAdapter(travelArrayList, this);
+                    recyclerView.setAdapter(recyclerView_adapter);
+                }, 1000); // 0.5초 지연 시간
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
-
     }
 }
