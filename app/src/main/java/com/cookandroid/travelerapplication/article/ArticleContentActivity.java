@@ -63,9 +63,8 @@ public class ArticleContentActivity extends AppCompatActivity {
         textView_date.setText(getIntent().getStringExtra("created_date"));
         textview_title.setText(getIntent().getStringExtra("title"));
         textview_content.setText(getIntent().getStringExtra("content"));
-        textview_count_view.setText(getIntent().getStringExtra("hit"));
-        //Todo: comment_number(댓글 수)의 데이터를 실제론 못들고왔음.
-        //board_comment.setText(getIntent().getStringExtra("comment_number"));
+        textview_count_view.setText(" "+getIntent().getStringExtra("hit"));
+        board_comment.setText(" "+getIntent().getStringExtra("comment_number"));
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         String user_id_login = fileHelper.readFromFile("user_id").trim();
@@ -152,5 +151,11 @@ public class ArticleContentActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String currentTime = sdf.format(date);
         return currentTime;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Refresh();
     }
 }

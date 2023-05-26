@@ -45,7 +45,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Glide.with(context)
                 .load(arrayList.get(position).getImage_url())
+                .placeholder(R.drawable.user)
                 .into(holder.profilePhoto);
+        // @tools:sample/avatars[0]
         String mentioned_user_name = arrayList.get(position).getMentioned_user_name();
         if (!mentioned_user_name.equals("null")) {
             holder.textview_mentioned_user_name.setText("@"+mentioned_user_name+" ");
@@ -57,6 +59,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.textview_created_date.setText(arrayList.get(position).getCreated_date());
         if (user_id.trim().equals(arrayList.get(position).getUser_id())){
             holder.button_delete.setVisibility(View.VISIBLE);
+        }
+        if (!arrayList.get(position).getComment_count().equals("0")) {
+            holder.comment_number.setText("답글 " + arrayList.get(position).getComment_count() + "개");
+        } else {
+            holder.comment_number.setHeight(0);
         }
     }
 
@@ -72,6 +79,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         TextView textview_content;
         TextView textview_user_id;
         TextView textview_created_date;
+        TextView comment_number;
         Button button_delete;
 
 
@@ -82,6 +90,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             this.textview_content = itemView.findViewById(R.id.textview_content);
             this.textview_user_id = itemView.findViewById(R.id.textview_user_id);
             this.textview_created_date = itemView.findViewById(R.id.textview_created_date);
+            comment_number = itemView.findViewById(R.id.comment_number);
             this.button_delete = itemView.findViewById(R.id.button_delete);
             FileHelper fileHelper = new FileHelper(context);
 

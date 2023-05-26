@@ -76,6 +76,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
                 intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
                 intent.putExtra("name", arrayList.get(curpos).getName());
                 intent.putExtra("image_url", arrayList.get(curpos).getImage_url());
+                intent.putExtra("comment_number", arrayList.get(curpos).getComment_number());
                 context.startActivity(intent);
             });
 

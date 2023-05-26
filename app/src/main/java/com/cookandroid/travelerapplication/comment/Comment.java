@@ -13,6 +13,15 @@ public class Comment {
     private String name;
     private String mentioned_user_name;
     private String image_url;
+    private String comment_count;
+
+    public String getComment_count() {
+        return comment_count;
+    }
+
+    public void setComment_count(String comment_count) {
+        this.comment_count = comment_count;
+    }
 
     public String getImage_url() {
         return image_url;
