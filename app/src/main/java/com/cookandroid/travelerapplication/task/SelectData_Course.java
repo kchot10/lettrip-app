@@ -137,6 +137,7 @@ public class SelectData_Course extends AsyncTask<String,Void,String> { // 통신
             String detailed_review = jsonObject.getString("detailed_review");
             String course_id = jsonObject.getString("course_id");
             String user_id = jsonObject.getString("user_id");
+            String arrived_time_real = jsonObject.getString("arrived_time_real");
 
             course.setArrived_time(arrived_time);
             course.setCost(cost);
@@ -149,6 +150,7 @@ public class SelectData_Course extends AsyncTask<String,Void,String> { // 통신
             course.setDetailed_review(detailed_review);
             course.setCourse_id(course_id);
             course.setUser_id(user_id);
+            course.setArrived_time_real(arrived_time_real);
 
             articleArrayList.add(course);
 

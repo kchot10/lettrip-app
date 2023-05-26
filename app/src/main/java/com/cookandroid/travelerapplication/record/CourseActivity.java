@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -141,7 +142,9 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                         Toast.makeText(this, "리뷰 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                         fileHelper.writeToFile("review_id", withdraw_result);
                         if (getIntent().getStringExtra("record/plan").equals("plan")){
-                            findViewById(R.id.button_add_cource).performClick();
+                            new Handler().postDelayed(() -> {
+                                    findViewById(R.id.button_add_cource).performClick();
+                            }, 500);
                         } else{
                             findViewById(R.id.button_image_add).setVisibility(View.VISIBLE);
                             findViewById(R.id.button_add_cource).setVisibility(View.VISIBLE);
@@ -271,6 +274,12 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
 
                 InsertData_Course insertData_course = new InsertData_Course();
                 insertData_course.execute("http://"+IP_ADDRESS+"/0503/InsertData_Course.php",arrived_time,cost,day_count, place_id,review_review_id, travel_id);
+
+                Log.d("lettrip", "arrived_time:"+arrived_time+
+                                "\ncost:"+cost + "\nday_count:"+day_count+
+                        "\nplace_id:"+place_id+
+                        "\nreview_review_id:"+review_review_id+
+                        "\ntravel_id:"+travel_id);
                 finish();
             }
         });

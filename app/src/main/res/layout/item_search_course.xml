@@ -45,21 +45,10 @@
                 android:text="경상감영공원"
                 android:textAlignment="center" />
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/button_course_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:text="delete"
-                android:textColor="@color/white"
-                android:textSize="9sp"
-                android:visibility="invisible" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/timeText"

@@ -12,6 +12,15 @@ public class Course {
     private String rating;
     private String detailed_review;
     private String user_id;
+    private String arrived_time_real;
+
+    public String getArrived_time_real() {
+        return arrived_time_real;
+    }
+
+    public void setArrived_time_real(String arrived_time_real) {
+        this.arrived_time_real = arrived_time_real;
+    }
 
     public String getUser_id() {
         return user_id;

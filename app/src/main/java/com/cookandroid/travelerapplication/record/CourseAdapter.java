@@ -59,9 +59,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.textview_daycount.setText(arrayList.get(position).getDay_count()+"일차");
         holder.ratingBar_rating.setRating(Integer.parseInt(arrayList.get(position).getRating()));
         holder.ratingBar_rating.setIsIndicator(true);
-        if(arrayList.get(position).getUser_id().equals(mUser_id)){
-            holder.button_course_delete.setVisibility(View.VISIBLE);
-        }
 
     }
 
@@ -77,7 +74,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         TextView textview_cost;
         TextView textview_daycount;
         RatingBar ratingBar_rating;
-        Button button_course_delete;
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
             this.placePhoto = itemView.findViewById(R.id.placeImageView);
@@ -86,16 +82,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             this.textview_cost = itemView.findViewById(R.id.costText);
             this.textview_daycount = itemView.findViewById(R.id.textView_daycount);
             this.ratingBar_rating = itemView.findViewById(R.id.ratingBar_rating);
-            this.button_course_delete = itemView.findViewById(R.id.button_course_delete);
-
-            button_course_delete.setOnClickListener(v -> {
-                int curpos = getAbsoluteAdapterPosition();
-                DeleteData_Course deleteData_course = new DeleteData_Course();
-                deleteData_course.execute("http://" + IP_ADDRESS + "/0411/deletedata_course.php", arrayList.get(curpos).getCourse_id());
-                arrayList.remove(curpos);
-                notifyItemRemoved(curpos);
-                notifyItemRangeChanged(curpos, arrayList.size());
-            });
 
             itemView.setOnClickListener(v -> {
                 int curpos = getAbsoluteAdapterPosition();
@@ -109,6 +95,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 intent.putExtra("place_name", arrayList.get(curpos).getPlace_name());
                 intent.putExtra("category_name", arrayList.get(curpos).getCategory_name());
                 intent.putExtra("detailed_review", arrayList.get(curpos).getDetailed_review());
+                intent.putExtra("arrived_time_real", arrayList.get(curpos).getArrived_time_real());
 
                 context.startActivity(intent);
             });
