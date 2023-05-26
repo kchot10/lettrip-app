@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -81,6 +82,11 @@ public class RecordMain extends AppCompatActivity{
         spinner2 = findViewById(R.id.cityDropdown_detail);
         spinner2.setAdapter(adapter2);
         spinner3 = findViewById(R.id.themeDropdown);
+
+        TextView recordTitle = findViewById(R.id.recordTitle);
+        if (getIntent().getStringExtra("record/plan").equals("plan")) {
+            recordTitle.setText("코스 계획하기");
+        }
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
@@ -172,6 +178,7 @@ public class RecordMain extends AppCompatActivity{
                 ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        getCurrentTime();
                         //받아온 데이터를 db에 저장
                         dialog.dismiss();
                     }
@@ -230,13 +237,16 @@ public class RecordMain extends AppCompatActivity{
                 Toast.makeText(this,"마지막 날짜가 시작 날짜보다 앞에 있습니다. 날짜를 다시 입력하세요",Toast.LENGTH_SHORT).show();
                 dateBtn_start.setText("");
                 dateBtn_end.setText("");
-            } else if (subtractDates(getCurrentTime(), dateBtn_end.getText().toString()) < 0) {
-                Toast.makeText(this,"마지막 날짜가 오늘 날짜보다 뒤에 있습니다. 날짜를 다시 입력하세요",Toast.LENGTH_SHORT).show();
-                dateBtn_start.setText("");
+            } else if (subtractDates(getCurrentTime(), dateBtn_end.getText().toString()) < 0 && getIntent().getStringExtra("record/plan").equals("record")) {
+                Toast.makeText(this,"오늘 이후의 후기 기록은 할 수 없습니다. 날짜를 다시 입력하세요",Toast.LENGTH_SHORT).show();
                 dateBtn_end.setText("");
+            } else if (subtractDates(getCurrentTime(), dateBtn_start.getText().toString()) > 0 && getIntent().getStringExtra("record/plan").equals("plan")) {
+                Toast.makeText(this,"오늘 이전의 계획을 할 수 없습니다. 날짜를 다시 입력하세요",Toast.LENGTH_SHORT).show();
+                dateBtn_start.setText("");
             } else {
                 findViewById(R.id.addPlaceBtn).setVisibility(View.VISIBLE);
                 button_travel_upload.setVisibility(View.INVISIBLE);
+                edittext_title.setEnabled(false);
                 spinner.setEnabled(false);
                 spinner2.setEnabled(false);
                 dateBtn_end.setEnabled(false);
@@ -257,6 +267,7 @@ public class RecordMain extends AppCompatActivity{
             intent.putExtra("province", spinner.getSelectedItem().toString().trim());
             intent.putExtra("city", spinner2.getSelectedItem().toString().trim());
             intent.putExtra("depart_date", dateBtn_start.getText().toString().trim());
+            intent.putExtra("record/plan", getIntent().getStringExtra("record/plan"));
             startActivity(intent);
 
         });

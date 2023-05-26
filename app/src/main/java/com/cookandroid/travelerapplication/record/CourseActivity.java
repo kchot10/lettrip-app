@@ -78,6 +78,13 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
         editText_detailed_review = findViewById(R.id.editText_detailed_review);
         edit_rating = findViewById(R.id.edit_rating);
 
+        if (getIntent().getStringExtra("record/plan").equals("plan")){
+            edit_rating.setVisibility(View.INVISIBLE);
+            editText_detailed_review.setVisibility(View.INVISIBLE);
+            Button button = findViewById(R.id.button_add_review);
+            button.setText("등록");
+        }
+
 
 
         recyclerView = findViewById(R.id.RecyclerView_placePhoto);
@@ -105,7 +112,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                 Toast.makeText(this, "도착 시간을 입력하세요", Toast.LENGTH_SHORT).show();
             } else if (editText_cost.getText().toString().trim().equals("")) {
                 Toast.makeText(this, "비용을 입력하세요", Toast.LENGTH_SHORT).show();
-            } else if (editText_detailed_review.getText().toString().trim().equals("")) {
+            } else if (editText_detailed_review.getText().toString().trim().equals("") && getIntent().getStringExtra("record/plan").equals("record")) {
                 Toast.makeText(this, "상세 후기를 입력하세요", Toast.LENGTH_SHORT).show();
             }
 
@@ -117,6 +124,9 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                 String visit_times = "1";
                 String place_id = fileHelper.readFromFile("place_id");
                 String user_id = fileHelper.readFromFile("user_id");
+                if(getIntent().getStringExtra("record/plan").equals("plan")){
+                    rating = "0";
+                }
 
                 InsertData_Review insertData_review = new InsertData_Review();
                 insertData_review.execute("http://"+IP_ADDRESS+"/0503/InsertData_Review.php"
@@ -130,11 +140,15 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                     } else {
                         Toast.makeText(this, "리뷰 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                         fileHelper.writeToFile("review_id", withdraw_result);
-                        findViewById(R.id.button_image_add).setVisibility(View.VISIBLE);
-                        findViewById(R.id.button_add_cource).setVisibility(View.VISIBLE);
-                        findViewById(R.id.button_add_review).setVisibility(View.INVISIBLE);
-                        edit_rating.setEnabled(false);
-                        editText_detailed_review.setEnabled(false);
+                        if (getIntent().getStringExtra("record/plan").equals("plan")){
+                            findViewById(R.id.button_add_cource).performClick();
+                        } else{
+                            findViewById(R.id.button_image_add).setVisibility(View.VISIBLE);
+                            findViewById(R.id.button_add_cource).setVisibility(View.VISIBLE);
+                            findViewById(R.id.button_add_review).setVisibility(View.INVISIBLE);
+                            edit_rating.setEnabled(false);
+                            editText_detailed_review.setEnabled(false);
+                        }
                     }
                 }, 1000); // 0.5초 지연 시간
 
