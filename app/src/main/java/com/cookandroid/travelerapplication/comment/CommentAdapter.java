@@ -114,6 +114,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 intent.putExtra("parent_comment_id", arrayList.get(curpos).getParent_comment_id());
                 intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
                 intent.putExtra("name", arrayList.get(curpos).getName());
+                intent.putExtra("image_url", arrayList.get(curpos).getImage_url());
+
                 context.startActivity(intent);
             });
 

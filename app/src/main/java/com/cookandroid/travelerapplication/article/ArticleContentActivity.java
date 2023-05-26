@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.MbEditText;
 import com.cookandroid.travelerapplication.comment.Comment;
 import com.cookandroid.travelerapplication.comment.CommentAdapter;
@@ -47,6 +48,7 @@ public class ArticleContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_content2);
+        ImageView profilePhoto = findViewById(R.id.profilePhoto);
         edittext_content = findViewById(R.id.edittext_content);
         textview_name = findViewById(R.id.textview_user_id);
         textView_date = findViewById(R.id.textview_created_date);
@@ -54,7 +56,9 @@ public class ArticleContentActivity extends AppCompatActivity {
         textview_content = findViewById(R.id.textview_content);
         textview_count_view = findViewById(R.id.textview_count_view);
         board_comment = findViewById(R.id.board_comment);
-        // Todo: img_url 불러와서 profilePhoto에 Gilde로 이미지 넣기.
+        Glide.with(this)
+                .load(getIntent().getStringExtra("image_url"))
+                .into(profilePhoto);
         textview_name.setText(getIntent().getStringExtra("name"));
         textView_date.setText(getIntent().getStringExtra("created_date"));
         textview_title.setText(getIntent().getStringExtra("title"));

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.MbEditText;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.R;
@@ -46,10 +48,14 @@ public class CommentListActivity extends AppCompatActivity {
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         edittext_content = findViewById(R.id.edittext_content);
         article_id = getIntent().getStringExtra("article_id");
+        ImageView profilePhoto = findViewById(R.id.profilePhoto_comment);
         TextView textView_mention = findViewById(R.id.textView_mention);
         textview_user_id_comment = findViewById(R.id.textview_user_id_comment);
         textview_created_date_comment = findViewById(R.id.textview_created_date_comment);
         textview_content_comment = findViewById(R.id.textview_content_comment);
+        Glide.with(this)
+                .load(getIntent().getStringExtra("image_url"))
+                .into(profilePhoto);
         textview_user_id_comment.setText(getIntent().getStringExtra("name"));
         textview_content_comment.setText(getIntent().getStringExtra("content"));
         textview_created_date_comment.setText(getIntent().getStringExtra("created_date"));

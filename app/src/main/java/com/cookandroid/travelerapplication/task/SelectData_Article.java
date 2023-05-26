@@ -149,6 +149,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             String title = jsonObject.getString("title");
             String user_id = jsonObject.getString("user_id");
             String name = jsonObject.getString("name");
+            String image_url = jsonObject.getString("image_url");
 
             article.setArticle_id(articleId);
             article.setCreated_date(createdDate);
@@ -159,6 +160,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             article.setTitle(title);
             article.setUser_id(user_id);
             article.setName(name);
+            article.setImage_url(image_url);
 
             articleArrayList.add(article);
 
