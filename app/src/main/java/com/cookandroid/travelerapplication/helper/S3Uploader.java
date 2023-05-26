@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication.record;
+package com.cookandroid.travelerapplication.helper;
 
 import android.content.Context;
 import android.database.Cursor;

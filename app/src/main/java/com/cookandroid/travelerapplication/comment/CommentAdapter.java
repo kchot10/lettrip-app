@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.DeleteData_Comment;
@@ -41,6 +43,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+        Glide.with(context)
+                .load(arrayList.get(position).getImage_url())
+                .into(holder.profilePhoto);
         String mentioned_user_name = arrayList.get(position).getMentioned_user_name();
         if (!mentioned_user_name.equals("null")) {
             holder.textview_mentioned_user_name.setText("@"+mentioned_user_name+" ");
@@ -62,16 +67,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
+        ImageView profilePhoto;
         TextView textview_mentioned_user_name;
         TextView textview_content;
         TextView textview_user_id;
         TextView textview_created_date;
-
         Button button_delete;
 
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.profilePhoto = itemView.findViewById(R.id.profilePhoto);
             this.textview_mentioned_user_name = itemView.findViewById(R.id.textview_mentioned_user_name);
             this.textview_content = itemView.findViewById(R.id.textview_content);
             this.textview_user_id = itemView.findViewById(R.id.textview_user_id);

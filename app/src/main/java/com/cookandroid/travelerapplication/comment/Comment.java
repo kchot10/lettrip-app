@@ -10,9 +10,17 @@ public class Comment {
     private String user_id;
     private String mentioned_user_id;
     private String parent_comment_id;
-
     private String name;
     private String mentioned_user_name;
+    private String image_url;
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
 
     public String getMentioned_user_name() {
         return mentioned_user_name;

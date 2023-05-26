@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.helper.S3Uploader;
 import com.cookandroid.travelerapplication.kotlin.KotlinActivity;
 import com.cookandroid.travelerapplication.task.InsertData_Course;
 import com.cookandroid.travelerapplication.task.InsertData_Image;

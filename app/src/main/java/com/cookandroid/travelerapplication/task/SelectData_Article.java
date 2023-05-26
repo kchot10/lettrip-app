@@ -186,6 +186,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             String user_id = jsonObject.getString("user_id");
             String name = jsonObject.getString("name");
             String mentioned_user_name = jsonObject.getString("mentioned_user_name");
+            String image_url = jsonObject.getString("image_url");
 
             comment.setComment_id(comment_id);
             comment.setCreated_date(createdDate);
@@ -197,6 +198,7 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             comment.setUser_id(user_id);
             comment.setName(name);
             comment.setMentioned_user_name(mentioned_user_name);
+            comment.setImage_url(image_url);
 
             articleArrayList.add(comment);
 
