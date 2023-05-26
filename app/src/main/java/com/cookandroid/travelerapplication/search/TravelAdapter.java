@@ -49,6 +49,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
         holder.textView_places.setText(arrayList.get(position).getPlaces());
         holder.textView_travel_theme.setText(arrayList.get(position).getTravel_theme());
         holder.textView_total_cost.setText(arrayList.get(position).getTotal_cost()+"원");
+        holder.textView_number_of_courses_search.setText(arrayList.get(position).getNumber_of_courses());
         if(arrayList.get(position).getUser_id().equals(mUser_id)){
             holder.button_update_travel.setVisibility(View.VISIBLE);
             holder.button_delete_travel.setVisibility(View.VISIBLE);
@@ -61,7 +62,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
     }
 
     public class TravelViewHolder extends RecyclerView.ViewHolder {
-        TextView textView_travel_theme, textView_city, textView_total_cost, textView_places;
+        TextView textView_travel_theme, textView_city, textView_total_cost, textView_places, textView_number_of_courses_search;
         Button button_update_travel, button_delete_travel;
 
         public TravelViewHolder(@NonNull View itemView) {
@@ -70,6 +71,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
             this.textView_city = itemView.findViewById(R.id.textView_city);
             this.textView_total_cost = itemView.findViewById(R.id.textView_total_cost);
             this.textView_places = itemView.findViewById(R.id.textView_places);
+            this.textView_number_of_courses_search = itemView.findViewById(R.id.courseNum);
             this.button_update_travel = itemView.findViewById(R.id.button_update_travel);
             this.button_delete_travel = itemView.findViewById(R.id.button_delete_travel);
 
