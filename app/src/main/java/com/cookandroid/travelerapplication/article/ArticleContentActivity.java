@@ -58,6 +58,7 @@ public class ArticleContentActivity extends AppCompatActivity {
         board_comment = findViewById(R.id.board_comment);
         Glide.with(this)
                 .load(getIntent().getStringExtra("image_url"))
+                .placeholder(R.drawable.user)
                 .into(profilePhoto);
         textview_name.setText(getIntent().getStringExtra("name"));
         textView_date.setText(getIntent().getStringExtra("created_date"));
