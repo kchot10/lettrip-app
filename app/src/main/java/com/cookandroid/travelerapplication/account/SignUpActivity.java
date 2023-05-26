@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.SendMail;
@@ -41,13 +42,11 @@ public class SignUpActivity extends AppCompatActivity implements S3Uploader.OnUp
 
     private static String TAG = "phptest"; //phptest log 찍으려는 용도
 
-    private String mImageUrl;
+    private String mImageUrl = "";
     private TextView signup_id;
     private TextView signup_pwd;
     private TextView signup_pwd2;
     private TextView signup_name;
-
-    private TextView signup_image_url;
     private TextView signup_nickname;
 
 
@@ -78,7 +77,6 @@ public class SignUpActivity extends AppCompatActivity implements S3Uploader.OnUp
         signup_pwd = (EditText) findViewById(R.id.signup_pwd);
         signup_pwd2 = (EditText) findViewById(R.id.signup_pwd2);
         signup_name = (EditText) findViewById(R.id.signup_name);
-        signup_image_url = (EditText) findViewById(R.id.signup_image_url);
         signup_nickname = (EditText) findViewById(R.id.signup_nickname);
         signup_button = (Button) findViewById(R.id.join_button);
         back = (ImageView) findViewById(R.id.back);
@@ -111,12 +109,11 @@ public class SignUpActivity extends AppCompatActivity implements S3Uploader.OnUp
                 String pwd = signup_pwd.getText().toString().trim();
                 String pwdcheck = signup_pwd2.getText().toString().trim();
                 String name = signup_name.getText().toString().trim();
-                String image_url = signup_image_url.getText().toString().trim();
                 String nickname = signup_nickname.getText().toString().trim();
 
 
                 //회원가입을 할 때 예외 처리를 해준 것이다.
-                if (email.equals("")  || pwd.equals("") || pwdcheck.equals("") || name.equals("") || image_url.equals("") || nickname.equals("") || code.equals(""))
+                if (email.equals("")  || pwd.equals("") || pwdcheck.equals("") || name.equals("") || mImageUrl.equals("") || nickname.equals("") || code.equals(""))
                 {
                     Toast.makeText(SignUpActivity.this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
@@ -132,7 +129,7 @@ public class SignUpActivity extends AppCompatActivity implements S3Uploader.OnUp
                             Toast.makeText(SignUpActivity.this, "이메일 인증이 완료되지 않았습니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             InsertData_SignUp task = new InsertData_SignUp(); //PHP 통신을 위한 InsertData 클래스의 task 객체 생성
-                            task.execute("http://"+IP_ADDRESS+"/0411/android_log_inset_php.php",email,hashPassword(pwd),name, image_url, nickname, "LOCAL");
+                            task.execute("http://"+IP_ADDRESS+"/0411/android_log_inset_php.php",email,hashPassword(pwd),name, mImageUrl, nickname, "LOCAL");
                             Toast.makeText(SignUpActivity.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
@@ -258,11 +255,10 @@ public class SignUpActivity extends AppCompatActivity implements S3Uploader.OnUp
     }
 
     private void Refresh() {
-        EditText signup_image_url = findViewById(R.id.signup_image_url);
-        signup_image_url.setText(mImageUrl);
-//        Glide.with(this)
-//                .load(mImageUrl)
-//                .into(holder.imageView_review);
+        ImageView profile_sign_up = findViewById(R.id.profile_sign_up);
+        Glide.with(this)
+                .load(mImageUrl)
+                .into(profile_sign_up);
     }
 
     @Override
