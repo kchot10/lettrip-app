@@ -229,7 +229,11 @@ public class LoginActivity extends AppCompatActivity{
             String name = account != null ? account.getDisplayName() : ""; //전체 이름
             String profileUrl = account != null? String.valueOf(account.getPhotoUrl()) : ""; //프로필 사진 url
 
-
+            Toast.makeText(this,
+                    "email:"+email
+                            +"name:"+name
+                            +"profileUrl:"+profileUrl,
+                    Toast.LENGTH_SHORT).show();
             Log.e("Google account", email);
             Log.e("Google account", name);
             Log.e("Google account", profileUrl);
@@ -344,6 +348,7 @@ public class LoginActivity extends AppCompatActivity{
                 Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
                 Log.d("youn", withdraw_result);
                 fileHelper.writeToFile("user_id", withdraw_result);
+                fileHelper.writeToFile("email", email);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }

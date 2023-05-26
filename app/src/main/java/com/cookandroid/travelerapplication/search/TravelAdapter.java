@@ -1,7 +1,10 @@
 package com.cookandroid.travelerapplication.search;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,12 +77,36 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
             this.button_delete_travel = itemView.findViewById(R.id.button_delete_travel);
 
             button_delete_travel.setOnClickListener(v -> {
-                int curpos = getAbsoluteAdapterPosition();
-                DeleteData_Travel deleteData_travel = new DeleteData_Travel();
-                deleteData_travel.execute("http://" + IP_ADDRESS + "/0411/deletedata_travel.php", arrayList.get(curpos).getTravel_id());
-                arrayList.remove(curpos);
-                notifyItemRemoved(curpos);
-                notifyItemRangeChanged(curpos, arrayList.size());
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("["+textView_city.getText().toString()+"] 여행을 정말로 삭제하시겠습니까?");
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int curpos = getAbsoluteAdapterPosition();
+                        DeleteData_Travel deleteData_travel = new DeleteData_Travel();
+                        deleteData_travel.execute("http://" + IP_ADDRESS + "/0411/deletedata_travel.php", arrayList.get(curpos).getTravel_id());
+                        arrayList.remove(curpos);
+                        notifyItemRemoved(curpos);
+                        notifyItemRangeChanged(curpos, arrayList.size());
+                    }
+                });
+                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                        Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
+                        positiveButton.setTextColor(Color.WHITE);
+                        negativeButton.setTextColor(Color.WHITE);
+                    }
+                });
+                dialog.show();
             });
 
             itemView.setOnClickListener(v -> {

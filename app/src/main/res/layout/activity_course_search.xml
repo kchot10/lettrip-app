@@ -180,10 +180,11 @@
         <EditText
             android:id="@+id/textView_detailed_review"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="30dp"
+            android:layout_weight="1"
             android:background="@drawable/innershadow_rectangle"
             android:elevation="-5dp"
             android:hint="후기가 출력됩니다."

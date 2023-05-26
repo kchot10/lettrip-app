@@ -5,7 +5,6 @@ public class Travel {
     String total_cost;
     String travel_theme;
     String places;
-
     String travel_id;
     String number_of_courses;
     String user_id;
