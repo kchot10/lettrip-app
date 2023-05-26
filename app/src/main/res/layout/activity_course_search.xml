@@ -143,16 +143,14 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="30dp"
-            android:layout_weight="1"
             android:background="@drawable/innershadow_rectangle"
             android:elevation="-5dp"
-            android:gravity="center"
             android:hint="후기가 출력됩니다."
-            android:inputType="text"
             android:padding="20dp"
             android:textColor="#000000"
             android:textColorHint="#BCBCBC"
             android:textSize="15sp" />
+
 
     </LinearLayout>
 </LinearLayout>

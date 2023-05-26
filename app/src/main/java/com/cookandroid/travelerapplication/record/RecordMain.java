@@ -263,7 +263,7 @@ public class RecordMain extends AppCompatActivity{
 
         findViewById(R.id.addPlaceBtn).setOnClickListener(v -> {
             Intent intent = new Intent(this, CourseActivity.class);
-            intent.putExtra("total_day_count", subtractDates(dateBtn_end.getText().toString(), dateBtn_start.getText().toString()));
+            intent.putExtra("total_day_count", subtractDates(dateBtn_end.getText().toString(), dateBtn_start.getText().toString())+1);
             intent.putExtra("province", spinner.getSelectedItem().toString().trim());
             intent.putExtra("city", spinner2.getSelectedItem().toString().trim());
             intent.putExtra("depart_date", dateBtn_start.getText().toString().trim());

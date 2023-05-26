@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -15,8 +16,12 @@ import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 
 import java.util.ArrayList;
+
+import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.search.CourseActivitySearch;
 import com.cookandroid.travelerapplication.search.RecordMainSearch;
+import com.cookandroid.travelerapplication.task.DeleteData_Course;
+import com.cookandroid.travelerapplication.task.DeleteData_Travel;
 
 import android.widget.ImageView;
 
@@ -25,10 +30,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     private ArrayList<Course> arrayList;
     private Context context;
+    private String mUser_id, IP_ADDRESS;
 
     public CourseAdapter(ArrayList<Course> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
+        FileHelper fileHelper = new FileHelper(context);
+        mUser_id = fileHelper.readFromFile("user_id");
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
     }
 
     @NonNull
@@ -50,6 +59,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.textview_daycount.setText(arrayList.get(position).getDay_count()+"일차");
         holder.ratingBar_rating.setRating(Integer.parseInt(arrayList.get(position).getRating()));
         holder.ratingBar_rating.setIsIndicator(true);
+        if(arrayList.get(position).getUser_id().equals(mUser_id)){
+            holder.button_course_delete.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -65,6 +77,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         TextView textview_cost;
         TextView textview_daycount;
         RatingBar ratingBar_rating;
+        Button button_course_delete;
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
             this.placePhoto = itemView.findViewById(R.id.placeImageView);
@@ -73,6 +86,16 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             this.textview_cost = itemView.findViewById(R.id.costText);
             this.textview_daycount = itemView.findViewById(R.id.textView_daycount);
             this.ratingBar_rating = itemView.findViewById(R.id.ratingBar_rating);
+            this.button_course_delete = itemView.findViewById(R.id.button_course_delete);
+
+            button_course_delete.setOnClickListener(v -> {
+                int curpos = getAbsoluteAdapterPosition();
+                DeleteData_Course deleteData_course = new DeleteData_Course();
+                deleteData_course.execute("http://" + IP_ADDRESS + "/0411/deletedata_course.php", arrayList.get(curpos).getCourse_id());
+                arrayList.remove(curpos);
+                notifyItemRemoved(curpos);
+                notifyItemRangeChanged(curpos, arrayList.size());
+            });
 
             itemView.setOnClickListener(v -> {
                 int curpos = getAbsoluteAdapterPosition();
