@@ -11,7 +11,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class UpdateData_Article extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class UpdateData_Review extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
@@ -19,15 +19,13 @@ public class UpdateData_Article extends AsyncTask<String,Void,String> { // 통�
     protected String doInBackground(String... params) {
 
         String serverURL = (String) params[0];
-        String article_id = (String)params[1];
-        String modified_date = (String)params[2];
-        String content = (String)params[3];
-        String title = (String)params[4];
+        String review_id = (String)params[1];
+        String detailed_review = (String)params[2];
+        String rating = (String)params[3];
 
-
-        String postParameters ="article_id="+article_id+"&modified_date="
-                +modified_date+"&content="+content
-                +"&title="+title;
+        String postParameters ="review_id="+review_id
+                +"&detailed_review=" +detailed_review
+                +"&rating="+rating;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -88,7 +86,7 @@ public class UpdateData_Article extends AsyncTask<String,Void,String> { // 통�
 
         catch (Exception e) {
 
-            Log.d(TAG, "UpdateData_Article: Error",e);
+            Log.d(TAG, "UpdateData_Review: Error",e);
 
             return  new String("Error " + e.getMessage());
 

@@ -6,6 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.cookandroid.travelerapplication.R;
@@ -13,6 +17,7 @@ import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.record.ImageAdapter;
 import com.cookandroid.travelerapplication.record.ImageReview;
 import com.cookandroid.travelerapplication.task.SelectData_ImageFile;
+import com.cookandroid.travelerapplication.task.UpdateData_Review;
 
 import java.util.ArrayList;
 
@@ -44,18 +49,55 @@ public class CourseActivitySearch extends AppCompatActivity {
         textView_cost_search.setText(getIntent().getStringExtra("cost")+"원");
         textView_arrived_time_search.setText(getIntent().getStringExtra("arrived_time"));
         textView_detailed_review.setText(getIntent().getStringExtra("detailed_review"));
-
-
-
+        textView_detailed_review.setEnabled(false);
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        String mUser_id = fileHelper.readFromFile("user_id");
         recyclerView = findViewById(R.id.recyclerView_imageFile);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         review_id = getIntent().getStringExtra("review_id");
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
+
+
+        if (getIntent().getStringExtra("user_id").equals(mUser_id)){
+            if (Float.parseFloat(getIntent().getStringExtra("rating")) == 0){
+                ratingBar.setRating(5);
+            }else {
+                ratingBar.setRating(Float.parseFloat(getIntent().getStringExtra("rating")));
+            }
+            Button button_add_image = findViewById(R.id.button_add_image);
+            ViewGroup.LayoutParams layoutParams = button_add_image.getLayoutParams();
+            layoutParams.width = 250;  // 원하는 가로 크기를 픽셀 단위로 지정
+            button_add_image.setLayoutParams(layoutParams);
+            ViewGroup.LayoutParams layoutParams2 = ratingBar.getLayoutParams();
+            layoutParams2.height = 100;
+            ratingBar.setLayoutParams(layoutParams2);
+
+            textView_detailed_review.setEnabled(true);
+            findViewById(R.id.button_update_course).setVisibility(View.VISIBLE);
+        }
+
+        findViewById(R.id.button_add_image).setOnClickListener(v -> {
+
+        });
+
+        findViewById(R.id.button_update_course).setOnClickListener(v -> {
+            String detailed_review = textView_detailed_review.getText().toString();
+            String rating = Float.toString(ratingBar.getRating());
+            UpdateData_Review updateData_review = new UpdateData_Review();
+            updateData_review.execute("http://" + IP_ADDRESS + "/0503/updatedata_review.php", review_id, detailed_review, rating);
+            finish();
+        });
+
         Refresh();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public void Refresh() {
