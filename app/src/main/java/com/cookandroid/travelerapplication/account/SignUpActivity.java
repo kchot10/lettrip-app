@@ -1,10 +1,14 @@
 package com.cookandroid.travelerapplication.account;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,10 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.SendMail;
+import com.cookandroid.travelerapplication.record.ImageAdapter;
+import com.cookandroid.travelerapplication.record.ImageReview;
+import com.cookandroid.travelerapplication.record.S3Uploader;
 import com.cookandroid.travelerapplication.task.CheckData_Email;
 import com.cookandroid.travelerapplication.task.InsertData_SignUp;
 
@@ -26,14 +36,17 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Locale;
 
-public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SignUpActivity extends AppCompatActivity implements S3Uploader.OnUploadListener {
+
+    private static final int REQUEST_CODE_PERMISSION = 100;
+    private static final int REQUEST_CODE_IMAGE = 200;
 
     // 수정사항
     private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
 
     private static String TAG = "phptest"; //phptest log 찍으려는 용도
 
-
+    private String mImageUrl;
     private TextView signup_id;
     private TextView signup_pwd;
     private TextView signup_pwd2;
@@ -190,6 +203,41 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 Toast.makeText(SignUpActivity.this, "코드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+
+        findViewById(R.id.add_image_url).setOnClickListener(v -> {
+            requestImageUpload();
+        });
+
+        requestPermissions();
+    }
+
+
+    private void requestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_CODE_PERMISSION);
+        }
+    }
+    private void requestImageUpload() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE_IMAGE);
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri imageUri = data.getData();
+                if (imageUri != null) {
+                    uploadImage(imageUri);
+                }
+            }
+        }
+    }
+    private void uploadImage(Uri imageUri) {
+        S3Uploader s3Uploader = new S3Uploader(this);
+        s3Uploader.uploadImage(imageUri, this);
     }
 
     public String hashPassword(String plainTextPassword) {
@@ -197,15 +245,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         return BCrypt.hashpw(plainTextPassword, salt);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 
     private void startTimer() {
         countDownTimer = new CountDownTimer(3 * 60 * 1000, 1000) {
@@ -221,5 +260,30 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             }
         };
         countDownTimer.start();
+    }
+
+    private void Refresh() {
+        EditText signup_image_url = findViewById(R.id.signup_image_url);
+        signup_image_url.setText(mImageUrl);
+//        Glide.with(this)
+//                .load(mImageUrl)
+//                .into(holder.imageView_review);
+    }
+
+    @Override
+    public void onProgress(int progress) {
+
+    }
+
+    @Override
+    public void onSuccess(String imageUrl, String fileSize, String originalFileName, String storedFileName) {
+        mImageUrl = imageUrl;
+        Toast.makeText(this, "이미지 업로드 성공: " + imageUrl, Toast.LENGTH_SHORT).show();
+        Refresh();
+    }
+
+    @Override
+    public void onFailure() {
+
     }
 }
