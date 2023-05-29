@@ -743,7 +743,7 @@
                                 android:id="@+id/QRmissionImage"
                                 android:layout_width="71dp"
                                 android:layout_height="71dp"
-                                app:srcCompat="@drawable/QRmission_image" />
+                                app:srcCompat="@drawable/qr_mission_image" />
 
                             <TextView
                                 android:id="@+id/missionQR_title1"
@@ -780,7 +780,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="18dp"
                                 android:layout_marginBottom="13dp"
-                                app:srcCompat="@drawable/tripMission_image" />
+                                app:srcCompat="@drawable/trip_mission_image" />
 
                             <TextView
                                 android:id="@+id/missionTrip_title1"
@@ -809,7 +809,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:id="@+id/missionQR"
+                            android:id="@+id/missionQR2"
                             android:layout_width="166dp"
                             android:layout_height="166dp"
                             android:layout_marginRight="8dp"
@@ -822,13 +822,13 @@
                             android:paddingBottom="20dp">
 
                             <ImageView
-                                android:id="@+id/QRmissionImage"
+                                android:id="@+id/QRmissionImage2"
                                 android:layout_width="71dp"
                                 android:layout_height="71dp"
-                                app:srcCompat="@drawable/QRmission_image" />
+                                app:srcCompat="@drawable/qr_mission_image" />
 
                             <TextView
-                                android:id="@+id/missionQR_title1"
+                                android:id="@+id/missionQR_title11"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -836,7 +836,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
-                                android:id="@+id/missionQR_title2"
+                                android:id="@+id/missionQR_title22"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="QR코드 인증"
@@ -845,7 +845,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/missionTrip"
+                            android:id="@+id/missionTrip2"
                             android:layout_width="166dp"
                             android:layout_height="166dp"
                             android:background="@drawable/mission_background"
@@ -856,16 +856,16 @@
                             android:paddingBottom="20dp">
 
                             <ImageView
-                                android:id="@+id/TripMissionImage"
+                                android:id="@+id/TripMissionImage2"
                                 android:layout_width="96dp"
                                 android:layout_height="45dp"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="18dp"
                                 android:layout_marginBottom="13dp"
-                                app:srcCompat="@drawable/tripMission_image" />
+                                app:srcCompat="@drawable/trip_mission_image" />
 
                             <TextView
-                                android:id="@+id/missionTrip_title1"
+                                android:id="@+id/missionTrip_title11"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -873,7 +873,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
-                                android:id="@+id/missionTrip_title2"
+                                android:id="@+id/missionTrip_title22"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="즉흥 여행 미션"
