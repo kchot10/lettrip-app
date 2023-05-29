@@ -94,7 +94,8 @@
                     android:layout_marginTop="30dp"
                     android:backgroundTint="#515674"
                     android:elevation="7dp"
-                    android:text="CREATE" />
+                    android:text="CREATE"
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/button_update"
@@ -102,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:text="update"
+                    android:textColor="@color/white"
                     android:visibility="invisible" />
             </LinearLayout>
 

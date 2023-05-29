@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.comment.CommentAdapter;
 
 import java.util.ArrayList;
 
@@ -27,21 +28,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
     @NonNull
     @Override
     public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.fragment_article_ltem, parent, false);
-
-        BoardViewHolder viewHolder = new BoardViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int position = viewHolder.getAdapterPosition();
-                if(position != RecyclerView.NO_POSITION){
-                    context.startActivity(new Intent(context, ArticleContentActivity.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                }
-            }
-        });
-        return new BoardViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_article_ltem, parent, false);
+        ArticleAdapter.BoardViewHolder holder = new ArticleAdapter.BoardViewHolder(view);
+        return holder;
     }
 
     @Override
@@ -52,22 +41,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
-    }
+        return (arrayList != null ? arrayList.size() : 0);
 
-    public void addItem(Article item){
-        arrayList.add(item);
-    }
-    public void setItems(ArrayList<Article> items){
-        this.arrayList = items;
-    }
-
-    public Article getItem(int position){
-        return arrayList.get(position);
-    }
-
-    public void setItem(int position, Article item){
-        arrayList.set(position, item);
     }
 
     public class BoardViewHolder extends RecyclerView.ViewHolder {
@@ -76,6 +51,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
         TextView textview_date_of_writing;
         TextView textview_count_view;
         TextView textview_count_like;
+        TextView board_comment;
 
         public BoardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +60,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
             this.textview_date_of_writing = itemView.findViewById(R.id.textview_date_of_writing);
             this.textview_count_view = itemView.findViewById(R.id.textview_count_view);
             this.textview_count_like = itemView.findViewById(R.id.board_comment);
+            this.board_comment = itemView.findViewById(R.id.board_comment);
 
             itemView.setOnClickListener(v -> {
                 int curpos = getAbsoluteAdapterPosition();
@@ -99,6 +76,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
                 intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
                 intent.putExtra("name", arrayList.get(curpos).getName());
                 intent.putExtra("image_url", arrayList.get(curpos).getImage_url());
+                intent.putExtra("comment_number", arrayList.get(curpos).getComment_number());
                 context.startActivity(intent);
             });
 
@@ -110,6 +88,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.BoardVie
             textview_date_of_writing.setText(item.getCreated_date());
             textview_count_view.setText(" " + item.getHit());
             textview_count_like.setText(" " + item.getLike_count());
+            board_comment.setText(" "+item.getComment_number());
         }
     }
 

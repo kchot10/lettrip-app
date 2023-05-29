@@ -38,12 +38,26 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.button_record).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, RecordMain.class);
+            intent.putExtra("record/plan", "record");
+            startActivity(intent);
+        });
+
+        findViewById(R.id.button_plan).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RecordMain.class);
+            intent.putExtra("record/plan", "plan");
             startActivity(intent);
         });
 
 
         findViewById(R.id.button_search).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            intent.putExtra("search/mypage", "search");
+            startActivity(intent);
+        });
+
+        findViewById(R.id.button_travel_mypage).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            intent.putExtra("search/mypage", "mypage");
             startActivity(intent);
         });
 

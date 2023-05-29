@@ -35,7 +35,6 @@ public class ArticleCreateActivity extends AppCompatActivity {
         if (intent.getStringExtra("sign") != null){
             findViewById(R.id.button_create).setVisibility(View.INVISIBLE);
             findViewById(R.id.button_update).setVisibility(View.VISIBLE);
-            findViewById(R.id.deleteBtn).setVisibility(View.VISIBLE);
             edittext_title.setText(intent.getStringExtra("title").trim());
             edittext_content.setText(intent.getStringExtra("content").trim());
 
@@ -92,7 +91,7 @@ public class ArticleCreateActivity extends AppCompatActivity {
     private String getCurrentTime() {
         // 현재 시간 가져오기
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String currentTime = sdf.format(date);
         return currentTime;
     }

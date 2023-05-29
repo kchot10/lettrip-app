@@ -21,13 +21,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SelectData_Travel extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_Travel_Mypage extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
     public ArrayList articleArrayList;
 
-    public <T> SelectData_Travel(ArrayList<T> articleArrayList) {
+    public <T> SelectData_Travel_Mypage(ArrayList<T> articleArrayList) {
         this.articleArrayList = articleArrayList;
     }
 
@@ -38,14 +38,8 @@ public class SelectData_Travel extends AsyncTask<String,Void,String> { // 통신
 
         String postParameters = "";
         try {
-            String city = (String) params[1];
-            String province = (String) params[2];
-            String total_cost = (String) params[3];
-            String number_of_courses = (String) params[4];
-            String travel_theme = (String) params[5];
-            postParameters ="city="+city+"&province="+province
-                    +"&total_cost="+total_cost+"&number_of_courses="+number_of_courses
-                    +"&travel_theme="+travel_theme;
+            String user_id = (String) params[1];
+            postParameters ="user_id="+user_id;
 
         }catch (Exception e){
         }

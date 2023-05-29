@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.DeleteData_Comment;
@@ -41,6 +43,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+        Glide.with(context)
+                .load(arrayList.get(position).getImage_url())
+                .placeholder(R.drawable.user)
+                .into(holder.profilePhoto);
+        // @tools:sample/avatars[0]
         String mentioned_user_name = arrayList.get(position).getMentioned_user_name();
         if (!mentioned_user_name.equals("null")) {
             holder.textview_mentioned_user_name.setText("@"+mentioned_user_name+" ");
@@ -53,6 +60,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         if (user_id.trim().equals(arrayList.get(position).getUser_id())){
             holder.button_delete.setVisibility(View.VISIBLE);
         }
+        if (!arrayList.get(position).getComment_count().equals("0")) {
+            holder.comment_number.setText("답글 " + arrayList.get(position).getComment_count() + "개");
+        } else {
+            holder.comment_number.setHeight(0);
+        }
     }
 
     @Override
@@ -62,21 +74,24 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
+        ImageView profilePhoto;
         TextView textview_mentioned_user_name;
         TextView textview_content;
         TextView textview_user_id;
         TextView textview_created_date;
-
+        TextView comment_number;
         Button button_delete;
 
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.profilePhoto = itemView.findViewById(R.id.profilePhoto);
             this.textview_mentioned_user_name = itemView.findViewById(R.id.textview_mentioned_user_name);
             this.textview_content = itemView.findViewById(R.id.textview_content);
             this.textview_user_id = itemView.findViewById(R.id.textview_user_id);
             this.textview_created_date = itemView.findViewById(R.id.textview_created_date);
-            this.button_delete = itemView.findViewById(R.id.deleteBtn);
+            comment_number = itemView.findViewById(R.id.comment_number);
+            this.button_delete = itemView.findViewById(R.id.button_delete);
             FileHelper fileHelper = new FileHelper(context);
 
             button_delete.setOnClickListener(v -> {
@@ -84,6 +99,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 String IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
                 DeleteData_Comment task = new DeleteData_Comment();
                 task.execute("http://"+IP_ADDRESS+"/0411/deletedata_comment.php",arrayList.get(curpos).getComment_id());
+                arrayList.remove(curpos);
+                notifyItemRemoved(curpos);
+                notifyItemRangeChanged(curpos, arrayList.size());
             });
 
             itemView.setOnClickListener(v -> {
@@ -105,6 +123,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 intent.putExtra("parent_comment_id", arrayList.get(curpos).getParent_comment_id());
                 intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
                 intent.putExtra("name", arrayList.get(curpos).getName());
+                intent.putExtra("image_url", arrayList.get(curpos).getImage_url());
+
                 context.startActivity(intent);
             });
 

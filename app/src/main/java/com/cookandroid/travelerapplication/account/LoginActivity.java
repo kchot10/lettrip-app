@@ -7,12 +7,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -42,6 +44,7 @@ import com.kakao.sdk.user.model.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
@@ -59,7 +62,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class LoginActivity extends AppCompatActivity{
 
 
-    private static String ec2_ADDRESS = "13.125.248.221";
+    private static String ec2_ADDRESS = "43.201.99.113";
     private static String IP_ADDRESS;
     public static Context mContext;
     FileHelper fileHelper;
@@ -76,6 +79,11 @@ public class LoginActivity extends AppCompatActivity{
         fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", ec2_ADDRESS);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+
+        findViewById(R.id.findPW_Btn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, FindPwdActivity.class);
+            startActivity(intent);
+        });
 
         //회원가입 버튼을 눌렀을 때
         findViewById(R.id.joinBtn).setOnClickListener(v -> {
@@ -233,7 +241,11 @@ public class LoginActivity extends AppCompatActivity{
             String name = account != null ? account.getDisplayName() : ""; //전체 이름
             String profileUrl = account != null? String.valueOf(account.getPhotoUrl()) : ""; //프로필 사진 url
 
-
+            Toast.makeText(this,
+                    "email:"+email
+                            +"name:"+name
+                            +"profileUrl:"+profileUrl,
+                    Toast.LENGTH_SHORT).show();
             Log.e("Google account", email);
             Log.e("Google account", name);
             Log.e("Google account", profileUrl);
@@ -347,10 +359,14 @@ public class LoginActivity extends AppCompatActivity{
                 Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
             } else if (withdraw_result.equals("사용자 없음")) {
                 Toast.makeText(this, "아이디 또는 비밀번호를 잘못 입력했습니다.", Toast.LENGTH_SHORT).show();
+            } else if (withdraw_result.isEmpty()){
+                Toast.makeText(this, "IP_ADDRESS를 확인하세요.", Toast.LENGTH_SHORT).show();
+                return;
             } else {
                 Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
                 Log.d("youn", withdraw_result);
                 fileHelper.writeToFile("user_id", withdraw_result);
+                fileHelper.writeToFile("email", email);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }

@@ -81,7 +81,7 @@ public class DeleteData_Article extends AsyncTask<String,Void,String> { // í†µì‹
 
         catch (Exception e) {
 
-            Log.d(TAG, "DeleteData: Error",e);
+            Log.d(TAG, "DeleteData_Article: Error",e);
 
             return  new String("Error " + e.getMessage());
 

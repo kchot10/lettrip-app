@@ -59,6 +59,12 @@ public class RecordMainSearch extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Refresh();
+    }
+
     public void Refresh() {
         // Record class, SelectData_Record task, RecordAdapter
         courseArrayList = new ArrayList<>();

@@ -80,7 +80,7 @@ public class DeleteData_Comment extends AsyncTask<String,Void,String> { // í†µì‹
 
         catch (Exception e) {
 
-            Log.d(TAG, "DeleteData: Error",e);
+            Log.d(TAG, "DeleteData_Comment: Error",e);
 
             return  new String("Error " + e.getMessage());
 

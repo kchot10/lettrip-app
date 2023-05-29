@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -15,8 +16,12 @@ import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 
 import java.util.ArrayList;
+
+import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.search.CourseActivitySearch;
 import com.cookandroid.travelerapplication.search.RecordMainSearch;
+import com.cookandroid.travelerapplication.task.DeleteData_Course;
+import com.cookandroid.travelerapplication.task.DeleteData_Travel;
 
 import android.widget.ImageView;
 
@@ -25,10 +30,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     private ArrayList<Course> arrayList;
     private Context context;
+    private String mUser_id, IP_ADDRESS;
 
     public CourseAdapter(ArrayList<Course> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
+        FileHelper fileHelper = new FileHelper(context);
+        mUser_id = fileHelper.readFromFile("user_id");
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
     }
 
     @NonNull
@@ -78,11 +87,15 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 int curpos = getAbsoluteAdapterPosition();
                 Intent intent;
                 intent = new Intent(context, CourseActivitySearch.class);
+                intent.putExtra("rating", arrayList.get(curpos).getRating());
+                intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
                 intent.putExtra("review_id", arrayList.get(curpos).getReview_id());
                 intent.putExtra("arrived_time", arrayList.get(curpos).getArrived_time());
                 intent.putExtra("cost", arrayList.get(curpos).getCost());
                 intent.putExtra("place_name", arrayList.get(curpos).getPlace_name());
                 intent.putExtra("category_name", arrayList.get(curpos).getCategory_name());
+                intent.putExtra("detailed_review", arrayList.get(curpos).getDetailed_review());
+                intent.putExtra("arrived_time_real", arrayList.get(curpos).getArrived_time_real());
 
                 context.startActivity(intent);
             });

@@ -149,6 +149,8 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             String title = jsonObject.getString("title");
             String user_id = jsonObject.getString("user_id");
             String name = jsonObject.getString("name");
+            String image_url = jsonObject.getString("image_url");
+            String comment_number = jsonObject.getString("comment_number");
 
             article.setArticle_id(articleId);
             article.setCreated_date(createdDate);
@@ -159,6 +161,8 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             article.setTitle(title);
             article.setUser_id(user_id);
             article.setName(name);
+            article.setImage_url(image_url);
+            article.setComment_number(comment_number);
 
             articleArrayList.add(article);
 
@@ -186,6 +190,8 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             String user_id = jsonObject.getString("user_id");
             String name = jsonObject.getString("name");
             String mentioned_user_name = jsonObject.getString("mentioned_user_name");
+            String image_url = jsonObject.getString("image_url");
+            String comment_count = jsonObject.getString("comment_count");
 
             comment.setComment_id(comment_id);
             comment.setCreated_date(createdDate);
@@ -197,6 +203,8 @@ public class SelectData_Article extends AsyncTask<String,Void,String> { // í†µì‹
             comment.setUser_id(user_id);
             comment.setName(name);
             comment.setMentioned_user_name(mentioned_user_name);
+            comment.setImage_url(image_url);
+            comment.setComment_count(comment_count);
 
             articleArrayList.add(comment);
 

@@ -15,6 +15,15 @@ public class Article {
 
     private String name;
     private String image_url;
+    private String comment_number;
+
+    public String getComment_number() {
+        return comment_number;
+    }
+
+    public void setComment_number(String comment_number) {
+        this.comment_number = comment_number;
+    }
 
     public String getImage_url() {
         return image_url;

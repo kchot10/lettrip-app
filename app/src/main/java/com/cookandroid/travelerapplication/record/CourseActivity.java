@@ -15,6 +15,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.helper.S3Uploader;
 import com.cookandroid.travelerapplication.kotlin.KotlinActivity;
 import com.cookandroid.travelerapplication.task.InsertData_Course;
 import com.cookandroid.travelerapplication.task.InsertData_Image;
@@ -75,6 +79,13 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
         editText_detailed_review = findViewById(R.id.editText_detailed_review);
         edit_rating = findViewById(R.id.edit_rating);
 
+        if (getIntent().getStringExtra("record/plan").equals("plan")){
+            edit_rating.setVisibility(View.INVISIBLE);
+            editText_detailed_review.setVisibility(View.INVISIBLE);
+            Button button = findViewById(R.id.button_add_review);
+            button.setText("등록");
+        }
+
 
 
         recyclerView = findViewById(R.id.RecyclerView_placePhoto);
@@ -92,6 +103,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
 
         arrayList_image_review = new ArrayList<>();
 
+
         findViewById(R.id.button_add_review).setOnClickListener(v -> {
             if (button_place_search.getText().toString().trim().equals("장소 검색")){
                 Toast.makeText(this, "장소를 입력하세요", Toast.LENGTH_SHORT).show();
@@ -101,7 +113,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                 Toast.makeText(this, "도착 시간을 입력하세요", Toast.LENGTH_SHORT).show();
             } else if (editText_cost.getText().toString().trim().equals("")) {
                 Toast.makeText(this, "비용을 입력하세요", Toast.LENGTH_SHORT).show();
-            } else if (editText_detailed_review.getText().toString().trim().equals("")) {
+            } else if (editText_detailed_review.getText().toString().trim().equals("") && getIntent().getStringExtra("record/plan").equals("record")) {
                 Toast.makeText(this, "상세 후기를 입력하세요", Toast.LENGTH_SHORT).show();
             }
 
@@ -113,6 +125,9 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                 String visit_times = "1";
                 String place_id = fileHelper.readFromFile("place_id");
                 String user_id = fileHelper.readFromFile("user_id");
+                if(getIntent().getStringExtra("record/plan").equals("plan")){
+                    rating = "0";
+                }
 
                 InsertData_Review insertData_review = new InsertData_Review();
                 insertData_review.execute("http://"+IP_ADDRESS+"/0503/InsertData_Review.php"
@@ -126,16 +141,104 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                     } else {
                         Toast.makeText(this, "리뷰 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                         fileHelper.writeToFile("review_id", withdraw_result);
-                        findViewById(R.id.button_image_add).setVisibility(View.VISIBLE);
-                        findViewById(R.id.button_add_cource).setVisibility(View.VISIBLE);
-                        findViewById(R.id.button_add_review).setVisibility(View.INVISIBLE);
-                        edit_rating.setEnabled(false);
-                        editText_detailed_review.setEnabled(false);
+                        if (getIntent().getStringExtra("record/plan").equals("plan")){
+                            new Handler().postDelayed(() -> {
+                                    findViewById(R.id.button_add_cource).performClick();
+                            }, 500);
+                        } else{
+                            findViewById(R.id.button_image_add).setVisibility(View.VISIBLE);
+                            findViewById(R.id.button_add_cource).setVisibility(View.VISIBLE);
+                            findViewById(R.id.button_add_review).setVisibility(View.INVISIBLE);
+                            edit_rating.setEnabled(false);
+                            editText_detailed_review.setEnabled(false);
+                        }
                     }
                 }, 1000); // 0.5초 지연 시간
 
             }
 
+        });
+        editText_day_count.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                int max_day_count = getIntent().getIntExtra("total_day_count", 1);
+                String day_count = editText_day_count.getText().toString();
+                if (day_count.isEmpty()){
+                    return;
+                }else {
+                    int value = Integer.parseInt(day_count);
+                    if ( value > max_day_count || 1 > value) {
+                        Toast.makeText(getApplicationContext(), "1부터 "+ max_day_count+ "사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        editText_day_count.setText("");
+                    }
+                }
+            }
+        });
+
+        editText_arrived_time_hour.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                String hour = editText_arrived_time_hour.getText().toString();
+                if (hour.isEmpty()){
+                    return;
+                } else {
+                    int value = Integer.parseInt(hour);
+                    // 값이 1~24 사이인지 확인합니다.
+                    if (value >= 0 && value <= 23) {
+                        editText_arrived_time_min.setText("00");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "0부터 23 사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        editText_arrived_time_hour.setText("");
+                    }
+                }
+            }
+        });
+
+        editText_arrived_time_min.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                String min = editText_arrived_time_min.getText().toString();
+                if (min.isEmpty()){
+                    return;
+                } else {
+                    int value = Integer.parseInt(min);
+                    if (value >= 0 && value <= 59) {
+                    } else {
+                        Toast.makeText(getApplicationContext(), "0부터 59 사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        editText_arrived_time_min.setText("");
+                    }
+                }
+            }
+        });
+
+
+
+        editText_detailed_review.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 입력 변경 중의 동작
+                int maxLines = 10; // 최대 허용 라인 수
+                String[] lines = editText_detailed_review.getText().toString().split("\n");
+                if (lines.length > maxLines) {
+                    // 최대 허용 라인 수를 초과한 경우 입력 제거
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < maxLines; i++) {
+                        sb.append(lines[i]).append("\n");
+                    }
+                    editText_detailed_review.setText(sb.toString().trim());
+                    editText_detailed_review.setSelection(editText_detailed_review.getText().length());
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        edit_rating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+            // 최소값과 최대값 설정
+            float minValue = 1.0f;
+            // 현재 선택된 별점이 최소값보다 작은 경우 최소값으로 설정
+            if (rating < minValue) {
+                ratingBar.setRating(minValue);
+            }
         });
 
         findViewById(R.id.button_add_cource).setOnClickListener(v -> {
@@ -171,6 +274,12 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
 
                 InsertData_Course insertData_course = new InsertData_Course();
                 insertData_course.execute("http://"+IP_ADDRESS+"/0503/InsertData_Course.php",arrived_time,cost,day_count, place_id,review_review_id, travel_id);
+
+                Log.d("lettrip", "arrived_time:"+arrived_time+
+                                "\ncost:"+cost + "\nday_count:"+day_count+
+                        "\nplace_id:"+place_id+
+                        "\nreview_review_id:"+review_review_id+
+                        "\ntravel_id:"+travel_id);
                 finish();
             }
         });

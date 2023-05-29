@@ -29,6 +29,7 @@
             android:layout_marginLeft="14dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="14dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -44,10 +45,9 @@
                 android:text="경상감영공원"
                 android:textAlignment="center" />
 
-            <View
-                android:id="@+id/view"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="10dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <TextView

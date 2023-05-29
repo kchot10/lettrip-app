@@ -68,7 +68,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textview_name"
+                    android:id="@+id/textview_user_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -78,7 +78,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView_date"
+                    android:id="@+id/textview_created_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="04/27 00:00"
@@ -86,22 +86,30 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <Button
                 android:id="@+id/button_update"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="120dp"
                 android:backgroundTint="#515674"
                 android:text="update"
-                android:textSize="11sp" />
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:visibility="invisible" />
 
             <Button
-                android:id="@+id/deleteBtn"
+                android:id="@+id/button_delete_article"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#515674"
                 android:text="delete"
-                android:textSize="11sp" />
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -177,7 +185,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <EditText
+        <com.cookandroid.travelerapplication.MbEditText
             android:id="@+id/edittext_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -198,6 +206,7 @@
             android:backgroundTint="#515674"
             android:elevation="7dp"
             android:text="ADD"
+            android:textColor="@color/white"
             android:textSize="10dp" />
 
     </LinearLayout>

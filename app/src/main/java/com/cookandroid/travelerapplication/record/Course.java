@@ -1,15 +1,50 @@
 package com.cookandroid.travelerapplication.record;
 
 public class Course {
+    private String course_id;
     private String arrived_time;
     private String cost;
     private String day_count;
     private String place_name;
     private String stored_file_url;
     private String review_id;
-
     private String category_name;
     private String rating;
+    private String detailed_review;
+    private String user_id;
+    private String arrived_time_real;
+
+    public String getArrived_time_real() {
+        return arrived_time_real;
+    }
+
+    public void setArrived_time_real(String arrived_time_real) {
+        this.arrived_time_real = arrived_time_real;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(String course_id) {
+        this.course_id = course_id;
+    }
+
+    public String getDetailed_review() {
+        return detailed_review;
+    }
+
+    public void setDetailed_review(String detailed_review) {
+        this.detailed_review = detailed_review;
+    }
 
     public String getRating() {
         return rating;

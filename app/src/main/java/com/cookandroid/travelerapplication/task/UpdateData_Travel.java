@@ -86,7 +86,7 @@ public class UpdateData_Travel extends AsyncTask<String,Void,String> { // 통신
 
         catch (Exception e) {
 
-            Log.d(TAG, "InsertData_Article: Error",e);
+            Log.d(TAG, "UpdateData_Travel: Error",e);
 
             return  new String("Error " + e.getMessage());
 
