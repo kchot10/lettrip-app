@@ -9,6 +9,7 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.article.ArticleListActivity;
 import com.cookandroid.travelerapplication.account.WithdrawActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.mission.MissionMainActivity;
 import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.search.SearchActivity;
 
@@ -61,7 +62,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
+        findViewById(R.id.missionBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MissionMainActivity.class);
+            intent.putExtra("search/mypage", "mypage");
+            startActivity(intent);
+        });
 
 
 
