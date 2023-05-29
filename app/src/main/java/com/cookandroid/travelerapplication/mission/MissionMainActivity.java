@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
 
-public class missionMainActivity extends AppCompatActivity {
+public class MissionMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
