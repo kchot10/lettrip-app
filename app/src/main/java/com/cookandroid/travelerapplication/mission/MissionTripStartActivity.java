@@ -1,72 +1,77 @@
 package com.cookandroid.travelerapplication.mission;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import com.cookandroid.travelerapplication.Manifest;
 import com.cookandroid.travelerapplication.R;
-import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.task.InsertData_Mission;
 
-import net.daum.android.map.MapView;
-import net.daum.mf.map.api.MapPoint;
-
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MissionTripActivity2 extends AppCompatActivity{
+public class MissionTripStartActivity extends AppCompatActivity {
+    String IP_ADDRESS, user_id;
+    FileHelper fileHelper;
+    int sum = 0;
     int sec;
     int min;
     private LocationManager locationManager;
     double current_latitude;
     double current_longitude;
-    private MapView mMapView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mission_trip_start);
-
+        fileHelper = new FileHelper(this);
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        user_id = fileHelper.readFromFile("user_id");
         ImageButton backBtn = findViewById(R.id.leftArrowBtn);
         FrameLayout map_view = findViewById(R.id.map_FramLayout);
         TextView textView = findViewById(R.id.time_TextView);
+
+        findViewById(R.id.missionVerificationBtn).setOnClickListener(v -> {
+            sum+=1;
+            String accomplished_date = getCurrentTime();
+            String mission_type = "TRIP";
+            InsertData_Mission insertData_mission = new InsertData_Mission();
+            insertData_mission.execute("http://"+IP_ADDRESS+"/0503/InsertData_Mission.php", accomplished_date, mission_type, user_id);
+
+        });
+
+
+
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MissionTripActivity.class);
+                Toast.makeText(getApplicationContext(), "미션Trip 레코드를 추가했습니다. \n현재 추가한 레코드 수:"+sum,Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
+        //1km 이내의 장소 리스트 불러오기
 
+        timerRun();
+    }
+
+    private void timerRun() {
 
         //타이머 구현
         TextView min_TextView = findViewById(R.id.min);
@@ -112,43 +117,14 @@ public class MissionTripActivity2 extends AppCompatActivity{
                 }
             }
         };
+    }
 
-
-        //1km 이내의 장소 리스트 불러오기
-        int radius = 10000; //1km
-        mMapView = (MapView)findViewById(R.id.mapView);
-        MapView mapView = new MapView(this);
-        ViewGroup mapViewContainer = findViewById(R.id.mapView);
-        mapViewContainer.addView(mapView);
-
-        String keyword ="";
-        double latitude = 37.5665; // 검색 기준 위도
-        double longitude = 126.9780; // 검색 기준 경도
-        String apiUrl = "https://dapi.kakao.com/v2/local/search/keyword.json?query=" + keyword + "&y=" + latitude + "&x=" + longitude + "&radius=" + radius;
-
-        try{
-            URL url = new URL(apiUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", "KakaoAK {43a9d1617d8fb89af04db23790b3dd22}");
-
-            int responseCode = connection.getResponseCode();
-            if(responseCode == HttpURLConnection.HTTP_OK){
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-                while((inputLine = in.readLine()) != null){
-                    response.append(inputLine);
-                }
-                in.close();
-            } else{
-                Log.d("KakaoMap", "키워드 검색 실패");
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    private String getCurrentTime() {
+        // 현재 시간 가져오기
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        String currentTime = sdf.format(date);
+        return currentTime;
     }
 
 
