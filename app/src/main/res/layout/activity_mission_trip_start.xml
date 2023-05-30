@@ -52,10 +52,7 @@
             android:layout_marginTop="34dp"
             android:background="#EAEAEA">
 
-            <net.daum.android.map.MapView
-                android:id="@+id/mapView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+
 
         </FrameLayout>
 
