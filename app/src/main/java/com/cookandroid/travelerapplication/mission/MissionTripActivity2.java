@@ -9,7 +9,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -22,22 +24,30 @@ import androidx.core.content.ContextCompat;
 
 import com.cookandroid.travelerapplication.Manifest;
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
 
+import net.daum.android.map.MapView;
 import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MissionTripActivity2 extends AppCompatActivity {
+public class MissionTripActivity2 extends AppCompatActivity{
     int sec;
     int min;
     private LocationManager locationManager;
     double current_latitude;
     double current_longitude;
+    private MapView mMapView;
 
 
     @Override
@@ -105,7 +115,40 @@ public class MissionTripActivity2 extends AppCompatActivity {
 
 
         //1km 이내의 장소 리스트 불러오기
+        int radius = 10000; //1km
+        mMapView = (MapView)findViewById(R.id.mapView);
+        MapView mapView = new MapView(this);
+        ViewGroup mapViewContainer = findViewById(R.id.mapView);
+        mapViewContainer.addView(mapView);
 
+        String keyword ="";
+        double latitude = 37.5665; // 검색 기준 위도
+        double longitude = 126.9780; // 검색 기준 경도
+        String apiUrl = "https://dapi.kakao.com/v2/local/search/keyword.json?query=" + keyword + "&y=" + latitude + "&x=" + longitude + "&radius=" + radius;
+
+        try{
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", "KakaoAK {43a9d1617d8fb89af04db23790b3dd22}");
+
+            int responseCode = connection.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_OK){
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+                while((inputLine = in.readLine()) != null){
+                    response.append(inputLine);
+                }
+                in.close();
+            } else{
+                Log.d("KakaoMap", "키워드 검색 실패");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
