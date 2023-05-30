@@ -35,7 +35,6 @@ public class MissionMainActivity extends AppCompatActivity {
     int sum = 0;
 
     LinearLayout missionQR, missionTrip;
-    ImageButton backBtn, homeBtn;
     ArrayList<Mission> missionArrayList[];
 
     RecyclerView recyclerView_mission_QR, recyclerView_mission_TRIP, recyclerView_mission_FOOD, recyclerView_mission_CAFE;
@@ -50,8 +49,6 @@ public class MissionMainActivity extends AppCompatActivity {
         user_id = fileHelper.readFromFile("user_id");
         missionQR = findViewById(R.id.missionQR);
         missionTrip = findViewById(R.id.missionTrip);
-        backBtn = findViewById(R.id.leftArrowBtn);
-        homeBtn = findViewById(R.id.homeBtn);
         missionArrayList = new ArrayList[KINDNUM];
         LinearLayoutManager[] layoutManagers = new LinearLayoutManager[KINDNUM];
         for (int i = 0; i < KINDNUM; i++) {
@@ -89,23 +86,6 @@ public class MissionMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        homeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
     }
 

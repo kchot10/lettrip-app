@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.kotlin.KotlinActivity2;
 import com.cookandroid.travelerapplication.task.InsertData_Mission;
 
 import java.text.SimpleDateFormat;
@@ -53,6 +54,8 @@ public class MissionTripStartActivity extends AppCompatActivity {
             InsertData_Mission insertData_mission = new InsertData_Mission();
             insertData_mission.execute("http://"+IP_ADDRESS+"/0503/InsertData_Mission.php", accomplished_date, mission_type, user_id);
 
+            Intent intent = new Intent(this, KotlinActivity2.class);
+            startActivity(intent);
         });
 
 
