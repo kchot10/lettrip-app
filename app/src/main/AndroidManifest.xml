@@ -88,7 +88,11 @@
             android:name=".account.WithdrawActivity"
             android:exported="true" />
         <activity
+            android:name=".mission.MissionQR"
+            android:exported="true" />
+        <activity
             android:name=".main.MainActivity"
+            android:usesCleartextTraffic="true"
             android:exported="true">
 
 <!--             <intent-filter>-->

@@ -80,6 +80,5 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-s3:'+aws_version
     implementation ('com.amazonaws:aws-android-sdk-mobile-client:'+aws_version){ transitive = true }
 
-    implementation 'net.daum.android:map-sdk:4.4.0'
 
 }

@@ -52,6 +52,7 @@ public class MissionMainActivity extends AppCompatActivity {
         missionTrip = findViewById(R.id.missionTrip);
         backBtn = findViewById(R.id.leftArrowBtn);
         homeBtn = findViewById(R.id.homeBtn);
+
         missionArrayList = new ArrayList[KINDNUM];
         LinearLayoutManager[] layoutManagers = new LinearLayoutManager[KINDNUM];
         for (int i = 0; i < KINDNUM; i++) {
@@ -106,7 +107,14 @@ public class MissionMainActivity extends AppCompatActivity {
             }
         });
 
-
+        LinearLayout QRcodeBtn = findViewById(R.id.missionQR);
+        QRcodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MissionQR.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void Refresh(RecyclerView recyclerView, String mission_type, int i) {
