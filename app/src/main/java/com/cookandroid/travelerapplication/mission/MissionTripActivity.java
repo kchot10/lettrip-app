@@ -13,15 +13,27 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.kotlin.KotlinActivity2;
+import com.cookandroid.travelerapplication.task.InsertData_Mission;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class MissionTripActivity extends AppCompatActivity {
+
+    String IP_ADDRESS, user_id;
+    FileHelper fileHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mission_trip);
-
+        fileHelper = new FileHelper(this);
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        user_id = fileHelper.readFromFile("user_id");
         Button missionStartBtn = findViewById(R.id.missionStartBtn);
         ImageButton backBtn = findViewById(R.id.leftArrowBtn);
 
@@ -48,11 +60,23 @@ public class MissionTripActivity extends AppCompatActivity {
                     String successOrFail = result.getData().getStringExtra("success/fail");
                     if (successOrFail.equals("success")){
                         Toast.makeText(this, "미션 성공을 축하드립니다!",Toast.LENGTH_SHORT).show();
+                        String accomplished_date = getCurrentTime();
+                        String mission_type = "TRIP";
+                        InsertData_Mission insertData_mission = new InsertData_Mission();
+                        insertData_mission.execute("http://"+IP_ADDRESS+"/0503/InsertData_Mission.php", accomplished_date, mission_type, user_id);
                     } else if (successOrFail.equals("fail")) {
                         Toast.makeText(this, "다음 도전을 기대합니다!",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
     );
+    private String getCurrentTime() {
+        // 현재 시간 가져오기
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        String currentTime = sdf.format(date);
+        return currentTime;
+    }
+
 
 }
