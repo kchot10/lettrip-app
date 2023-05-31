@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.main.MainActivity;
-import com.cookandroid.travelerapplication.record.CourseAdapter;
 import com.cookandroid.travelerapplication.task.InsertData_Mission;
-import com.cookandroid.travelerapplication.task.SelectData_Course;
 import com.cookandroid.travelerapplication.task.SelectData_Mission;
 
 import java.text.SimpleDateFormat;
@@ -39,7 +33,9 @@ public class MissionMainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView_mission_QR, recyclerView_mission_TRIP, recyclerView_mission_FOOD, recyclerView_mission_CAFE;
     private RecyclerView.Adapter recyclerView_adapter;
-    private RecyclerView.LayoutManager layoutManager;
+
+    Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +69,13 @@ public class MissionMainActivity extends AppCompatActivity {
         Refresh(recyclerView_mission_CAFE, "CAFE", 3);
 
         missionQR.setOnClickListener(v -> {
-            sum+=1;
-            String accomplished_date = getCurrentTime();
-            String mission_type = "QR";
-            InsertData_Mission insertData_mission = new InsertData_Mission();
-            insertData_mission.execute("http://"+IP_ADDRESS+"/0503/InsertData_Mission.php", accomplished_date, mission_type, user_id);
+            Intent intent = new Intent(getApplicationContext(), MissionQRActivity.class);
+            startActivity(intent);
+//            sum+=1;
+//            String accomplished_date = getCurrentTime();
+//            String mission_type = "QR";
+//            InsertData_Mission insertData_mission = new InsertData_Mission();
+//            insertData_mission.execute("http://"+IP_ADDRESS+"/0503/InsertData_Mission.php", accomplished_date, mission_type, user_id);
         });
         missionTrip.setOnClickListener(new View.OnClickListener() {
             @Override
