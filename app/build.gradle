@@ -80,4 +80,5 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-s3:'+aws_version
     implementation ('com.amazonaws:aws-android-sdk-mobile-client:'+aws_version){ transitive = true }
 
+
 }
