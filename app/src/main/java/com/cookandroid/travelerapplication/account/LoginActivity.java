@@ -1,8 +1,10 @@
 package com.cookandroid.travelerapplication.account;
 
+import android.Manifest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -22,7 +24,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.app.ActivityCompat;
 
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.main.MainActivity;
@@ -71,14 +73,26 @@ public class LoginActivity extends AppCompatActivity{
     String provider_type;
 
     private ActivityResultLauncher<Intent> GoogleSignResultLauncher;
+    private int ACCESS_FINE_LOCATION = 1000;     // Request Code
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", ec2_ADDRESS);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+
+
+        SharedPreferences preference = getPreferences(MODE_PRIVATE);
+        boolean isFirstCheck = preference.getBoolean("isFirstPermissionCheck", true);
+        if (isFirstCheck) {
+            // 최초 권한 요청
+            preference.edit().putBoolean("isFirstPermissionCheck", false).apply();
+            String[] array = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+            ActivityCompat.requestPermissions(this, array, ACCESS_FINE_LOCATION);
+        }
 
         findViewById(R.id.findPW_Btn).setOnClickListener(v -> {
             Intent intent = new Intent(this, FindPwdActivity.class);
@@ -232,7 +246,6 @@ public class LoginActivity extends AppCompatActivity{
 
 
     }
-
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) { //사용자에 대한 정보 가져오기
         try {

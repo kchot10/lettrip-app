@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.kotlin.KotlinActivity2;
 
 public class MissionTripActivity extends AppCompatActivity {
     @Override
@@ -22,7 +23,7 @@ public class MissionTripActivity extends AppCompatActivity {
         missionStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MissionTripStartActivity.class);
+                Intent intent = new Intent(getApplicationContext(), KotlinActivity2.class);
                 startActivity(intent);
             }
         });

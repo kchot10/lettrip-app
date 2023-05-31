@@ -128,7 +128,7 @@
                     android:id="@+id/place_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="17dp"
+                    android:layout_marginRight="10dp"
                     android:text="장소 유형"
                     android:textColor="#848484 "
                     android:textSize="14sp" />
@@ -152,7 +152,7 @@
                     android:id="@+id/explan_type2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="17dp"
+                    android:layout_marginRight="10dp"
                     android:text="배정 기준"
                     android:textColor="#848484 "
                     android:textSize="14sp" />
@@ -192,7 +192,7 @@
                     android:id="@+id/explan_type3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="17dp"
+                    android:layout_marginRight="10dp"
                     android:text="인증 기준"
                     android:textColor="#848484 "
                     android:textSize="14sp" />
@@ -216,7 +216,7 @@
                     android:id="@+id/explan_type4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="17dp"
+                    android:layout_marginRight="10dp"
                     android:text="제한 시간"
                     android:textColor="#848484 "
                     android:textSize="14sp" />

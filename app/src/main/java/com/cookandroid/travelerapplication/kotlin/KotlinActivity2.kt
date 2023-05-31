@@ -13,6 +13,7 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -76,6 +77,8 @@ class KotlinActivity2 : AppCompatActivity() {
     private lateinit var btnNextPage: Button
 
     private var categoryText: String = ""
+    val handler = Handler(Looper.getMainLooper())
+    private var isTrackingStarted = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,8 +98,6 @@ class KotlinActivity2 : AppCompatActivity() {
         btnStop = findViewById(R.id.btn_stop)
 
         categoryText = generateRandomCategory()
-
-
 
         val builder = AlertDialog.Builder(this)
 
@@ -133,14 +134,14 @@ class KotlinActivity2 : AppCompatActivity() {
 
         // 위치추적 버튼
         btnStart.setOnClickListener {
-            if (checkLocationService()) {
-                // GPS가 켜져있을 경우
-                permissionCheck()
-
+            if (isTrackingStarted) {
+                stopTracking()
+                btnStart.setText("계속하기")
             } else {
-                // GPS가 꺼져있을 경우
-                Toast.makeText(this, "GPS를 켜주세요", Toast.LENGTH_SHORT).show()
+                startTracking()
+                btnStart.setText("일시정지")
             }
+            isTrackingStarted = !isTrackingStarted
         }
 
         btnRefresh.setOnClickListener {
@@ -148,35 +149,36 @@ class KotlinActivity2 : AppCompatActivity() {
             val itemIndex = getRandomIndex(itemSize);
             if (itemIndex == -1){
                 Toast.makeText(this, "더 이상 없습니다!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            mapView.removeAllPOIItems() // 지도의 마커 모두 제거
-            mapView.removeAllCircles()
-            val item = listItems.get(itemIndex)
-            mX = item.x - longitude
-            mY = item.y - latitude
-            val circleCenter = MapPoint.mapPointWithGeoCoord(item.y, item.x)  // 원의 중심 좌표
-            val radius = 50  // 원의 반지름
-            val strokeColor = Color.RED  // 바깥 테두리 선 색상
-            val fillColor = Color.parseColor("#F2DCE0")  // 주어진 색상으로 채우기 색상
-            val fillAlpha = 64  // 채우기의 투명도 (0 ~ 255)
-            val circle = MapCircle(circleCenter, radius, strokeColor, fillColor)
-            circle.fillColor = fillColor and 0x00FFFFFF or (fillAlpha shl 24)  // 투명도를 적용한 채우기 색상
-            mapView.addCircle(circle)
+            }else{
+                mapView.removeAllPOIItems() // 지도의 마커 모두 제거
+                mapView.removeAllCircles()
+                val item = listItems.get(itemIndex)
+                mX = item.x - longitude
+                mY = item.y - latitude
+                val circleCenter = MapPoint.mapPointWithGeoCoord(item.y, item.x)  // 원의 중심 좌표
+                val radius = 50  // 원의 반지름
+                val strokeColor = Color.RED  // 바깥 테두리 선 색상
+                val fillColor = Color.parseColor("#F2DCE0")  // 주어진 색상으로 채우기 색상
+                val fillAlpha = 64  // 채우기의 투명도 (0 ~ 255)
+                val circle = MapCircle(circleCenter, radius, strokeColor, fillColor)
+                circle.fillColor = fillColor and 0x00FFFFFF or (fillAlpha shl 24)  // 투명도를 적용한 채우기 색상
+                mapView.addCircle(circle)
 
-            // 지도에 마커 추가
-            val point = MapPOIItem()
-            point.apply {
-                itemName = item.name
-                mapPoint = MapPoint.mapPointWithGeoCoord(item.y,
-                    item.x)
-                markerType = MapPOIItem.MarkerType.RedPin
-                selectedMarkerType = MapPOIItem.MarkerType.YellowPin
+                // 지도에 마커 추가
+                val point = MapPOIItem()
+                point.apply {
+                    itemName = item.name
+                    mapPoint = MapPoint.mapPointWithGeoCoord(item.y,
+                        item.x)
+                    markerType = MapPOIItem.MarkerType.RedPin
+                    selectedMarkerType = MapPOIItem.MarkerType.YellowPin
+                }
+                mapView.addPOIItem(point)
+                mapView.selectPOIItem(point, true)
+                val mapPoint = MapPoint.mapPointWithGeoCoord(item.y, item.x)
+                mapView.setMapCenterPointAndZoomLevel(mapPoint, 2, true)
+                mapView.setShowCurrentLocationMarker(true)
             }
-            mapView.addPOIItem(point)
-            val mapPoint = MapPoint.mapPointWithGeoCoord(item.y, item.x)
-            mapView.setMapCenterPointAndZoomLevel(mapPoint, 2, true)
-            mapView.setShowCurrentLocationMarker(true)
         }
 
         // 추적중지 버튼
@@ -227,15 +229,10 @@ class KotlinActivity2 : AppCompatActivity() {
             searchKeyword(keyword, pageNumber)
         }
 
-        btnSearch.performClick()
-        val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({
-            btnRefresh.performClick()
+            fuctionStart()
         }, 1000L)
 
-        handler.postDelayed({
-            btnStart.performClick()
-        }, 3000L)
     }
 
     // 키워드 검색 함수
@@ -253,7 +250,7 @@ class KotlinActivity2 : AppCompatActivity() {
             val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             if (userNowLocation != null) {
                 latitude = userNowLocation.latitude  // x 좌표
-                longitude = userNowLocation.longitude  // y 좌표
+                longitude = userNowLocation.longitude  // y 좌표ㄴ
 
             } else {
                 // 위치 정보를 가져올 수 없는 경우 처리할 작업 수행
@@ -263,8 +260,6 @@ class KotlinActivity2 : AppCompatActivity() {
             // 위치 권한을 사용자에게 요청
         }
 
-//        val api = retrofit.create(KakaoAPI::class.java)            // 통신 인터페이스를 객체로 생성
-//        val call = api.getSearchKeyword(API_KEY, keyword, page)    // 검색 조건 입력
         val api = retrofit.create(KakaoAPI2::class.java)            // 통신 인터페이스를 객체로 생성
         val call = api.getSearchKeyword(API_KEY, keyword, longitude.toString(),latitude.toString(), MAX_RADIUS, categoryText, page)    // 검색 조건 입력
 
@@ -386,6 +381,21 @@ class KotlinActivity2 : AppCompatActivity() {
     // 위치추적 중지
     private fun stopTracking() {
         mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
+    }
+
+    private fun fuctionStart() {
+        if (checkLocationService()) {
+            // GPS가 켜져있을 경우
+            permissionCheck()
+            btnSearch.performClick()
+            handler.postDelayed({
+                btnRefresh.performClick()
+            }, 2000L)
+
+        } else {
+            // GPS가 꺼져있을 경우
+            Toast.makeText(this, "GPS를 켜주세요", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun generateRandomCategory(): String {
