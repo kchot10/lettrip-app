@@ -35,9 +35,6 @@
             android:name=".mission.MissionTripActivity"
             android:exported="false" />
         <activity
-            android:name=".mission.MissionTripStartActivity"
-            android:exported="false" />
-        <activity
             android:name=".mission.MissionMainActivity"
             android:exported="false" />
         <activity

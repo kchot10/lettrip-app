@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cookandroid.travelerapplication.R
+import com.cookandroid.travelerapplication.mission.MissionTripActivity
 import com.cookandroid.travelerapplication.task.InsertData_Place
 import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
@@ -79,6 +80,8 @@ class KotlinActivity2 : AppCompatActivity() {
     private var categoryText: String = ""
     val handler = Handler(Looper.getMainLooper())
     private var isTrackingStarted = true
+    private var sec: Int = 0
+    private var min: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -188,7 +191,11 @@ class KotlinActivity2 : AppCompatActivity() {
                 val distValue = calculateDistance(mX,mY).toInt() - 100;
                 builder.setMessage("현재 "+distValue+"m 남았습니다. 미션을 포기하시겠습니까?")
                 builder.setPositiveButton("확인") { _, _ ->
+                    mapView.removeAllPOIItems()
+                    mapView.removeAllCircles()
                     stopTracking()
+                    intent.putExtra("success/fail", "fail")
+                    setResult(RESULT_OK, intent);
                     finish()
                 }
                 builder.setNegativeButton("취소") { _, _ ->
@@ -196,9 +203,15 @@ class KotlinActivity2 : AppCompatActivity() {
                 }
                 builder.show()
             }else{
-                Toast.makeText(this, "미션 성공!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "미션 성공! 3초 뒤에 돌아갑니다.", Toast.LENGTH_LONG).show()
+                mapView.removeAllPOIItems()
+                mapView.removeAllCircles()
                 stopTracking()
-                finish()
+                handler.postDelayed({
+                    intent.putExtra("success/fail", "success")
+                    setResult(RESULT_OK, intent);
+                    finish()
+                }, 3000L)
             }
 
         }
@@ -390,6 +403,7 @@ class KotlinActivity2 : AppCompatActivity() {
             btnSearch.performClick()
             handler.postDelayed({
                 btnRefresh.performClick()
+                timerRun()
             }, 2000L)
 
         } else {
@@ -443,6 +457,79 @@ class KotlinActivity2 : AppCompatActivity() {
 
         currentIndex++
         return randomIndex
+    }
+
+    private fun timerRun() {
+        // 타이머 구현
+        val minTextView: TextView = findViewById(R.id.min)
+        val secTextView: TextView = findViewById(R.id.sec)
+
+        minTextView.text = "30"
+        secTextView.text = "0"
+
+        min = minTextView.text.toString().toInt()
+        sec = secTextView.text.toString().toInt()
+
+        val timer = Timer()
+        val timerTask = object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    if (sec != 0) {
+                        sec--
+                        secTextView.text = sec.toString()
+                    } else if (min != 0) {
+                        sec = 60
+                        sec--
+                        min--
+                        secTextView.text = sec.toString()
+                        minTextView.text = min.toString()
+                    }
+
+                    if (min <= 9) {
+                        minTextView.text = "0$min"
+                    } else {
+                        minTextView.text = min.toString()
+                    }
+
+                    if (sec <= 9) {
+                        secTextView.text = "0$sec"
+                    } else {
+                        secTextView.text = sec.toString()
+                    }
+
+                    if (min == 0 && sec == 0) {
+                        timer.cancel()
+                        mapView.removeAllCircles()
+                        mapView.removeAllPOIItems()
+                        stopTracking()
+                        showAlertDialog()
+                    }
+
+                    if (sec <= 30 && min <= 0) {
+                        secTextView.setTextColor(Color.parseColor("#E12E23")) // 빨간색으로 바꾸기
+                        minTextView.setTextColor(Color.parseColor("#E12E23")) // 빨간색으로 바꾸기
+                    }
+                }
+            }
+        }
+
+        timer.schedule(timerTask, 0, 1000) // 타이머 스케줄링 추가
+    }
+
+    private fun showAlertDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setMessage("미션에 실패하셨습니다. 다시 한번 도전하시겠습니까?")
+
+        builder.setPositiveButton("YES") { dialogInterface, i ->
+            recreate()
+        }
+        builder.setNegativeButton("NO") { dialogInterface, i ->
+            // 이전 화면으로 돌아가기
+            intent.putExtra("success/fail", "fail")
+            setResult(RESULT_OK, intent);
+            finish()
+        }
+        builder.show()
     }
 
 
