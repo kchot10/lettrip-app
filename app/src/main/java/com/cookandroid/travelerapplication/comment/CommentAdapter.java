@@ -22,6 +22,9 @@ import java.util.ArrayList;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
+    private final String BASEID = "-1";
+    private final String COUNTZERO = "0";
+
     private ArrayList<Comment> arrayList;
     private Context context;
     private String user_id;
@@ -60,7 +63,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         if (user_id.trim().equals(arrayList.get(position).getUser_id())){
             holder.button_delete.setVisibility(View.VISIBLE);
         }
-        if (!arrayList.get(position).getComment_count().equals("0")) {
+        if (!arrayList.get(position).getComment_count().equals(COUNTZERO)) {
             holder.comment_number.setText("답글 " + arrayList.get(position).getComment_count() + "개");
         } else {
             holder.comment_number.setHeight(0);
@@ -110,7 +113,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 Intent intent;
                 intent = new Intent(context, CommentListActivity.class);
 
-                if (!arrayList.get(curpos).getParent_comment_id().equals("0")){
+                if (!arrayList.get(curpos).getParent_comment_id().equals(BASEID)){
                     ((CommentListActivity) v.getContext()).setEditText(arrayList.get(curpos).getName(), arrayList.get(curpos).getUser_id()); //오류 발생
                     return;
                 }

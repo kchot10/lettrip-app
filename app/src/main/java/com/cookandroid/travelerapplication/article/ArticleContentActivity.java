@@ -32,6 +32,7 @@ import java.util.Locale;
 
 public class ArticleContentActivity extends AppCompatActivity {
 
+    private final String BASEID = "-1";
     private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
     TextView textview_name, textView_date, textview_title, textview_content, textview_count_view, board_comment;
 
@@ -114,10 +115,10 @@ public class ArticleContentActivity extends AppCompatActivity {
                 String modified_date = currentTime;
                 String parent_comment_id = getIntent().getStringExtra("comment_id");
                 if (parent_comment_id == null){
-                    parent_comment_id = "0";
+                    parent_comment_id = BASEID;
                 }
                 InsertData_Comment task = new InsertData_Comment();
-                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, "0", parent_comment_id, user_id_login);
+                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, BASEID, parent_comment_id, user_id_login);
                 Refresh();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -133,7 +134,7 @@ public class ArticleContentActivity extends AppCompatActivity {
         SelectData_Article task = new SelectData_Article(commentArrayList);
         String parent_comment_id = getIntent().getStringExtra("comment_id");
         if (parent_comment_id == null){
-            parent_comment_id = "0";
+            parent_comment_id = BASEID;
         }
         task.execute("http://" + IP_ADDRESS + "/0422/selectdata_comment.php", article_id, parent_comment_id);
 

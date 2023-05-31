@@ -29,6 +29,8 @@ import java.util.Locale;
 
 public class CommentListActivity extends AppCompatActivity {
 
+    private final String BASEID = "-1";
+
     TextView textview_created_date_comment, textview_user_id_comment, textview_content_comment;
     private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
     private RecyclerView recyclerView;
@@ -79,10 +81,10 @@ public class CommentListActivity extends AppCompatActivity {
                 String user_id = fileHelper.readFromFile("user_id");
                 String parent_comment_id = getIntent().getStringExtra("comment_id");
                 if (parent_comment_id == null){
-                    parent_comment_id = "0";
+                    parent_comment_id = BASEID;
                 }
                 InsertData_Comment task = new InsertData_Comment();
-                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", "0", created_date, modified_date, content, article_id, mentioned_user_id, parent_comment_id, user_id);
+                task.execute("http://" + IP_ADDRESS + "/0422/InsertData_Comment.php", BASEID, created_date, modified_date, content, article_id, mentioned_user_id, parent_comment_id, user_id);
                 Refresh();
                 textView_mention.setText("");
                 edittext_content.setText("");
@@ -99,7 +101,7 @@ public class CommentListActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     textView_mention.setText("");
-                    mentioned_user_id = "0";
+                    mentioned_user_id = BASEID;
                 }
             });
             builder.setNegativeButton("취소", null);
@@ -113,7 +115,7 @@ public class CommentListActivity extends AppCompatActivity {
         SelectData_Article task = new SelectData_Article(commentArrayList);
         String parent_comment_id = getIntent().getStringExtra("comment_id");
         if (parent_comment_id == null){
-            parent_comment_id = "0";
+            parent_comment_id = BASEID;
         }
         task.execute("http://" + IP_ADDRESS + "/0422/selectdata_comment.php", article_id, parent_comment_id);
 
