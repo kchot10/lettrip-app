@@ -20,6 +20,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
@@ -76,6 +77,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
         EditText editText_arrived_time_hour = findViewById(R.id.editText_arrived_time_hour);
         EditText editText_arrived_time_min = findViewById(R.id.editText_arrived_time_min);
         EditText editText_cost = findViewById(R.id.editText_cost);
+        CheckBox checkBox = findViewById(R.id.checkBox);
         editText_detailed_review = findViewById(R.id.editText_detailed_review);
         edit_rating = findViewById(R.id.edit_rating);
 
@@ -121,12 +123,15 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                 String created_date = getCurrentTime();
                 String detailed_review = editText_detailed_review.getText().toString().trim();
                 String rating = Float.toString(edit_rating.getRating());
-                String solo_friendly_rating = Float.toString(edit_rating.getRating()); //Todo: 일단 똑같이했는데 아마 혼밥 여행 관련인듯
+                String solo_friendly_rating = "0";
                 String visit_times = "1";
                 String place_id = fileHelper.readFromFile("place_id");
                 String user_id = fileHelper.readFromFile("user_id");
                 if(getIntent().getStringExtra("record/plan").equals("plan")){
                     rating = "0";
+                }
+                if (checkBox.isChecked()) {
+                    solo_friendly_rating = "1";
                 }
 
                 InsertData_Review insertData_review = new InsertData_Review();
@@ -367,6 +372,10 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                     String category_code = result.getData().getStringExtra("category_group_code");
                     String category_name = result.getData().getStringExtra("category_group_name");
                     String total_rating = "3";
+
+                    if (category_code.equals("FD6")){
+                        findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
+                    }
 
                     InsertData_Place insertData_place = new InsertData_Place();
                     insertData_place.execute("http://"+IP_ADDRESS+"/0503/InsertData_Place.php",category_code,category_name, city, location_point, place_name, province, total_rating);

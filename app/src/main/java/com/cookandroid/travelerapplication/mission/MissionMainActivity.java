@@ -23,7 +23,7 @@ import java.util.Locale;
 
 public class MissionMainActivity extends AppCompatActivity {
 
-    int KINDNUM = 4;
+    int KINDNUM = 5;
     String IP_ADDRESS, user_id;
     FileHelper fileHelper;
     int sum = 0;
@@ -31,7 +31,7 @@ public class MissionMainActivity extends AppCompatActivity {
     LinearLayout missionQR, missionTrip;
     ArrayList<Mission> missionArrayList[];
 
-    RecyclerView recyclerView_mission_QR, recyclerView_mission_TRIP, recyclerView_mission_FOOD, recyclerView_mission_CAFE;
+    RecyclerView recyclerView_mission_QR, recyclerView_mission_TRIP, recyclerView_mission_FOOD, recyclerView_mission_CAFE, recyclerView_mission_KINDCITY;
     private RecyclerView.Adapter recyclerView_adapter;
 
     Button button;
@@ -62,11 +62,15 @@ public class MissionMainActivity extends AppCompatActivity {
         recyclerView_mission_FOOD = findViewById(R.id.recyclerView_mission_FOOD);
         recyclerView_mission_FOOD.setHasFixedSize(true);
         recyclerView_mission_FOOD.setLayoutManager(layoutManagers[2]);
-        Refresh(recyclerView_mission_FOOD, "FOOD", 2);
+        Refresh(recyclerView_mission_FOOD, "FD6", 2);
         recyclerView_mission_CAFE = findViewById(R.id.recyclerView_mission_CAFE);
         recyclerView_mission_CAFE.setHasFixedSize(true);
         recyclerView_mission_CAFE.setLayoutManager(layoutManagers[3]);
-        Refresh(recyclerView_mission_CAFE, "CAFE", 3);
+        Refresh(recyclerView_mission_CAFE, "CE7", 3);
+        recyclerView_mission_KINDCITY = findViewById(R.id.recyclerView_mission_KINDCITY);
+        recyclerView_mission_KINDCITY.setHasFixedSize(true);
+        recyclerView_mission_KINDCITY.setLayoutManager(layoutManagers[4]);
+        Refresh(recyclerView_mission_KINDCITY, "KINDCITY", 4);
 
         missionQR.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), MissionQRActivity.class);
@@ -90,7 +94,13 @@ public class MissionMainActivity extends AppCompatActivity {
     public void Refresh(RecyclerView recyclerView, String mission_type, int i) {
         // Record class, SelectData_Record task, RecordAdapter
         SelectData_Mission task = new SelectData_Mission(missionArrayList[i]);
-        task.execute("http://" + IP_ADDRESS + "/0503/selectdata_mission.php", mission_type);
+        if (i==2 || i == 3){
+            task.execute("http://" + IP_ADDRESS + "/0503/selectdata_foodcafe.php", mission_type);
+        } else if ( i == 4) {
+            task.execute("http://" + IP_ADDRESS + "/0503/selectdata_kindcity.php", mission_type);
+        } else{
+            task.execute("http://" + IP_ADDRESS + "/0503/selectdata_mission.php", mission_type);
+        }
         try {
             new Handler().postDelayed(() -> {
                 recyclerView_adapter = new MissionAdapter(missionArrayList[i], this);

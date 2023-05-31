@@ -89,6 +89,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_height="match_parent">
 
                     <LinearLayout
@@ -128,7 +129,7 @@
                         android:paddingRight="24dp">
 
                         <TextView
-                            android:id="@+id/rankingQRmissionTitle"
+                            android:id="@+id/rankingTripmissionTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="즉흥 여행 미션 점수"
@@ -172,6 +173,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginRight="14dp"
                         android:background="@drawable/gray_border_ractangle"
                         android:orientation="vertical"
                         android:paddingLeft="24dp"
@@ -193,6 +195,33 @@
                             android:layout_marginTop="10dp" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="14dp"
+                        android:background="@drawable/gray_border_ractangle"
+                        android:orientation="vertical"
+                        android:paddingLeft="24dp"
+                        android:paddingTop="26dp"
+                        android:paddingRight="24dp">
+
+                        <TextView
+                            android:id="@+id/rankingKindCityTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="여행 다녀온 도시 수"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_mission_KINDCITY"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
             </HorizontalScrollView>
         </LinearLayout>
