@@ -177,10 +177,6 @@ public class LoginActivity extends AppCompatActivity{
                                 new Handler().postDelayed(() -> {
                                     checkData_Pwd_function(email, social, social);
                                 }, 500); // 0.5초 지연 시간
-
-                                //로그인 성공시 메인 페이지로 이동
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
                             }
                         }, 500); // 0.5초 지연 시간
 
@@ -276,10 +272,6 @@ public class LoginActivity extends AppCompatActivity{
                     new Handler().postDelayed(() -> {
                         checkData_Pwd_function(email, social, social);
                     }, 500); // 0.5초 지연 시간
-
-                    //로그인 성공시 메인 페이지로 이동
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
                 }
             }, 500); // 0.5초 지연 시간
 
@@ -315,10 +307,6 @@ public class LoginActivity extends AppCompatActivity{
                             new Handler().postDelayed(() -> {
                                 checkData_Pwd_function(email, social, social);
                             }, 500); // 0.5초 지연 시간
-
-                            //로그인 성공시 메인 페이지로 이동
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
                         }
                     }, 500); // 0.5초 지연 시간
 
