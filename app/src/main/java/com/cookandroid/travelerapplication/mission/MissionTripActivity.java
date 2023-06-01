@@ -61,7 +61,7 @@ public class MissionTripActivity extends AppCompatActivity {
                     if (successOrFail.equals("success")){
                         Toast.makeText(this, "미션 성공을 축하드립니다!",Toast.LENGTH_SHORT).show();
                         String accomplished_date = getCurrentTime();
-                        String mission_type = "TRIP";
+                        String mission_type = "RANDOM_MISSION";
                         InsertData_Mission insertData_mission = new InsertData_Mission();
                         insertData_mission.execute("http://"+IP_ADDRESS+"/0503/InsertData_Mission.php", accomplished_date, mission_type, user_id);
                     } else if (successOrFail.equals("fail")) {

@@ -54,11 +54,11 @@ public class MissionMainActivity extends AppCompatActivity {
         recyclerView_mission_QR = findViewById(R.id.recyclerView_mission_QR);
         recyclerView_mission_QR.setHasFixedSize(true);
         recyclerView_mission_QR.setLayoutManager(layoutManagers[0]);
-        Refresh(recyclerView_mission_QR, "QR", 0); // 세 파라미터 모두 QR을 뜻함
+        Refresh(recyclerView_mission_QR, "QR_MISSION", 0); // 세 파라미터 모두 QR을 뜻함
         recyclerView_mission_TRIP = findViewById(R.id.recyclerView_mission_TRIP);
         recyclerView_mission_TRIP.setHasFixedSize(true);
         recyclerView_mission_TRIP.setLayoutManager(layoutManagers[1]);
-        Refresh(recyclerView_mission_TRIP, "TRIP", 1);
+        Refresh(recyclerView_mission_TRIP, "RANDOM_MISSION", 1);
         recyclerView_mission_FOOD = findViewById(R.id.recyclerView_mission_FOOD);
         recyclerView_mission_FOOD.setHasFixedSize(true);
         recyclerView_mission_FOOD.setLayoutManager(layoutManagers[2]);
