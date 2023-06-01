@@ -33,6 +33,7 @@ import com.cookandroid.travelerapplication.task.InsertData_Course;
 import com.cookandroid.travelerapplication.task.InsertData_Image;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
 import com.cookandroid.travelerapplication.task.InsertData_Review;
+import com.cookandroid.travelerapplication.task.SelectData_Place;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -377,24 +378,36 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                         findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
                     }
 
-                    InsertData_Place insertData_place = new InsertData_Place();
-                    insertData_place.execute("http://"+IP_ADDRESS+"/0503/InsertData_Place.php",category_code,category_name, city, location_point, place_name, province, total_rating);
-
+                    ArrayList<Place> arrayListPlace = new ArrayList<>();
+                    SelectData_Place selectData_place = new SelectData_Place(arrayListPlace);
+                    selectData_place.execute("http://"+IP_ADDRESS+"/0601/select_location_point.php",location_point);
                     new Handler().postDelayed(() -> {
-                        String withdraw_result = insertData_place.getReturn_string();
-                        if (withdraw_result.equals("실패")) {
-                            Toast.makeText(this, "장소 추가는 완료되었으나 place_id를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
-                        } else if (withdraw_result.equals("에러")) {
-                            Toast.makeText(this, "장소 추가가 에러났습니다.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, "장소 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
-                            fileHelper.writeToFile("place_id", withdraw_result);
+                        String place_id = "";
+                        try {
+                            place_id = arrayListPlace.get(0).getPlace_id();
+                        }catch (Exception e){
+                            Log.e("youn", "place_id 불러오기 실패");
+                        }
+                        if ( !place_id.equals("") ){ // place_id에 아무것도 저장되어있지 않지 않다면
+                            fileHelper.writeToFile("place_id", place_id);
+                            Toast.makeText(this, "기존에 저장되어있던 place_id 불러오기 성공! place_id:"+place_id, Toast.LENGTH_SHORT).show();
+                        }else {
+                            InsertData_Place insertData_place = new InsertData_Place();
+                            insertData_place.execute("http://"+IP_ADDRESS+"/0503/InsertData_Place.php",category_code,category_name, city, location_point, place_name, province, total_rating);
+                            new Handler().postDelayed(() -> {
+                                String withdraw_result = insertData_place.getReturn_string();
+                                if (withdraw_result.equals("실패")) {
+                                    Toast.makeText(this, "장소 추가는 완료되었으나 place_id를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                                } else if (withdraw_result.equals("에러")) {
+                                    Toast.makeText(this, "장소 추가가 에러났습니다.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(this, "장소 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                                    fileHelper.writeToFile("place_id", withdraw_result);
+                                }
+                            }, 1000); // 0.5초 지연 시간
                         }
 
-                    }, 1000); // 0.5초 지연 시간
-
-
-
+                    },500);
                 }
             }
     );
