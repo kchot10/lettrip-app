@@ -91,6 +91,7 @@ public class MissionMainActivity extends AppCompatActivity {
 
     }
 
+
     public void Refresh(RecyclerView recyclerView, String mission_type, int i) {
         // Record class, SelectData_Record task, RecordAdapter
         SelectData_Mission task = new SelectData_Mission(missionArrayList[i]);
