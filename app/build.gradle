@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.cookandroid.travelerapplication"
-        minSdk 21
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -36,7 +36,8 @@ android {
         enabled = true
     }
 
-
+    buildFeatures.dataBinding true
+    buildFeatures.viewBinding true
 }
 
 
@@ -80,5 +81,8 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-s3:'+aws_version
     implementation ('com.amazonaws:aws-android-sdk-mobile-client:'+aws_version){ transitive = true }
 
+    //qr 스캐너 api
+    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'com.journeyapps:zxing-android-embedded:4.2.0'
 
 }

@@ -72,6 +72,8 @@ public class MissionMainActivity extends AppCompatActivity {
         recyclerView_mission_KINDCITY.setLayoutManager(layoutManagers[4]);
         Refresh(recyclerView_mission_KINDCITY, "KINDCITY", 4);
 
+
+        //QR 코드 미션
         missionQR.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), MissionQRActivity.class);
             startActivity(intent);

@@ -221,6 +221,8 @@ public class LoginActivity extends AppCompatActivity{
             Log.e("Google account", "로그인 안되있음");
         } else {
             Log.e("Google account", "로그인 완료된 상태");
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         }
 
         //사용자 객체 가지고 오기
@@ -274,6 +276,9 @@ public class LoginActivity extends AppCompatActivity{
                     }, 500); // 0.5초 지연 시간
                 }
             }, 500); // 0.5초 지연 시간
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
 
 
         } catch (ApiException e) {
