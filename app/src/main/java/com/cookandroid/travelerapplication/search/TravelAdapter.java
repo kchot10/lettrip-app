@@ -96,17 +96,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
                         dialog.dismiss();
                     }
                 });
-                AlertDialog dialog = builder.create();
-                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-                        Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
-                        Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
-                        positiveButton.setTextColor(Color.WHITE);
-                        negativeButton.setTextColor(Color.WHITE);
-                    }
-                });
-                dialog.show();
+                builder.show();
             });
 
             itemView.setOnClickListener(v -> {
