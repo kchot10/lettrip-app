@@ -374,9 +374,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                     String category_name = result.getData().getStringExtra("category_group_name");
                     String total_rating = "3";
 
-                    if (category_code.equals("FD6")){
-                        findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
-                    }
+                    findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
 
                     ArrayList<Place> arrayListPlace = new ArrayList<>();
                     SelectData_Place selectData_place = new SelectData_Place(arrayListPlace);
