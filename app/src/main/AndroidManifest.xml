@@ -164,6 +164,13 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="eaea80fc7e3f8ac8fd4c887da34a2f08" />
+
+        <activity android:name=".mypage.UserCheckPopup" android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+
+        <activity
+            android:name=".mypage.MypageMainActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

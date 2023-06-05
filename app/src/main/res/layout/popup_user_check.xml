@@ -1,71 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="341dp"
-    android:layout_height="211dp"
-    android:layout_margin="10dp"
-    android:background="@drawable/radius_background"
-    android:elevation="10dp"
+    android:layout_width="335dp"
+    android:layout_height="230dp"
+    android:background="#00FFFFFF"
+    android:elevation="5dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@drawable/radius_background_half"
-        android:orientation="horizontal"
-        android:paddingLeft="22dp">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/radius_background"
+        android:elevation="7dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:background="@drawable/radius_background_half"
+            android:orientation="horizontal"
+            android:paddingLeft="22dp">
+
+            <TextView
+                android:id="@+id/userCheckTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="22dp"
+                android:text="본인 확인"
+                android:textColor="#FDFDFD"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="185dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="27dp"
+                android:background="#4F5A80"
+                app:srcCompat="@drawable/close_button" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/userCheckTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="22dp"
-            android:text="본인 확인"
-            android:textColor="#FDFDFD"
-            android:textSize="18sp"
+            android:id="@+id/title2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="33dp"
+            android:layout_marginTop="26dp"
+            android:text="비밀번호 확인"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/password_EditText"
+            android:layout_width="190dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_marginTop="26dp"
+            android:background="#FFFFFF"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="*********"
+            android:inputType="text"
+            android:textSize="26dp"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/closeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="212dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="27dp"
-            android:background="#4F5A80"
-            app:srcCompat="@drawable/close_button" />
+        <Button
+            android:id="@+id/okBtn"
+            android:layout_width="50dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="240dp"
+            android:background="@drawable/user_check_btn"
+            android:text="확인"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/title2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="33dp"
-        android:layout_marginTop="26dp"
-        android:text="비밀번호 확인"
-        android:textSize="17sp" />
-
-    <EditText
-        android:id="@+id/password_EditText"
-        android:layout_width="190dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center|center_horizontal"
-        android:layout_marginTop="26dp"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="*********"
-        android:inputType="text"
-        android:textSize="26dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="50dp"
-        android:layout_height="24dp"
-        android:layout_marginLeft="270dp"
-        android:background="@drawable/user_check_btn"
-        android:text="확인"
-        android:textColor="#FFFFFF" />
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import com.cookandroid.travelerapplication.article.ArticleListActivity;
 import com.cookandroid.travelerapplication.account.WithdrawActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
+import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
 import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.search.SearchActivity;
 
@@ -68,7 +69,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
+        findViewById(R.id.mypage).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MypageMainActivity.class);
+            startActivity(intent);
+        });
 
 
     }
