@@ -207,6 +207,7 @@ public class RecordMain extends AppCompatActivity{
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+
                         dateBtn_end.setText(selectedDate);
                     }
                 });

@@ -16,7 +16,7 @@
 
         <ImageButton
             android:id="@+id/backBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="15dp"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             app:srcCompat="@drawable/back_btn_small" />
@@ -25,11 +25,17 @@
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="130dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="MyPage"
             android:textColor="#4F5A80"
             android:textSize="21sp"
             android:textStyle="bold" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="15dp"
+            android:layout_height="18dp" />
     </LinearLayout>
 
     <ScrollView
@@ -55,7 +61,7 @@
                 android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="서정후"
-                android:textSize="19sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -65,72 +71,112 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="jeonghu1010@naver.com"
-                android:textColor="#C0C0C0 " />
+                android:textColor="#C0C0C0 "
+                android:textSize="13sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginLeft="7.5dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginRight="7.5dp"
                 android:layout_marginBottom="37dp"
-                android:background="@drawable/mypage_center_rectangle"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:background="@drawable/mypage_center_rectangle">
 
-                <TextView
-                    android:id="@+id/pointTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="9dp"
-                    android:text="나의 포인트"
-                    android:textColor="#FFFFFF"
-                    android:textSize="13sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/pointNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="14dp"
-                    android:text="5,000P"
-                    android:textColor="#FFFFFF"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingRight="7dp">
 
-                <TextView
-                    android:id="@+id/tripPlanTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="7dp"
-                    android:text="여행 계획"
-                    android:textColor="#FFFFFF" />
+                        <TextView
+                            android:id="@+id/pointTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="9dp"
+                            android:text="나의 포인트"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp" />
 
-                <TextView
-                    android:id="@+id/tripPlanNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/pointNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5,000P"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tripReivewTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="7dp"
-                    android:text="여행 기록"
-                    android:textColor="#FFFFFF" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="7dp"
+                        android:paddingRight="7dp">
 
-                <TextView
-                    android:id="@+id/tripReivewNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:text="3"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/tripPlanTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="7dp"
+                            android:text="여행 계획"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tripPlanNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="7dp">
+
+                        <TextView
+                            android:id="@+id/tripReivewTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="7dp"
+                            android:text="여행 기록"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tripReivewNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="16dp"
+                            android:text="3"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -149,7 +195,7 @@
                         android:layout_marginLeft="13dp"
                         android:text="계정"
                         android:textColor="#878787 "
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -165,7 +211,7 @@
                             android:layout_marginLeft="27dp"
                             android:gravity="center_vertical"
                             android:text="정보 수정"
-                            android:textSize="17sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/logoutBtn"
@@ -174,7 +220,7 @@
                             android:layout_marginLeft="27dp"
                             android:gravity="center_vertical"
                             android:text="로그아웃"
-                            android:textSize="17sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/user_ModifyBtn2"
@@ -183,7 +229,7 @@
                             android:layout_marginLeft="27dp"
                             android:gravity="center_vertical"
                             android:text="회원 탈퇴"
-                            android:textSize="17sp" />
+                            android:textSize="16sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -195,7 +241,7 @@
                     android:layout_marginLeft="13dp"
                     android:text="여행"
                     android:textColor="#878787 "
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -207,7 +253,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingRight="20dp">
 
                         <TextView
                             android:id="@+id/trip_planBtn"
@@ -217,7 +264,7 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="여행 계획"
-                            android:textSize="17sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tripPlanNum2"
@@ -227,14 +274,15 @@
                             android:gravity="center"
                             android:text="1개"
                             android:textColor="#F0F6FF"
-                            android:textSize="13sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingRight="20dp">
 
                         <TextView
                             android:id="@+id/trip_reviewBtn"
@@ -244,7 +292,7 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="여행 기록"
-                            android:textSize="17sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tripReviewNum"
@@ -254,7 +302,7 @@
                             android:gravity="center"
                             android:text="3개"
                             android:textColor="#F0F6FF"
-                            android:textSize="13sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -268,7 +316,7 @@
                     android:layout_marginLeft="13dp"
                     android:text="좋아요"
                     android:textColor="#878787 "
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -285,7 +333,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="여행 코스"
-                        android:textSize="17sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/placeLikeBtn"
@@ -295,7 +343,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="장소"
-                        android:textSize="17sp" />
+                        android:textSize="16sp" />
 
 
                 </LinearLayout>

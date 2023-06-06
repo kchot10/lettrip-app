@@ -11,6 +11,7 @@ import com.cookandroid.travelerapplication.account.WithdrawActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
+import com.cookandroid.travelerapplication.mypage.MypageModifyActivity;
 import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.search.SearchActivity;
 
@@ -71,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.mypage).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, MypageMainActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.mypage2).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MypageModifyActivity.class);
             startActivity(intent);
         });
 

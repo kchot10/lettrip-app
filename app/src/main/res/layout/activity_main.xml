@@ -104,4 +104,12 @@
         android:text="마이페이지"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/mypage2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="회원 정보 수정"
+        android:textColor="@color/white" />
+
 </LinearLayout>
