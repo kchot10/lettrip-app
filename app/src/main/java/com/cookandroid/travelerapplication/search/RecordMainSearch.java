@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.record.Course;
 import com.cookandroid.travelerapplication.record.CourseAdapter;
+import com.cookandroid.travelerapplication.task.DeleteData_Like;
 import com.cookandroid.travelerapplication.task.InsertData_Like;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
 import com.cookandroid.travelerapplication.task.SelectData_Like;
@@ -25,9 +27,11 @@ public class RecordMainSearch extends AppCompatActivity {
     ArrayList<Course> courseArrayList;
     String IP_ADDRESS, user_id;
     String travel_id, city, total_cost, number_of_courses;
+    Boolean FIRST = true;
 
     TextView textView_total_cost_search, textView_number_of_courses_search, textView_city_search, textView_theme_search;
     FileHelper fileHelper;
+    ImageButton imageButton;
     RecyclerView recyclerView;
     RecyclerView.Adapter recyclerView_adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -48,6 +52,7 @@ public class RecordMainSearch extends AppCompatActivity {
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
+        imageButton = findViewById(R.id.heartBtn2);
         recyclerView = findViewById(R.id.recyclerView_course);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -58,30 +63,10 @@ public class RecordMainSearch extends AppCompatActivity {
         travel_id = getIntent().getStringExtra("travel_id");
         Refresh();
 
-        findViewById(R.id.heartBtn2).setOnClickListener(v -> {
-            String liked_type = "1";
-            ArrayList<Like> likeArrayList = new ArrayList<>();
-            SelectData_Like selectData_like = new SelectData_Like(likeArrayList);
-            selectData_like.execute("http://" + IP_ADDRESS + "/0601/select_like.php",liked_type, travel_id, user_id);
+        RefreshLike();
 
-//            new Handler().postDelayed(() -> {
-//                String like_id = "";
-//                try {
-//                    like_id = likeArrayList.get(0).getLike_id();
-//                }catch (Exception e){
-//                    Log.e("youn", "like_id 불러오기 실패");
-//                }
-//                if ( !like_id.equals("") ) { // like_id에 아무것도 저장되어있지 않지 않다면 (뭐라도 있다면)
-//                    DeleteData_Like deleteData_like = new DeleteData_Like();
-//                    deleteData_like.execute("http://" + IP_ADDRESS + "/0601/deleteData_like.php",like_id);
-//                }else{
-//                    InsertData_Like insertData_like = new InsertData_Like();
-//                    insertData_like.execute("http://" + IP_ADDRESS + "/0601/InsertData_like_travel.php", liked_type, travel_id, user_id);
-//                }
-//            }, 500); // 0.5초 지연 시간
-
-
-
+        imageButton.setOnClickListener(v -> {
+            RefreshLike();
         });
 
     }
@@ -106,5 +91,47 @@ public class RecordMainSearch extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    public void RefreshLike(){
+        imageButton.setEnabled(false);
+        String liked_type = "1";
+        ArrayList<Like> likeArrayList = new ArrayList<>();
+        SelectData_Like selectData_like = new SelectData_Like(likeArrayList);
+        selectData_like.execute("http://" + IP_ADDRESS + "/0601/select_like.php",liked_type, travel_id, user_id);
+
+        if (FIRST){
+            new Handler().postDelayed(() -> {
+                String like_id = "";
+                try {
+                    like_id = likeArrayList.get(0).getLike_id();
+                    imageButton.setImageResource(R.drawable.heart_full);
+                }catch (Exception e){
+                    Log.e("youn", "like_id 불러오기 실패");
+                    imageButton.setImageResource(R.drawable.heart);
+                }
+                FIRST = false;
+                imageButton.setEnabled(true);
+            }, 300); // 0.5초 지연 시간
+        }else {
+            new Handler().postDelayed(() -> {
+                String like_id = "";
+                try {
+                    like_id = likeArrayList.get(0).getLike_id();
+                } catch (Exception e) {
+                    Log.e("youn", "like_id 불러오기 실패");
+                }
+                if (!like_id.equals("")) { // like_id에 아무것도 저장되어있지 않지 않다면 (뭐라도 있다면)
+                    DeleteData_Like deleteData_like = new DeleteData_Like();
+                    deleteData_like.execute("http://" + IP_ADDRESS + "/0411/deletedata_like.php", like_id);
+                    imageButton.setImageResource(R.drawable.heart);
+                } else {
+                    InsertData_Like insertData_like = new InsertData_Like();
+                    insertData_like.execute("http://" + IP_ADDRESS + "/0601/InsertData_like_travel.php", liked_type, travel_id, user_id);
+                    imageButton.setImageResource(R.drawable.heart_full);
+                }
+                imageButton.setEnabled(true);
+            }, 300); // 0.5초 지연 시간
+        }
     }
 }

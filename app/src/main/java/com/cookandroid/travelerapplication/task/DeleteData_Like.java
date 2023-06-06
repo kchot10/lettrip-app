@@ -1,19 +1,7 @@
 package com.cookandroid.travelerapplication.task;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.cookandroid.travelerapplication.comment.Comment;
-import com.cookandroid.travelerapplication.article.Article;
-import com.cookandroid.travelerapplication.mission.Mission;
-import com.cookandroid.travelerapplication.record.Course;
-import com.cookandroid.travelerapplication.record.ImageReview;
-import com.cookandroid.travelerapplication.search.Like;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,33 +9,17 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
-public class SelectData_Like extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
-    ProgressDialog progressDialog;
+public class DeleteData_Like extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     private static String TAG = "youn"; //phptest log 찍으려는 용도
-
-    public ArrayList articleArrayList;
-
-    public <T> SelectData_Like(ArrayList<T> articleArrayList) {
-        this.articleArrayList = articleArrayList;
-    }
 
     private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
         String serverURL = (String) params[0];
+        String liked_id = (String)params[1];
 
-        String postParameters = "";
-        try {
-            String liked_type = (String) params[1];
-            String target_id = (String) params[2];
-            String user_id = (String) params[3];
-            postParameters ="liked_type="+liked_type
-                    +"&target_id="+target_id
-                    +"&user_id="+user_id;
-        }catch (Exception e){
-        }
+        String postParameters ="liked_id="+liked_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -99,14 +71,6 @@ public class SelectData_Like extends AsyncTask<String,Void,String> { // 통신�
 
             Log.d("php 값 :", sb.toString());
 
-            try{
-                parseJSONArray(sb.toString());
-            }catch (Exception e){
-                Log.d("youn", "JSON Error\n");
-            }
-
-
-
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -116,43 +80,12 @@ public class SelectData_Like extends AsyncTask<String,Void,String> { // 통신�
 
         catch (Exception e) {
 
-            Log.d(TAG, "SelectData_Mission: Error",e);
+            Log.d(TAG, "DeleteData_Like: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
-    }
-
-    private void parseJSONArray(String result) throws JSONException {
-        // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
-        JSONArray jsonArray = new JSONArray(result);
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-            Like like = new Like();
-
-            String liked_id = jsonObject.getString("liked_id");
-            like.setLike_id(liked_id);
-
-            articleArrayList.add(like);
-
-        }
-
-    }
-
-    public String get_return_string(){
-        return return_string;
-    }
-
-    public String getTwoCharsAfterString(String str, String searchString) {
-        String result = "";
-        int index = str.indexOf(searchString);
-        if (index != -1 && index + searchString.length() + 2 <= str.length()) {
-            result = str.substring(index + searchString.length(), index + searchString.length() + 2);
-        }
-        return result;
     }
 
 }
