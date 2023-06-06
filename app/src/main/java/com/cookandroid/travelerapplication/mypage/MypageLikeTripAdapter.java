@@ -72,7 +72,7 @@ public class MypageLikeTripAdapter extends RecyclerView.Adapter<MypageLikeTripAd
             @Override
             public void onClick(View view) {
                 //해당 여행을 좋아요 db list에서 삭제 ++
-                removeItem(position);
+                removeItem(holder.getAdapterPosition());
             }
         });
     }
