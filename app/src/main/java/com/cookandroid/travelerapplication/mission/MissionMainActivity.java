@@ -36,8 +36,7 @@ public class MissionMainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView_mission_QR, recyclerView_mission_TRIP, recyclerView_mission_FOOD, recyclerView_mission_CAFE, recyclerView_mission_KINDCITY;
     private RecyclerView.Adapter recyclerView_adapter;
-
-    Button button;
+    TextView myPointText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +45,7 @@ public class MissionMainActivity extends AppCompatActivity {
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
+        myPointText = findViewById(R.id.myPointText);
         missionQR = findViewById(R.id.missionQR);
         missionTrip = findViewById(R.id.missionTrip);
         missionArrayList = new ArrayList[KINDNUM];
@@ -75,17 +75,7 @@ public class MissionMainActivity extends AppCompatActivity {
         recyclerView_mission_KINDCITY.setLayoutManager(layoutManagers[4]);
         Refresh(recyclerView_mission_KINDCITY, "KINDCITY", 4);
 
-        TextView myPointText = findViewById(R.id.myPointText);
-
-        ArrayList<UserInfo> arrayListUserInfo = new ArrayList();
-        SelectData_MyPoint selectData_myPoint = new SelectData_MyPoint(arrayListUserInfo);
-
-        Toast.makeText(this, "user_id:"+user_id, Toast.LENGTH_LONG).show();
-        selectData_myPoint.execute("http://" + IP_ADDRESS + "/0601/select_my_point.php", user_id);
-        new Handler().postDelayed(() -> {
-            String myPoint = arrayListUserInfo.get(0).getPoint()+" P";
-            myPointText.setText(myPoint);
-        }, 1000); // 0.5초 지연 시간
+        Refresh_MyPoint();
 
 
         //QR 코드 미션
@@ -101,6 +91,16 @@ public class MissionMainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void Refresh_MyPoint() {
+        ArrayList<UserInfo> arrayListUserInfo = new ArrayList();
+        SelectData_MyPoint selectData_myPoint = new SelectData_MyPoint(arrayListUserInfo);
+        selectData_myPoint.execute("http://" + IP_ADDRESS + "/0601/select_my_point.php", user_id);
+        new Handler().postDelayed(() -> {
+            String myPoint = arrayListUserInfo.get(0).getPoint()+" P";
+            myPointText.setText(myPoint);
+        }, 1000); // 0.5초 지연 시간
     }
 
 
@@ -131,5 +131,11 @@ public class MissionMainActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
         String currentTime = sdf.format(date);
         return currentTime;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Refresh_MyPoint();
     }
 }
