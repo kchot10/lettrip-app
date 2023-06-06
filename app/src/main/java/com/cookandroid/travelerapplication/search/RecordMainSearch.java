@@ -6,17 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.cookandroid.travelerapplication.R;
-import com.cookandroid.travelerapplication.article.Article;
-import com.cookandroid.travelerapplication.article.ArticleAdapter;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.record.Course;
 import com.cookandroid.travelerapplication.record.CourseAdapter;
-import com.cookandroid.travelerapplication.task.InsertData_LikeTravel;
-import com.cookandroid.travelerapplication.task.SelectData_Article;
+import com.cookandroid.travelerapplication.task.InsertData_Like;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
+import com.cookandroid.travelerapplication.task.SelectData_Like;
 
 import java.util.ArrayList;
 
@@ -61,8 +60,28 @@ public class RecordMainSearch extends AppCompatActivity {
 
         findViewById(R.id.heartBtn2).setOnClickListener(v -> {
             String liked_type = "1";
-            InsertData_LikeTravel insertData_likeTravel = new InsertData_LikeTravel();
-            insertData_likeTravel.execute("http://" + IP_ADDRESS + "/0601/InsertData_like_travel.php", liked_type, travel_id, user_id);
+            ArrayList<Like> likeArrayList = new ArrayList<>();
+            SelectData_Like selectData_like = new SelectData_Like(likeArrayList);
+            selectData_like.execute("http://" + IP_ADDRESS + "/0601/select_like.php",liked_type, travel_id, user_id);
+
+//            new Handler().postDelayed(() -> {
+//                String like_id = "";
+//                try {
+//                    like_id = likeArrayList.get(0).getLike_id();
+//                }catch (Exception e){
+//                    Log.e("youn", "like_id 불러오기 실패");
+//                }
+//                if ( !like_id.equals("") ) { // like_id에 아무것도 저장되어있지 않지 않다면 (뭐라도 있다면)
+//                    DeleteData_Like deleteData_like = new DeleteData_Like();
+//                    deleteData_like.execute("http://" + IP_ADDRESS + "/0601/deleteData_like.php",like_id);
+//                }else{
+//                    InsertData_Like insertData_like = new InsertData_Like();
+//                    insertData_like.execute("http://" + IP_ADDRESS + "/0601/InsertData_like_travel.php", liked_type, travel_id, user_id);
+//                }
+//            }, 500); // 0.5초 지연 시간
+
+
+
         });
 
     }
