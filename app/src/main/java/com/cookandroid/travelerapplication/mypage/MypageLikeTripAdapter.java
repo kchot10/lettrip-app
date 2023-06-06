@@ -3,6 +3,7 @@ package com.cookandroid.travelerapplication.mypage;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,12 +24,15 @@ public class MypageLikeTripAdapter extends RecyclerView.Adapter<MypageLikeTripAd
 
         RecyclerView recyclerView;
 
+        Button cancelBtn;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
             tripCity = itemView.findViewById(R.id.tripCity);
             tripCost = itemView.findViewById(R.id.tripCost);
             tripType = itemView.findViewById(R.id.tripType);
+            cancelBtn = itemView.findViewById(R.id.cancelBtn);
         }
 
         public void setItem(LikeTrip item){
@@ -63,6 +67,19 @@ public class MypageLikeTripAdapter extends RecyclerView.Adapter<MypageLikeTripAd
     public void onBindViewHolder(@NonNull MypageLikeTripAdapter.ViewHolder holder, int position) {
         LikeTrip item = items.get(position);
         holder.setItem(item);
+        
+        holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //해당 여행을 좋아요 db list에서 삭제 ++
+                removeItem(position);
+            }
+        });
+    }
+
+    public void removeItem(int position){
+        items.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override
