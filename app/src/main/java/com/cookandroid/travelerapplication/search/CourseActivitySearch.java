@@ -27,6 +27,7 @@ import com.cookandroid.travelerapplication.record.ImageAdapter;
 import com.cookandroid.travelerapplication.record.ImageReview;
 import com.cookandroid.travelerapplication.task.InsertData_Image;
 import com.cookandroid.travelerapplication.task.SelectData_ImageFile;
+import com.cookandroid.travelerapplication.task.UpdateData_Place;
 import com.cookandroid.travelerapplication.task.UpdateData_Review;
 
 import java.text.ParseException;
@@ -113,6 +114,11 @@ public class CourseActivitySearch extends AppCompatActivity implements S3Uploade
             String rating = Float.toString(ratingBar.getRating());
             UpdateData_Review updateData_review = new UpdateData_Review();
             updateData_review.execute("http://" + IP_ADDRESS + "/0503/updatedata_review.php", review_id, detailed_review, rating, travel_id);
+
+            String place_id = getIntent().getStringExtra("place_id");
+            Toast.makeText(this,"place_id: "+place_id, Toast.LENGTH_SHORT).show();
+            UpdateData_Place updateData_place = new UpdateData_Place();
+            updateData_place.execute("http://"+IP_ADDRESS+"/0601/UpdateData_Place.php", place_id);
 
             for (int i = image_count; i < arrayList_image_review.size(); i++) {
                 InsertData_Image insertData_image = new InsertData_Image();

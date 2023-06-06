@@ -2,6 +2,7 @@ package com.cookandroid.travelerapplication.record;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +89,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 Intent intent;
                 intent = new Intent(context, CourseActivitySearch.class);
                 intent.putExtra("travel_id", arrayList.get(curpos).getTravel_id());
+                intent.putExtra("place_id", arrayList.get(curpos).getPlace_id());
                 intent.putExtra("rating", arrayList.get(curpos).getRating());
                 intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
                 intent.putExtra("review_id", arrayList.get(curpos).getReview_id());

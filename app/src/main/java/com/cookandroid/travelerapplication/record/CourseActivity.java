@@ -34,6 +34,7 @@ import com.cookandroid.travelerapplication.task.InsertData_Image;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
 import com.cookandroid.travelerapplication.task.InsertData_Review;
 import com.cookandroid.travelerapplication.task.SelectData_Place;
+import com.cookandroid.travelerapplication.task.UpdateData_Place;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -146,6 +147,8 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                         Toast.makeText(this, "리뷰 추가가 에러났습니다.", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "리뷰 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                        UpdateData_Place updateData_place = new UpdateData_Place();
+                        updateData_place.execute("http://"+IP_ADDRESS+"/0601/UpdateData_Place.php", place_id);
                         fileHelper.writeToFile("review_id", withdraw_result);
                         if (getIntent().getStringExtra("record/plan").equals("plan")){
                             new Handler().postDelayed(() -> {
@@ -372,7 +375,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                     String location_point = "POINT("+x+" "+y+")";
                     String category_code = result.getData().getStringExtra("category_group_code");
                     String category_name = result.getData().getStringExtra("category_group_name");
-                    String total_rating = "3";
+                    String total_rating = Float.toString(edit_rating.getRating());
 
                     if (getIntent().getStringExtra("record/plan").equals("record")) {
                         findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
