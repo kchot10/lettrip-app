@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.InsertData_Mission;
 import com.cookandroid.travelerapplication.task.SelectData_Mission;
+import com.cookandroid.travelerapplication.task.SelectData_MyPoint;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,16 +75,23 @@ public class MissionMainActivity extends AppCompatActivity {
         recyclerView_mission_KINDCITY.setLayoutManager(layoutManagers[4]);
         Refresh(recyclerView_mission_KINDCITY, "KINDCITY", 4);
 
+        TextView myPointText = findViewById(R.id.myPointText);
+
+        ArrayList<UserInfo> arrayListUserInfo = new ArrayList();
+        SelectData_MyPoint selectData_myPoint = new SelectData_MyPoint(arrayListUserInfo);
+
+        Toast.makeText(this, "user_id:"+user_id, Toast.LENGTH_LONG).show();
+        selectData_myPoint.execute("http://" + IP_ADDRESS + "/0601/select_my_point.php", user_id);
+        new Handler().postDelayed(() -> {
+            String myPoint = arrayListUserInfo.get(0).getPoint()+" P";
+            myPointText.setText(myPoint);
+        }, 1000); // 0.5초 지연 시간
+
 
         //QR 코드 미션
         missionQR.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), MissionQRActivity.class);
             startActivity(intent);
-//            sum+=1;
-//            String accomplished_date = getCurrentTime();
-//            String mission_type = "QR";
-//            InsertData_Mission insertData_mission = new InsertData_Mission();
-//            insertData_mission.execute("http://"+IP_ADDRESS+"/0503/InsertData_Mission.php", accomplished_date, mission_type, user_id);
         });
         missionTrip.setOnClickListener(new View.OnClickListener() {
             @Override
