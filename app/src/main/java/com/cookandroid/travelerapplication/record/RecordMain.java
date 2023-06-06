@@ -153,7 +153,7 @@ public class RecordMain extends AppCompatActivity{
             public void onClick(View view) {
                 Dialog dialog = new Dialog(RecordMain.this);
                 dialog.setContentView(R.layout.activity_record_date);
-
+                TextView titlebar = dialog.findViewById(R.id.titlebar);
                 Button close = dialog.findViewById(R.id.cancelBtn);
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -167,6 +167,9 @@ public class RecordMain extends AppCompatActivity{
                 calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
+                        String dayOfWeekString = getDayOfWeekString(year, month, dayOfMonth);
+                        String titleDate = year+"년 "+month+"월 "+dayOfMonth+"일 "+ dayOfWeekString;
+                        titlebar.setText(titleDate);
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
                         dateBtn_start.setText(selectedDate);
                         //날짜 db 저장하기
@@ -192,6 +195,7 @@ public class RecordMain extends AppCompatActivity{
             public void onClick(View view) {
                 Dialog dialog = new Dialog(RecordMain.this);
                 dialog.setContentView(R.layout.activity_record_date);
+                TextView titlebar = dialog.findViewById(R.id.titlebar);
 
                 Button close = dialog.findViewById(R.id.cancelBtn);
                 close.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +210,9 @@ public class RecordMain extends AppCompatActivity{
                 calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
+                        String dayOfWeekString = getDayOfWeekString(year, month, dayOfMonth);
+                        String titleDate = year+"년 "+month+"월 "+dayOfMonth+"일 "+ dayOfWeekString;
+                        titlebar.setText(titleDate);
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
 
                         dateBtn_end.setText(selectedDate);
@@ -398,6 +405,40 @@ public class RecordMain extends AppCompatActivity{
         }
 
         return 0;
+    }
+
+    public String getDayOfWeekString(int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, dayOfMonth);
+        // 요일을 얻기 위해 Calendar 객체에서 해당 필드값을 가져옴
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        String dayOfWeekString;
+        switch (dayOfWeek) {
+            case Calendar.SUNDAY:
+                dayOfWeekString = "일요일";
+                break;
+            case Calendar.MONDAY:
+                dayOfWeekString = "월요일";
+                break;
+            case Calendar.TUESDAY:
+                dayOfWeekString = "화요일";
+                break;
+            case Calendar.WEDNESDAY:
+                dayOfWeekString = "수요일";
+                break;
+            case Calendar.THURSDAY:
+                dayOfWeekString = "목요일";
+                break;
+            case Calendar.FRIDAY:
+                dayOfWeekString = "금요일";
+                break;
+            case Calendar.SATURDAY:
+                dayOfWeekString = "토요일";
+                break;
+            default:
+                dayOfWeekString = "";
+        }
+        return dayOfWeekString;
     }
 
 }

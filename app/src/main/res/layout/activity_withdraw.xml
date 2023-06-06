@@ -34,12 +34,16 @@
         android:text="탈퇴하기"
         android:textColor="@color/white" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
     <Button
         android:id="@+id/withdraw_button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="650dp"
+        android:layout_gravity="center_horizontal"
         android:backgroundTint="#515674"
         android:text="소셜 탈퇴"
         android:textColor="@color/white" />

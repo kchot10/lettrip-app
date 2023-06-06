@@ -55,8 +55,7 @@
                     android:layout_height="55dp"
                     android:adjustViewBounds="true"
                     android:backgroundTint="@color/white"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/heart" />
+                    android:scaleType="fitCenter" />
 
             </LinearLayout>
 
