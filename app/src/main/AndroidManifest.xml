@@ -171,6 +171,14 @@
             android:name=".mypage.MypageMainActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".mypage.MypageModifyActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".mypage.MypageLikeTripActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

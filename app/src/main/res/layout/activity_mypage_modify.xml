@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingLeft="25dp"
+    android:paddingTop="33dp"
+    android:paddingRight="25dp"
+    android:paddingBottom="40dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="15dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:background="#FFFFFF"
+                app:srcCompat="@drawable/back_btn_small" />
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="정보 수정"
+                android:textColor="#4F5A80"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="15dp"
+                android:layout_height="18dp" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/profile_modifyBtn"
+            android:layout_width="175dp"
+            android:layout_height="166dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="51dp"
+            android:background="#FFFFFF"
+            android:padding="5dp"
+            app:srcCompat="@drawable/profile_modify_btn" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5.5dp"
+                android:text="서정후"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/editBtn_userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="1.5dp"
+                android:background="#FFFFFF"
+                app:srcCompat="@drawable/edit_btn" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/userEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5.5dp"
+                android:text="jeonghu1010@naver.com"
+                android:textColor="#C0C0C0 " />
+
+            <ImageButton
+                android:id="@+id/editBtn_userEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="1.5dp"
+                android:background="#FFFFFF"
+                app:srcCompat="@drawable/edit_btn" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/passwordTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호"
+                android:textColor="#878787 "
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/userNameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이름"
+                android:textColor="#878787 "
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="42.5dp"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/modifyOkBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/modify_ok_btn"
+        android:text="수정 완료"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

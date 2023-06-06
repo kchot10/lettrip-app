@@ -214,6 +214,7 @@ public class RecordMain extends AppCompatActivity{
                         String titleDate = year+"년 "+month+"월 "+dayOfMonth+"일 "+ dayOfWeekString;
                         titlebar.setText(titleDate);
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+
                         dateBtn_end.setText(selectedDate);
                     }
                 });
