@@ -23,7 +23,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tripType"
+                android:id="@+id/tripTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/like_trip_type_rectangle"
@@ -52,9 +52,10 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="#FFFFFF"
+            android:visibility="invisible"
             app:srcCompat="@drawable/like_cancel_btn" />
 
     </LinearLayout>
@@ -75,12 +76,12 @@
             android:text="대구"
             android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerView_course"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginRight="13dp"
-            android:orientation="horizontal" />
+        <TextView
+            android:id="@+id/tripCourse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1번째 코스 -> 2번째 코스 -> 3번째 코스" />
+
     </LinearLayout>
 </LinearLayout>

@@ -24,15 +24,15 @@ import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
     ArrayList<Travel> travelArrayList;
-    String IP_ADDRESS;
+    String IP_ADDRESS, user_id;
+    FileHelper fileHelper;
     String total_cost, province, number_of_courses, travel_theme;
     Spinner spinner_cost, spinner_province, spinner_city, spinner_theme, spinner_number_of_courses;
-    FileHelper fileHelper;
     EditText editText_city;
     RecyclerView recyclerView;
     RecyclerView.Adapter recyclerView_adapter;
-    ArrayAdapter<CharSequence> adapter;
     private RecyclerView.LayoutManager layoutManager;
+    ArrayAdapter<CharSequence> adapter;
 
 
     @Override
@@ -41,6 +41,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        user_id = fileHelper.readFromFile("user_id");
         editText_city = findViewById(R.id.editText_city);
         recyclerView = findViewById(R.id.RecyclerView_Travel);
         recyclerView.setHasFixedSize(true);
@@ -183,7 +184,6 @@ public class SearchActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("search/mypage").equals("mypage")){
             travelArrayList = new ArrayList<>();
             SelectData_Travel_Mypage task = new SelectData_Travel_Mypage(travelArrayList);
-            String user_id = fileHelper.readFromFile("user_id");
             task.execute("http://" + IP_ADDRESS + "/0503/selectdata_travel_mypage.php", user_id);
             try {
                 new Handler().postDelayed(() -> {

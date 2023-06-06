@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +41,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
     @NonNull
     @Override
     public TravelAdapter.TravelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_travel_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mypage_like_trip, parent, false);
         TravelViewHolder holder = new TravelViewHolder(view);
 
         return holder;
@@ -52,7 +53,6 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
         holder.textView_places.setText(arrayList.get(position).getPlaces());
         holder.textView_travel_theme.setText(arrayList.get(position).getTravel_theme());
         holder.textView_total_cost.setText(arrayList.get(position).getTotal_cost()+"원");
-        holder.textView_number_of_courses_search.setText(arrayList.get(position).getNumber_of_courses());
         if(arrayList.get(position).getUser_id().equals(mUser_id)){
             holder.button_delete_travel.setVisibility(View.VISIBLE);
         }
@@ -64,17 +64,16 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
     }
 
     public class TravelViewHolder extends RecyclerView.ViewHolder {
-        TextView textView_travel_theme, textView_city, textView_total_cost, textView_places, textView_number_of_courses_search;
-        Button button_delete_travel;
+        TextView textView_travel_theme, textView_city, textView_total_cost, textView_places;
+        ImageButton button_delete_travel;
 
         public TravelViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.textView_travel_theme = itemView.findViewById(R.id.textView_travel_theme);
-            this.textView_city = itemView.findViewById(R.id.textView_city);
-            this.textView_total_cost = itemView.findViewById(R.id.textView_total_cost);
-            this.textView_places = itemView.findViewById(R.id.textView_places);
-            this.textView_number_of_courses_search = itemView.findViewById(R.id.courseNum);
-            this.button_delete_travel = itemView.findViewById(R.id.button_delete_travel);
+            this.textView_travel_theme = itemView.findViewById(R.id.tripTheme);
+            this.textView_city = itemView.findViewById(R.id.tripCity);
+            this.textView_total_cost = itemView.findViewById(R.id.tripCost);
+            this.textView_places = itemView.findViewById(R.id.tripCourse);
+            this.button_delete_travel = itemView.findViewById(R.id.imageButton);
 
             button_delete_travel.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);

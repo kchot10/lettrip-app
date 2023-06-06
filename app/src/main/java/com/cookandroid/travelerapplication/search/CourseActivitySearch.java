@@ -80,27 +80,27 @@ public class CourseActivitySearch extends AppCompatActivity implements S3Uploade
         RatingBar ratingBar = findViewById(R.id.ratingBar);
         s3Uploader = new S3Uploader(this);
 
-
-
-        if (subtractDates(getIntent().getStringExtra("arrived_time_real"), getCurrentTime()) <= 0){
-            if (Float.parseFloat(getIntent().getStringExtra("rating")) == 0){
-                ratingBar.setRating(5);
-            }else {
-                ratingBar.setRating(Float.parseFloat(getIntent().getStringExtra("rating")));
+        if (getIntent().getStringExtra("user_id").equals(mUser_id)) {
+            if (subtractDates(getIntent().getStringExtra("arrived_time_real"), getCurrentTime()) <= 0) {
+                if (Float.parseFloat(getIntent().getStringExtra("rating")) == 0) {
+                    ratingBar.setRating(5);
+                } else {
+                    ratingBar.setRating(Float.parseFloat(getIntent().getStringExtra("rating")));
+                }
+                Button button_add_image = findViewById(R.id.button_add_image);
+                ViewGroup.LayoutParams layoutParams = button_add_image.getLayoutParams();
+                layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;  // 원하는 가로 크기를 픽셀 단위로 지정
+                button_add_image.setLayoutParams(layoutParams);
+                ViewGroup.LayoutParams layoutParams2 = ratingBar.getLayoutParams();
+                layoutParams2.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                ratingBar.setLayoutParams(layoutParams2);
+                textView_detailed_review.setEnabled(true);
+                findViewById(R.id.button_update_review).setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(this, "해당 날짜가 되지 않아 후기를 등록할 수 없습니다!", Toast.LENGTH_SHORT).show();
+                findViewById(R.id.recyclerView_imageFile).setVisibility(View.INVISIBLE);
+                findViewById(R.id.textView_detailed_review).setVisibility(View.INVISIBLE);
             }
-            Button button_add_image = findViewById(R.id.button_add_image);
-            ViewGroup.LayoutParams layoutParams = button_add_image.getLayoutParams();
-            layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;  // 원하는 가로 크기를 픽셀 단위로 지정
-            button_add_image.setLayoutParams(layoutParams);
-            ViewGroup.LayoutParams layoutParams2 = ratingBar.getLayoutParams();
-            layoutParams2.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            ratingBar.setLayoutParams(layoutParams2);
-            textView_detailed_review.setEnabled(true);
-            findViewById(R.id.button_update_review).setVisibility(View.VISIBLE);
-        }else{
-            Toast.makeText(this,"해당 날짜가 되지 않아 후기를 등록할 수 없습니다!",Toast.LENGTH_SHORT).show();
-            findViewById(R.id.recyclerView_imageFile).setVisibility(View.INVISIBLE);
-            findViewById(R.id.textView_detailed_review).setVisibility(View.INVISIBLE);
         }
 
         findViewById(R.id.button_add_image).setOnClickListener(v -> {
