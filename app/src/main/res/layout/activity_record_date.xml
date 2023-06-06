@@ -15,7 +15,6 @@
         android:background="#4F5A80"
         android:paddingLeft="24dp"
         android:paddingTop="27dp"
-        android:text="2023년 5월 4일"
         android:textColor="#FFFFFF"
         android:textSize="17sp"
         android:textStyle="bold" />

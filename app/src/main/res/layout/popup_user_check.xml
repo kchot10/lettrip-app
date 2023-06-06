@@ -63,7 +63,7 @@
             android:ems="10"
             android:gravity="center"
             android:hint="*********"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:textSize="26dp"
             android:textStyle="bold" />
 

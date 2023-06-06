@@ -42,8 +42,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:backgroundTint="@color/white"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/heart" />
+            android:scaleType="fitCenter" />
 
     </LinearLayout>
 
