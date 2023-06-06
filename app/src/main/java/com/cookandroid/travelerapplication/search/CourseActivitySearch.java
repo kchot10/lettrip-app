@@ -63,6 +63,7 @@ public class CourseActivitySearch extends AppCompatActivity implements S3Uploade
         textView_cost_search = findViewById(R.id.textView_cost_search);
         textView_arrived_time_search = findViewById(R.id.textView_arrived_time_search);
         textView_detailed_review = findViewById(R.id.textView_detailed_review);
+        travel_id = getIntent().getStringExtra("travel_id");
         textView_category_search.setText(" "+getIntent().getStringExtra("category_name")+" ");
         textView_place_name_search.setText(getIntent().getStringExtra("place_name"));
         textView_cost_search.setText(getIntent().getStringExtra("cost")+"원");
@@ -111,7 +112,7 @@ public class CourseActivitySearch extends AppCompatActivity implements S3Uploade
             String detailed_review = textView_detailed_review.getText().toString();
             String rating = Float.toString(ratingBar.getRating());
             UpdateData_Review updateData_review = new UpdateData_Review();
-            updateData_review.execute("http://" + IP_ADDRESS + "/0503/updatedata_review.php", review_id, detailed_review, rating);
+            updateData_review.execute("http://" + IP_ADDRESS + "/0503/updatedata_review.php", review_id, detailed_review, rating, travel_id);
 
             for (int i = image_count; i < arrayList_image_review.size(); i++) {
                 InsertData_Image insertData_image = new InsertData_Image();

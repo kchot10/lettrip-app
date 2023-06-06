@@ -1,6 +1,7 @@
 package com.cookandroid.travelerapplication.record;
 
 public class Course {
+    private String travel_id;
     private String course_id;
     private String arrived_time;
     private String cost;
@@ -13,6 +14,14 @@ public class Course {
     private String detailed_review;
     private String user_id;
     private String arrived_time_real;
+
+    public String getTravel_id() {
+        return travel_id;
+    }
+
+    public void setTravel_id(String travel_id) {
+        this.travel_id = travel_id;
+    }
 
     public String getArrived_time_real() {
         return arrived_time_real;

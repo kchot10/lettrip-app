@@ -168,7 +168,7 @@ public class RecordMain extends AppCompatActivity{
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                         String dayOfWeekString = getDayOfWeekString(year, month, dayOfMonth);
-                        String titleDate = year+"년 "+month+"월 "+dayOfMonth+"일 "+ dayOfWeekString;
+                        String titleDate = year+"년 "+(month+1)+"월 "+dayOfMonth+"일 "+ dayOfWeekString;
                         titlebar.setText(titleDate);
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
                         dateBtn_start.setText(selectedDate);
@@ -362,6 +362,9 @@ public class RecordMain extends AppCompatActivity{
         String number_of_courses = "0";
         String created_date = getCurrentTime();
         String visited = "0";
+        if (getIntent().getStringExtra("record/plan").equals("record")){
+            visited = "1";
+        }
         String depart_date = dateBtn_start.getText().toString().trim();
         String last_date = dateBtn_end.getText().toString().trim();
         String total_cost = "0";

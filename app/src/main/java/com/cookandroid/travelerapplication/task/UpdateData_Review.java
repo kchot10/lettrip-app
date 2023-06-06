@@ -22,10 +22,11 @@ public class UpdateData_Review extends AsyncTask<String,Void,String> { // 통신
         String review_id = (String)params[1];
         String detailed_review = (String)params[2];
         String rating = (String)params[3];
+        String travel_id = (String)params[4];
 
         String postParameters ="review_id="+review_id
                 +"&detailed_review=" +detailed_review
-                +"&rating="+rating;
+                +"&rating="+rating+"&travel_id="+travel_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.

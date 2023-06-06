@@ -87,6 +87,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 int curpos = getAbsoluteAdapterPosition();
                 Intent intent;
                 intent = new Intent(context, CourseActivitySearch.class);
+                intent.putExtra("travel_id", arrayList.get(curpos).getTravel_id());
                 intent.putExtra("rating", arrayList.get(curpos).getRating());
                 intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
                 intent.putExtra("review_id", arrayList.get(curpos).getReview_id());
