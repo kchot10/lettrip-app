@@ -5,6 +5,7 @@ import static android.provider.LiveFolders.INTENT;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,29 +18,52 @@ import android.widget.Toast;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.cookandroid.travelerapplication.MbEditText;
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.mission.UserInfo;
+import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
+import com.kakao.sdk.user.model.User;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class MypageModifyActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST_CODE = 1;
 
-    String pw;
-    String name;
-    String newEmail;
-    String newNickName;
+    FileHelper fileHelper;
+    String IP_ADDRESS, user_id;
+    String newNickName, stored_file_url;
     Uri selectedImageUri;
+    MbEditText userNickName_editText;
+    TextView userName;
+
+    ImageButton editBtn_userName, editBtn_userEmail, profilePhotoBtn;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage_modify);
-
-        ImageButton profilePhotoBtn = findViewById(R.id.profile_modifyBtn);
-        ImageButton editBtn_userName = findViewById(R.id.editBtn_userName);
-        ImageButton editBtn_userEmail = findViewById(R.id.editBtn_userEmail);
-        EditText password_EditText = findViewById(R.id.editTextPassword);
-        EditText userName_EditText = findViewById(R.id.editTextPassword);
+        fileHelper = new FileHelper(this);
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        user_id = fileHelper.readFromFile("user_id");
+        profilePhotoBtn = findViewById(R.id.profile_modifyBtn);
+        editBtn_userName = findViewById(R.id.editBtn_userName);
+        editBtn_userEmail = findViewById(R.id.editBtn_userEmail);
         Button Modify_fisnishBtn = findViewById(R.id.modifyOkBtn);
+        userName = findViewById(R.id.userName);
 
+        ArrayList<UserInfo> userInfoArrayList = new ArrayList<>();
+        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList);
+        selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
+        new Handler().postDelayed(() -> {
+            userName.setText(userInfoArrayList.get(0).getNickname());
+            Glide.with(this)
+                    .load(userInfoArrayList.get(0).getStored_file_url())
+                    .placeholder(R.drawable.user)
+                    .into(profilePhotoBtn);
+        }, 500); // 0.5초 지연 시간
 
         profilePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,27 +79,6 @@ public class MypageModifyActivity extends AppCompatActivity {
             }
         });
 
-        editBtn_userEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Modify_userEmail();
-            }
-        });
-
-        password_EditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Modify_password();
-            }
-        });
-
-        userName_EditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Modify_userName();
-            }
-        });
-
         Modify_fisnishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,44 +89,22 @@ public class MypageModifyActivity extends AppCompatActivity {
 
     
     private void Modify_finish() {
-        //name, email, pw, nickname, imageurl db에 저장
+        try {
+            newNickName = String.valueOf(userNickName_editText.getText());
+            Toast.makeText(this,"newNickName: "+newNickName,Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            newNickName = "";
+            Toast.makeText(this,"변경사항이 없습니다!",Toast.LENGTH_SHORT).show();
+        }
+        //nickname, imageurl db에 저장
         Toast.makeText(getApplicationContext(), "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getApplicationContext(), MypageMainActivity.class);
-        startActivity(intent);
-    }
-
-    private void Modify_userName() {
-        //입력된 이름 가져오기
-        EditText userName_EditText = findViewById(R.id.editTextPassword);
-        name = String.valueOf(userName_EditText.getText());
-    }
-
-    private void Modify_password() {
-        //입력된 비밀번호 가져오기
-        EditText password_EditText = findViewById(R.id.editTextPassword);
-        pw = String.valueOf(password_EditText.getText());
-    }
-
-    private void Modify_userEmail() {
-        //textView를 Edittext로 변경
-        EditText userEmail_editText = new EditText(this);
-        TextView userName = findViewById(R.id.userEmail);
-
-        userEmail_editText.setId(R.id.userEmail);
-        ViewGroup parent = (ViewGroup)  userName.getParent();
-        int index = parent.indexOfChild(userName);
-        parent.removeView(userName);
-
-        String email = (String) userName.getText();
-        userEmail_editText.setText(email);
-        parent.addView(userEmail_editText, index);
-
-        newEmail = String.valueOf(userEmail_editText.getText());
+        finish();
     }
 
     private void Modify_userNickName() {
+        editBtn_userName.setVisibility(View.INVISIBLE);
         //textView를 Edittext로 변경
-        EditText userNickName_editText = new EditText(this);
+        userNickName_editText = new MbEditText(this);
         TextView userNickName = findViewById(R.id.userName);
 
         userNickName_editText.setId(R.id.userName);
@@ -134,8 +115,6 @@ public class MypageModifyActivity extends AppCompatActivity {
         String name = (String) userNickName.getText();
         userNickName_editText.setText(name);
         parent.addView(userNickName_editText, index);
-
-        newNickName = String.valueOf(userNickName_editText.getText());
     }
 
     private void openGallery(){
