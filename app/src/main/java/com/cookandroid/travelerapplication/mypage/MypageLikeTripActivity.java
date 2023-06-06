@@ -20,8 +20,9 @@ public class MypageLikeTripActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        MyPageLikeTripAdapter myadapter = new MyPageLikeTripAdapter();
-        myadapter.addItem(new LikeTrip("식도락 여행", "200,000원", "서울"));
+        MypageLikeTripAdapter myadapter = new MypageLikeTripAdapter();
+        myadapter.addItem(new LikeTrip("식도락 여행", "200,000원", "서울")); //test data
+        //위의 test data로 넣어둔 데이터 지우고 db에서 받아와서 출력하기 ++
         recyclerView.setAdapter(myadapter);
     }
 }

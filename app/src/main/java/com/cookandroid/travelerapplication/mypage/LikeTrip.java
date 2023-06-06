@@ -1,15 +1,20 @@
 package com.cookandroid.travelerapplication.mypage;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class LikeTrip {
     String tripType;
     String cost;
     String city;
+
 
     public LikeTrip(String tripType, String cost, String city) {
         this.tripType = tripType;
         this.cost = cost;
         this.city = city;
     }
+
+
 
     public String getTripType() {
         return tripType;
