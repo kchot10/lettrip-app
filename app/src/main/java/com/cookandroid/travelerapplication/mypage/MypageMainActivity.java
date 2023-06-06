@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cookandroid.travelerapplication.R;
 
 public class MypageMainActivity extends AppCompatActivity {
+    TextView tripLikeBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,16 @@ public class MypageMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                Intent intent = new Intent(getApplicationContext(), MypageMainActivity.class);
+               startActivity(intent);
+            }
+        });
+
+        tripLikeBtn = findViewById(R.id.tripLikeBtn);
+        tripLikeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MypageLikeTripActivity.class);
+                startActivity(intent);
             }
         });
     }

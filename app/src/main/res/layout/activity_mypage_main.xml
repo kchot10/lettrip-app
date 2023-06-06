@@ -18,6 +18,7 @@
             android:id="@+id/backBtn"
             android:layout_width="15dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:background="#FFFFFF"
             app:srcCompat="@drawable/back_btn_small" />
 
