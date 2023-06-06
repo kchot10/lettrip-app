@@ -14,6 +14,7 @@ import com.cookandroid.travelerapplication.article.ArticleAdapter;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.record.Course;
 import com.cookandroid.travelerapplication.record.CourseAdapter;
+import com.cookandroid.travelerapplication.task.InsertData_LikeTravel;
 import com.cookandroid.travelerapplication.task.SelectData_Article;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
 
@@ -23,7 +24,7 @@ public class RecordMainSearch extends AppCompatActivity {
 
 
     ArrayList<Course> courseArrayList;
-    String IP_ADDRESS;
+    String IP_ADDRESS, user_id;
     String travel_id, city, total_cost, number_of_courses;
 
     TextView textView_total_cost_search, textView_number_of_courses_search, textView_city_search, textView_theme_search;
@@ -47,6 +48,7 @@ public class RecordMainSearch extends AppCompatActivity {
 
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        user_id = fileHelper.readFromFile("user_id");
         recyclerView = findViewById(R.id.recyclerView_course);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -56,6 +58,12 @@ public class RecordMainSearch extends AppCompatActivity {
         number_of_courses = getIntent().getStringExtra("number_of_courses");
         travel_id = getIntent().getStringExtra("travel_id");
         Refresh();
+
+        findViewById(R.id.heartBtn2).setOnClickListener(v -> {
+            String liked_type = "1";
+            InsertData_LikeTravel insertData_likeTravel = new InsertData_LikeTravel();
+            insertData_likeTravel.execute("http://" + IP_ADDRESS + "/0601/InsertData_like_travel.php", liked_type, travel_id, user_id);
+        });
 
     }
 
