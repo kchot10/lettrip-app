@@ -197,7 +197,6 @@ public class SearchActivity extends AppCompatActivity {
         }else{
             // Record class, SelectData_Record task, RecordAdapter
             travelArrayList = new ArrayList<>();
-            SelectData_Travel task = new SelectData_Travel(travelArrayList);
             String city = spinner_city.getSelectedItem().toString().trim();
             province = spinner_province.getSelectedItem().toString().trim();
             number_of_courses = spinner_number_of_courses.getSelectedItem().toString().trim();
@@ -208,13 +207,13 @@ public class SearchActivity extends AppCompatActivity {
             if (travel_theme.equals("테마 선택")){
                 travel_theme = "";
             }
-            Toast.makeText(this, "total_cost"+total_cost+
-                    "\nprovince"+province+
-                    "\nnumber_of_courses"+number_of_courses+
-                    "\ntravel_theme"+travel_theme, Toast.LENGTH_LONG).show();
+            SelectData_Travel task = new SelectData_Travel(travelArrayList);
             task.execute("http://" + IP_ADDRESS + "/0503/selectdata_travel.php", city, province, total_cost, number_of_courses,travel_theme);
             try {
                 new Handler().postDelayed(() -> {
+                    if (travelArrayList.size() == 0){
+                        Toast.makeText(this, "검색하신 결과가 없습니다!", Toast.LENGTH_SHORT).show();
+                    }
                     recyclerView_adapter = new TravelAdapter(travelArrayList, this);
                     recyclerView.setAdapter(recyclerView_adapter);
                 }, 1000); // 0.5초 지연 시간
