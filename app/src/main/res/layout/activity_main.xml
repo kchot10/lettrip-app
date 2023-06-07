@@ -71,6 +71,14 @@
         android:textColor="@color/white" />
 
     <Button
+        android:id="@+id/searchReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="해당 장소 리뷰 보기"
+        android:textColor="@color/white" />
+
+    <Button
         android:id="@+id/missionBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,5 +93,6 @@
         android:layout_gravity="center"
         android:text="마이페이지"
         android:textColor="@color/white" />
+
 
 </LinearLayout>

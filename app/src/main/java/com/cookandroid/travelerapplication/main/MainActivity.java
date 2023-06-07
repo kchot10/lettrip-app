@@ -14,6 +14,7 @@ import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
 import com.cookandroid.travelerapplication.mypage.MypageModifyActivity;
 import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.search.SearchActivity;
+import com.cookandroid.travelerapplication.search.SearchReviewActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MypageMainActivity.class);
             startActivity(intent);
         });
+
+        findViewById(R.id.searchReview).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SearchReviewActivity.class);
+            startActivity(intent);
+        });
+
+
 
     }
 

@@ -81,7 +81,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/ImageView_review"
+                android:id="@+id/imageView_stored_file_url_review"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_weight="0"
@@ -94,8 +94,11 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="0"
-                android:text="3번째 방문"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:text="커피 맛집! 메뉴도 다양하고 디저티도 맛있어요 :) 영업 시간도 길고 매장도"
                 android:textColor="#838383 " />
+
 
         </LinearLayout>
 
@@ -113,16 +116,28 @@
                 android:id="@+id/textView_visitTimes_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="3"
+                android:textColor="#838383 " />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="3번째 방문"
+                android:text="번째 방문"
                 android:textColor="#838383 " />
 
             <TextView
                 android:id="@+id/textView_cost_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="7300"
+                android:textColor="#838383 " />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="7300원"
+                android:text="원"
                 android:textColor="#838383 " />
 
             <TextView

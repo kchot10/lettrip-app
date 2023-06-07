@@ -29,6 +29,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".search.SearchReviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".mypage.MyTravelActivity"
             android:exported="false" />
         <activity
