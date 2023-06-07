@@ -15,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.account.LoginActivity;
+import com.cookandroid.travelerapplication.account.WithdrawActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.task.SelectData_Travel_Count;
 import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
@@ -47,6 +49,11 @@ public class MypageMainActivity extends AppCompatActivity {
         profile_imageView = findViewById(R.id.profile_imageView);
 
         Refresh();
+
+        findViewById(R.id.user_ModifyBtn2).setOnClickListener(v -> {
+            Intent intent = new Intent(this, WithdrawActivity.class);
+            startActivity(intent);
+        });
 
         findViewById(R.id.trip_reviewBtn).setOnClickListener(v -> {
             Intent intent = new Intent(this, MyTravelActivity.class);

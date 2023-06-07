@@ -29,11 +29,6 @@ public class MainActivity extends AppCompatActivity {
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
-        findViewById(R.id.withdraw_button).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, WithdrawActivity.class);
-            startActivity(intent);
-        });
-
         findViewById(R.id.button_board).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ArticleListActivity.class);
             startActivity(intent);
@@ -58,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        findViewById(R.id.button_travel_mypage).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-            intent.putExtra("search/mypage", "mypage");
-            startActivity(intent);
-        });
-
         findViewById(R.id.missionBtn).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, MissionMainActivity.class);
             intent.putExtra("search/mypage", "mypage");
@@ -74,12 +63,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MypageMainActivity.class);
             startActivity(intent);
         });
-
-        findViewById(R.id.mypage2).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MypageModifyActivity.class);
-            startActivity(intent);
-        });
-
 
     }
 

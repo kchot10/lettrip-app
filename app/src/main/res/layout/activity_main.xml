@@ -39,15 +39,6 @@
 
 
     <Button
-        android:id="@+id/withdraw_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="회원탈퇴"
-        android:textColor="@color/white" />
-
-
-    <Button
         android:id="@+id/button_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,14 +71,6 @@
         android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/button_travel_mypage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="여행 마이페이지"
-        android:textColor="@color/white" />
-
-    <Button
         android:id="@+id/missionBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,14 +84,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="마이페이지"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/mypage2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="회원 정보 수정"
         android:textColor="@color/white" />
 
 </LinearLayout>
