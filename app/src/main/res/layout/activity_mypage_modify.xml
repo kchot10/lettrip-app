@@ -83,11 +83,12 @@
 
             <ImageButton
                 android:id="@+id/editBtn_userName"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="1.5dp"
                 android:background="#FFFFFF"
+                android:paddingTop="10dp"
                 app:srcCompat="@drawable/edit_btn" />
         </LinearLayout>
 
