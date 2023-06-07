@@ -3,6 +3,7 @@ package com.cookandroid.travelerapplication.mission;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -98,8 +99,12 @@ public class MissionMainActivity extends AppCompatActivity {
         SelectData_MyPoint selectData_myPoint = new SelectData_MyPoint(arrayListUserInfo);
         selectData_myPoint.execute("http://" + IP_ADDRESS + "/0601/select_my_point.php", user_id);
         new Handler().postDelayed(() -> {
-            String myPoint = arrayListUserInfo.get(0).getPoint()+" P";
-            myPointText.setText(myPoint);
+            try {
+                String myPoint = arrayListUserInfo.get(0).getPoint()+" P";
+                myPointText.setText(myPoint);
+            }catch (Exception e){
+                Log.e("youn", "point 불러오기 실패");
+            }
         }, 1000); // 0.5초 지연 시간
     }
 
