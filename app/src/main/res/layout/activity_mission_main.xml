@@ -10,14 +10,31 @@
     android:paddingRight="27dp"
     android:paddingBottom="40dp">
 
-    <TextView
-        android:id="@+id/tripMissionTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MISSION"
-        android:textColor="#4F5A80 "
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tripMissionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MISSION"
+            android:textColor="#4F5A80 "
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button_my_mission_history"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rectangle_button"
+            android:text="나의 미션"
+            android:textColor="#D1D1D1"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

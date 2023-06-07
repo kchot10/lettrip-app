@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.task.InsertData_Mission;
 import com.cookandroid.travelerapplication.task.SelectData_Mission;
 import com.cookandroid.travelerapplication.task.SelectData_MyPoint;
 
@@ -90,6 +87,11 @@ public class MissionMainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MissionTripActivity.class);
                 startActivity(intent);
             }
+        });
+
+        findViewById(R.id.button_my_mission_history).setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), MyMissionHistoryActivity.class);
+            startActivity(intent);
         });
 
     }

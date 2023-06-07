@@ -4,7 +4,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cookandroid.travelerapplication.mission.UserInfo;
+import com.cookandroid.travelerapplication.mission.Mission;
+import com.cookandroid.travelerapplication.mission.MyMission;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,13 +19,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_MyMission extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
     public ArrayList articleArrayList;
 
-    public <T> SelectData_UserInfo(ArrayList<T> articleArrayList) {
+    public <T> SelectData_MyMission(ArrayList<T> articleArrayList) {
         this.articleArrayList = articleArrayList;
     }
 
@@ -107,7 +108,7 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
 
         catch (Exception e) {
 
-            Log.d(TAG, "SelectData_UserInfo: Error",e);
+            Log.d(TAG, "SelectData_MyMission: Error",e);
 
             return  new String("Error " + e.getMessage());
 
@@ -122,18 +123,14 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            UserInfo userInfo = new UserInfo();
+            MyMission myMission = new MyMission();
 
-            String nickname = jsonObject.getString("nickname");
-            String image_url = jsonObject.getString("image_url");
-            String email = jsonObject.getString("email");
-            String point = jsonObject.getString("point");
-            userInfo.setNickname(nickname);
-            userInfo.setStored_file_url(image_url);
-            userInfo.setEmail(email);
-            userInfo.setPoint(point);
+            String mission_type = jsonObject.getString("mission_type");
+            String accomplished_date = jsonObject.getString("accomplished_date");
+            myMission.setMission_type(mission_type);
+            myMission.setAccomplished_date(accomplished_date);
 
-            articleArrayList.add(userInfo);
+            articleArrayList.add(myMission);
 
         }
 

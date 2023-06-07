@@ -4,11 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cookandroid.travelerapplication.comment.Comment;
-import com.cookandroid.travelerapplication.article.Article;
 import com.cookandroid.travelerapplication.mission.Mission;
-import com.cookandroid.travelerapplication.record.Course;
-import com.cookandroid.travelerapplication.record.ImageReview;
 
 import org.json.JSONArray;
 import org.json.JSONException;
