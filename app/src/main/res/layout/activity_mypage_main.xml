@@ -50,9 +50,13 @@
 
             <ImageView
                 android:id="@+id/profile_imageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="175dp"
+                android:layout_height="166dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="66dp"
+                android:background="#FFFFFF"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/profile_photo_mypage" />
 
             <TextView

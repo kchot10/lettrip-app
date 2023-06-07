@@ -131,8 +131,12 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // í†µì
 
             String nickname = jsonObject.getString("nickname");
             String image_url = jsonObject.getString("image_url");
+            String email = jsonObject.getString("email");
+            String point = jsonObject.getString("point");
             userInfo.setNickname(nickname);
             userInfo.setStored_file_url(image_url);
+            userInfo.setEmail(email);
+            userInfo.setPoint(point);
 
             articleArrayList.add(userInfo);
 

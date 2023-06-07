@@ -4,6 +4,15 @@ public class UserInfo {
     String point;
     String nickname;
     String stored_file_url;
+    String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getPoint() {
         return point;

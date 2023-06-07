@@ -67,20 +67,7 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
         Button Modify_fisnishBtn = findViewById(R.id.modifyOkBtn);
         userName = findViewById(R.id.userName);
 
-        userInfoArrayList = new ArrayList<>();
-        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList);
-        selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
-        new Handler().postDelayed(() -> {
-            try {
-                userName.setText(userInfoArrayList.get(0).getNickname());
-                Glide.with(this)
-                        .load(userInfoArrayList.get(0).getStored_file_url())
-                        .placeholder(R.drawable.user)
-                        .into(profilePhotoBtn);
-            }catch (Exception e){
-                Log.e("nullException", "사용자 정보 불러오기 실패");
-            }
-        }, 300); // 0.5초 지연 시간
+        Refresh();
 
         profilePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +91,23 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
         });
 
         requestPermissions();
+    }
+
+    private void Refresh() {
+        userInfoArrayList = new ArrayList<>();
+        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList);
+        selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
+        new Handler().postDelayed(() -> {
+            try {
+                userName.setText(userInfoArrayList.get(0).getNickname());
+                Glide.with(this)
+                        .load(userInfoArrayList.get(0).getStored_file_url())
+                        .placeholder(R.drawable.user)
+                        .into(profilePhotoBtn);
+            }catch (Exception e){
+                Log.e("nullException", "사용자 정보 불러오기 실패");
+            }
+        }, 500); // 0.5초 지연 시간
     }
 
 
