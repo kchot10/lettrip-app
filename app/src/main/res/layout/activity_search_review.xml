@@ -34,10 +34,16 @@
             android:textSize="21sp"
             android:textStyle="bold" />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="15dp"
-            android:layout_height="18dp" />
+        <Button
+            android:id="@+id/button_place_search"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rectangle_button"
+            android:text="장소 검색"
+            android:textColor="#D1D1D1"
+            android:textSize="14sp" />
+
     </LinearLayout>
 
     <LinearLayout
