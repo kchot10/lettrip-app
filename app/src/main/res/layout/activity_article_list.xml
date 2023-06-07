@@ -69,7 +69,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/search_spinner_item"
                     android:elevation="4dp"
-                    android:entries="@array/array_sort_type"
+                    android:entries="@array/array_article_type"
                     android:popupBackground="@color/white"
                     android:textAlignment="center" />
 

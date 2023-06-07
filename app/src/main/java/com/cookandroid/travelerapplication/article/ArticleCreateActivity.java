@@ -73,10 +73,11 @@ public class ArticleCreateActivity extends AppCompatActivity {
                 String user_id = fileHelper.readFromFile("user_id");
                 String hit = "0";
                 String like_count = "0";
+                String article_type = getIntent().getStringExtra("article_type");
 
                 Log.d("youn", "user_id: "+user_id);
                 InsertData_Article task = new InsertData_Article();
-                task.execute("http://"+IP_ADDRESS+"/0422/InsertData_Article.php",BASEID,created_date, modified_date,content, hit, like_count, title, user_id);
+                task.execute("http://"+IP_ADDRESS+"/0422/InsertData_Article.php",BASEID,created_date, modified_date,content, hit, like_count, title, user_id, article_type);
 
                 finish();
             }

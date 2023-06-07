@@ -17,6 +17,7 @@ import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.task.SelectData_Article;
+import com.cookandroid.travelerapplication.task.SelectData_Article2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,9 +29,10 @@ public class ArticleListActivity extends AppCompatActivity {
     private static String IP_ADDRESS; //본인 IP주소를 넣으세요.
     private RecyclerView recyclerView;
     private ArticleAdapter adapter;
-    private Spinner sorting_spinner;
+    private Spinner category_spinner, sorting_spinner;
     private ArrayList<Article> articleArrayList;
-
+    private final String FREE = "FREE_ARTICLE", INFO = "INFO_ARTICLE", QUESTION = "QUESTION_ARTICLE";
+    private String article_type;
     private final int NEW = 1, OLD = 2, HIT = 3;
 
     @Override
@@ -46,7 +48,33 @@ public class ArticleListActivity extends AppCompatActivity {
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
+        category_spinner = findViewById(R.id.category_spinner);
         sorting_spinner = findViewById(R.id.sorting_spinner);
+
+        category_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        article_type = FREE;
+                        Refresh(NEW);
+                        break;
+                    case 1:
+                        article_type = QUESTION;
+                        Refresh(NEW);
+                        break;
+                    case 2:
+                        article_type = INFO;
+                        Refresh(NEW);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         sorting_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -83,6 +111,7 @@ public class ArticleListActivity extends AppCompatActivity {
 
         findViewById(R.id.button_add).setOnClickListener(v -> {
             Intent intent = new Intent(this, ArticleCreateActivity.class);
+            intent.putExtra("article_type", article_type);
             startActivity(intent);
         });
 
@@ -96,8 +125,8 @@ public class ArticleListActivity extends AppCompatActivity {
     public void Refresh(int TYPE) {
         if (TYPE == NEW) {
             articleArrayList = new ArrayList<>();
-            SelectData_Article task = new SelectData_Article(articleArrayList);
-            task.execute("http://" + IP_ADDRESS + "/0422/selectdata_article.php");
+            SelectData_Article2 task = new SelectData_Article2(articleArrayList);
+            task.execute("http://" + IP_ADDRESS + "/0422/selectdata_article2.php", article_type);
         }
 
         try {

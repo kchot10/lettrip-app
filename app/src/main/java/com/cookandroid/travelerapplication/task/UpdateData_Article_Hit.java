@@ -1,4 +1,4 @@
-package com.cookandroid.travelerapplication.article;
+package com.cookandroid.travelerapplication.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;

@@ -4,36 +4,39 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.cookandroid.travelerapplication.comment.Comment;
+import com.cookandroid.travelerapplication.article.Article;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class InsertData_Article extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_Article2 extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
+    public ArrayList articleArrayList;
+
+    public <T> SelectData_Article2(ArrayList<T> articleArrayList) {
+        this.articleArrayList = articleArrayList;
+    }
+
+    private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
 
         String serverURL = (String) params[0];
-        String article_id = (String)params[1];
-        String created_date = (String)params[2];
-        String modified_date = (String)params[3];
-        String content = (String)params[4];
-        String hit = (String)params[5];
-        String like_count = (String)params[6];
-        String title = (String)params[7];
-        String user_id = (String)params[8];
-        String article_type = (String)params[9];
+        String article_type = (String) params[1];
 
-
-        String postParameters ="article_id="+article_id+"&created_date="+created_date
-                +"&modified_date="+modified_date+"&content="+content
-                +"&hit="+hit+"&like_count="+like_count
-                +"&title="+title+"&user_id="+user_id+"&article_type="+article_type;
+        String postParameters ="article_type="+article_type;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -85,6 +88,14 @@ public class InsertData_Article extends AsyncTask<String,Void,String> { // 통�
 
             Log.d("php 값 :", sb.toString());
 
+            try{
+                parseJSONArray(sb.toString());
+            }catch (Exception e){
+                Log.d("youn", "JSON Error\n");
+            }
+
+
+
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -94,11 +105,74 @@ public class InsertData_Article extends AsyncTask<String,Void,String> { // 통�
 
         catch (Exception e) {
 
-            Log.d(TAG, "InsertData_Article: Error",e);
+            Log.d(TAG, "SelectData_Article: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
     }
+
+    private void parseJSONArray(String result) throws JSONException {
+        // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
+        JSONArray jsonArray = new JSONArray(result);
+
+        try {
+            parseJSONArray_Article(jsonArray);
+        }catch (Exception e){
+            Log.d("youn", "JSON Error\n");
+        }
+
+    }
+
+    private void parseJSONArray_Article(JSONArray jsonArray) throws JSONException {
+
+        // JSONArray로부터 데이터 추출
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            Article article = new Article();
+
+            String articleId = jsonObject.getString("article_id");
+            String createdDate = jsonObject.getString("created_date");
+            String modified_date = jsonObject.getString("modified_date");
+            String content = jsonObject.getString("content");
+            String hit = jsonObject.getString("hit");
+            String like_count = jsonObject.getString("like_count");
+            String title = jsonObject.getString("title");
+            String user_id = jsonObject.getString("user_id");
+            String name = jsonObject.getString("name");
+            String image_url = jsonObject.getString("image_url");
+            String comment_number = jsonObject.getString("comment_number");
+
+            article.setArticle_id(articleId);
+            article.setCreated_date(createdDate);
+            article.setModified_date(modified_date);
+            article.setContent(content);
+            article.setHit(hit);
+            article.setLike_count(like_count);
+            article.setTitle(title);
+            article.setUser_id(user_id);
+            article.setName(name);
+            article.setImage_url(image_url);
+            article.setComment_number(comment_number);
+
+            articleArrayList.add(article);
+
+        }
+    }
+
+    public String get_return_string(){
+        return return_string;
+    }
+
+    public String getTwoCharsAfterString(String str, String searchString) {
+        String result = "";
+        int index = str.indexOf(searchString);
+        if (index != -1 && index + searchString.length() + 2 <= str.length()) {
+            result = str.substring(index + searchString.length(), index + searchString.length() + 2);
+        }
+        return result;
+    }
+
 }

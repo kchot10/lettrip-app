@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +23,7 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.task.DeleteData_Article;
 import com.cookandroid.travelerapplication.task.InsertData_Comment;
 import com.cookandroid.travelerapplication.task.SelectData_Article;
+import com.cookandroid.travelerapplication.task.UpdateData_Article_Hit;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
