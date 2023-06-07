@@ -1,16 +1,13 @@
 package com.cookandroid.travelerapplication.mypage;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +16,7 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.mission.UserInfo;
+import com.cookandroid.travelerapplication.task.SelectData_Travel_Count;
 import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class MypageMainActivity extends AppCompatActivity {
     FileHelper fileHelper;
     String IP_ADDRESS, user_id;
     ArrayList<UserInfo> userInfoArrayList;
-    TextView userName, userEmail, pointNum;
+    TextView userName, userEmail, pointNum, tripPlanNum, tripPlanNum2, tripReviewNum, tripReviewNum2;
     ImageView profile_imageView;
 
 
@@ -42,6 +40,11 @@ public class MypageMainActivity extends AppCompatActivity {
         userName = findViewById(R.id.userName);
         userEmail = findViewById(R.id.userEmail);
         pointNum = findViewById(R.id.pointNum);
+        tripPlanNum = findViewById(R.id.tripPlanNum);
+        tripReviewNum = findViewById(R.id.tripReviewNum);
+        tripPlanNum2 = findViewById(R.id.tripPlanNum2);
+        tripReviewNum2 = findViewById(R.id.tripReviewNum2);
+
         profile_imageView = findViewById(R.id.profile_imageView);
 
         Refresh();
@@ -100,6 +103,20 @@ public class MypageMainActivity extends AppCompatActivity {
                 pointNum.setText(userInfoArrayList.get(0).getPoint()+"P");
             }catch (Exception e){
                 Log.e("nullException", "사용자 정보 불러오기 실패");
+            }
+        }, 300); // 0.5초 지연 시간
+
+        ArrayList<TravelCount> travelCountArrayList = new ArrayList<>();
+        SelectData_Travel_Count selectData_travel_count = new SelectData_Travel_Count(travelCountArrayList);
+        selectData_travel_count.execute("http://"+IP_ADDRESS+"/0601/selectData_isVisited.php", user_id);
+        new Handler().postDelayed(() -> {
+            try {
+                tripPlanNum.setText(travelCountArrayList.get(0).getNot_visited_count());
+                tripPlanNum2.setText(travelCountArrayList.get(0).getNot_visited_count());
+                tripReviewNum.setText(travelCountArrayList.get(0).getVisited_count());
+                tripReviewNum2.setText(travelCountArrayList.get(0).getVisited_count());
+            }catch (Exception e){
+                Log.e("nullException", "여행 카운트 불러오기 실패");
             }
         }, 300); // 0.5초 지연 시간
     }
