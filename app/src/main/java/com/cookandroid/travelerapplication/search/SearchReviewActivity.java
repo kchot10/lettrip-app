@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,12 +46,14 @@ public class SearchReviewActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         titleText = findViewById(R.id.titleText);
+        Button button_place_search = findViewById(R.id.button_place_search);
 
-        findViewById(R.id.button_place_search).setOnClickListener(v -> {
+        button_place_search.setOnClickListener(v -> {
             Intent intent = new Intent(this, KotlinActivity.class);
             getKotlinActivityResult.launch(intent);
         });
 
+        button_place_search.performClick();
         // selectData_review.php
     }
 

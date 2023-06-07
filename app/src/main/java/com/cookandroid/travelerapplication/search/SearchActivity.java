@@ -26,7 +26,7 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<Travel> travelArrayList;
     String IP_ADDRESS, user_id;
     FileHelper fileHelper;
-    String total_cost, province, number_of_courses, travel_theme;
+    String total_cost ="", province, number_of_courses, travel_theme;
     Spinner spinner_cost, spinner_province, spinner_city, spinner_theme, spinner_number_of_courses;
     EditText editText_city;
     RecyclerView recyclerView;
@@ -202,10 +202,16 @@ public class SearchActivity extends AppCompatActivity {
             province = spinner_province.getSelectedItem().toString().trim();
             number_of_courses = spinner_number_of_courses.getSelectedItem().toString().trim();
             travel_theme = spinner_theme.getSelectedItem().toString().trim();
+            if (number_of_courses.equals("코스 수")){
+                number_of_courses = "";
+            }
+            if (travel_theme.equals("테마 선택")){
+                travel_theme = "";
+            }
             Toast.makeText(this, "total_cost"+total_cost+
-                    "province"+province+
-                    "number_of_courses"+number_of_courses+
-                    "travel_theme"+travel_theme, Toast.LENGTH_LONG).show();
+                    "\nprovince"+province+
+                    "\nnumber_of_courses"+number_of_courses+
+                    "\ntravel_theme"+travel_theme, Toast.LENGTH_LONG).show();
             task.execute("http://" + IP_ADDRESS + "/0503/selectdata_travel.php", city, province, total_cost, number_of_courses,travel_theme);
             try {
                 new Handler().postDelayed(() -> {
@@ -215,6 +221,7 @@ public class SearchActivity extends AppCompatActivity {
             }catch (Exception e){
                 e.printStackTrace();
             }
+            total_cost = "";
         }
     }
 }
