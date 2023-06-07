@@ -4,7 +4,7 @@
     <string name="naver_client_id">hSHzjzQDqmaiM8qbHVA4</string>
     <string name="naver_client_secret">DwmFlqg0t5</string>
     <string name="naver_client_name">Lettrip</string>
-    
+
     <string-array name="array_sort_type">
         <item>최신 순</item>
         <item>오래된 순</item>

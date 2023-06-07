@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +30,6 @@ public class MypageMainActivity extends AppCompatActivity {
     TextView userName, userEmail, pointNum, tripPlanNum, tripPlanNum2, tripReviewNum, tripReviewNum2;
     ImageView profile_imageView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +44,21 @@ public class MypageMainActivity extends AppCompatActivity {
         tripReviewNum = findViewById(R.id.tripReviewNum);
         tripPlanNum2 = findViewById(R.id.tripPlanNum2);
         tripReviewNum2 = findViewById(R.id.tripReviewNum2);
-
         profile_imageView = findViewById(R.id.profile_imageView);
 
         Refresh();
+
+        findViewById(R.id.trip_reviewBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, MyTravelActivity.class);
+            intent.putExtra("visited/not", "visited");
+            startActivity(intent);
+        });
+
+        findViewById(R.id.trip_planBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, MyTravelActivity.class);
+            intent.putExtra("visited/not", "not");
+            startActivity(intent);
+        });
 
         findViewById(R.id.logoutBtn).setOnClickListener(v -> {
             Intent intent = new Intent(this, LoginActivity.class);
