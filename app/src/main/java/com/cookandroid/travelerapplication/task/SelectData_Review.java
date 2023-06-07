@@ -141,6 +141,12 @@ public class SelectData_Review extends AsyncTask<String,Void,String> { // 통신
             review.setCost(jsonObject.getString("cost"));
             review.setStored_file_url(jsonObject.getString("stored_file_url"));
             review.setFormatted_created_date(jsonObject.getString("formatted_created_date"));
+            review.setTravel_id(jsonObject.getString("travel_id"));
+            review.setArrived_time(jsonObject.getString("arrived_time"));
+            review.setArrived_time_real(jsonObject.getString("arrived_time_real"));
+            review.setPlace_name(jsonObject.getString("place_name"));
+            review.setCategory_name(jsonObject.getString("category_name"));
+
 
             articleArrayList.add(review);
 

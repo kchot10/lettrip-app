@@ -95,24 +95,24 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             this.textView_soloFriendly_review = itemView.findViewById(R.id.textView_soloFriendly_review);
             this.ratingBar_review = itemView.findViewById(R.id.ratingBar_review);
 
-//            itemView.setOnClickListener(v -> {
-//                int curpos = getAbsoluteAdapterPosition();
-//                Intent intent;
-//                intent = new Intent(context, CourseActivitySearch.class);
-//                intent.putExtra("travel_id", arrayList.get(curpos).getTravel_id());
-//                intent.putExtra("place_id", arrayList.get(curpos).getPlace_id());
-//                intent.putExtra("rating", arrayList.get(curpos).getRating());
-//                intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
-//                intent.putExtra("review_id", arrayList.get(curpos).getReview_id());
-//                intent.putExtra("arrived_time", arrayList.get(curpos).getArrived_time());
-//                intent.putExtra("cost", arrayList.get(curpos).getCost());
-//                intent.putExtra("place_name", arrayList.get(curpos).getPlace_name());
-//                intent.putExtra("category_name", arrayList.get(curpos).getCategory_name());
-//                intent.putExtra("detailed_review", arrayList.get(curpos).getDetailed_review());
-//                intent.putExtra("arrived_time_real", arrayList.get(curpos).getArrived_time_real());
-//
-//                context.startActivity(intent);
-//            });
+            itemView.setOnClickListener(v -> {
+                int curpos = getAbsoluteAdapterPosition();
+                Intent intent;
+                intent = new Intent(context, CourseActivitySearch.class);
+                intent.putExtra("travel_id", arrayList.get(curpos).getTravel_id());
+                intent.putExtra("place_id", arrayList.get(curpos).getPlace_id());
+                intent.putExtra("rating", arrayList.get(curpos).getRating());
+                intent.putExtra("user_id", arrayList.get(curpos).getUser_id());
+                intent.putExtra("review_id", arrayList.get(curpos).getReview_id());
+                intent.putExtra("arrived_time", arrayList.get(curpos).getArrived_time());
+                intent.putExtra("cost", arrayList.get(curpos).getCost());
+                intent.putExtra("place_name", arrayList.get(curpos).getPlace_name());
+                intent.putExtra("category_name", arrayList.get(curpos).getCategory_name());
+                intent.putExtra("detailed_review", arrayList.get(curpos).getDetailed_review());
+                intent.putExtra("arrived_time_real", arrayList.get(curpos).getArrived_time_real());
+
+                context.startActivity(intent);
+            });
         }
     }
 }

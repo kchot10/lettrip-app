@@ -2,6 +2,47 @@ package com.cookandroid.travelerapplication.search;
 
 public class Review {
     String review_id, created_date, modified_date, detailed_review, rating, solo_friendly_rating, visit_times, place_id, user_id, nickname, image_url, cost, stored_file_url, formatted_created_date;
+    String travel_id, arrived_time, arrived_time_real, place_name, category_name;
+
+    public String getTravel_id() {
+        return travel_id;
+    }
+
+    public void setTravel_id(String travel_id) {
+        this.travel_id = travel_id;
+    }
+
+    public String getArrived_time() {
+        return arrived_time;
+    }
+
+    public void setArrived_time(String arrived_time) {
+        this.arrived_time = arrived_time;
+    }
+
+    public String getArrived_time_real() {
+        return arrived_time_real;
+    }
+
+    public void setArrived_time_real(String arrived_time_real) {
+        this.arrived_time_real = arrived_time_real;
+    }
+
+    public String getPlace_name() {
+        return place_name;
+    }
+
+    public void setPlace_name(String place_name) {
+        this.place_name = place_name;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
 
     public String getReview_id() {
         return review_id;
