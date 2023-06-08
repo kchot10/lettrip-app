@@ -40,7 +40,7 @@ public class CommentListActivity extends AppCompatActivity {
     TextView textView_mention;
     private MbEditText edittext_content;
 
-    private String mentioned_user_id = " ";
+    private String mentioned_user_id = "-1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
