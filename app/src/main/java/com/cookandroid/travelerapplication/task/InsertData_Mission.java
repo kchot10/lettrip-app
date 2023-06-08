@@ -23,10 +23,12 @@ public class InsertData_Mission extends AsyncTask<String,Void,String> { // 통�
         String accomplished_date = (String)params[1];
         String mission_type = (String)params[2];
         String user_id = (String)params[3];
+        String place_id = (String)params[4];
 
         String postParameters ="accomplished_date="+accomplished_date
                 +"&mission_type="+mission_type
-                +"&user_id="+user_id;
+                +"&user_id="+user_id
+                +"&place_id="+place_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.

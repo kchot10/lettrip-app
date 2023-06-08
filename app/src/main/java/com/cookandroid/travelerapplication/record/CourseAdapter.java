@@ -53,6 +53,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public void onBindViewHolder(@NonNull CourseAdapter.CourseViewHolder holder, int position) {
         Glide.with(holder.itemView.getContext())
                 .load(arrayList.get(position).getStored_file_url())
+                .placeholder(R.drawable.logo)
                 .into(holder.placePhoto);
         holder.textview_place_name.setText(arrayList.get(position).getPlace_name());
         holder.textview_arrived_time.setText(arrayList.get(position).getArrived_time());
