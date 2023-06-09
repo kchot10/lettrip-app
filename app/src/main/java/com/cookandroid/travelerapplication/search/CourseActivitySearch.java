@@ -21,8 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.helper.S3Uploader;
+import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.record.ImageAdapter;
 import com.cookandroid.travelerapplication.record.ImageReview;
 import com.cookandroid.travelerapplication.task.InsertData_Image;
@@ -81,6 +83,12 @@ public class CourseActivitySearch extends AppCompatActivity implements S3Uploade
         review_id = getIntent().getStringExtra("review_id");
         RatingBar ratingBar = findViewById(R.id.ratingBar);
         s3Uploader = new S3Uploader(this);
+
+        findViewById(R.id.backBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
 
         if (getIntent().getStringExtra("user_id").equals(mUser_id)) {
             if (subtractDates(getIntent().getStringExtra("arrived_time_real"), getCurrentTime()) <= 0) {

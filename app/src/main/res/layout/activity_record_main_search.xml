@@ -24,11 +24,21 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/white"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/home" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="상세 코스 보기"
                 android:textColor="#4F5A80"
                 android:textSize="20sp"

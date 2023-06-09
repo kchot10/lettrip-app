@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -11,7 +12,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.record.Course;
 import com.cookandroid.travelerapplication.record.CourseAdapter;
 import com.cookandroid.travelerapplication.task.DeleteData_Like;
@@ -67,6 +70,13 @@ public class RecordMainSearch extends AppCompatActivity {
 
         imageButton.setOnClickListener(v -> {
             RefreshLike();
+        });
+
+
+        findViewById(R.id.backBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
 
     }
