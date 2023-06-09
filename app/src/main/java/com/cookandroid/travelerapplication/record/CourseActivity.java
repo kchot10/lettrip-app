@@ -424,7 +424,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
         // 해결되면 주석해제
         ImageReview image_review = new ImageReview(imageUrl, fileSize, originalFileName, storedFileName);
         arrayList_image_review.add(image_review);
-        Toast.makeText(this, "이미지 업로드 성공: " + imageUrl, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "이미지 업로드 성공: ", Toast.LENGTH_SHORT).show();
         Refresh();
     }
 

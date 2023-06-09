@@ -82,7 +82,7 @@
                     android:layout_width="80dp"
                     android:layout_height="40dp"
                     android:backgroundTint="#4F5A80"
-                    android:text="최초 등록"
+                    android:text="등록"
                     android:textColor="@color/white" />
 
                 <Button
@@ -90,7 +90,7 @@
                     android:layout_width="70dp"
                     android:layout_height="40dp"
                     android:backgroundTint="#009688"
-                    android:text="등록"
+                    android:text="저장"
                     android:textColor="@color/white"
                     android:visibility="invisible" />
 
@@ -297,7 +297,7 @@
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:text="ADD"
+                android:text="사진 추가"
                 android:textColor="@color/white"
                 android:visibility="invisible" />
 
