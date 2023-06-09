@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageButton
@@ -37,7 +38,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="상세 후기 보기"
@@ -50,11 +50,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
-                android:layout_marginTop="15dp"
                 android:background="@drawable/search_theme"
                 android:gravity="center"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
+                android:padding="5dp"
                 android:text="공원"
                 android:textAlignment="center"
                 android:textColor="#93BEFF "
@@ -62,29 +60,22 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView_place_name_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/search_city"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="경상감영공원" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView_place_name_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/search_city"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="경상감영공원" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -144,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:text="update"
+                    android:text="수정완료"
                     android:textColor="@color/black"
                     android:visibility="invisible" />
 
@@ -173,7 +164,7 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="ADD"
+                android:text="사진 추가"
                 android:textColor="@color/white" />
 
             <androidx.recyclerview.widget.RecyclerView

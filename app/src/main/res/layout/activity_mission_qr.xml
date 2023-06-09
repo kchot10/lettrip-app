@@ -139,7 +139,8 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/mission_qr_place_box"
             android:text="6월 미션 장소 확인하기"
-            android:textColor="#4F5A80 " />
+            android:textColor="#4F5A80 "
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -149,7 +150,8 @@
         android:layout_height="55dp"
         android:layout_marginBottom="42dp"
         android:background="@drawable/trip_mission_btn"
-        android:text="미션 시작하기"
+        android:enabled="false"
+        android:text="카메라로 QR코드를 스캔하세요!"
         android:textColor="#414141"
         android:textSize="19sp"
         android:textStyle="bold" />

@@ -40,18 +40,6 @@
             android:layout_height="18dp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/like_trip_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="26dp"
-        android:background="@drawable/like_trip_rectangle"
-        android:gravity="center"
-        android:text="여행 코스"
-        android:textColor="#0085FF"
-        android:textSize="13sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -60,7 +48,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/like_trip_RecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp" />
     </LinearLayout>
 
 </LinearLayout>

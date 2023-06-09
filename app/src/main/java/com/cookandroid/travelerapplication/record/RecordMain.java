@@ -219,7 +219,7 @@ public class RecordMain extends AppCompatActivity{
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                         String dayOfWeekString = getDayOfWeekString(year, month, dayOfMonth);
-                        String titleDate = year+"년 "+month+"월 "+dayOfMonth+"일 "+ dayOfWeekString;
+                        String titleDate = year+"년 "+(month+1)+"월 "+dayOfMonth+"일 "+ dayOfWeekString;
                         titlebar.setText(titleDate);
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
 
