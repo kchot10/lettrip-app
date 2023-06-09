@@ -151,8 +151,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:layout_gravity="center"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:padding="15dp">
+
+                <com.navercorp.nid.oauth.view.NidOAuthLoginButton
+                    android:id="@+id/buttonOAuthLoginImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp" />
 
                 <ImageButton
                     android:id="@+id/kakaoLogin_btn"
@@ -162,6 +167,7 @@
                     android:adjustViewBounds="true"
                     android:backgroundTint="@color/white"
                     android:scaleType="fitCenter"
+                    android:visibility="invisible"
                     app:srcCompat="@drawable/kakaologo" />
 
 
@@ -169,12 +175,8 @@
                     android:id="@+id/googleLoginBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="invisible"
                     tools:ignore="MissingConstraints" />
-
-                <com.navercorp.nid.oauth.view.NidOAuthLoginButton
-                    android:id="@+id/buttonOAuthLoginImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

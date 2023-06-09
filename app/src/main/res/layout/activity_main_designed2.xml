@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="66dp"
     android:paddingBottom="43.39dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="41dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="41dp"
         android:gravity="center">
 
@@ -21,7 +21,7 @@
             android:layout_width="22.15dp"
             android:layout_height="19.31dp"
             android:background="#FFFFFF"
-            app:srcCompat="@drawable/menu" />
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/logo"
@@ -53,7 +53,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/trip_review_ConstraintLayout"
+                android:id="@+id/button_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="63dp"
-                    android:text="다른 사람들의 여행 후기 보러가기 → "
+                    android:text="다른 사람들의 여행 후기 검색하기 → "
                     android:textColor="#000000"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -138,7 +138,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/recordBtn1"
+                        android:id="@+id/button_record"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
@@ -149,7 +149,7 @@
                         android:textStyle="bold" />
 
                     <Button
-                        android:id="@+id/recordBtn2"
+                        android:id="@+id/button_plan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -198,6 +198,7 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:id="@+id/missionBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
@@ -306,7 +307,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/boardBtn"
+                        android:id="@+id/button_board"
                         android:layout_width="100dp"
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
@@ -316,7 +317,7 @@
                         android:text="게시판" />
 
                     <Button
-                        android:id="@+id/PalceSearchBtn"
+                        android:id="@+id/searchReview"
                         android:layout_width="100dp"
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
@@ -326,7 +327,7 @@
                         android:text="장소 검색" />
 
                     <Button
-                        android:id="@+id/MypageBtn"
+                        android:id="@+id/mypage"
                         android:layout_width="100dp"
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
