@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.R;
@@ -50,6 +51,12 @@ public class ArticleListActivity extends AppCompatActivity {
 
         category_spinner = findViewById(R.id.category_spinner);
         sorting_spinner = findViewById(R.id.sorting_spinner);
+
+        findViewById(R.id.backBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
 
         category_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
