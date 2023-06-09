@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tripSearchEx2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="66dp"
+    android:paddingBottom="43.39dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginRight="41dp"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/menuBtn"
+            android:layout_width="22.15dp"
+            android:layout_height="19.31dp"
+            android:background="#FFFFFF"
+            app:srcCompat="@drawable/menu" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="41dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/logo"
+
+            tools:layout_editor_absoluteX="158dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="22.15dp"
+            android:layout_height="19.31dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="36dp"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trip_review_ConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/main_image_persion"
+                    android:layout_width="122dp"
+                    android:layout_height="214dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/mainpage_person" />
+
+                <TextView
+                    android:id="@+id/trip_review_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="101dp"
+                    android:text="여행 계획을 세우기 막막하다면?"
+                    android:textColor="#666666 "
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/trip_review_title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="63dp"
+                    android:text="다른 사람들의 여행 후기 보러가기 → "
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/trip_review_title1" />
+
+                <ImageView
+                    android:id="@+id/trip_review_ex1"
+                    android:layout_width="230dp"
+                    android:layout_height="76dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/trip_review_title2"
+                    app:srcCompat="@drawable/mainpage_trip_search_ex1" />
+
+                <ImageView
+                    android:id="@+id/trip_review_ex2"
+                    android:layout_width="230dp"
+                    android:layout_height="76dp"
+                    android:layout_marginTop="90dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/trip_review_title2"
+                    app:srcCompat="@drawable/mainpage_trip_search_ex2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                app:srcCompat="@drawable/mainpage_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/trip_record_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="101dp"
+                    android:text="내 여행을 기록하고 공유하고 싶다면?"
+                    android:textColor="#666666 "
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/recordBtn1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_record_background"
+                        android:text="✏️ 여행 후기 기록하기"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/recordBtn2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_record_background"
+                        android:text="🧳 여행 계획 기록하기"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/trip_mission_title1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="101dp"
+                    android:text="재밌게 여행하자!"
+                    android:textColor="#666666 "
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/trip_mission_title2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="63dp"
+                    android:text="MISSION →"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/trip_review_title1" />
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="13dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_mission_background"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="9.85dp"
+                            app:srcCompat="@drawable/main_mission_qr_img" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="17dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="18.37dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/mission_qr_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="관광명소에서"
+                                android:textSize="9sp" />
+
+                            <TextView
+                                android:id="@+id/mission_qr_title1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="QR 코드 인증"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/TripMissionBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="13dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_mission_background"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="9.85dp"
+                            app:srcCompat="@drawable/main_mission_trip_img" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="17dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="18.37dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/mission_trip_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="어디갈지 고민될 땐"
+                                android:textSize="9sp" />
+
+                            <TextView
+                                android:id="@+id/mission_trip_title1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="즉흥 여행 미션"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/boardBtn"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="#FFFFFF"
+                        android:elevation="7dp"
+                        android:text="게시판" />
+
+                    <Button
+                        android:id="@+id/PalceSearchBtn"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="#FFFFFF"
+                        android:elevation="7dp"
+                        android:text="장소 검색" />
+
+                    <Button
+                        android:id="@+id/MypageBtn"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="#FFFFFF"
+                        android:elevation="7dp"
+                        android:text="마이페이지" />
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/main_ad"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginTop="12dp"
+                        app:srcCompat="@drawable/main_ad_tag" />
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_weight="1"
+                        android:text="Lettrip x 신전떡볶이"
+                        android:textColor="#646464 "
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="떡볶이 페스티벌 참가하고 포인트 받자! 🍡🌶️🍥🍢🔥🍹"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
