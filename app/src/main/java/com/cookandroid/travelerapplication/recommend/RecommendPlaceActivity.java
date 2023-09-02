@@ -20,7 +20,7 @@ import com.cookandroid.travelerapplication.task.SelectData_Place;
 import java.util.ArrayList;
 
 public class RecommendPlaceActivity extends AppCompatActivity {
-    String IP_ADDRESS, user_id;
+    String IP_ADDRESS, user_id, city_name;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerView_adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -29,8 +29,9 @@ public class RecommendPlaceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend_place);
-        IP_ADDRESS = "15.164.93.235";
+        IP_ADDRESS = "13.209.74.179";
         user_id = "10425035876";
+        city_name = "서울";
 
         recyclerView = findViewById(R.id.recyclerView_place_score);
         recyclerView.setHasFixedSize(true);
@@ -40,12 +41,14 @@ public class RecommendPlaceActivity extends AppCompatActivity {
         findViewById(R.id.button_recommend_place).setOnClickListener(v -> {
             ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
             Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
-            recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request/", user_id);
+            recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_second/", user_id, city_name);
             try {
                 new Handler().postDelayed(() -> {
                     recyclerView_adapter = new PlaceScoreAdapter(arrayListPlaceScore, this);
+                    Log.d("youn3", "중간");
                     recyclerView.setAdapter(recyclerView_adapter);
-                }, 3000); // 0.5초 지연 시간
+                    Log.d("youn3", "처음");
+                }, 6000); // 0.5초 지연 시간
             }catch (Exception e){
                 e.printStackTrace();
             }

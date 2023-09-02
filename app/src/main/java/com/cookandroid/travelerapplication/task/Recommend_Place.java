@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.cookandroid.travelerapplication.mission.Mission;
 import com.cookandroid.travelerapplication.recommend.PlaceScore;
+import com.cookandroid.travelerapplication.search.Travel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +39,8 @@ public class Recommend_Place extends AsyncTask<String,Void,String> { // 통신�
         String postParameters = "";
         try {
             String user_id = (String) params[1];
-            postParameters ="user_id="+user_id;
+            String city_name = (String) params[2];
+            postParameters ="user_id="+user_id+"&city_name="+city_name;
         }catch (Exception e){
         }
 
@@ -46,9 +48,9 @@ public class Recommend_Place extends AsyncTask<String,Void,String> { // 통신�
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
-            httpURLConnection.setReadTimeout(5000); //5초안에 응답이 오지 않으면 예외가 발생한다.
+            httpURLConnection.setReadTimeout(6000); //5초안에 응답이 오지 않으면 예외가 발생한다.
 
-            httpURLConnection.setConnectTimeout(5000); //5초안에 연결이 안되면 예외가 발생한다.
+            httpURLConnection.setConnectTimeout(6000); //5초안에 연결이 안되면 예외가 발생한다.
 
             httpURLConnection.setRequestMethod("POST"); //요청 방식을 POST로 한다.
 
@@ -127,23 +129,19 @@ public class Recommend_Place extends AsyncTask<String,Void,String> { // 통신�
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            Log.d("younn", "처음");
             PlaceScore placeScore = new PlaceScore();
 
-            Log.d("younn", "중간1");
             String placeName = jsonObject.getString("placeName");
-            Log.d("younn", "중간2");
             String score = jsonObject.getString("score");
-            Log.d("younn", "중간3");
+            String rating = jsonObject.getString("rating");
+
             placeScore.setPlaceName(placeName);
-            Log.d("younn", "중간4");
             placeScore.setScore(score);
-            Log.d("younn", "중간5");
+            placeScore.setRating(rating);
+
+            Log.d("youn4", placeName+score+rating);
 
             articleArrayList.add(placeScore);
-            Log.d("younn", "통과");
-
-            Log.d("younn", articleArrayList.toString());
 
         }
 

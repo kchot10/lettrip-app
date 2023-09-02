@@ -1,5 +1,6 @@
 package com.cookandroid.travelerapplication.recommend;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,8 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
     @Override
     public void onBindViewHolder(@NonNull PlaceScoreViewHolder holder, int position) {
         holder.placeName.setText(arrayList.get(position).getPlaceName());
-//        holder.place_score.setText(arrayList.get(position).getScore());
+        holder.place_score.setText(arrayList.get(position).getScore());
+        holder.place_rating.setText(arrayList.get(position).getRating());
     }
 
     @Override
@@ -41,11 +43,12 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
     }
 
     public class PlaceScoreViewHolder extends RecyclerView.ViewHolder {
-        TextView placeName, place_score;
+        TextView placeName, place_score, place_rating;
         public PlaceScoreViewHolder(@NonNull View itemView) {
             super(itemView);
             placeName = itemView.findViewById(R.id.textView_recommend_placeName);
-            place_score = itemView.findViewById(R.id.recyclerView_place_score);
+            place_score = itemView.findViewById(R.id.textView_recommend_score);
+            place_rating = itemView.findViewById(R.id.textView_recommend_rating);
         }
     }
 }

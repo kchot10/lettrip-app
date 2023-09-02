@@ -4,6 +4,8 @@ public class PlaceScore {
     String placeName;
     String score;
 
+    String rating;
+
     public String getPlaceName() {
         return placeName;
     }
@@ -18,5 +20,13 @@ public class PlaceScore {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }
