@@ -29,6 +29,7 @@ import androidx.core.app.ActivityCompat;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.main.MainActivityDesigned;
 import com.cookandroid.travelerapplication.task.CheckData_Email;
 import com.cookandroid.travelerapplication.task.CheckData_Pwd;
 import com.cookandroid.travelerapplication.task.InsertData_SignUp;
@@ -221,7 +222,7 @@ public class LoginActivity extends AppCompatActivity{
             Log.e("Google account", "로그인 안되있음");
         } else {
             Log.e("Google account", "로그인 완료된 상태");
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivityDesigned.class);
             startActivity(intent);
         }
 
