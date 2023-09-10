@@ -23,6 +23,34 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/backBtn"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:backgroundTint="@color/white"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/home" />
+
+                <TextView
+                    android:id="@+id/createArticle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="45dp"
+                    android:layout_weight="1"
+                    android:text="게시판"
+                    android:textAlignment="center"
+                    android:textColor="#515674"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="32sp"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
@@ -94,7 +122,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/RecyclerView_comment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 

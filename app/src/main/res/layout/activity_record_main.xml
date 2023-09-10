@@ -24,7 +24,7 @@
             android:adjustViewBounds="true"
             android:backgroundTint="@color/white"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/menu" />
+            app:srcCompat="@drawable/home" />
 
         <ImageButton
             android:id="@+id/logoBtn"

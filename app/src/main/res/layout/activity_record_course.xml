@@ -24,8 +24,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:backgroundTint="@color/white"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/menu" />
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/logoBtn"
@@ -83,7 +82,7 @@
                     android:layout_width="80dp"
                     android:layout_height="40dp"
                     android:backgroundTint="#4F5A80"
-                    android:text="최초 등록"
+                    android:text="등록"
                     android:textColor="@color/white" />
 
                 <Button
@@ -91,7 +90,7 @@
                     android:layout_width="70dp"
                     android:layout_height="40dp"
                     android:backgroundTint="#009688"
-                    android:text="등록"
+                    android:text="저장"
                     android:textColor="@color/white"
                     android:visibility="invisible" />
 
@@ -129,16 +128,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
+                        android:ems="2"
                         android:gravity="center"
-                        android:hint="00"
                         android:inputType="number"
                         android:maxLength="2"
+                        android:padding="5dp"
                         android:paddingTop="0dp"
                         android:paddingBottom="0dp"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textColorHint="@color/gray"
-                        android:textSize="15sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textView13"
@@ -172,16 +172,17 @@
                     android:id="@+id/editText_arrived_time_hour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ems="2"
                     android:gravity="center"
-                    android:hint="00"
                     android:includeFontPadding="false"
                     android:inputType="number"
                     android:maxLength="2"
+                    android:padding="5dp"
                     android:paddingTop="0dp"
                     android:paddingBottom="0dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -194,17 +195,18 @@
                     android:id="@+id/editText_arrived_time_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ems="2"
                     android:gravity="center|center_horizontal"
-                    android:hint="00"
                     android:includeFontPadding="false"
                     android:inputType="number"
                     android:maxLength="2"
+                    android:padding="5dp"
                     android:paddingTop="0dp"
                     android:paddingBottom="0dp"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/textView12"
@@ -230,13 +232,14 @@
                     android:id="@+id/editText_cost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="00000"
+                    android:ems="4"
                     android:inputType="number"
+                    android:padding="5dp"
                     android:paddingTop="0dp"
                     android:paddingBottom="0dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -274,7 +277,7 @@
                     android:id="@+id/checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="혼자 여행 추천"
+                    android:text="혼자가기 추천"
                     android:visibility="invisible" />
 
             </LinearLayout>
@@ -294,7 +297,7 @@
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:text="ADD"
+                android:text="사진 추가"
                 android:textColor="@color/white"
                 android:visibility="invisible" />
 

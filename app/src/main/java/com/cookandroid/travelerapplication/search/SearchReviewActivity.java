@@ -93,7 +93,6 @@ public class SearchReviewActivity extends AppCompatActivity {
                             Log.e("youn", "place_id 불러오기 실패");
                         }
                         if ( !place_id.equals("") ){ // place_id에 아무것도 저장되어있지 않지 않다면 (뭐라도 있다면)
-                            Toast.makeText(this, "기존에 저장되어있던 place_id 불러오기 성공! place_id:"+place_id, Toast.LENGTH_SHORT).show();
                             Refresh();
                         }else {
                             Toast.makeText(this, "해당 장소에 등록된 리뷰가 없습니다. 리뷰를 등록해보세요!", Toast.LENGTH_SHORT).show();

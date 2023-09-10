@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
@@ -69,6 +70,13 @@ public class RecordMain extends AppCompatActivity{
         recyclerView.setLayoutManager(layoutManager);
         travel_id = "0";
         courseArrayList = new ArrayList<>();
+
+
+        findViewById(R.id.menuBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
 
 
         //도시 선택
@@ -211,7 +219,7 @@ public class RecordMain extends AppCompatActivity{
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                         String dayOfWeekString = getDayOfWeekString(year, month, dayOfMonth);
-                        String titleDate = year+"년 "+month+"월 "+dayOfMonth+"일 "+ dayOfWeekString;
+                        String titleDate = year+"년 "+(month+1)+"월 "+dayOfMonth+"일 "+ dayOfWeekString;
                         titlebar.setText(titleDate);
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
 

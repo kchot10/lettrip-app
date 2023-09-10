@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
@@ -37,7 +37,7 @@
                     android:layout_height="45dp"
                     android:backgroundTint="@color/white"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/back" />
+                    app:srcCompat="@drawable/home" />
 
                 <TextView
                     android:id="@+id/edittext_content"
@@ -63,33 +63,16 @@
 
                 <Spinner
                     android:id="@+id/category_spinner"
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/search_spinner_item"
                     android:elevation="4dp"
                     android:entries="@array/array_article_type"
+                    android:gravity="center"
                     android:popupBackground="@color/white"
                     android:textAlignment="center" />
-
-                <Button
-                    android:id="@+id/button_refresh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#515674"
-                    android:text="Refresh"
-                    android:textColor="@color/white"
-                    android:textSize="10dp" />
-
-                <Button
-                    android:id="@+id/button_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#515674"
-                    android:text="ADD"
-                    android:textColor="@color/white"
-                    android:textSize="10dp" />
 
                 <Spinner
                     android:id="@+id/sorting_spinner"
@@ -99,8 +82,29 @@
                     android:background="@drawable/search_spinner_item"
                     android:elevation="4dp"
                     android:entries="@array/array_sort_type"
+                    android:gravity="center"
                     android:popupBackground="@color/white"
                     android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/button_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#515674"
+                    android:text="Refresh"
+                    android:textColor="@color/white"
+                    android:textSize="10dp"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/button_add"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search_spinner_item"
+                    android:backgroundTint="#515674"
+                    android:text="글 쓰기"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -111,16 +115,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:background="#FFFFFF"
-                android:backgroundTint="#FFFFFF"
-                >
+                android:backgroundTint="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
+                    android:padding="7dp"
                     android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:padding="7dp">
+                    android:paddingRight="10dp">
 
                     <TextView
                         android:id="@+id/category_notice"
@@ -140,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:inputType="text"
-                        android:text="게시판 이용 안내입니다."
+                        android:text="게시판 이용 수칙을 지켜주세요."
                         android:textColor="#000000"
                         android:textSize="17sp" />
                 </LinearLayout>

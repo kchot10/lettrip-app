@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.MbEditText;
+import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.comment.Comment;
 import com.cookandroid.travelerapplication.comment.CommentAdapter;
 import com.cookandroid.travelerapplication.helper.FileHelper;
@@ -92,6 +93,12 @@ public class ArticleContentActivity extends AppCompatActivity {
             DeleteData_Article task = new DeleteData_Article();
             task.execute("http://"+IP_ADDRESS+"/0411/deletedata_article.php",article_id);
             finish();
+        });
+        
+        findViewById(R.id.backBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
 
         findViewById(R.id.button_update).setOnClickListener(v -> {

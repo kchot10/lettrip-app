@@ -7,9 +7,9 @@
 
     _spinner
     <string-array name="array_article_type">
-        <item>자유</item>
-        <item>질문</item>
-        <item>정보</item>
+        <item>자유 게시판</item>
+        <item>질문 게시판</item>
+        <item>정보 게시판</item>
     </string-array>
 
     <string-array name="array_sort_type">

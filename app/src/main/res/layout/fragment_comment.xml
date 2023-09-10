@@ -55,9 +55,10 @@
             android:id="@+id/button_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="delete"
+            android:text="삭제"
             android:textColor="@color/white"
             android:textSize="10sp"
+            android:textStyle="bold"
             android:visibility="invisible" />
 
     </LinearLayout>

@@ -66,6 +66,7 @@ class KotlinActivity2 : AppCompatActivity() {
     private var longitude: Double = 1.0      // 검색 페이지 번호
     private var mX: Double = 1.0
     private var mY: Double = 1.0
+    private lateinit var item: ListLayout
 
 
     private lateinit var mapView: MapView
@@ -155,7 +156,7 @@ class KotlinActivity2 : AppCompatActivity() {
             }else{
                 mapView.removeAllPOIItems() // 지도의 마커 모두 제거
                 mapView.removeAllCircles()
-                val item = listItems.get(itemIndex)
+                item = listItems.get(itemIndex)
                 mX = item.x - longitude
                 mY = item.y - latitude
                 val circleCenter = MapPoint.mapPointWithGeoCoord(item.y, item.x)  // 원의 중심 좌표
@@ -209,6 +210,13 @@ class KotlinActivity2 : AppCompatActivity() {
                 stopTracking()
                 handler.postDelayed({
                     intent.putExtra("success/fail", "success")
+                    intent.putExtra("name", item.name)
+                    intent.putExtra("road", item.road)
+                    intent.putExtra("address", item.address)
+                    intent.putExtra("location_x", item.x.toString())
+                    intent.putExtra("location_y", item.y.toString())
+                    intent.putExtra("category_group_code", item.category_group_code)
+                    intent.putExtra("category_group_name", item.category_group_name)
                     setResult(RESULT_OK, intent);
                     finish()
                 }, 3000L)

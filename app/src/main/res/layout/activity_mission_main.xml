@@ -33,7 +33,8 @@
             android:background="@drawable/rectangle_button"
             android:text="나의 미션"
             android:textColor="#D1D1D1"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <LinearLayout

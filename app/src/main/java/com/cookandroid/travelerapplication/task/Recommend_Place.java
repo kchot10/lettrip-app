@@ -4,39 +4,53 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.cookandroid.travelerapplication.mission.Mission;
+import com.cookandroid.travelerapplication.recommend.PlaceScore;
+import com.cookandroid.travelerapplication.search.Travel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class InsertData_Mission extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+// SlectData_...과 동일
+public class Recommend_Place extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
-    private String return_string;
+    public ArrayList articleArrayList;
+
+    public <T> Recommend_Place(ArrayList<T> articleArrayList) {
+        this.articleArrayList = articleArrayList;
+    }
+
+    private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
-
         String serverURL = (String) params[0];
-        String accomplished_date = (String)params[1];
-        String mission_type = (String)params[2];
-        String user_id = (String)params[3];
-        String place_id = (String)params[4];
 
-        String postParameters ="accomplished_date="+accomplished_date
-                +"&mission_type="+mission_type
-                +"&user_id="+user_id
-                +"&place_id="+place_id;
+        String postParameters = "";
+        try {
+            String user_id = (String) params[1];
+            String city_name = (String) params[2];
+            postParameters ="user_id="+user_id+"&city_name="+city_name;
+        }catch (Exception e){
+        }
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
-            httpURLConnection.setReadTimeout(5000); //5초안에 응답이 오지 않으면 예외가 발생한다.
+            httpURLConnection.setReadTimeout(6000); //5초안에 응답이 오지 않으면 예외가 발생한다.
 
-            httpURLConnection.setConnectTimeout(5000); //5초안에 연결이 안되면 예외가 발생한다.
+            httpURLConnection.setConnectTimeout(6000); //5초안에 연결이 안되면 예외가 발생한다.
 
             httpURLConnection.setRequestMethod("POST"); //요청 방식을 POST로 한다.
 
@@ -58,11 +72,11 @@ public class InsertData_Mission extends AsyncTask<String,Void,String> { // 통�
 
             if(responseStatusCode == httpURLConnection.HTTP_OK){ //만약 정상적인 응답 데이터 라면
                 inputStream=httpURLConnection.getInputStream();
-                Log.d("php정상: ","정상적으로 출력"); //로그 메세지로 정상적으로 출력을 찍는다.
+                Log.d("flask정상: ","정상적으로 출력"); //로그 메세지로 정상적으로 출력을 찍는다.
             }
             else {
                 inputStream = httpURLConnection.getErrorStream(); //만약 에러가 발생한다면
-                Log.d("php비정상: ","비정상적으로 출력"); // 로그 메세지로 비정상적으로 출력을 찍는다.
+                Log.d("flask비정상: ","비정상적으로 출력"); // 로그 메세지로 비정상적으로 출력을 찍는다.
             }
 
             // StringBuilder를 사용하여 수신되는 데이터를 저장한다.
@@ -78,17 +92,16 @@ public class InsertData_Mission extends AsyncTask<String,Void,String> { // 통�
 
             bufferedReader.close();
 
-            Log.d("php 값 :", sb.toString());
+            Log.d("flask 값 :", sb.toString());
 
-            String result = getTwoCharsAfterString(sb.toString(), "불러오기 ");
-            Log.d("lettrip", result);
-            if (result.equals("성공")){
-                return_string = getTwoCharsAfterString(sb.toString(), "travel_id:");
-            }else if(result.equals("실패")) {
-                return_string = "실패";
-            }else{
-                return_string = "에러";
+            try{
+                parseJSONArray(sb.toString());
+            }catch (Exception e){
+                Log.d("youn", "JSON Error\n");
+
             }
+
+
 
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
@@ -99,7 +112,7 @@ public class InsertData_Mission extends AsyncTask<String,Void,String> { // 통�
 
         catch (Exception e) {
 
-            Log.d(TAG, "InsertData_Travel: Error",e);
+            Log.d(TAG, "Recommend_Place: Error",e);
 
             return  new String("Error " + e.getMessage());
 
@@ -107,21 +120,35 @@ public class InsertData_Mission extends AsyncTask<String,Void,String> { // 통�
 
     }
 
-    public String getReturn_string() {
+    private void parseJSONArray(String result) throws JSONException {
+        Log.d("younn", "찐처음");
+        // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
+        JSONArray jsonArray = new JSONArray(result);
+        Log.d("younn", "찐처음: "+jsonArray.length()+"개");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            PlaceScore placeScore = new PlaceScore();
+
+            String placeName = jsonObject.getString("placeName");
+            String score = jsonObject.getString("score");
+            String rating = jsonObject.getString("rating");
+
+            placeScore.setPlaceName(placeName);
+            placeScore.setScore(score);
+            placeScore.setRating(rating);
+
+            Log.d("youn4", placeName+score+rating);
+
+            articleArrayList.add(placeScore);
+
+        }
+
+    }
+
+    public String get_return_string(){
         return return_string;
     }
 
-    public String getTwoCharsAfterString(String str, String searchString) {
-        String result = "";
-        int index = str.indexOf(searchString);
-        if (index != -1) {
-            int endIndex = str.indexOf(" ", index + searchString.length());
-            if (endIndex == -1) {
-                endIndex = str.length();
-            }
-            result = str.substring(index + searchString.length(), endIndex);
-        }
-        return result;
-    }
 }
-

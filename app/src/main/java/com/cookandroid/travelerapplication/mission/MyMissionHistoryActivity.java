@@ -39,7 +39,7 @@ public class MyMissionHistoryActivity extends AppCompatActivity {
     public void Refresh() {
         missionArrayList = new ArrayList<>();
         SelectData_MyMission task = new SelectData_MyMission(missionArrayList);
-        task.execute("http://" + IP_ADDRESS + "/0601/SelectData_MyMission.php", "2");
+        task.execute("http://" + IP_ADDRESS + "/0601/SelectData_MyMission.php", user_id);
         try {
             new Handler().postDelayed(() -> {
                 recyclerView_adapter = new MyMissionAdapter(missionArrayList, this);

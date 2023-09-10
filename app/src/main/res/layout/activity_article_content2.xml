@@ -26,7 +26,7 @@
             android:layout_height="45dp"
             android:backgroundTint="@color/white"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/back" />
+            app:srcCompat="@drawable/home" />
 
         <TextView
             android:id="@+id/createArticle"

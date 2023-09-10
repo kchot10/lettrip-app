@@ -216,14 +216,15 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/user" />
 
         <Button
             android:id="@+id/add_image_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:backgroundTint="#FFFFFF"
-            android:text="Add"
+            android:text="프로필 사진 편집"
             android:textColor="@color/black"
             android:textColorHint="#000000" />
     </LinearLayout>
@@ -266,7 +267,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
             android:backgroundTint="#515674"
-            android:text="Join"
+            android:text="가입하기"
             android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold"
