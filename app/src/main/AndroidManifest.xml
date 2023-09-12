@@ -185,6 +185,9 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="eaea80fc7e3f8ac8fd4c887da34a2f08" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".mypage.UserCheckPopup"
