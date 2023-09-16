@@ -17,7 +17,7 @@
         android:layout_marginRight="12.77dp"
         android:background="#FFFFFF"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/cancelBtn" />
+        app:srcCompat="@drawable/cancel_btn" />
 
     <TextView
         android:id="@+id/title1"

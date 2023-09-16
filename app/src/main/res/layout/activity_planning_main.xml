@@ -62,24 +62,67 @@
         android:orientation="vertical">
 
 
-        <TextView
-            android:id="@+id/textView_planTitle"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="29dp"
             android:layout_marginTop="46dp"
-            android:layout_marginRight="29dp"
-            android:fontFamily="@font/inter_bold"
-            android:text="여행 계획하기"
-            android:textColor="#4F5A80"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView_planTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="29dp"
+                android:layout_marginRight="29dp"
+                android:fontFamily="@font/inter_bold"
+                android:text="여행 계획하기"
+                android:textColor="#4F5A80"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view12"
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/planning_saveBtn1"
+                android:layout_width="74dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="7dp"
+                android:background="@drawable/planning_save1"
+                android:fontFamily="@font/inter"
+                android:padding="0dp"
+                android:scaleType="fitCenter"
+                android:text="임시저장"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/planning_saveBtn2"
+                android:layout_width="74dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/planning_save1"
+                android:fontFamily="@font/inter"
+                android:padding="0dp"
+                android:scaleType="fitCenter"
+                android:text="등록"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/editTextText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="30dp"
             android:ems="10"
             android:fontFamily="@font/inter"
@@ -91,7 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="33dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="33dp">
 
             <LinearLayout
@@ -101,7 +144,7 @@
                 <Button
                     android:id="@+id/cityBtn1"
                     android:layout_width="105dp"
-                    android:layout_height="37dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="3dp"
                     android:background="@drawable/planning_city1"
@@ -115,7 +158,7 @@
                 <Button
                     android:id="@+id/cityBtn2"
                     android:layout_width="105dp"
-                    android:layout_height="37dp"
+                    android:layout_height="32dp"
                     android:layout_marginRight="3dp"
                     android:layout_weight="1"
                     android:background="@drawable/planning_city1"
@@ -128,9 +171,9 @@
                 <Button
                     android:id="@+id/dateBtn"
                     android:layout_width="145dp"
-                    android:layout_height="37dp"
+                    android:layout_height="32dp"
                     android:layout_weight="1"
-                    android:background="@drawable/planning_date_box"
+                    android:background="@drawable/planning_date"
                     android:fontFamily="@font/inter"
                     android:scaleType="fitCenter"
                     android:text="여행날짜"
@@ -150,24 +193,54 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/priceTitle"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter"
-                android:text="예상 비용 : "
-                android:textSize="13sp" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/plainText_price"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#BBBBBB"
-                android:ems="10"
+                <TextView
+                    android:id="@+id/priceTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="예상 비용"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/plainText_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:fontFamily="@font/inter"
+                    android:hint="100,000"
+                    android:inputType="number"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="1dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    android:textAlignment="textStart"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="원"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="11dp"
+                android:layout_weight="1"
                 android:fontFamily="@font/inter"
-                android:hint="100,000원"
-                android:inputType="text"
-                android:textSize="12sp" />
+                android:gravity="center_vertical"
+                android:text="코스 0"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
