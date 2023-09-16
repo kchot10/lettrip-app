@@ -3,8 +3,16 @@ package com.cookandroid.travelerapplication.recommend;
 public class PlaceScore {
     String placeName;
     String score;
-
     String rating;
+    String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getPlaceName() {
         return placeName;

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class Recommend_Place extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
+    private String recommend_type;
 
     public ArrayList articleArrayList;
 
@@ -36,11 +37,25 @@ public class Recommend_Place extends AsyncTask<String,Void,String> { // 통신�
     protected String doInBackground(String... params) {
         String serverURL = (String) params[0];
 
+        recommend_type = (String) params[1];
+
         String postParameters = "";
         try {
-            String user_id = (String) params[1];
-            String city_name = (String) params[2];
-            postParameters ="user_id="+user_id+"&city_name="+city_name;
+            if (recommend_type == "item"){
+                String user_id = (String) params[2];
+                String city_name = (String) params[3];
+                String page = (String) params[4];
+                postParameters ="user_id="+user_id+"&city_name="+city_name+"&page="+page;
+
+            } else if (recommend_type == "place") {
+                String user_id = (String) params[2];
+                String city_name = (String) params[3];
+                String page = (String) params[4];
+                String input_place_name = (String) params[5];
+                postParameters ="user_id="+user_id+"&city_name="+city_name+"&page="+page+"&input_place_name="+input_place_name;
+            }else {
+                Log.e("Error", "recommend_type Error");
+            }
         }catch (Exception e){
         }
 
@@ -131,15 +146,17 @@ public class Recommend_Place extends AsyncTask<String,Void,String> { // 통신�
 
             PlaceScore placeScore = new PlaceScore();
 
-            String placeName = jsonObject.getString("placeName");
-            String score = jsonObject.getString("score");
-            String rating = jsonObject.getString("rating");
+            String placeName = jsonObject.getString("place_name");
+            String score = jsonObject.getString("percentage_score");
+            String rating = jsonObject.getString("pred_score");
+            String address = jsonObject.getString("address");
 
             placeScore.setPlaceName(placeName);
             placeScore.setScore(score);
             placeScore.setRating(rating);
+            placeScore.setAddress(address);
 
-            Log.d("youn4", placeName+score+rating);
+            Log.d("youn4", placeName+score+rating+address);
 
             articleArrayList.add(placeScore);
 
