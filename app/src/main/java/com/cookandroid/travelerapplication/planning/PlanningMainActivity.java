@@ -29,15 +29,14 @@ public class PlanningMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planning_main);
-        IP_ADDRESS = "3.34.52.162";
+        IP_ADDRESS = "15.164.213.88";
         user_id = "1";
         city_name = "서울";
 
-        //setOnLongClickListener
-
+        //장소기반추천
         findViewById(R.id.floatingActionButton).setOnLongClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(PlanningMainActivity.this);
-            View dialogView = getLayoutInflater().inflate(R.layout.popup_layout, null);
+            View dialogView = getLayoutInflater().inflate(R.layout.popup_planning_recommending_place, null);
             builder.setView(dialogView);
 
             recyclerView = dialogView.findViewById(R.id.recommendRecyclerView);
@@ -66,11 +65,11 @@ public class PlanningMainActivity extends AppCompatActivity {
         });
 
 
-
+        //리뷰기반추천
         findViewById(R.id.floatingActionButton).setOnClickListener(v -> {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(PlanningMainActivity.this);
-            View dialogView = getLayoutInflater().inflate(R.layout.popup_layout, null);
+            View dialogView = getLayoutInflater().inflate(R.layout.popup_planning_recommending_item, null);
             builder.setView(dialogView);
 
             recyclerView = dialogView.findViewById(R.id.recommendRecyclerView);

@@ -29,7 +29,7 @@ public class RecommendPlaceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend_place);
-        IP_ADDRESS = "3.34.52.162";
+        IP_ADDRESS = "15.164.213.88";
         user_id = "1";
         city_name = "서울";
 

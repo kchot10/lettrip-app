@@ -25,7 +25,7 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
     @NonNull
     @Override
     public PlaceScoreViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_place_score_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_planning_recommend_item, parent, false);
         PlaceScoreViewHolder holder = new PlaceScoreViewHolder(view);
         return holder;
     }
@@ -34,7 +34,6 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
     public void onBindViewHolder(@NonNull PlaceScoreViewHolder holder, int position) {
         holder.placeName.setText(arrayList.get(position).getPlaceName());
         holder.place_score.setText(arrayList.get(position).getScore());
-        holder.place_rating.setText(arrayList.get(position).getRating());
         holder.place_address.setText(arrayList.get(position).getAddress());
     }
 
@@ -44,12 +43,11 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
     }
 
     public class PlaceScoreViewHolder extends RecyclerView.ViewHolder {
-        TextView placeName, place_score, place_rating, place_address;
+        TextView placeName, place_score,place_address;
         public PlaceScoreViewHolder(@NonNull View itemView) {
             super(itemView);
             placeName = itemView.findViewById(R.id.textView_recommend_placeName);
             place_score = itemView.findViewById(R.id.textView_recommend_score);
-            place_rating = itemView.findViewById(R.id.textView_recommend_rating);
             place_address = itemView.findViewById(R.id.textView_recommend_address);
         }
     }
