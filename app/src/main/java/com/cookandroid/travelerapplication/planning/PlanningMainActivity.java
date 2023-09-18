@@ -123,7 +123,7 @@ public class PlanningMainActivity extends AppCompatActivity {
 
         // 팝업 생성
         PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, popupX, popupY);
+        //popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, popupX, popupY);
 
         // 팝업 내부의 버튼 등에 대한 처리 추가하기 **
 
