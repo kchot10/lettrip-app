@@ -103,6 +103,15 @@ public class PlanningMainActivity extends AppCompatActivity {
                         Refresh(dialogView.getContext(), "item");
 
                     });
+                    //팝업닫기
+                    dialogView.findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+
+
                 }
             });
 
@@ -136,6 +145,13 @@ public class PlanningMainActivity extends AppCompatActivity {
                     dialogView.findViewById(R.id.refreshButton).setOnClickListener(v1 -> {
                         Refresh(dialogView.getContext(), "place");
 
+                    });
+                    //팝업닫기
+                    dialogView.findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
                     });
                 }
             });
