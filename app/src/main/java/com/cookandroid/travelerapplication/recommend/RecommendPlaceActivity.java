@@ -29,8 +29,8 @@ public class RecommendPlaceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend_place);
-        IP_ADDRESS = "13.209.74.179";
-        user_id = "10425035876";
+        IP_ADDRESS = "3.34.52.162";
+        user_id = "1";
         city_name = "서울";
 
         recyclerView = findViewById(R.id.recyclerView_place_score);
@@ -41,7 +41,7 @@ public class RecommendPlaceActivity extends AppCompatActivity {
         findViewById(R.id.button_recommend_place).setOnClickListener(v -> {
             ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
             Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
-            recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_second/", user_id, city_name);
+            recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_item/", user_id, city_name, "1");
             try {
                 new Handler().postDelayed(() -> {
                     recyclerView_adapter = new PlaceScoreAdapter(arrayListPlaceScore, this);

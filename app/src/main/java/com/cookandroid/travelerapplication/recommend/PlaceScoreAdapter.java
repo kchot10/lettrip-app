@@ -35,6 +35,7 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
         holder.placeName.setText(arrayList.get(position).getPlaceName());
         holder.place_score.setText(arrayList.get(position).getScore());
         holder.place_rating.setText(arrayList.get(position).getRating());
+        holder.place_address.setText(arrayList.get(position).getAddress());
     }
 
     @Override
@@ -43,12 +44,13 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
     }
 
     public class PlaceScoreViewHolder extends RecyclerView.ViewHolder {
-        TextView placeName, place_score, place_rating;
+        TextView placeName, place_score, place_rating, place_address;
         public PlaceScoreViewHolder(@NonNull View itemView) {
             super(itemView);
             placeName = itemView.findViewById(R.id.textView_recommend_placeName);
             place_score = itemView.findViewById(R.id.textView_recommend_score);
             place_rating = itemView.findViewById(R.id.textView_recommend_rating);
+            place_address = itemView.findViewById(R.id.textView_recommend_address);
         }
     }
 }
