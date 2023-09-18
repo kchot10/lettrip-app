@@ -149,7 +149,6 @@ public class SignUpActivity extends AppCompatActivity implements S3Uploader.OnUp
 
                 if (emailAddress.isEmpty()) {
                     Toast.makeText(SignUpActivity.this, "이메일 주소를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                    return;
                 }
 
                 CheckData_Email task = new CheckData_Email();

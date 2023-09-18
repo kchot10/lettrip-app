@@ -50,7 +50,6 @@ public class FindPwdActivity extends AppCompatActivity {
 
                 if (emailAddress.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "이메일 주소를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                    return;
                 }
 
                 CheckData_Email task = new CheckData_Email();
