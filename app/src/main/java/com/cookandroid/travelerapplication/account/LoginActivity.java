@@ -117,6 +117,7 @@ public class LoginActivity extends AppCompatActivity{
             checkData_Pwd_function(email, pwd, provider_type);
         });
 
+
         //-----------------------
         //소셜 로그인 구현 - 카카오
         //키 해쉬 발급
@@ -371,6 +372,15 @@ public class LoginActivity extends AppCompatActivity{
                 return;
             } else {
                 Toast.makeText(this, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
+
+                // 로그인 성공 시 SharedPreferences에 이메일 저장
+                String userEmail = email; // 이메일 정보 가져오기
+
+                SharedPreferences preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("email", userEmail);
+                editor.apply();
+
                 Log.d("youn", withdraw_result);
                 fileHelper.writeToFile("user_id", withdraw_result);
                 fileHelper.writeToFile("email", email);
