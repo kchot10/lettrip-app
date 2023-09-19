@@ -18,12 +18,12 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/searchBtn"
+            android:id="@+id/menuBtn"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:background="#FFFFFF"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/search" />
+            app:srcCompat="@drawable/home" />
 
         <View
             android:id="@+id/view6"
@@ -69,7 +69,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView_planTitle"
+                android:id="@+id/recordTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="29dp"
@@ -88,7 +88,7 @@
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/planning_saveBtn1"
+                android:id="@+id/button_travel_upload"
                 android:layout_width="74dp"
                 android:layout_height="22dp"
                 android:layout_gravity="center"
@@ -102,7 +102,7 @@
                 android:textSize="11sp" />
 
             <Button
-                android:id="@+id/planning_saveBtn2"
+                android:id="@+id/button_travel_update"
                 android:layout_width="74dp"
                 android:layout_height="22dp"
                 android:layout_gravity="center"
@@ -113,12 +113,13 @@
                 android:scaleType="fitCenter"
                 android:text="등록"
                 android:textColor="#FFFFFF"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/edittext_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -141,44 +142,116 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/cityBtn1"
-                    android:layout_width="105dp"
+                <Spinner
+                    android:id="@+id/themeDropdown"
+                    android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="3dp"
-                    android:background="@drawable/planning_city1"
-                    android:fontFamily="@font/inter"
-                    android:gravity="center|clip_vertical"
-                    android:scaleType="fitCenter"
-                    android:text="행정구역"
-                    android:textColor="#BBBBBB"
-                    android:textSize="13sp" />
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_button"
+                    android:elevation="4dp"
+                    android:entries="@array/array_theme"
+                    android:overlapAnchor="false"
+                    android:popupBackground="@color/white"
+                    android:spinnerStyle="@style/CustomSpinnerStyle"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/cityDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_button"
+                    android:elevation="4dp"
+                    android:overlapAnchor="false"
+                    android:popupBackground="@color/white"
+                    android:spinnerStyle="@style/CustomSpinnerStyle"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/cityDropdown_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_button"
+                    android:elevation="4dp"
+                    android:overlapAnchor="false"
+                    android:popupBackground="@color/white"
+                    android:spinnerStyle="@style/CustomSpinnerStyle"
+                    android:textColor="@color/black" />
 
                 <Button
-                    android:id="@+id/cityBtn2"
-                    android:layout_width="105dp"
+                    android:id="@+id/dateBtn_start"
+                    android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:layout_marginRight="3dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="7dp"
                     android:layout_weight="1"
-                    android:background="@drawable/planning_city1"
-                    android:fontFamily="@font/inter"
-                    android:scaleType="fitCenter"
-                    android:text="지역이름"
-                    android:textColor="#BBBBBB"
-                    android:textSize="13sp" />
+                    android:background="@drawable/rectangle_button"
+                    android:elevation="5dp"
+                    android:hint="출발 날짜"
+                    android:textColorHint="@color/gray" />
 
                 <Button
-                    android:id="@+id/dateBtn"
-                    android:layout_width="145dp"
+                    android:id="@+id/dateBtn_end"
+                    android:layout_width="match_parent"
                     android:layout_height="32dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="7dp"
                     android:layout_weight="1"
-                    android:background="@drawable/planning_date"
-                    android:fontFamily="@font/inter"
-                    android:scaleType="fitCenter"
-                    android:text="여행날짜"
-                    android:textColor="#BBBBBB"
-                    android:textSize="13sp" />
+                    android:background="@drawable/rectangle_button"
+                    android:elevation="5dp"
+                    android:hint="도착 날짜"
+                    android:textColorHint="@color/gray" />
+
+<!--                <Button-->
+<!--                    android:id="@+id/cityDropdown"-->
+<!--                    android:layout_width="105dp"-->
+<!--                    android:layout_height="32dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginRight="3dp"-->
+<!--                    android:background="@drawable/planning_city1"-->
+<!--                    android:fontFamily="@font/inter"-->
+<!--                    android:gravity="center|clip_vertical"-->
+<!--                    android:scaleType="fitCenter"-->
+<!--                    android:text="행정구역"-->
+<!--                    android:textColor="#BBBBBB"-->
+<!--                    android:textSize="13sp" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/cityDropdown_detail"-->
+<!--                    android:layout_width="105dp"-->
+<!--                    android:layout_height="32dp"-->
+<!--                    android:layout_marginRight="3dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@drawable/planning_city1"-->
+<!--                    android:fontFamily="@font/inter"-->
+<!--                    android:scaleType="fitCenter"-->
+<!--                    android:text="지역이름"-->
+<!--                    android:textColor="#BBBBBB"-->
+<!--                    android:textSize="13sp" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/dateBtn"-->
+<!--                    android:layout_width="145dp"-->
+<!--                    android:layout_height="32dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@drawable/planning_date"-->
+<!--                    android:fontFamily="@font/inter"-->
+<!--                    android:scaleType="fitCenter"-->
+<!--                    android:text="여행날짜"-->
+<!--                    android:textColor="#BBBBBB"-->
+<!--                    android:textSize="13sp" />-->
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -198,52 +271,53 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/priceTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter"
-                    android:text="예상 비용"
-                    android:textSize="13sp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/priceTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/inter"-->
+<!--                    android:text="예상 비용"-->
+<!--                    android:textSize="13sp" />-->
 
-                <EditText
-                    android:id="@+id/plainText_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:backgroundTint="#FFFFFF"
-                    android:fontFamily="@font/inter"
-                    android:hint="100,000"
-                    android:inputType="number"
-                    android:paddingLeft="0dp"
-                    android:paddingTop="1dp"
-                    android:paddingRight="0dp"
-                    android:paddingBottom="0dp"
-                    android:textAlignment="textStart"
-                    android:textSize="12sp" />
+<!--                <EditText-->
+<!--                    android:id="@+id/plainText_price"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="5dp"-->
+<!--                    android:backgroundTint="#FFFFFF"-->
+<!--                    android:fontFamily="@font/inter"-->
+<!--                    android:hint="100,000"-->
+<!--                    android:inputType="number"-->
+<!--                    android:paddingLeft="0dp"-->
+<!--                    android:paddingTop="1dp"-->
+<!--                    android:paddingRight="0dp"-->
+<!--                    android:paddingBottom="0dp"-->
+<!--                    android:textAlignment="textStart"-->
+<!--                    android:textSize="12sp" />-->
 
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="원"
-                    android:textSize="12sp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/textView14"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="원"-->
+<!--                    android:textSize="12sp" />-->
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="11dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/inter"
-                android:gravity="center_vertical"
-                android:text="코스 0"
-                android:textSize="13sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView6"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginLeft="11dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="@font/inter"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:text="코스 0"-->
+<!--                android:textSize="13sp" />-->
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecyclerView_Record"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="33dp"
@@ -264,6 +338,17 @@
         app:backgroundTint="@android:color/white"
         app:fabSize="normal"
         app:srcCompat="@drawable/floating_icon" />
+
+    <Button
+        android:id="@+id/addPlaceBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#4F5A80"
+        android:text="장소 추가하기"
+        android:textColor="#FFFFFF"
+        android:textSize="19sp"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/bottomLayout"
