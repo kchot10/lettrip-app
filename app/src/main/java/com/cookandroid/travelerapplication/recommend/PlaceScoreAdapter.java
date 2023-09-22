@@ -1,5 +1,6 @@
 package com.cookandroid.travelerapplication.recommend;
 import android.content.Context;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +27,20 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
         this.context = context;
     }
 
+
     @NonNull
     @Override
     public PlaceScoreViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_planning_recommend_item, parent, false);
-        PlaceScoreViewHolder holder = new PlaceScoreViewHolder(view);
-        return holder;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if(viewType == VIEW_TYPE_SPECIAL){
+            View view = inflater.inflate(R.layout.item_planning_recommend_item_special, parent, false);
+            PlaceScoreViewHolder holder = new PlaceScoreViewHolder(view);
+            return holder;
+        } else{
+            View view = inflater.inflate(R.layout.item_planning_recommend_item, parent, false);
+            PlaceScoreViewHolder holder = new PlaceScoreViewHolder(view);
+            return holder;
+        }
     }
 
     @Override
@@ -54,5 +63,10 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
             place_score = itemView.findViewById(R.id.textView_recommend_score);
             place_address = itemView.findViewById(R.id.textView_recommend_address);
         }
+    }
+
+    @Override
+    public int getItemViewType(int position){
+        return (position == 0) ? VIEW_TYPE_SPECIAL : VIEW_TYPE_NORMAL;
     }
 }

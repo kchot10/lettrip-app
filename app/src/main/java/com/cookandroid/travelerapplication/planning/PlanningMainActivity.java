@@ -150,6 +150,7 @@ public class PlanningMainActivity extends AppCompatActivity {
                         new Handler().postDelayed(() -> {
                             recyclerView_adapter = new PlaceScoreAdapter(arrayListPlaceScore, dialogView.getContext());
                             recyclerView.setAdapter(recyclerView_adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                             AlertDialog dialog = builder.create();
                             dialog.show();
                         }, 3000); // 0.5초 지연 시간
