@@ -50,7 +50,7 @@ public class PlanningMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planning_main);
-        IP_ADDRESS = "15.164.213.88";
+        IP_ADDRESS = "3.36.62.49";
         user_id = "1";
         city_name = "서울";
 
@@ -100,6 +100,7 @@ public class PlanningMainActivity extends AppCompatActivity {
                     layoutManager = new LinearLayoutManager(dialogView.getContext());
                     recyclerView.setLayoutManager(layoutManager);
 
+                    //추천리스트 불러오기
                     ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
                     Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
                     recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_item/", "item", user_id, city_name, "1");

@@ -48,6 +48,14 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
         holder.placeName.setText(arrayList.get(position).getPlaceName());
         holder.place_score.setText(arrayList.get(position).getScore());
         holder.place_address.setText(arrayList.get(position).getAddress());
+
+        //각 아이템 클릭시 계획 메인 페이지 리싸이클러뷰에 등록
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
