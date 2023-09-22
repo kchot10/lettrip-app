@@ -2,21 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#EEF0F6"
+    android:layout_height="140dp"
+    android:background="@drawable/planning_item_list"
     android:elevation="3dp"
-    android:padding="20dp">
+    android:scaleType="fitCenter">
 
     <ImageView
         android:id="@+id/placePhoto"
         android:layout_width="89dp"
         android:layout_height="89dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="24dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -27,16 +33,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="장소 : "
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/textView_place_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="서울숲"
                 android:textColor="#000000"
-                android:textStyle="bold" />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -47,15 +56,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="도착시간 : "
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/textView_arrived_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="13시 30분"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -66,15 +79,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="비용 : "
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/textView_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="3만원"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -83,8 +100,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="클릭해서 상세후기 보러가기 →"
-            android:textColor="#8D8D8D" />
+            android:fontFamily="@font/inter"
+            android:text="상세후기 작성하기 →"
+            android:textColor="#8D8D8D"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
