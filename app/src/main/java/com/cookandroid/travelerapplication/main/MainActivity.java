@@ -12,6 +12,7 @@ import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
 import com.cookandroid.travelerapplication.mypage.MypageModifyActivity;
+import com.cookandroid.travelerapplication.record.PlanningMain;
 import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.search.SearchActivity;
 import com.cookandroid.travelerapplication.search.SearchReviewActivity;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.button_plan).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, RecordMain.class);
+            Intent intent = new Intent(MainActivity.this, PlanningMain.class);
             intent.putExtra("record/plan", "plan");
             startActivity(intent);
         });

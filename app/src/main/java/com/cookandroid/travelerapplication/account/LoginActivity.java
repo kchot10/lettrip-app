@@ -65,7 +65,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class LoginActivity extends AppCompatActivity{
 
 
-    private static String ec2_ADDRESS = "15.164.93.235";
+    private static String ec2_ADDRESS = "15.164.213.88";
     private static String IP_ADDRESS;
     public static Context mContext;
     FileHelper fileHelper;
