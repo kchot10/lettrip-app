@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
+                <Spinner
                     android:id="@+id/cityBtn1"
                     android:layout_width="105dp"
                     android:layout_height="32dp"
@@ -155,7 +155,7 @@
                     android:textColor="#BBBBBB"
                     android:textSize="13sp" />
 
-                <Button
+                <Spinner
                     android:id="@+id/cityBtn2"
                     android:layout_width="105dp"
                     android:layout_height="32dp"
@@ -168,7 +168,7 @@
                     android:textColor="#BBBBBB"
                     android:textSize="13sp" />
 
-                <Button
+                <Spinner
                     android:id="@+id/dateBtn"
                     android:layout_width="145dp"
                     android:layout_height="32dp"

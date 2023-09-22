@@ -11,13 +11,19 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amazonaws.Request;
+import com.amazonaws.Response;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.article.ArticleListActivity;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
@@ -38,12 +44,20 @@ public class PlanningMainActivity extends AppCompatActivity {
     private RecyclerView.Adapter recyclerView_adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    Spinner spinner;Spinner spinner2;Spinner spinner3;
+    EditText edittext_title;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planning_main);
         IP_ADDRESS = "15.164.213.88";
         user_id = "1";
         city_name = "서울";
+
+        spinner = findViewById(R.id.cityBtn1);
+        spinner2 = findViewById(R.id.cityBtn2);
+        spinner3 = findViewById(R.id.dateBtn);
+        edittext_title = findViewById(R.id.planningTitleEditText);
 
         //플로팅액션버튼 클릭리스너
         findViewById(R.id.floatingActionButton).setOnClickListener(v -> {
@@ -60,7 +74,7 @@ public class PlanningMainActivity extends AppCompatActivity {
             WindowManager.LayoutParams params = window.getAttributes();
             params.y = 230; // 아래 마진
             params.width = dpToPx(185); //적용이 안됨... 이유 모르겠음
-
+            params.horizontalWeight = 0;
             window.setAttributes(params);
 
             // 팝업 창 내부의 뷰들에 접근하여 처리
@@ -263,5 +277,59 @@ public class PlanningMainActivity extends AppCompatActivity {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
     }
+
+    // RecordMain.java
+    /*
+    private void TravelUpload(){
+        String province = spinner.getSelectedItem().toString().trim();
+        String city = spinner2.getSelectedItem().toString().trim();
+        String date = spinner3.getSelectedItem().toString().trim(); //010101-010101 형식 반환 예상
+        String[] dateParts = date.split("-");
+        String depart_date = dateParts[0];
+        String last_date = dateParts[1];
+        String total_cost = "0";
+        String title = edittext_title.getText().toString().trim();
+        String theme = spinner3.getSelectedItem().toString().trim();
+
+        String url = "http://" + IP_ADDRESS + "/0503/InsertData_Travel.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // 서버로부터의 응답을 처리하는 코드
+                        if (response.equals("success")) {
+                            Toast.makeText(PlanningMainActivity.this, "여행 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                            // 여행 ID를 받아온다면, fileHelper를 사용해 travel_id를 저장하는 코드 추가 필요
+                        } else {
+                            Toast.makeText(PlanningMainActivity.this, "여행 추가가 에러났습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // 에러 처리 코드
+                        Toast.makeText(RecordMain.this, "Network Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", user_id);
+                params.put("province", province);
+                params.put("city", city);
+                params.put("depart_date", depart_date);
+                params.put("last_date", last_date);
+                params.put("total_cost", total_cost);
+                params.put("title", title);
+                params.put("theme", theme);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    } */
+
 
 }

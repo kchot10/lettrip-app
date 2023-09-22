@@ -52,8 +52,17 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/questionMark"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="19dp"
+            android:background="#FFFFFF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/question_mark" />
 
         <TextView
             android:id="@+id/textView_recommend_score"

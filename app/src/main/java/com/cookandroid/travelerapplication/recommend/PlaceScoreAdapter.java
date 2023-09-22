@@ -17,6 +17,10 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
     private ArrayList<PlaceScore> arrayList;
     private Context context;
 
+    //아이템 뷰타입 설정
+    private static final int VIEW_TYPE_SPECIAL = 0;
+    private static final int VIEW_TYPE_NORMAL = 1;
+
     public PlaceScoreAdapter(ArrayList<PlaceScore> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
