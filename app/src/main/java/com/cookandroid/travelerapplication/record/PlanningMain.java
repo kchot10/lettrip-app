@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.planning.PlanningMainActivity;
 import com.cookandroid.travelerapplication.recommend.PlaceScore;
 import com.cookandroid.travelerapplication.recommend.PlaceScoreAdapter;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
@@ -81,9 +80,6 @@ public class PlanningMain extends AppCompatActivity{
         recyclerView.setLayoutManager(layoutManager);
         travel_id = "0";
         courseArrayList = new ArrayList<>();
-
-        String city_name = "서울";
-
 
         findViewById(R.id.menuBtn).setOnClickListener(v -> {
             Intent intent = new Intent(this, LoginActivity.class);
@@ -340,6 +336,9 @@ public class PlanningMain extends AppCompatActivity{
                     layoutManager_recommend = new LinearLayoutManager(dialogView.getContext());
                     recyclerView_recommend.setLayoutManager(layoutManager_recommend);
 
+                    String city_name = spinner.getSelectedItem().toString().trim();
+                    TextView tv_city_name = dialogView.findViewById(R.id.city_name);
+                    tv_city_name.setText(city_name);
                     //추천리스트 불러오기
                     ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
                     Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
@@ -355,7 +354,7 @@ public class PlanningMain extends AppCompatActivity{
                         e.printStackTrace();
                     }
                     dialogView.findViewById(R.id.refreshButton).setOnClickListener(v1 -> {
-                        Refresh_recommend(dialogView.getContext(), "item", city_name);
+                        Refresh_recommend(dialogView.getContext(), "item", city_name, "");
 
                     });
                     //팝업닫기
@@ -384,9 +383,19 @@ public class PlanningMain extends AppCompatActivity{
                     layoutManager_recommend = new LinearLayoutManager(dialogView.getContext());
                     recyclerView_recommend.setLayoutManager(layoutManager_recommend);
 
+                    String city_name = spinner.getSelectedItem().toString().trim();
+                    String input_place_name;
+                    if (courseArrayList.size()-1 == -1){
+                        Toast.makeText(getApplicationContext(), "장소를 추가해주세요", Toast.LENGTH_SHORT).show();
+                        return;
+                    }else {
+                        input_place_name = courseArrayList.get(courseArrayList.size()-1).getPlace_name();
+                    }
+                    TextView tv_city_name = dialogView.findViewById(R.id.city_name);
+                    tv_city_name.setText(input_place_name);
                     ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
                     Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
-                    recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_place/", "place", user_id, city_name, "1", "서울숲공원");
+                    recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_place/", "place", user_id, city_name, "1", input_place_name);
                     try {
                         new Handler().postDelayed(() -> {
                             recyclerView_adapter_recommend = new PlaceScoreAdapter(arrayListPlaceScore, dialogView.getContext());
@@ -399,7 +408,7 @@ public class PlanningMain extends AppCompatActivity{
                         e.printStackTrace();
                     }
                     dialogView.findViewById(R.id.refreshButton).setOnClickListener(v1 -> {
-                        Refresh_recommend(dialogView.getContext(), "place", city_name);
+                        Refresh_recommend(dialogView.getContext(), "place", city_name, input_place_name);
 
                     });
                     //팝업닫기
@@ -409,6 +418,8 @@ public class PlanningMain extends AppCompatActivity{
                             dialog.dismiss();
                         }
                     });
+
+
                 }
             });
 
@@ -438,10 +449,14 @@ public class PlanningMain extends AppCompatActivity{
 
     }
 
-    private void Refresh_recommend(Context context, String recommend_type, String city_name){
+    private void Refresh_recommend(Context context, String recommend_type, String city_name, String input_place_name){
         ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
         Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
-        recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_item/", recommend_type, user_id, city_name, "1");
+        if (recommend_type == "item"){
+            recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_item/", recommend_type, user_id, city_name, "1");
+        } else if (recommend_type == "place") {
+            recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_place/", recommend_type, user_id, city_name, "1", input_place_name);
+        }
         try {
             new Handler().postDelayed(() -> {
                 recyclerView_adapter_recommend = new PlaceScoreAdapter(arrayListPlaceScore, context);

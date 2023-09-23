@@ -23,18 +23,16 @@
         android:id="@+id/title1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter"
         android:gravity="center"
         android:text="사용자 맞춤 장소 추천"
         android:textColor="#B9B9B9"
         android:textSize="13sp" />
 
     <TextView
-        android:id="@+id/title2"
+        android:id="@+id/city_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:fontFamily="@font/inter_bold"
         android:gravity="center"
         android:text="서울특별시"
         android:textColor="#4F5A80"
@@ -48,7 +46,6 @@
         android:layout_marginTop="19dp"
         android:layout_marginRight="19dp"
         android:background="@drawable/radius_ai_notice"
-        android:fontFamily="@font/inter"
         android:paddingLeft="13dp"
         android:paddingTop="4dp"
         android:paddingRight="13dp"
