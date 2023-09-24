@@ -396,7 +396,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                             Toast.makeText(this, "기존에 저장되어있던 place_id 불러오기 성공! place_id:"+place_id, Toast.LENGTH_SHORT).show();
                         }else {
                             InsertData_Place insertData_place = new InsertData_Place();
-                            insertData_place.execute("http://"+IP_ADDRESS+"/0503/InsertData_Place.php",category_code,category_name, city, location_point, place_name, province, total_rating);
+                            insertData_place.execute("http://"+IP_ADDRESS+"/0503/InsertData_Place.php",category_code,category_name, city, location_point, place_name, province, total_rating, address);
                             new Handler().postDelayed(() -> {
                                 String withdraw_result = insertData_place.getReturn_string();
                                 if (withdraw_result.equals("실패")) {
