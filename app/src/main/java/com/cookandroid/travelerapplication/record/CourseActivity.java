@@ -138,9 +138,6 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                 }
 
                 String place_category = category_name;
-                if (category_name.equals("")||category_name.isEmpty()){
-                    category_name = "-1";
-                }
                 InsertData_Review insertData_review = new InsertData_Review();
                 insertData_review.execute("http://"+IP_ADDRESS+"/0503/InsertData_Review.php"
                         ,created_date,detailed_review,rating, solo_friendly_rating,visit_times, place_id, user_id, place_category, address, place_name);

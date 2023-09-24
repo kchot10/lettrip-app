@@ -31,6 +31,10 @@ public class InsertData_Review extends AsyncTask<String,Void,String> { // 통신
         String address = (String)params[9];
         String place_name = (String)params[10];
 
+        if(place_category == "" || place_category.isEmpty()){
+            place_category = "-1";
+        }
+
 
         String postParameters ="created_date="+created_date+"&detailed_review="+detailed_review
                 +"&rating="+rating+"&solo_friendly_rating="+solo_friendly_rating

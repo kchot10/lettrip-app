@@ -22,10 +22,12 @@ public class UpdateData_Travel extends AsyncTask<String,Void,String> { // 통신
         String travel_id = (String)params[1];
         String number_of_courses = (String)params[2];
         String total_cost = (String)params[3];
+        String main_image_url = (String)params[4];
 
 
         String postParameters ="travel_id="+travel_id+"&number_of_courses="
-                +number_of_courses+"&total_cost="+total_cost;
+                +number_of_courses+"&total_cost="+total_cost
+                +"&main_image_url="+main_image_url;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.

@@ -326,6 +326,13 @@ public class RecordMain extends AppCompatActivity{
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String main_image_url;
+                try {
+                    main_image_url = courseArrayList.get(0).getStored_file_url();
+                }catch (Exception e){
+                    main_image_url = "-1";
+                }
+
                 // 예 버튼 클릭 시 동작
                 dialog.dismiss();
                 total_cost = 0; number_of_courses = 0;
@@ -335,7 +342,7 @@ public class RecordMain extends AppCompatActivity{
                 }
                 travel_id = fileHelper.readFromFile("travel_id");
                 UpdateData_Travel updateData_travel = new UpdateData_Travel();
-                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(total_cost));
+                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(total_cost), main_image_url);
                 finish();
             }
         });
