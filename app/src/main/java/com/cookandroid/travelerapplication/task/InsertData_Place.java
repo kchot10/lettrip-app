@@ -29,6 +29,11 @@ public class InsertData_Place extends AsyncTask<String,Void,String> { // 통신�
         String total_rating = (String)params[7];
         String address = (String)params[8];
 
+        if (category_code.isEmpty() || category_code == ""){
+            category_code = "-1";
+            category_name = "-1";
+        }
+
         // category_code,category_name, city, location_point, place_name, province, total_rating)
 
 

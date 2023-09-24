@@ -47,6 +47,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
 
     private static final int REQUEST_CODE_PERMISSION = 100;
     private static final int REQUEST_CODE_IMAGE = 200;
+    String place_name, address, category_name;
 
     ArrayList<ImageReview> arrayList_image_review;
     private S3Uploader s3Uploader;
@@ -136,9 +137,13 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
                     solo_friendly_rating = "1";
                 }
 
+                String place_category = category_name;
+                if (category_name.equals("")||category_name.isEmpty()){
+                    category_name = "-1";
+                }
                 InsertData_Review insertData_review = new InsertData_Review();
                 insertData_review.execute("http://"+IP_ADDRESS+"/0503/InsertData_Review.php"
-                        ,created_date,detailed_review,rating, solo_friendly_rating,visit_times, place_id, user_id);
+                        ,created_date,detailed_review,rating, solo_friendly_rating,visit_times, place_id, user_id, place_category, address, place_name);
                 new Handler().postDelayed(() -> {
                     String withdraw_result = insertData_review.getReturn_string();
                     if (withdraw_result.equals("실패")) {
@@ -367,14 +372,14 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
             result -> {
                 if (result.getResultCode() == RESULT_OK){
                     button_place_search.setText(result.getData().getStringExtra("name"));
-                    String place_name = result.getData().getStringExtra("name");
+                    place_name = result.getData().getStringExtra("name");
                     String road = result.getData().getStringExtra("road");
-                    String address = result.getData().getStringExtra("address");
+                    address = result.getData().getStringExtra("address");
                     String x = result.getData().getStringExtra("location_x");
                     String y = result.getData().getStringExtra("location_y");
                     String location_point = "POINT("+x+" "+y+")";
                     String category_code = result.getData().getStringExtra("category_group_code");
-                    String category_name = result.getData().getStringExtra("category_group_name");
+                    category_name = result.getData().getStringExtra("category_group_name");
                     String total_rating = Float.toString(edit_rating.getRating());
 
                     if (getIntent().getStringExtra("record/plan").equals("record")) {
