@@ -254,6 +254,8 @@ public class RecordMain extends AppCompatActivity{
 
             if (dateBtn_start.getText().toString().trim().equals("") || dateBtn_end.getText().toString().trim().equals("")){
                 Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
+            } else if (edittext_title.getText().toString().trim().equals("")) {
+                Toast.makeText(this, "제목을 입력하세요", Toast.LENGTH_SHORT).show();
             } else if (spinner.getSelectedItem().toString().trim().equals("도 선택") || spinner.getSelectedItem().toString().trim().equals("시 선택")) {
                 Toast.makeText(this,"도/시를 입력하세요",Toast.LENGTH_SHORT).show();
             }else if (spinner3.getSelectedItem().toString().trim().equals("테마 선택")) {

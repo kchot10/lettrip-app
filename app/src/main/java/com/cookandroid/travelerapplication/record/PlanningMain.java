@@ -33,6 +33,7 @@ import com.cookandroid.travelerapplication.recommend.PlaceScoreAdapter;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.Recommend_Place;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
+import com.cookandroid.travelerapplication.task.SelectData_Review_User;
 import com.cookandroid.travelerapplication.task.UpdateData_Travel;
 
 import java.text.ParseException;
@@ -48,6 +49,7 @@ public class PlanningMain extends AppCompatActivity{
     private EditText edittext_title;
     ArrayList<Course> courseArrayList;
     int total_cost = 0, number_of_courses = 0;
+    Boolean hasReview;
 
     Button dateBtn_start, dateBtn_end;
     Spinner spinner;
@@ -263,6 +265,8 @@ public class PlanningMain extends AppCompatActivity{
 
             if (dateBtn_start.getText().toString().trim().equals("") || dateBtn_end.getText().toString().trim().equals("")){
                 Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
+            } else if (edittext_title.getText().toString().trim().equals("")) {
+                Toast.makeText(this,"제목을 입력하세요",Toast.LENGTH_SHORT).show();
             } else if (spinner.getSelectedItem().toString().trim().equals("도 선택") || spinner.getSelectedItem().toString().trim().equals("시 선택")) {
                 Toast.makeText(this,"도/시를 입력하세요",Toast.LENGTH_SHORT).show();
             }else if (spinner3.getSelectedItem().toString().trim().equals("테마 선택")) {
@@ -297,6 +301,16 @@ public class PlanningMain extends AppCompatActivity{
             showConfirmationDialog();
         });
 
+        SelectData_Review_User selectData_review_user = new SelectData_Review_User();
+        selectData_review_user.execute("http://"+IP_ADDRESS+"/0601/selectData_review_user.php",user_id);
+        new Handler().postDelayed(() -> {
+            String withdraw_result = selectData_review_user.get_return_string();
+            if (withdraw_result.equals("성공")) {
+                hasReview = true;
+            } else if (withdraw_result.equals("실패")) {
+                hasReview = false;
+            }
+        }, 1000); // 0.5초 지연 시간
 
 
         findViewById(R.id.floatingActionButton).setOnClickListener(v -> {
@@ -331,6 +345,8 @@ public class PlanningMain extends AppCompatActivity{
                     startActivity(intent);
                 }
             });
+
+
             //리뷰기반추천
             TextView recommendingTextView = dialogView.findViewById(R.id.recordTextView);
             recommendingTextView.setOnClickListener(new View.OnClickListener() {
@@ -344,6 +360,11 @@ public class PlanningMain extends AppCompatActivity{
                     recyclerView_recommend.setHasFixedSize(true);
                     layoutManager_recommend = new LinearLayoutManager(dialogView.getContext());
                     recyclerView_recommend.setLayoutManager(layoutManager_recommend);
+
+                    if (hasReview == false){
+                        Toast.makeText(getApplicationContext(), "리뷰를 최소 1개 이상 작성하세요", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     String city_name = spinner.getSelectedItem().toString().trim();
                     TextView tv_city_name = dialogView.findViewById(R.id.city_name);
