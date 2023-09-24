@@ -20,6 +20,7 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.comment.CommentListActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.DeleteData_Travel;
+import com.cookandroid.travelerapplication.task.UpdateData_Place;
 
 import java.util.ArrayList;
 
@@ -87,6 +88,8 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
                         arrayList.remove(curpos);
                         notifyItemRemoved(curpos);
                         notifyItemRangeChanged(curpos, arrayList.size());
+                        UpdateData_Place updateData_place = new UpdateData_Place();
+                        updateData_place.execute("http://"+IP_ADDRESS+"/0601/UpdateData_PlaceAll.php", "All");
                     }
                 });
                 builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {

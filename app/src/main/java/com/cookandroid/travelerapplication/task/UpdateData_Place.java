@@ -21,8 +21,15 @@ public class UpdateData_Place extends AsyncTask<String,Void,String> { // 통신�
         String serverURL = (String) params[0];
         String place_id = (String)params[1];
 
+        String postParameters;
 
-        String postParameters ="place_id="+place_id;
+        if (place_id == "All"){
+            postParameters ="";
+        }else {
+            postParameters ="place_id="+place_id;
+        }
+
+
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
