@@ -142,18 +142,27 @@ public class SearchActivity extends AppCompatActivity {
                         setCitySpinnerAdapterItem(R.array.경기도);
                         break;
                     case 10:
-                        setCitySpinnerAdapterItem(R.array.경상도);
+                        setCitySpinnerAdapterItem(R.array.경상북도);
                         break;
                     case 11:
-                        setCitySpinnerAdapterItem(R.array.전라도);
+                        setCitySpinnerAdapterItem(R.array.경상남도);
                         break;
                     case 12:
-                        setCitySpinnerAdapterItem(R.array.충청도);
+                        setCitySpinnerAdapterItem(R.array.전라북도);
                         break;
                     case 13:
-                        setCitySpinnerAdapterItem(R.array.제주특별자치도);
+                        setCitySpinnerAdapterItem(R.array.전라남도);
                         break;
                     case 14:
+                        setCitySpinnerAdapterItem(R.array.충청북도);
+                        break;
+                    case 15:
+                        setCitySpinnerAdapterItem(R.array.충청남도);
+                        break;
+                    case 16:
+                        setCitySpinnerAdapterItem(R.array.제주특별자치도);
+                        break;
+                    case 17:
                         setCitySpinnerAdapterItem(R.array.세종특별자치시);
                         break;
                     // 다른 case문들을 추가하여 필요한 도시 목록을 처리합니다.
