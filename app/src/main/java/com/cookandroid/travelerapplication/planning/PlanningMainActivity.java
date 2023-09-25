@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +79,7 @@ public class PlanningMainActivity extends AppCompatActivity {
             window.setAttributes(params);
 
             // 팝업 창 내부의 뷰들에 접근하여 처리
+            //일반 장소추가
             TextView placeAddTextView = dialogView.findViewById(R.id.planTextView);
             placeAddTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -176,6 +178,7 @@ public class PlanningMainActivity extends AppCompatActivity {
         });
 
 
+
         //-------------서비스 버튼 클릭 리스너들
         findViewById(R.id.searchBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,6 +263,9 @@ public class PlanningMainActivity extends AppCompatActivity {
         });
     }
 
+
+    //-------------------------------------------
+
     private void Refresh(Context context, String recommend_type){
         ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
         Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
@@ -273,6 +279,7 @@ public class PlanningMainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     // dp 값을 px로 변환하는 함수
     public int dpToPx(int dp) {

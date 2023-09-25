@@ -1,16 +1,19 @@
 package com.cookandroid.travelerapplication.recommend;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.record.CourseActivity;
 
 import java.util.ArrayList;
 
@@ -35,6 +38,7 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
         if(viewType == VIEW_TYPE_SPECIAL){
             View view = inflater.inflate(R.layout.item_planning_recommend_item_special, parent, false);
             PlaceScoreViewHolder holder = new PlaceScoreViewHolder(view);
+
             return holder;
         } else{
             View view = inflater.inflate(R.layout.item_planning_recommend_item, parent, false);
@@ -64,12 +68,21 @@ public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.Pl
     }
 
     public class PlaceScoreViewHolder extends RecyclerView.ViewHolder {
-        TextView placeName, place_score,place_address;
+        TextView placeName, place_score,place_address; LinearLayout linearLayout;
         public PlaceScoreViewHolder(@NonNull View itemView) {
             super(itemView);
             placeName = itemView.findViewById(R.id.textView_recommend_placeName);
             place_score = itemView.findViewById(R.id.textView_recommend_score);
             place_address = itemView.findViewById(R.id.textView_recommend_address);
+            linearLayout = itemView.findViewById(R.id.LinearLayout);
+
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(itemView.getContext(), CourseActivity.class);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
