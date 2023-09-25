@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,11 +86,13 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
                         int curpos = getAbsoluteAdapterPosition();
                         DeleteData_Travel deleteData_travel = new DeleteData_Travel();
                         deleteData_travel.execute("http://" + IP_ADDRESS + "/0411/deletedata_travel.php", arrayList.get(curpos).getTravel_id());
-                        arrayList.remove(curpos);
-                        notifyItemRemoved(curpos);
-                        notifyItemRangeChanged(curpos, arrayList.size());
-                        UpdateData_Place updateData_place = new UpdateData_Place();
-                        updateData_place.execute("http://"+IP_ADDRESS+"/0601/UpdateData_PlaceAll.php", "All");
+                        new Handler().postDelayed(() -> {
+                            arrayList.remove(curpos);
+                            notifyItemRemoved(curpos);
+                            notifyItemRangeChanged(curpos, arrayList.size());
+                            UpdateData_Place updateData_place = new UpdateData_Place();
+                            updateData_place.execute("http://"+IP_ADDRESS+"/0601/UpdateData_PlaceAll.php", "All");
+                        }, 200);
                     }
                 });
                 builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {

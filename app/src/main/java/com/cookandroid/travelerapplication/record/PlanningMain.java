@@ -7,8 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -29,7 +32,6 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.recommend.PlaceScore;
-import com.cookandroid.travelerapplication.recommend.PlaceScoreAdapter;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.Recommend_Place;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
@@ -88,7 +90,6 @@ public class PlanningMain extends AppCompatActivity{
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
-
 
         //도시 선택
         adapter = ArrayAdapter.createFromResource(this, R.array.my_array_state, R.layout.spinner_layout);
@@ -506,6 +507,12 @@ public class PlanningMain extends AppCompatActivity{
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String main_image_url;
+                try {
+                    main_image_url = courseArrayList.get(0).getStored_file_url();
+                }catch (Exception e){
+                    main_image_url = "-1";
+                }
                 // 예 버튼 클릭 시 동작
                 dialog.dismiss();
                 total_cost = 0; number_of_courses = 0;
@@ -515,7 +522,7 @@ public class PlanningMain extends AppCompatActivity{
                 }
                 travel_id = fileHelper.readFromFile("travel_id");
                 UpdateData_Travel updateData_travel = new UpdateData_Travel();
-                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(total_cost));
+                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(total_cost), main_image_url);
                 finish();
             }
         });
@@ -639,6 +646,78 @@ public class PlanningMain extends AppCompatActivity{
                 dayOfWeekString = "";
         }
         return dayOfWeekString;
+    }
+
+    public class PlaceScoreAdapter extends RecyclerView.Adapter<PlaceScoreAdapter.PlaceScoreViewHolder> {
+        private ArrayList<PlaceScore> arrayList;
+        private Context context;
+
+        //아이템 뷰타입 설정
+        private static final int VIEW_TYPE_SPECIAL = 0;
+        private static final int VIEW_TYPE_NORMAL = 1;
+
+        public PlaceScoreAdapter(ArrayList<PlaceScore> arrayList, Context context) {
+            this.arrayList = arrayList;
+            this.context = context;
+        }
+
+
+        @NonNull
+        @Override
+        public PlaceScoreViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            if(viewType == VIEW_TYPE_SPECIAL){
+                View view = inflater.inflate(R.layout.item_planning_recommend_item_special, parent, false);
+                PlaceScoreViewHolder holder = new PlaceScoreViewHolder(view);
+                return holder;
+            } else{
+                View view = inflater.inflate(R.layout.item_planning_recommend_item, parent, false);
+                PlaceScoreViewHolder holder = new PlaceScoreViewHolder(view);
+                return holder;
+            }
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull PlaceScoreViewHolder holder, int position) {
+            holder.placeName.setText(arrayList.get(position).getPlaceName());
+            holder.place_score.setText(arrayList.get(position).getScore());
+            holder.place_address.setText(arrayList.get(position).getAddress());
+        }
+
+        @Override
+        public int getItemCount() {
+            return (arrayList != null ? arrayList.size() : 0);
+        }
+
+        public class PlaceScoreViewHolder extends RecyclerView.ViewHolder {
+            TextView placeName, place_score,place_address;
+            public PlaceScoreViewHolder(@NonNull View itemView) {
+                super(itemView);
+                placeName = itemView.findViewById(R.id.textView_recommend_placeName);
+                place_score = itemView.findViewById(R.id.textView_recommend_score);
+                place_address = itemView.findViewById(R.id.textView_recommend_address);
+
+                itemView.setOnClickListener(v -> {
+                    int curpos = getAbsoluteAdapterPosition();
+                    Intent intent;
+                    intent = new Intent(context, CourseActivity.class);
+                    intent.putExtra("record/plan", "plan");
+                    intent.putExtra("place_address_and_placeName", arrayList.get(curpos).getAddress()+", "+arrayList.get(curpos).getPlaceName());
+                    intent.putExtra("total_day_count", subtractDates(dateBtn_end.getText().toString(), dateBtn_start.getText().toString())+1);
+                    intent.putExtra("province", spinner.getSelectedItem().toString().trim());
+                    intent.putExtra("city", spinner2.getSelectedItem().toString().trim());
+                    intent.putExtra("depart_date", dateBtn_start.getText().toString().trim());
+                    intent.putExtra("record/plan", getIntent().getStringExtra("record/plan"));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent);
+                });
+            }
+        }
+
+        @Override
+        public int getItemViewType(int position){
+            return (position == 0) ? VIEW_TYPE_SPECIAL : VIEW_TYPE_NORMAL;
+        }
     }
 
 }

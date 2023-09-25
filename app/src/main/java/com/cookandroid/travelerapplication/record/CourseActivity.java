@@ -63,6 +63,7 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
 
 
     Button button_place_search;
+    String place_address_and_placeName;
 
     EditText editText_detailed_review;
     RatingBar edit_rating;
@@ -90,8 +91,6 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
             Button button = findViewById(R.id.button_add_review);
             button.setText("등록");
         }
-
-
 
         recyclerView = findViewById(R.id.RecyclerView_placePhoto);
         recyclerView.setHasFixedSize(true);
@@ -297,10 +296,28 @@ public class CourseActivity extends AppCompatActivity implements S3Uploader.OnUp
 
         findViewById(R.id.button_place_search).setOnClickListener(v -> {
             Intent intent = new Intent(this, KotlinActivity.class);
+            try {
+                if (!place_address_and_placeName.isEmpty() || place_address_and_placeName != ""){
+                    intent.putExtra("place_address_and_placeName", place_address_and_placeName);
+                }
+            }catch (Exception e){
+                Log.e("Error", "place_address_and_placeName is empty");
+            }
             getKotlinActivityResult.launch(intent);
         });
 
         requestPermissions();
+
+        new Handler().postDelayed(()-> {
+            try {
+                if (!getIntent().getStringExtra("place_address_and_placeName").isEmpty() || !getIntent().getStringExtra("place_address_and_placeName").equals("")){
+                    place_address_and_placeName = getIntent().getStringExtra("place_address_and_placeName");
+                    button_place_search.performClick();
+                }
+            }catch (Exception e){
+                Log.e("Error", "place_address_and_placeName is empty");
+            }
+        }, 500);
     }
 
 
