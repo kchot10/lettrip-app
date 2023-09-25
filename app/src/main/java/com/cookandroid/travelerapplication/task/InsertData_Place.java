@@ -27,13 +27,19 @@ public class InsertData_Place extends AsyncTask<String,Void,String> { // 통신�
         String place_name = (String)params[5];
         String province = (String)params[6];
         String total_rating = (String)params[7];
+        String address = (String)params[8];
+
+        if (category_code.isEmpty() || category_code == ""){
+            category_code = "-1";
+            category_name = "-1";
+        }
 
         // category_code,category_name, city, location_point, place_name, province, total_rating)
 
 
         String postParameters ="category_code="+category_code+"&category_name="+category_name
                 +"&city="+city+"&location_point="+location_point
-                +"&place_name="+place_name+"&province="+province+"&total_rating="+total_rating;
+                +"&place_name="+place_name+"&province="+province+"&total_rating="+total_rating+"&address="+address;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.

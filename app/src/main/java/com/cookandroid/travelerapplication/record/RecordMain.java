@@ -131,18 +131,27 @@ public class RecordMain extends AppCompatActivity{
                         setCitySpinnerAdapterItem(R.array.경기도);
                         break;
                     case 10:
-                        setCitySpinnerAdapterItem(R.array.경상도);
+                        setCitySpinnerAdapterItem(R.array.경상북도);
                         break;
                     case 11:
-                        setCitySpinnerAdapterItem(R.array.전라도);
+                        setCitySpinnerAdapterItem(R.array.경상남도);
                         break;
                     case 12:
-                        setCitySpinnerAdapterItem(R.array.충청도);
+                        setCitySpinnerAdapterItem(R.array.전라북도);
                         break;
                     case 13:
-                        setCitySpinnerAdapterItem(R.array.제주특별자치도);
+                        setCitySpinnerAdapterItem(R.array.전라남도);
                         break;
                     case 14:
+                        setCitySpinnerAdapterItem(R.array.충청북도);
+                        break;
+                    case 15:
+                        setCitySpinnerAdapterItem(R.array.충청남도);
+                        break;
+                    case 16:
+                        setCitySpinnerAdapterItem(R.array.제주특별자치도);
+                        break;
+                    case 17:
                         setCitySpinnerAdapterItem(R.array.세종특별자치시);
                         break;
                     // 다른 case문들을 추가하여 필요한 도시 목록을 처리합니다.
@@ -245,6 +254,8 @@ public class RecordMain extends AppCompatActivity{
 
             if (dateBtn_start.getText().toString().trim().equals("") || dateBtn_end.getText().toString().trim().equals("")){
                 Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
+            } else if (edittext_title.getText().toString().trim().equals("")) {
+                Toast.makeText(this, "제목을 입력하세요", Toast.LENGTH_SHORT).show();
             } else if (spinner.getSelectedItem().toString().trim().equals("도 선택") || spinner.getSelectedItem().toString().trim().equals("시 선택")) {
                 Toast.makeText(this,"도/시를 입력하세요",Toast.LENGTH_SHORT).show();
             }else if (spinner3.getSelectedItem().toString().trim().equals("테마 선택")) {
@@ -317,6 +328,13 @@ public class RecordMain extends AppCompatActivity{
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String main_image_url;
+                try {
+                    main_image_url = courseArrayList.get(0).getStored_file_url();
+                }catch (Exception e){
+                    main_image_url = "-1";
+                }
+
                 // 예 버튼 클릭 시 동작
                 dialog.dismiss();
                 total_cost = 0; number_of_courses = 0;
@@ -326,7 +344,7 @@ public class RecordMain extends AppCompatActivity{
                 }
                 travel_id = fileHelper.readFromFile("travel_id");
                 UpdateData_Travel updateData_travel = new UpdateData_Travel();
-                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(total_cost));
+                updateData_travel.execute("http://"+IP_ADDRESS+"/0503/updatedata_travel.php", travel_id, Integer.toString(number_of_courses) , Integer.toString(total_cost), main_image_url);
                 finish();
             }
         });

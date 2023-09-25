@@ -27,12 +27,20 @@ public class InsertData_Review extends AsyncTask<String,Void,String> { // 통신
         String visit_times = (String)params[5];
         String place_id = (String)params[6];
         String user_id = (String)params[7];
+        String place_category = (String)params[8];
+        String address = (String)params[9];
+        String place_name = (String)params[10];
+
+        if(place_category == "" || place_category.isEmpty()){
+            place_category = "-1";
+        }
 
 
         String postParameters ="created_date="+created_date+"&detailed_review="+detailed_review
                 +"&rating="+rating+"&solo_friendly_rating="+solo_friendly_rating
                 +"&visit_times="+visit_times+"&place_id="+place_id
-                +"&user_id="+user_id;
+                +"&user_id="+user_id+"&place_category="+place_category
+                +"&address="+address+"&place_name="+place_name;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.

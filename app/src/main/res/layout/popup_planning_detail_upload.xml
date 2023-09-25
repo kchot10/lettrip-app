@@ -23,7 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:fontFamily="@font/inter"
         android:gravity="center"
         android:text="장소 등록"
         android:textColor="#B9B9B9"
@@ -34,7 +33,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
-        android:fontFamily="@font/inter_bold"
         android:gravity="center"
         android:text="서울숲"
         android:textColor="#4F5A80"
@@ -51,7 +49,6 @@
             android:id="@+id/visitTimeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter"
             android:text="예상도착시간"
             android:textSize="13sp" />
 
@@ -99,7 +96,6 @@
         android:layout_marginTop="49dp"
         android:layout_marginBottom="34dp"
         android:background="@drawable/planning_detail_save_btn"
-        android:fontFamily="@font/inter"
         android:text="등록"
         android:textColor="#FFFFFF"
         android:textSize="12sp" />

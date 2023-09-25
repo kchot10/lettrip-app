@@ -138,7 +138,7 @@ public class SelectData_Article2 extends AsyncTask<String,Void,String> { // í†µì
             String modified_date = jsonObject.getString("modified_date");
             String content = jsonObject.getString("content");
             String hit = jsonObject.getString("hit");
-            String like_count = jsonObject.getString("like_count");
+            String like_count = jsonObject.getString("liked_count");
             String title = jsonObject.getString("title");
             String user_id = jsonObject.getString("user_id");
             String name = jsonObject.getString("name");

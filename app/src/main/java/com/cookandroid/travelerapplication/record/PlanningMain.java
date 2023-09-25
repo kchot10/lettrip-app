@@ -2,11 +2,15 @@ package com.cookandroid.travelerapplication.record;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,8 +28,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.recommend.PlaceScore;
+import com.cookandroid.travelerapplication.recommend.PlaceScoreAdapter;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
+import com.cookandroid.travelerapplication.task.Recommend_Place;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
+import com.cookandroid.travelerapplication.task.SelectData_Review_User;
 import com.cookandroid.travelerapplication.task.UpdateData_Travel;
 
 import java.text.ParseException;
@@ -41,6 +49,7 @@ public class PlanningMain extends AppCompatActivity{
     private EditText edittext_title;
     ArrayList<Course> courseArrayList;
     int total_cost = 0, number_of_courses = 0;
+    Boolean hasReview;
 
     Button dateBtn_start, dateBtn_end;
     Spinner spinner;
@@ -53,6 +62,9 @@ public class PlanningMain extends AppCompatActivity{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerView_adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView recyclerView_recommend;
+    private RecyclerView.Adapter recyclerView_adapter_recommend;
+    private RecyclerView.LayoutManager layoutManager_recommend;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +82,6 @@ public class PlanningMain extends AppCompatActivity{
         recyclerView.setLayoutManager(layoutManager);
         travel_id = "0";
         courseArrayList = new ArrayList<>();
-
 
         findViewById(R.id.menuBtn).setOnClickListener(v -> {
             Intent intent = new Intent(this, LoginActivity.class);
@@ -93,7 +104,7 @@ public class PlanningMain extends AppCompatActivity{
 
         TextView recordTitle = findViewById(R.id.recordTitle);
         if (getIntent().getStringExtra("record/plan").equals("plan")) {
-            recordTitle.setText("코스 계획하기");
+            recordTitle.setText("여행 계획하기");
         }
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
@@ -131,18 +142,27 @@ public class PlanningMain extends AppCompatActivity{
                         setCitySpinnerAdapterItem(R.array.경기도);
                         break;
                     case 10:
-                        setCitySpinnerAdapterItem(R.array.경상도);
+                        setCitySpinnerAdapterItem(R.array.경상북도);
                         break;
                     case 11:
-                        setCitySpinnerAdapterItem(R.array.전라도);
+                        setCitySpinnerAdapterItem(R.array.경상남도);
                         break;
                     case 12:
-                        setCitySpinnerAdapterItem(R.array.충청도);
+                        setCitySpinnerAdapterItem(R.array.전라북도);
                         break;
                     case 13:
-                        setCitySpinnerAdapterItem(R.array.제주특별자치도);
+                        setCitySpinnerAdapterItem(R.array.전라남도);
                         break;
                     case 14:
+                        setCitySpinnerAdapterItem(R.array.충청북도);
+                        break;
+                    case 15:
+                        setCitySpinnerAdapterItem(R.array.충청남도);
+                        break;
+                    case 16:
+                        setCitySpinnerAdapterItem(R.array.제주특별자치도);
+                        break;
+                    case 17:
                         setCitySpinnerAdapterItem(R.array.세종특별자치시);
                         break;
                     // 다른 case문들을 추가하여 필요한 도시 목록을 처리합니다.
@@ -245,6 +265,8 @@ public class PlanningMain extends AppCompatActivity{
 
             if (dateBtn_start.getText().toString().trim().equals("") || dateBtn_end.getText().toString().trim().equals("")){
                 Toast.makeText(this,"시작 날짜 또는 마지막 날짜를 입력하세요",Toast.LENGTH_SHORT).show();
+            } else if (edittext_title.getText().toString().trim().equals("")) {
+                Toast.makeText(this,"제목을 입력하세요",Toast.LENGTH_SHORT).show();
             } else if (spinner.getSelectedItem().toString().trim().equals("도 선택") || spinner.getSelectedItem().toString().trim().equals("시 선택")) {
                 Toast.makeText(this,"도/시를 입력하세요",Toast.LENGTH_SHORT).show();
             }else if (spinner3.getSelectedItem().toString().trim().equals("테마 선택")) {
@@ -260,11 +282,13 @@ public class PlanningMain extends AppCompatActivity{
                 Toast.makeText(this,"오늘 이전의 계획을 할 수 없습니다. 날짜를 다시 입력하세요",Toast.LENGTH_SHORT).show();
                 dateBtn_start.setText("");
             } else {
-                findViewById(R.id.addPlaceBtn).setVisibility(View.VISIBLE);
+                findViewById(R.id.floatingActionButton).setVisibility(View.VISIBLE);
                 button_travel_upload.setVisibility(View.INVISIBLE);
+
                 edittext_title.setEnabled(false);
                 spinner.setEnabled(false);
                 spinner2.setEnabled(false);
+                spinner3.setEnabled(false);
                 dateBtn_end.setEnabled(false);
                 dateBtn_start.setEnabled(false);
                 button_travel_upload.setVisibility(View.INVISIBLE);
@@ -277,16 +301,162 @@ public class PlanningMain extends AppCompatActivity{
             showConfirmationDialog();
         });
 
-        findViewById(R.id.addPlaceBtn).setOnClickListener(v -> {
-            Intent intent = new Intent(this, CourseActivity.class);
-            intent.putExtra("total_day_count", subtractDates(dateBtn_end.getText().toString(), dateBtn_start.getText().toString())+1);
-            intent.putExtra("province", spinner.getSelectedItem().toString().trim());
-            intent.putExtra("city", spinner2.getSelectedItem().toString().trim());
-            intent.putExtra("depart_date", dateBtn_start.getText().toString().trim());
-            intent.putExtra("record/plan", getIntent().getStringExtra("record/plan"));
-            startActivity(intent);
+        SelectData_Review_User selectData_review_user = new SelectData_Review_User();
+        selectData_review_user.execute("http://"+IP_ADDRESS+"/0601/selectData_review_user.php",user_id);
+        new Handler().postDelayed(() -> {
+            String withdraw_result = selectData_review_user.get_return_string();
+            if (withdraw_result.equals("성공")) {
+                hasReview = true;
+            } else if (withdraw_result.equals("실패")) {
+                hasReview = false;
+            }
+        }, 1000); // 0.5초 지연 시간
 
+
+        findViewById(R.id.floatingActionButton).setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(PlanningMain.this);
+            View dialogView = getLayoutInflater().inflate(R.layout.popup_planning_input, null);
+            builder.setView(dialogView);
+
+            // 다이얼로그 생성
+            AlertDialog dialog = builder.create();
+
+            // 다이얼로그의 위치 설정 (오른쪽 아래 마진)
+            Window window = dialog.getWindow();
+            window.setGravity(Gravity.BOTTOM | Gravity.END);
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.y = 230; // 아래 마진
+            params.width = Math.round(185 * getResources().getDisplayMetrics().density);
+
+            params.horizontalWeight = 0;
+            window.setAttributes(params);
+
+            // 팝업 창 내부의 뷰들에 접근하여 처리
+            TextView placeAddTextView = dialogView.findViewById(R.id.addPlaceBtn);
+            placeAddTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), CourseActivity.class);
+                    intent.putExtra("total_day_count", subtractDates(dateBtn_end.getText().toString(), dateBtn_start.getText().toString())+1);
+                    intent.putExtra("province", spinner.getSelectedItem().toString().trim());
+                    intent.putExtra("city", spinner2.getSelectedItem().toString().trim());
+                    intent.putExtra("depart_date", dateBtn_start.getText().toString().trim());
+                    intent.putExtra("record/plan", getIntent().getStringExtra("record/plan"));
+                    startActivity(intent);
+                }
+            });
+
+
+            //리뷰기반추천
+            TextView recommendingTextView = dialogView.findViewById(R.id.recordTextView);
+            recommendingTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PlanningMain.this);
+                    View dialogView = getLayoutInflater().inflate(R.layout.popup_planning_recommending_item, null);
+                    builder.setView(dialogView);
+
+                    recyclerView_recommend = dialogView.findViewById(R.id.recommendRecyclerView);
+                    recyclerView_recommend.setHasFixedSize(true);
+                    layoutManager_recommend = new LinearLayoutManager(dialogView.getContext());
+                    recyclerView_recommend.setLayoutManager(layoutManager_recommend);
+
+                    if (hasReview == false){
+                        Toast.makeText(getApplicationContext(), "리뷰를 최소 1개 이상 작성하세요", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String city_name = spinner.getSelectedItem().toString().trim();
+                    TextView tv_city_name = dialogView.findViewById(R.id.city_name);
+                    tv_city_name.setText(city_name);
+                    //추천리스트 불러오기
+                    ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
+                    Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
+                    recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_item/", "item", user_id, city_name, "1");
+                    try {
+                        new Handler().postDelayed(() -> {
+                            recyclerView_adapter_recommend = new PlaceScoreAdapter(arrayListPlaceScore, dialogView.getContext());
+                            recyclerView_recommend.setAdapter(recyclerView_adapter_recommend);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }, 4000); // 0.5초 지연 시간
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    dialogView.findViewById(R.id.refreshButton).setOnClickListener(v1 -> {
+                        Refresh_recommend(dialogView.getContext(), "item", city_name, "");
+
+                    });
+                    //팝업닫기
+                    dialogView.findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+
+
+                }
+            });
+
+            //장소기반추천
+            TextView recommendingTextView2 = dialogView.findViewById(R.id.recommendingTextView2);
+            recommendingTextView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PlanningMain.this);
+                    View dialogView = getLayoutInflater().inflate(R.layout.popup_planning_recommending_place, null);
+                    builder.setView(dialogView);
+
+                    recyclerView_recommend = dialogView.findViewById(R.id.recommendRecyclerView);
+                    recyclerView_recommend.setHasFixedSize(true);
+                    layoutManager_recommend = new LinearLayoutManager(dialogView.getContext());
+                    recyclerView_recommend.setLayoutManager(layoutManager_recommend);
+
+                    String city_name = spinner.getSelectedItem().toString().trim();
+                    String input_place_name;
+                    if (courseArrayList.size()-1 == -1){
+                        Toast.makeText(getApplicationContext(), "장소를 추가해주세요", Toast.LENGTH_SHORT).show();
+                        return;
+                    }else {
+                        input_place_name = courseArrayList.get(courseArrayList.size()-1).getPlace_name();
+                    }
+                    TextView tv_city_name = dialogView.findViewById(R.id.city_name);
+                    tv_city_name.setText(input_place_name);
+                    ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
+                    Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
+                    recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_place/", "place", user_id, city_name, "1", input_place_name);
+                    try {
+                        new Handler().postDelayed(() -> {
+                            recyclerView_adapter_recommend = new PlaceScoreAdapter(arrayListPlaceScore, dialogView.getContext());
+                            recyclerView_recommend.setAdapter(recyclerView_adapter_recommend);
+                            recyclerView_recommend.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }, 3000); // 0.5초 지연 시간
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    dialogView.findViewById(R.id.refreshButton).setOnClickListener(v1 -> {
+                        Refresh_recommend(dialogView.getContext(), "place", city_name, input_place_name);
+
+                    });
+                    //팝업닫기
+                    dialogView.findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+
+
+                }
+            });
+
+            dialog.show();
         });
+
+
 
 
     }
@@ -308,6 +478,25 @@ public class PlanningMain extends AppCompatActivity{
         }
 
     }
+
+    private void Refresh_recommend(Context context, String recommend_type, String city_name, String input_place_name){
+        ArrayList<PlaceScore> arrayListPlaceScore = new ArrayList<>();
+        Recommend_Place recommend_place = new Recommend_Place(arrayListPlaceScore);
+        if (recommend_type == "item"){
+            recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_item/", recommend_type, user_id, city_name, "1");
+        } else if (recommend_type == "place") {
+            recommend_place.execute("http://"+IP_ADDRESS+":5001/recommend_request_place/", recommend_type, user_id, city_name, "1", input_place_name);
+        }
+        try {
+            new Handler().postDelayed(() -> {
+                recyclerView_adapter_recommend = new PlaceScoreAdapter(arrayListPlaceScore, context);
+                recyclerView_recommend.setAdapter(recyclerView_adapter_recommend);
+            }, 3000); // 0.5초 지연 시간
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     private void showConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
