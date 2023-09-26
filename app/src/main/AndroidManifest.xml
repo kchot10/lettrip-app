@@ -31,21 +31,6 @@
         <activity android:name=".record.PlanningMain"
             android:exported="true">
         </activity>
-        <activity android:name=".planning.PlanningMainActivity"
-            android:exported="true" >
-           <intent-filter>
-               <action android:name="android.intent.action.MAIN" />-->
-               <category android:name="android.intent.category.LAUNCHER" />-->
-           </intent-filter>
-        </activity>
-        <activity
-            android:name=".recommend.RecommendPlaceActivity"
-            android:exported="true" >
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
-        </activity>
         <activity
             android:name=".mission.MyMissionHistoryActivity"
             android:exported="false" />

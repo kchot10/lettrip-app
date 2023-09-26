@@ -33,6 +33,7 @@ class KotlinActivity : AppCompatActivity() {
     private val listAdapter = ListAdapter(listItems)    // 리사이클러 뷰 어댑터
     private var pageNumber = 1      // 검색 페이지 번호
     private var keyword = ""        // 검색 키워드
+    private var place_address_and_placeName = ""
 
     private lateinit var mapView: MapView
     private lateinit var rvList: RecyclerView
@@ -109,6 +110,16 @@ class KotlinActivity : AppCompatActivity() {
             pageNumber++
             tvPageNumber.text = pageNumber.toString()
             searchKeyword(keyword, pageNumber)
+        }
+
+        try {
+            if (!intent.getStringExtra("place_address_and_placeName").isNullOrEmpty()){
+                place_address_and_placeName = intent.getStringExtra("place_address_and_placeName").toString();
+                etSearchField.setText(place_address_and_placeName);
+                btnSearch.performClick();
+            }
+        }catch(e: Exception){
+            Log.e("Error", "place_address_and_placeName is empty 2");
         }
     }
 
