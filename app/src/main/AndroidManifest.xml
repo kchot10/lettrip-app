@@ -28,9 +28,18 @@
         android:theme="@style/Theme.TravelerApplication"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity android:name=".record.PlanningMain"
-            android:exported="true">
+        <activity
+            android:name=".mongo.MongoActivity"
+            android:exported="true" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
+        <activity
+            android:name=".record.PlanningMain"
+            android:exported="true"></activity>
         <activity
             android:name=".mission.MyMissionHistoryActivity"
             android:exported="false" />
@@ -42,8 +51,7 @@
             android:exported="false" />
         <activity
             android:name=".kotlin.KotlinActivity2"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".mission.MissionQRActivity2"
             android:exported="false" />
@@ -67,8 +75,8 @@
             android:exported="false" />
         <activity
             android:name=".search.SearchActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
+
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
@@ -76,12 +84,10 @@
         <activity
             android:name=".record.CourseActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustUnspecified|adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustUnspecified|adjustPan"></activity>
         <activity
             android:name=".kotlin.KotlinActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".comment.CommentListActivity"
             android:exported="true" />
@@ -93,8 +99,7 @@
             android:exported="true" />
         <activity
             android:name=".main.MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".account.SignUpActivity"
             android:exported="true">
@@ -113,8 +118,7 @@
         </activity>
         <activity
             android:name=".record.RecordMain"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
