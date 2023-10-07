@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.recommend.PlaceScore;
-import com.cookandroid.travelerapplication.recommend.PlaceScoreAdapter;
 import com.cookandroid.travelerapplication.task.Recommend_Place;
 
 import java.util.ArrayList;
