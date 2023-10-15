@@ -29,17 +29,32 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".mongo.MongoActivity"
-            android:exported="true" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:name=".chat.ChatRoomActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".chat.EntranceActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".mongo.MongoActivity"
+            android:exported="true">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".record.PlanningMain"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".mission.MyMissionHistoryActivity"
             android:exported="false" />
@@ -51,7 +66,7 @@
             android:exported="false" />
         <activity
             android:name=".kotlin.KotlinActivity2"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".mission.MissionQRActivity2"
             android:exported="false" />
@@ -75,7 +90,7 @@
             android:exported="false" />
         <activity
             android:name=".search.SearchActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
@@ -84,10 +99,10 @@
         <activity
             android:name=".record.CourseActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustUnspecified|adjustPan"></activity>
+            android:windowSoftInputMode="adjustUnspecified|adjustPan" />
         <activity
             android:name=".kotlin.KotlinActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".comment.CommentListActivity"
             android:exported="true" />
@@ -99,7 +114,7 @@
             android:exported="true" />
         <activity
             android:name=".main.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".account.SignUpActivity"
             android:exported="true">
@@ -118,7 +133,7 @@
         </activity>
         <activity
             android:name=".record.RecordMain"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

@@ -5,6 +5,12 @@
     <string name="naver_client_secret">DwmFlqg0t5</string>
     <string name="naver_client_name">Lettrip</string>
 
+    <string name="nameHint">Nick Name</string>
+    <string name="chatRoomHint">Name of the chat room</string>
+    <string name="start">S T A R T</string>
+    <string name="emptyMessage">Nickname and Room Name should be filled!</string>
+    <string name="send">Send message ....</string>
+
     _spinner
     <string-array name="array_article_type">
         <item>자유 게시판</item>
