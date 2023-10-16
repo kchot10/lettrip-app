@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -15,11 +16,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cookandroid.travelerapplication.R
 import com.cookandroid.travelerapplication.chat.model.MessageType
-import com.cookandroid.travelerapplication.comment.CommentListActivity
 import com.cookandroid.travelerapplication.databinding.ActivityChatroomBinding
 import com.cookandroid.travelerapplication.helper.FileHelper
 import com.cookandroid.travelerapplication.helper.S3Uploader
 import com.cookandroid.travelerapplication.task.InsertData_Chat
+import com.cookandroid.travelerapplication.task.InsertData_ChatRoom
 import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -45,6 +46,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     lateinit var roomName: String
     lateinit var IP_ADDRESS: String
     lateinit var user_id: String
+    lateinit var room_id: String
 
     val gson: Gson = Gson()
 
@@ -64,14 +66,37 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
         IP_ADDRESS = "3.34.98.95"
 
+        // Todo: 만남글 중에 만남글 작성자의 id와 나의 id가 일치한 채팅방을 찾아보고 없으면 새로 만들기 (일단 if else가 있고 새로운 채팅을 할때라 생각. 아래는 채팅방 만들기)
+        val meet_up_post_id = "1" // Todo: 만남글 업데이트 후 고치기 (만남글 만들면 자동 생성될듯)
+        val meet_up_id = "1" // Todo: 만남글 업데이트 후 고치기 (만남글을 보고 수락을 누르면 생성될듯)
+        val write_user_id = "1" // Todo: 만남글 업데이트 후 고치기 (만남글 만들 때 생성될듯)
+        val request_user_id = user_id;
+        val last_message = "" // 채팅을 처음하는 거니까 당연 없음
+        val meet_up_status = "PENDING" // Todo: 만남글 업데이트 후 고치기 (만남글 만들면 자동 생성될듯)
+
+        val insertdata_chat_room = InsertData_ChatRoom()
+        insertdata_chat_room.execute(
+            "http://" + IP_ADDRESS + "/0930/create_chat_room.php",
+            meet_up_post_id,
+            meet_up_id,
+            write_user_id,
+            request_user_id,
+            last_message,
+            meet_up_status
+        )
+        Handler().postDelayed({
+            val withdraw_result: String = insertdata_chat_room.return_string
+            roomName = withdraw_result
+        }, 500) // 0.5초 지연 시간
+        // Todo: (여기까지 if else로 가두기)
+
         binding.send.setOnClickListener(this)
         binding.leave.setOnClickListener(this)
         binding.image.setOnClickListener(this)
 
-        //Todo: 기존 액티비티에서 user_id와 채팅방_id 가지고 오기.
+        //Todo: 만남글에서 user_Name(닉네임) 가지고 오기.
         try {
             userName = intent.getStringExtra("userName")!!
-            roomName = intent.getStringExtra("roomName")!!
         } catch (e: Exception) {
             e.printStackTrace()
         }
