@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.cookandroid.travelerapplication.chat.ChatRoomActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.R;
@@ -65,7 +66,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class LoginActivity extends AppCompatActivity{
 
 
-    private static String ec2_ADDRESS = "13.125.249.200";
+    private static String ec2_ADDRESS = "3.34.98.95";
     private static String IP_ADDRESS;
     public static Context mContext;
     FileHelper fileHelper;
@@ -241,6 +242,13 @@ public class LoginActivity extends AppCompatActivity{
                 Intent signIntent = mGoogleSignIncClient.getSignInIntent();
                 GoogleSignResultLauncher.launch(signIntent);
             }
+        });
+
+        findViewById(R.id.menuBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ChatRoomActivity.class);
+            intent.putExtra("userName", "유충열");
+            intent.putExtra("roomName", "2075");
+            startActivity(intent);
         });
 
 
