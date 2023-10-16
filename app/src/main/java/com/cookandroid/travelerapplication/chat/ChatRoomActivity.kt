@@ -15,8 +15,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cookandroid.travelerapplication.R
 import com.cookandroid.travelerapplication.chat.model.MessageType
+import com.cookandroid.travelerapplication.comment.CommentListActivity
 import com.cookandroid.travelerapplication.databinding.ActivityChatroomBinding
+import com.cookandroid.travelerapplication.helper.FileHelper
 import com.cookandroid.travelerapplication.helper.S3Uploader
+import com.cookandroid.travelerapplication.task.InsertData_Chat
 import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -26,6 +29,7 @@ import io.socket.emitter.Emitter
 class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.OnUploadListener {
 
     private var IS_IMAGE = false;
+
 
     private val REQUEST_CODE_PERMISSION = 100
     private val REQUEST_CODE_IMAGE = 200
@@ -39,6 +43,8 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     lateinit var mSocket: Socket
     lateinit var userName: String
     lateinit var roomName: String
+    lateinit var IP_ADDRESS: String
+    lateinit var user_id: String
 
     val gson: Gson = Gson()
 
@@ -51,21 +57,24 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         binding = ActivityChatroomBinding.inflate(layoutInflater)
         val view: View = binding.getRoot()
         setContentView(view)
+        val fileHelper = FileHelper(this)
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS")
+//        user_id = fileHelper.readFromFile("user_id") Todo: 만남글 업데이트 이후 이걸로 바꾸기
+        user_id = "25"
 
-        userName = "이명호"
-        roomName = "2075"
+        IP_ADDRESS = "3.34.98.95"
 
         binding.send.setOnClickListener(this)
         binding.leave.setOnClickListener(this)
         binding.image.setOnClickListener(this)
 
         //Todo: 기존 액티비티에서 user_id와 채팅방_id 가지고 오기.
-//        try {
-//            userName = intent.getStringExtra("userName")!!
-//            roomName = intent.getStringExtra("roomName")!!
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
+        try {
+            userName = intent.getStringExtra("userName")!!
+            roomName = intent.getStringExtra("roomName")!!
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
 
         //Set Chatroom adapter
@@ -78,7 +87,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
         //Let's connect to our Chat room! :D
         try {
-            mSocket = IO.socket("http://3.34.98.95:3001")
+            mSocket = IO.socket("http://" + IP_ADDRESS + ":3001")
             Log.d("success", mSocket.id())
 
         } catch (e: Exception) {
@@ -173,6 +182,22 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             val message = Message(userName, content, roomName, MessageType.CHAT_MINE.index, IS_IMAGE);
             addItemToRecyclerView(message)
         }
+
+        val room_id = roomName // Todo: 만남글 업데이트 후 고치기 (만남글을 보고 수락을 누르면 생성될듯)
+        val message = content
+        val send_user_id = user_id
+        val receive_user_id = "1" // Todo: 만남글 업데이트 후 고치기 (만남글을 보면 상대방이 누군지 알아서 적을 수 있을듯)
+        val is_image = IS_IMAGE
+
+        val insertdata_chat = InsertData_Chat()
+        insertdata_chat.execute(
+            "http://" + IP_ADDRESS + "/0930/save_chat.php",
+            room_id,
+            message,
+            send_user_id,
+            receive_user_id,
+            is_image.toString()
+        )
     }
 
     private fun addItemToRecyclerView(message: Message) {

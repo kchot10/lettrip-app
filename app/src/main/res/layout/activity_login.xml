@@ -33,6 +33,7 @@
                 <ImageButton
                     android:id="@+id/menuBtn"
                     android:layout_width="50dp"
+                    android:src="@drawable/bottombar_chat_icon"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:backgroundTint="@color/white"

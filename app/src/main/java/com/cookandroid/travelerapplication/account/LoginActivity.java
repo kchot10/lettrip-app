@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.cookandroid.travelerapplication.chat.ChatRoomActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.R;
@@ -241,6 +242,13 @@ public class LoginActivity extends AppCompatActivity{
                 Intent signIntent = mGoogleSignIncClient.getSignInIntent();
                 GoogleSignResultLauncher.launch(signIntent);
             }
+        });
+
+        findViewById(R.id.menuBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ChatRoomActivity.class);
+            intent.putExtra("userName", "유충열");
+            intent.putExtra("roomName", "2075");
+            startActivity(intent);
         });
 
 
