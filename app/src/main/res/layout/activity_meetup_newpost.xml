@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.5dp">
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="20dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/left_arrow_black" />
+
+            <TextView
+                android:id="@+id/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="새로운 매칭"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <Spinner
+            android:id="@+id/gpsSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/meetup_newpost_spinner" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/citySpinner1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="7dp"
+                android:background="@drawable/meetup_newpost_spinner" />
+
+            <Spinner
+                android:id="@+id/citySpinner2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/meetup_newpost_spinner" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/dateSelectTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginBottom="21dp"
+            android:fontFamily="@font/inter"
+            android:text="📆 날짜 선택"
+            android:clickable="true"
+            android:focusable="false"
+            android:textColor="#9E9E9E"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="21dp"
+            app:srcCompat="@drawable/line" />
+
+        <EditText
+            android:id="@+id/meetupPostContext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="매칭 문구를 입력하세요."
+            android:inputType="text"
+            android:textColorHint="#9E9E9E"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/addPlaceBtn"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="#FFFFFF"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/meetup_post_icon1" />
+
+            <ImageButton
+                android:id="@+id/imageButton12"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="5dp"
+                android:background="#FFFFFF"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/meetup_post_icon2" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/addPostBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="27.5dp"
+            android:background="@drawable/meetup_post_add_btn"
+            android:fontFamily="@font/inter_bold"
+            android:text="등록하기"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+</LinearLayout>

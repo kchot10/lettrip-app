@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.5dp">
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="20dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/left_arrow_black" />
+
+            <TextView
+                android:id="@+id/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="친구 매칭"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/chatBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/bottombar_chat_icon" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <ImageView
+            android:id="@+id/gpsInfo"
+            android:layout_width="55dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="25dp"
+            app:srcCompat="@drawable/meetup_post_gps_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:layout_marginTop="7dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/city1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="서울특별시"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/city2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:fontFamily="@font/inter"
+                android:text="서울"
+                android:textColor="#5F5F5F" />
+
+            <View
+                android:id="@+id/view14"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/editBtn"
+                android:layout_width="55dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/meetup_post_detail_edit"
+                android:fontFamily="@font/inter"
+                android:text="수정"
+                android:textColor="#141414"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/trashBtn"
+                android:layout_width="55dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/meetup_post_detail_edit"
+                android:fontFamily="@font/inter"
+                android:text="삭제"
+                android:textColor="#141414"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/dateSelectTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="9dp"
+            android:layout_marginBottom="17dp"
+            android:clickable="true"
+            android:focusable="false"
+            android:fontFamily="@font/inter"
+            android:text="📆 2023.10.10"
+            android:textColor="#000000"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/profilePhoto"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/meetup_profile_round"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginRight="4dp"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="박성화 (떵)"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/userSex"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        app:srcCompat="@drawable/man_icon" />
+
+                    <TextView
+                        android:id="@+id/userBirth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter"
+                        android:text="1998.04.03"
+                        android:textColor="#C0C0C0"
+                        android:textSize="9sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="21dp"
+            app:srcCompat="@drawable/line" />
+
+        <TextView
+            android:id="@+id/meetupPostContext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:ems="10"
+            android:fontFamily="@font/inter"
+            android:gravity="top"
+            android:text=" 전시회 동행 구해요! 시간은 오후 1시 정도 생각하고 있고, 기회가 된다면 전시회 가기 전에 간단하게 점심 같이 먹고 가면 좋을 것 같아요 :)"
+            android:textSize="11sp" />
+
+        <LinearLayout
+            android:id="@+id/BottomLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="22.5dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/bottombar_mission_icon" />
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/bottombar_community_icon" />
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/bottombar_record_icon" />
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/meetup_btn" />
+
+            <ImageButton
+                android:id="@+id/imageButton8"
+                android:layout_width="20dp"
+                android:layout_height="23dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/bottombar_mypage_icon" />
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>

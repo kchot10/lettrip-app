@@ -97,4 +97,6 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
 
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 }
