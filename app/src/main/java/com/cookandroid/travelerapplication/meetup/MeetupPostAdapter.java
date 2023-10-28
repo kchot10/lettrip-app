@@ -55,8 +55,7 @@ public class MeetupPostAdapter extends RecyclerView.Adapter<MeetupPostAdapter.Me
         holder.date.setText(meetupPost.getDate());
         holder.meetupContent.setText(meetupPost.getContent());
         // 유저의 닉네임 가져오기
-        String nickname = DatabaseHandler.getUserNickname(meetupPost.getUserId());
-        holder.nicknameTextView.setText(nickname);
+
     }
 
     @Override

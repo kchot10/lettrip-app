@@ -54,8 +54,8 @@ public class MeetupPostMainAcitivty extends AppCompatActivity {
         });
 
         //목록 불러오기
-        List<MeetupPost> meetupPostList = DatabaseHandler.getMeetupPosts();
-        MeetupPostAdapter adapter = new MeetupPostAdapter(meetupPostList);
+        //List<MeetupPost> meetupPostList = DatabaseHandler.getMeetupPosts();
+        //MeetupPostAdapter adapter = new MeetupPostAdapter(meetupPostList);
 
 
         //글쓰기 수행

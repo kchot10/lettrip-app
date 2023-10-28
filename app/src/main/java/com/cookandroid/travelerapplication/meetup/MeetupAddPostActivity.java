@@ -1,9 +1,6 @@
 package com.cookandroid.travelerapplication.meetup;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,12 +11,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
-import com.cookandroid.travelerapplication.main.MainActivity;
+import com.cookandroid.travelerapplication.helper.FileHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,7 +43,8 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     String selectedCity2;
     String userInputContext;
 
-
+    private final String IP_ADDRESS = "13.125.225.115";
+    FileHelper fileHelper = new FileHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,11 +146,53 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         //본문 입력 받기
         userInputContext = context.getText().toString();
 
+        String user_id = fileHelper.readFromFile("user_id");
 
-        //데이터베이스 저장
+        addPostBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //데이터베이스 저장
+                saveMeetupPostData(user_id);
+            }
+        });
 
     }
 
+
+    public void saveMeetupPostData(String user_id) {
+        String city = getSelectedCity1();
+        String content = getUserInputContext();
+        String is_gps_enabled = String.valueOf(isGPSEnabled());
+        String meet_up_date = getSelectedDate().toString();
+        String meet_up_post_status = getMeetUpPostStatus();
+        String province = getSelectedCity2();
+        String title = getTitlePost();
+        String place_id = null;
+        String travel_id = null;
+        String created_date = getCreatedDate();
+        String modified_date = getModifiedDate();
+
+        InsertData_MeetupPost task = new InsertData_MeetupPost();
+        task.execute(
+                "http://" + IP_ADDRESS + "/InsertData_MeetupPost.php",
+                city, content, is_gps_enabled, meet_up_date, meet_up_post_status,
+                province, title, place_id, travel_id, user_id, created_date, modified_date
+        );
+
+        finish();
+    }
+
+
+
+    public String getCreatedDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(new Date());
+    }
+
+    public String getModifiedDate() { //수정 시간이므로 추후 수정 필요함
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(new Date());
+    }
 
     public String getEmail(){
         return email;
@@ -228,7 +267,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         return null;
     }
 
-    public String getMeetUpPostStatus() {
+    public String getMeetUpPostStatus() { //추가 수정 필요
         return "UNSCHEDULED";
     }
 
