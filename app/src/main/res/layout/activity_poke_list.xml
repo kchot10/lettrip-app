@@ -31,7 +31,6 @@
             android:layout_height="60dp"
             android:layout_marginLeft="22dp"
             android:layout_weight="1"
-            android:fontFamily="@font/inter_bold"
             android:gravity="bottom"
             android:text="N명이 쿸 찔렀습니다."
             android:textColor="#FFFFFF"
@@ -44,6 +43,7 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecyclerView_poke"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="40dp"

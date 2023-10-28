@@ -4,15 +4,35 @@ public class PokeItem {
     private String userName;
     private String userSex;
     private String meetupSuccessNum;
-    private String getMeetupFailNum;
+    private String meetupFailNum;
     private String oneLineReview;
-    private int imageResource; //프로필 사진 리소스 id
+    private String imageResource;
+    private String birthDate;
 
-    public PokeItem(String userName, String userSex, String meetupSuccessNum, String getMeetupFailNum, String oneLineReview, int imageResource) {
+    public String getMeetupFailNum() {
+        return meetupFailNum;
+    }
+
+    public void setMeetupFailNum(String meetupFailNum) {
+        this.meetupFailNum = meetupFailNum;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public PokeItem() {
+    }
+
+    public PokeItem(String userName, String userSex, String meetupSuccessNum, String getMeetupFailNum, String oneLineReview, String imageResource) {
         this.userName = userName;
         this.userSex = userSex;
         this.meetupSuccessNum = meetupSuccessNum;
-        this.getMeetupFailNum = getMeetupFailNum;
+        this.meetupFailNum = meetupFailNum;
         this.oneLineReview = oneLineReview;
         this.imageResource = imageResource;
     }
@@ -41,14 +61,6 @@ public class PokeItem {
         this.meetupSuccessNum = meetupSuccessNum;
     }
 
-    public String getMeetupFailNum() {
-        return getMeetupFailNum;
-    }
-
-    public void setMeetupFailNum(String getMeetupFailNum) {
-        this.getMeetupFailNum = getMeetupFailNum;
-    }
-
     public String getOneLineReview() {
         return oneLineReview;
     }
@@ -57,11 +69,11 @@ public class PokeItem {
         this.oneLineReview = oneLineReview;
     }
 
-    public int getImageResource() {
+    public String getImageResource() {
         return imageResource;
     }
 
-    public void setImageResource(int imageResource) {
+    public void setImageResource(String imageResource) {
         this.imageResource = imageResource;
     }
 }
