@@ -15,19 +15,22 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cookandroid.travelerapplication.R
+import com.cookandroid.travelerapplication.article.ArticleAdapter
 import com.cookandroid.travelerapplication.chat.model.MessageType
 import com.cookandroid.travelerapplication.databinding.ActivityChatroomBinding
 import com.cookandroid.travelerapplication.helper.FileHelper
 import com.cookandroid.travelerapplication.helper.S3Uploader
 import com.cookandroid.travelerapplication.task.InsertData_Chat
 import com.cookandroid.travelerapplication.task.InsertData_ChatRoom
+import com.cookandroid.travelerapplication.task.InsertData_Meetup
 import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 
 
-class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.OnUploadListener {
+class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.OnUploadListener,
+    InsertData_Meetup.AsyncTaskCompleteListener, InsertData_ChatRoom.AsyncTaskCompleteListener {
 
     private var IS_IMAGE = false;
 
@@ -54,77 +57,55 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     val chatList: ArrayList<Message> = arrayListOf()
     lateinit var chatRoomAdapter: ChatRoomAdapter
 
+    lateinit var meet_up_post_id: String
+    lateinit var meet_up_id: String
+    lateinit var  write_user_id: String
+    lateinit var  request_user_id: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatroomBinding.inflate(layoutInflater)
         val view: View = binding.getRoot()
         setContentView(view)
         val fileHelper = FileHelper(this)
-        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS")
-//        user_id = fileHelper.readFromFile("user_id") Todo: 만남글 업데이트 이후 이걸로 바꾸기
-        user_id = "25"
+//        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS")
+        IP_ADDRESS = "13.209.67.250"
+        user_id = fileHelper.readFromFile("user_id");
+//        user_id = "25";
+        meet_up_id = "-1"
 
-        IP_ADDRESS = "3.34.98.95"
+        userName = fileHelper.readFromFile("nickname");
+        if(intent.getBooleanExtra("first_chat", false)){
+            meet_up_post_id = intent.getStringExtra("meet_up_post_id")!!
+            write_user_id = user_id;
+            request_user_id = intent.getStringExtra("request_user_id")!! // 수락 누르고 들어오면 요청한 사람
+        }else{
+            meet_up_post_id = intent.getStringExtra("meet_up_post_id")!!
+            write_user_id = intent.getStringExtra("write_user_id")!!;
+            request_user_id = user_id; // 채팅 누르고 들어오면 자기 자신 Todo: 이전 Activty에서 상대방 넘겨주기
+            //Todo: 채팅 불러오기
+        }
+        binding.send.setOnClickListener(this)
+        binding.leave.setOnClickListener(this)
+        binding.image.setOnClickListener(this)
 
-        // Todo: 만남글 중에 만남글 작성자의 id와 나의 id가 일치한 채팅방을 찾아보고 없으면 새로 만들기 (일단 if else가 있고 새로운 채팅을 할때라 생각. 아래는 채팅방 만들기)
-        val meet_up_post_id = "1" // Todo: 만남글 업데이트 후 고치기 (만남글 만들면 자동 생성될듯)
-        val meet_up_id = "1" // Todo: 만남글 업데이트 후 고치기 (만남글을 보고 수락을 누르면 생성될듯)
-        val write_user_id = "1" // Todo: 만남글 업데이트 후 고치기 (만남글 만들 때 생성될듯)
-        val request_user_id = user_id;
-        val last_message = "" // 채팅을 처음하는 거니까 당연 없음
-        val meet_up_status = "PENDING" // Todo: 만남글 업데이트 후 고치기 (만남글 만들면 자동 생성될듯)
+        Log.d("erros", "write_user_id:"+write_user_id+" request_user_id:"+request_user_id);
 
-        val insertdata_chat_room = InsertData_ChatRoom()
+        //Todo: 밋업 버튼 만들기 (당근마켓의 약속잡기처럼) (현재 아래 코드는 버튼이 없어 if 문으로 대체 중)
+        if(false){
+            val insertdataMeetup = InsertData_Meetup(this)
+            insertdataMeetup.execute("http://" + IP_ADDRESS + "/1028/InsertData_Meetup.php",meet_up_post_id,write_user_id,request_user_id)
+        }
+
+        val insertdata_chat_room = InsertData_ChatRoom(this)
         insertdata_chat_room.execute(
             "http://" + IP_ADDRESS + "/0930/create_chat_room.php",
             meet_up_post_id,
             meet_up_id,
             write_user_id,
-            request_user_id,
-            last_message,
-            meet_up_status
+            request_user_id
         )
-        Handler().postDelayed({
-            val withdraw_result: String = insertdata_chat_room.return_string
-            roomName = withdraw_result
-        }, 500) // 0.5초 지연 시간
-        // Todo: (여기까지 if else로 가두기)
 
-        binding.send.setOnClickListener(this)
-        binding.leave.setOnClickListener(this)
-        binding.image.setOnClickListener(this)
-
-        //Todo: 만남글에서 user_Name(닉네임) 가지고 오기.
-        try {
-            userName = intent.getStringExtra("userName")!!
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-
-        //Set Chatroom adapter
-
-        chatRoomAdapter = ChatRoomAdapter(this, chatList)
-        binding.recyclerView.adapter = chatRoomAdapter
-
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-
-        //Let's connect to our Chat room! :D
-        try {
-            mSocket = IO.socket("http://" + IP_ADDRESS + ":3001")
-            Log.d("success", mSocket.id())
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.d("fail", "Failed to connect")
-        }
-
-        mSocket.connect()
-        mSocket.on(Socket.EVENT_CONNECT, onConnect)
-        mSocket.on("newUserToChatRoom", onNewUser)
-        mSocket.on("updateChat", onUpdateChat)
-        mSocket.on("userLeftChatRoom", onUserLeft)
 
 
         requestPermissions()
@@ -211,7 +192,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         val room_id = roomName // Todo: 만남글 업데이트 후 고치기 (만남글을 보고 수락을 누르면 생성될듯)
         val message = content
         val send_user_id = user_id
-        val receive_user_id = "1" // Todo: 만남글 업데이트 후 고치기 (만남글을 보면 상대방이 누군지 알아서 적을 수 있을듯)
+        val receive_user_id = write_user_id // Todo: 만남글 업데이트 후 고치기 (만남글을 보면 상대방이 누군지 알아서 적을 수 있을듯)
         val is_image = IS_IMAGE
 
         val insertdata_chat = InsertData_Chat()
@@ -275,5 +256,42 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     }
 
     override fun onFailure() {}
+    override fun onTaskComplete(result_string: String) {
+        runOnUiThread {
+            meet_up_id = result_string;
+        }
+    }
 
+    override fun onTaskComplete_InsertData_ChatRoom(result_string: String) {
+        runOnUiThread {
+            roomName = result_string
+
+            //Set Chatroom adapter
+
+            chatRoomAdapter = ChatRoomAdapter(this, chatList)
+            binding.recyclerView.adapter = chatRoomAdapter
+
+            val layoutManager = LinearLayoutManager(this)
+            binding.recyclerView.layoutManager = layoutManager
+
+            //Let's connect to our Chat room! :D
+            try {
+                mSocket = IO.socket("http://" + IP_ADDRESS + ":3001")
+                Log.d("success", mSocket.id())
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("fail", "Failed to connect")
+            }
+
+            mSocket.connect()
+            mSocket.on(Socket.EVENT_CONNECT, onConnect)
+            mSocket.on("newUserToChatRoom", onNewUser)
+            mSocket.on("updateChat", onUpdateChat)
+            mSocket.on("userLeftChatRoom", onUserLeft)
+
+        }
+
+
+    }
 }

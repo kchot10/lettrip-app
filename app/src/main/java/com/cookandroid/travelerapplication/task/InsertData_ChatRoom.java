@@ -4,18 +4,26 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.cookandroid.travelerapplication.meetup.PokeItem;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class InsertData_ChatRoom extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
-
     private String return_string;
+
+    private AsyncTaskCompleteListener callback;
+
+    public InsertData_ChatRoom(AsyncTaskCompleteListener callback) {
+        this.callback = callback;
+    }
     @Override
     protected String doInBackground(String... params) {
 
@@ -24,15 +32,11 @@ public class InsertData_ChatRoom extends AsyncTask<String,Void,String> { // 통�
         String meet_up_id = (String)params[2];
         String write_user_id = (String)params[3];
         String request_user_id = (String)params[4];
-        String last_message = (String)params[5];
-        String meet_up_status = (String)params[6];
 
         String postParameters ="meet_up_post_id="+meet_up_post_id
                 +"&meet_up_id="+meet_up_id
                 +"&write_user_id="+write_user_id
-                +"&request_user_id="+request_user_id
-                +"&last_message="+last_message
-                +"&meet_up_status="+meet_up_status;
+                +"&request_user_id="+request_user_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -88,6 +92,8 @@ public class InsertData_ChatRoom extends AsyncTask<String,Void,String> { // 통�
 
 
 
+            callback.onTaskComplete_InsertData_ChatRoom(sb.toString());
+
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
 
@@ -119,6 +125,11 @@ public class InsertData_ChatRoom extends AsyncTask<String,Void,String> { // 통�
             result = str.substring(index + searchString.length(), endIndex);
         }
         return result;
+    }
+
+
+    public interface AsyncTaskCompleteListener {
+        void onTaskComplete_InsertData_ChatRoom(String result_string);
     }
 }
 

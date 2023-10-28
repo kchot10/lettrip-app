@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.article.ArticleAdapter;
+import com.cookandroid.travelerapplication.chat.ChatRoomActivity;
 import com.cookandroid.travelerapplication.comment.Comment;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.SelectData_Article;
@@ -59,6 +60,17 @@ public class PokeListActivity extends AppCompatActivity implements SelectData_Po
                 // 현재 액티비티를 종료
                 ((Activity) context).finish();
             }
+        });
+
+        findViewById(R.id.chat_btn).setOnClickListener(v -> {
+            fileHelper.writeToFile("user_id", "25");
+            fileHelper.writeToFile("nickname", "이명호2");
+            Intent intent;
+            intent = new Intent(this, ChatRoomActivity.class);
+            intent.putExtra("write_user_id", "1"); //Todo: 현재 액티비티에 저장되어있는 정보를 들고올 것 (현재 이 버튼은 다른 액티비티로 옮길 예정)
+            intent.putExtra("meet_up_post_id", "1"); //Todo: 현재 액티비티에 저장되어있는 정보를 들고올 것 (현재 이 버튼은 다른 액티비티로 옮길 예정)
+            intent.putExtra("first_chat", false);
+            this.startActivity(intent);
         });
     }
 

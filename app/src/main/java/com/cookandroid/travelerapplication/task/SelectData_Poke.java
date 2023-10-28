@@ -134,6 +134,9 @@ public class SelectData_Poke extends AsyncTask<String,Void,String> { // 통신�
             String nickname = jsonObject.getString("nickname");
             String sex = jsonObject.getString("sex");
             String birth_date = jsonObject.getString("birth_date");
+            String meet_up_post_id = jsonObject.getString("meep_up_post_id"); // Todo: 데이터베이스 이름이 잘못되어있음
+            String write_user_id = jsonObject.getString("write_user_id");
+            String request_user_id = jsonObject.getString("user_id");
             pokeItem.setImageResource(image_url);
             pokeItem.setMeetupFailNum(meet_up_cancelled_count);
             pokeItem.setMeetupSuccessNum(meet_up_completed_count);
@@ -141,6 +144,9 @@ public class SelectData_Poke extends AsyncTask<String,Void,String> { // 통신�
             pokeItem.setUserName(nickname);
             pokeItem.setUserSex(sex);
             pokeItem.setBirthDate(birth_date);
+            pokeItem.setMeet_up_post_id(meet_up_post_id);
+            pokeItem.setWrite_user_id(write_user_id);
+            pokeItem.setRequest_user_id(request_user_id);
             articleArrayList.add(pokeItem);
         }
 
