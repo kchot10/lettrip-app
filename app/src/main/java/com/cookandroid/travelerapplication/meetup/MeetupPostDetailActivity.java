@@ -1,5 +1,7 @@
 package com.cookandroid.travelerapplication.meetup;
 
+import static org.jetbrains.anko.Sdk27PropertiesKt.setImageResource;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
@@ -12,6 +14,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MeetupPostDetailActivity extends AppCompatActivity {
     ImageButton backBtn;
@@ -59,5 +64,54 @@ public class MeetupPostDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //뒤로가기
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MeetupPostMainAcitivty.class);
+                startActivity(intent);
+            }
+        });
+
+        //db에서 데이터 받아와서 화면 구성
+        String city1Text = "서울특별시", city2Text="서울";
+        Date date = new Date();
+        String userNameText = "서정후";
+        String userSexText = "female";
+        Date userBirthText = new Date();
+        String contentsText = "테스트";
+        boolean isGPSenabled = true;
+
+        //- 데이터 불러오는 코드 추가**
+
+        //불러온 데이터로 화면 업데이트
+        if(isGPSenabled == true){
+            gpsInfo.setImageResource(R.drawable.meetup_post_gps_icon);
+        } else{
+            gpsInfo.setImageResource(R.drawable.meetup_post_gps_icon);
+        }
+
+        city1.setText(city1Text);
+        city2.setText(city1Text);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = dateFormat.format(date);
+        meetupDate.setText("📆 " + dateString);
+
+        userName.setText(userNameText);
+        if(userSexText == "female"){
+            userSex.setImageResource(R.drawable.woman_icon);
+        } else{
+            userSex.setImageResource(R.drawable.man_icon);
+        }
+
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString2 = dateFormat.format(userBirthText);
+        userBirth.setText(dateString2);
+
+        contents.setText(contentsText);
+
+        //수정, 삭제 버튼 추가
     }
 }
