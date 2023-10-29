@@ -69,7 +69,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         setContentView(view)
         val fileHelper = FileHelper(this)
 //        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS")
-        IP_ADDRESS = "13.209.67.250"
+        IP_ADDRESS = "13.125.232.136"
         user_id = fileHelper.readFromFile("user_id");
 //        user_id = "25";
         meet_up_id = "-1"

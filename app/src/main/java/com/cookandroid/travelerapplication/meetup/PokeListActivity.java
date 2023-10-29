@@ -27,7 +27,7 @@ import java.util.List;
 
 public class PokeListActivity extends AppCompatActivity implements SelectData_Poke.AsyncTaskCompleteListener {
     FileHelper fileHelper;
-    String IP_ADDRESS = "13.209.67.250", user_id;
+    String IP_ADDRESS = "13.125.232.136", user_id;
     ImageButton backBtn;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
