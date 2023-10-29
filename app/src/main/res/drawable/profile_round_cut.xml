@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape
+            android:shape="rectangle">
+            <solid android:color="#000000" /> <!-- 배경 색상, 원하는 색상으로 변경 가능 -->
+            <corners android:radius="82.5dp" /> <!-- 동그랗게 만들기 위한 반지름 값 -->
+        </shape>
+    </item>
+    <item android:id="@android:id/content">
+        <bitmap
+            android:src="@drawable/profile_photo_mypage" /> <!-- 내부 이미지, 여기서는 샘플 아바타 사용 -->
+    </item>
+</layer-list>
