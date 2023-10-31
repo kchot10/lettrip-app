@@ -20,7 +20,6 @@
         <item name="windowNoTitle">true</item>
 
 
-        <!-- Customize your theme here. -->
     </style>
 
     <style name="CalendarViewCustomTheme" parent="Theme.AppCompat.Light">
@@ -34,6 +33,7 @@
     <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">
         <item name="android:background">#FFFFFF</item>
     </style>
+
 
 
 </resources>
