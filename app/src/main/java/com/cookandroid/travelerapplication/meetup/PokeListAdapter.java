@@ -103,11 +103,11 @@ public class PokeListAdapter extends RecyclerView.Adapter<PokeListAdapter.PokeVi
             String sex = item.getUserSex();
             if(sex.isEmpty() || sex == null || sex.equals("")){
 
-            } else if(sex.equals("male")){
+            } else if(sex.equals("MALE")){
                 Glide.with(context)
                         .load(R.drawable.man_icon)
                         .into(userSex);
-            } else if(sex.equals("female")){
+            } else if(sex.equals("FEMALE")){
                 Glide.with(context)
                         .load(R.drawable.woman_icon)
                         .into(userSex);
