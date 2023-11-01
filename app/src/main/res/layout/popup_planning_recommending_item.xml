@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:fontFamily="@font/inter"
         android:text="사용자 맞춤 장소 추천"
         android:textColor="#B9B9B9"
         android:textSize="13sp" />
@@ -34,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:gravity="center"
+        android:fontFamily="@font/inter_bold"
         android:text="서울특별시"
         android:textColor="#4F5A80"
         android:textSize="18sp" />
@@ -48,6 +50,7 @@
         android:background="@drawable/radius_ai_notice"
         android:paddingLeft="13dp"
         android:paddingTop="4dp"
+        android:fontFamily="@font/inter"
         android:paddingRight="13dp"
         android:paddingBottom="4dp"
         android:text="📢 내가 등록한 리뷰를 기반으로 AI 장소 추천!"
