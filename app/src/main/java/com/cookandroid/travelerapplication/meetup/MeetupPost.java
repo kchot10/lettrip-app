@@ -1,43 +1,30 @@
 package com.cookandroid.travelerapplication.meetup;
 
 public class MeetupPost {
-    private boolean isGPSEnabled;
-    private String cityName;
-    private String date;
+    private String is_gps_enabled;
+    private String city;
     private String content;
-    private String nickName;
-    private int sexIconResource;
-    private int userId;
-
-    public MeetupPost(boolean isGPSEnabled, String cityName, String date, String content) {
-        this.isGPSEnabled = isGPSEnabled;
-        this.cityName = cityName;
-        this.date = date;
-        this.content = content;
+    private String created_date;
+    private String nickname;
+    private String sex;
+    private String image_url;
+    public MeetupPost() {
     }
 
-    public boolean isGPSEnabled() {
-        return isGPSEnabled;
+    public String getIs_gps_enabled() {
+        return is_gps_enabled;
     }
 
-    public void setGPSEnabled(boolean GPSEnabled) {
-        isGPSEnabled = GPSEnabled;
+    public void setIs_gps_enabled(String is_gps_enabled) {
+        this.is_gps_enabled = is_gps_enabled;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getCity() {
+        return city;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getContent() {
@@ -48,24 +35,36 @@ public class MeetupPost {
         this.content = content;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getCreated_date() {
+        return created_date;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setCreated_date(String created_date) {
+        this.created_date = created_date;
     }
 
-    public int getSexIconResource() {
-        return sexIconResource;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setSexIconResource(int sexIconResource) {
-        this.sexIconResource = sexIconResource;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }
 
