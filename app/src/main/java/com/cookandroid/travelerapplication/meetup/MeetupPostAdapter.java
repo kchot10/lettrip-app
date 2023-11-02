@@ -25,7 +25,7 @@ public class MeetupPostAdapter extends RecyclerView.Adapter<MeetupPostAdapter.Me
     private List<MeetupPost> meetupPostList;
     private Context context;
 
-    public static class MeetupPostViewHolder extends RecyclerView.ViewHolder {
+    public class MeetupPostViewHolder extends RecyclerView.ViewHolder {
         public ImageView isGPSselected;
         public TextView cityName;
         public TextView date;
@@ -97,8 +97,6 @@ public class MeetupPostAdapter extends RecyclerView.Adapter<MeetupPostAdapter.Me
                     .load(image_url)
                     .into(holder.circle_iv);
         }
-
-        // 유저의 닉네임 가져오기
 
     }
 
