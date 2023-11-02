@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "54.180.96.176", user_id;
+    String IP_ADDRESS = "54.180.96.176", user_id="25";
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
@@ -46,6 +46,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
 
         fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", IP_ADDRESS);//Todo: 나중에 쓰는 부분은 지울듯
+        fileHelper.writeToFile("user_id", user_id);//Todo: 나중에 쓰는 부분은 지울듯
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         recyclerView = findViewById(R.id.RecyclerView_MeetUpPost);
@@ -101,23 +102,6 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                 startActivity(intent);
             }
         });
-//        MeetupPost meetup1 = new MeetupPost(true, "New York", "2023-11-10", "Join us for a fun event in Central Park!");
-//        MeetupPost meetup2 = new MeetupPost(false, "Los Angeles", "2023-11-15", "Hiking in Griffith Park this weekend!");
-//        MeetupPost meetup3 = new MeetupPost(true, "London", "2023-11-20", "Explore the city with fellow travelers.");
-//        MeetupPost meetup4 = new MeetupPost(true, "Paris", "2023-11-25", "French cuisine cooking class this Saturday");
-//        MeetupPost meetup5 = new MeetupPost(false, "Tokyo", "2023-12-02", "Discover the beauty of cherry blossoms!");
-//        List<MeetupPost> meetupList = new ArrayList<>();
-//        meetupList.add(meetup1);
-//        meetupList.add(meetup2);
-//        meetupList.add(meetup3);
-//        meetupList.add(meetup4);
-//        meetupList.add(meetup5);
-
-
-
-        //목록 불러오기
-//        List<MeetupPost> meetupPostList = DatabaseHandler.getMeetupPosts();
-//        MeetupPostAdapter adapter = new MeetupPostAdapter(meetupPostList);
 
     }
 

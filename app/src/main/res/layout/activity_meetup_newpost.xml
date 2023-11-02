@@ -30,12 +30,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/left_arrow_black" />
 
-            <TextView
+            <EditText
                 android:id="@+id/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
-                android:text="새로운 매칭"
+                android:hint="새로운 매칭"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

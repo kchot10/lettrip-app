@@ -5,6 +5,30 @@ import java.util.Arrays;
 import java.util.List;
 
     public class City {
+        static final List<String> SEOUL = Arrays.asList(
+                "서울"
+        );
+        static final List<String> BUSAN = Arrays.asList(
+                "부산"
+        );
+        static final List<String> DAEGU = Arrays.asList(
+                "대구"
+        );
+        static final List<String> INCHEON = Arrays.asList(
+                "인천"
+        );
+        static final List<String> GWANGJU = Arrays.asList(
+                "광주"
+        );
+        static final List<String> DAEJEON = Arrays.asList(
+                "대전"
+        );
+        static final List<String> ULSAN = Arrays.asList(
+                "울산"
+        );
+        static final List<String> SEJONG = Arrays.asList(
+                "세종"
+        );
         public static final List<String> GYEONGGI_CITY = Arrays.asList(
                 "수원시", "고양시", "용인시", "성남시", "부천시",
                 "화성시", "안산시", "남양주시", "안양시", "평택시",
@@ -65,7 +89,6 @@ import java.util.List;
         static final List<String> JEJU_CITY = Arrays.asList(
                 "제주시","서귀포시"
         );
-
         public static List<String> getCityNames() {
             List<String> cityNames = new ArrayList<>();
             cityNames.addAll(GYEONGGI_CITY);
