@@ -127,6 +127,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // í†
 
             MeetupPost meetupPost = new MeetupPost();
 
+            String meet_up_post_id = jsonObject.getString("meet_up_post_id");
             String is_gps_enabled = jsonObject.getString("is_gps_enabled");
             String city = jsonObject.getString("city");
             String content = jsonObject.getString("content");
@@ -134,6 +135,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // í†
             String nickname = jsonObject.getString("nickname");
             String sex = jsonObject.getString("sex");
             String image_url = jsonObject.getString("image_url");
+            meetupPost.setMeet_up_post_id(meet_up_post_id);
             meetupPost.setIs_gps_enabled(is_gps_enabled);
             meetupPost.setCity(city);
             meetupPost.setContent(content);

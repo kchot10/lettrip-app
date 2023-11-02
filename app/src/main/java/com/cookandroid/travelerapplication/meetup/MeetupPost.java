@@ -1,6 +1,7 @@
 package com.cookandroid.travelerapplication.meetup;
 
 public class MeetupPost {
+    private String meet_up_post_id;
     private String is_gps_enabled;
     private String city;
     private String content;
@@ -9,6 +10,14 @@ public class MeetupPost {
     private String sex;
     private String image_url;
     public MeetupPost() {
+    }
+
+    public String getMeet_up_post_id() {
+        return meet_up_post_id;
+    }
+
+    public void setMeet_up_post_id(String meet_up_post_id) {
+        this.meet_up_post_id = meet_up_post_id;
     }
 
     public String getIs_gps_enabled() {

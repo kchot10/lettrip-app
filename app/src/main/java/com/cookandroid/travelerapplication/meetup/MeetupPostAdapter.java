@@ -1,6 +1,7 @@
 package com.cookandroid.travelerapplication.meetup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.chat.ChatRoomActivity;
+import com.cookandroid.travelerapplication.helper.FileHelper;
 
 import org.w3c.dom.Text;
 
@@ -44,6 +47,15 @@ public class MeetupPostAdapter extends RecyclerView.Adapter<MeetupPostAdapter.Me
             nicknameTextView = itemView.findViewById(R.id.nickName);
             sexIcon = itemView.findViewById(R.id.sexIcon);
             circle_iv = itemView.findViewById(R.id.circle_iv);
+
+            itemView.setOnClickListener(v -> {
+                int curpos = getAbsoluteAdapterPosition();
+                Intent intent;
+                intent = new Intent(context, PokeListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("meet_up_post_id", meetupPostList.get(curpos).getMeet_up_post_id());
+                context.startActivity(intent);
+            });
         }
     }
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.meetup.model.GpsType;
 import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
 import com.cookandroid.travelerapplication.task.SelectData_Poke;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
     String IP_ADDRESS = "54.180.96.176", user_id;
+    FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
     Spinner city1;
@@ -41,6 +43,10 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_main);
+
+        fileHelper = new FileHelper(this);
+        fileHelper.writeToFile("IP_ADDRESS", IP_ADDRESS);//Todo: 나중에 쓰는 부분은 지울듯
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         recyclerView = findViewById(R.id.RecyclerView_MeetUpPost);
         recyclerView.setHasFixedSize(true);

@@ -27,7 +27,7 @@ import java.util.List;
 
 public class PokeListActivity extends AppCompatActivity implements SelectData_Poke.AsyncTaskCompleteListener {
     FileHelper fileHelper;
-    String IP_ADDRESS = "52.79.234.19", user_id;
+    String IP_ADDRESS, user_id;
     ImageButton backBtn;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -38,7 +38,7 @@ public class PokeListActivity extends AppCompatActivity implements SelectData_Po
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poke_list);
         FileHelper fileHelper = new FileHelper(this);
-//        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 //        user_id = fileHelper.readFromFile("user_id");
 
         recyclerView = findViewById(R.id.RecyclerView_poke);
@@ -83,7 +83,7 @@ public class PokeListActivity extends AppCompatActivity implements SelectData_Po
 //        }
 //        itemList.add(new PokeItem("박성화 (떵)", "남자", "매칭 완료 2회", "매칭 실패 0회", "한 줄 리뷰 입니다", R.drawable.meetup_profile_round));
 
-        String meet_up_post_id = "8"; //Todo: MeetUpPostActivity에서 받아와서 getIntent를 통해 불러오기
+        String meet_up_post_id = getIntent().getStringExtra("meet_up_post_id"); //Todo: MeetUpPostActivity에서 받아와서 getIntent를 통해 불러오기
 
         ArrayList<PokeItem> pokeItemArrayList = new ArrayList<>();
         SelectData_Poke task = new SelectData_Poke(pokeItemArrayList, this);
