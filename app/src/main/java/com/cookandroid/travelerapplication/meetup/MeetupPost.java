@@ -13,6 +13,15 @@ public class MeetupPost implements Serializable {
     private String image_url;
     private String province;
     private String birth_date;
+    private String user_id;
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 
     public String getBirth_date() {
         return birth_date;

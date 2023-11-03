@@ -39,7 +39,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
     TextView contents;
     ImageView pokeBtn;
     TextView pokeNumTextView;
-    String IP_ADDRESS;
+    String IP_ADDRESS, user_id;
     int resultSize = 0;
 
     @Override
@@ -48,6 +48,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         setContentView(R.layout.activity_meetup_post_detail);
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        user_id = fileHelper.readFromFile("user_id");
 
         backBtn = findViewById(R.id.backBtn);
         chatBtn = findViewById(R.id.chatBtn);
@@ -72,6 +73,11 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         ArrayList<PokeItem> pokeItemArrayList = new ArrayList<>();
         SelectData_Poke task = new SelectData_Poke(pokeItemArrayList, this);
         task.execute("http://" + IP_ADDRESS + "/1028/SelectData_Poke.php", meetupPost.getMeet_up_post_id());
+
+        if(!meetupPost.getUser_id().equals(user_id)){
+            edit.setVisibility(View.INVISIBLE);
+            delete.setVisibility(View.INVISIBLE);
+        };
 
         pokeNumTextView.setOnClickListener(new View.OnClickListener() {
             @Override
