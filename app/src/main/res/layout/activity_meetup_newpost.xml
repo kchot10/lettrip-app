@@ -30,13 +30,14 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/left_arrow_black" />
 
-            <EditText
+            <TextView
                 android:id="@+id/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
-                android:hint="새로운 매칭"
-                android:textSize="24sp"
+                android:text="새로운 매칭"
+                android:textColor="#000000"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,11 +52,27 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
+        <EditText
+            android:id="@+id/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/meetup_title"
+            android:ems="10"
+            android:fontFamily="@font/inter"
+            android:hint="제목을 입력하세요."
+            android:inputType="text"
+            android:paddingLeft="15dp"
+            android:paddingTop="12dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="12dp"
+            android:textSize="12sp" />
+
         <Spinner
             android:id="@+id/gpsSpinner"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginTop="25dp"
             android:background="@drawable/meetup_newpost_spinner" />
 
         <LinearLayout
@@ -86,10 +103,10 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="9dp"
             android:layout_marginBottom="21dp"
-            android:fontFamily="@font/inter"
-            android:text="📆 날짜 선택"
             android:clickable="true"
             android:focusable="false"
+            android:fontFamily="@font/inter"
+            android:text="📆 날짜 선택"
             android:textColor="#9E9E9E"
             android:textSize="12sp" />
 
@@ -106,6 +123,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="9dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="#00FFFFFF"
             android:ems="10"
@@ -119,7 +137,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/planTitle"
@@ -184,7 +203,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/userPlanTitle"
@@ -202,11 +222,11 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="11dp"
                 android:background="@drawable/meetup_add_place"
+                android:orientation="vertical"
                 android:paddingLeft="21dp"
                 android:paddingTop="17dp"
                 android:paddingRight="21dp"
-                android:paddingBottom="17dp"
-                android:orientation="vertical">
+                android:paddingBottom="17dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
