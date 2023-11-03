@@ -117,6 +117,8 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MyTravelActivity.class);
+                intent.putExtra("previousActivity", "PokeInfoMainActivity");
+                intent.putExtra("request_user_id", request_user_id);
                 intent.putExtra("visited/not", "visited");
                 startActivity(intent);
             }
