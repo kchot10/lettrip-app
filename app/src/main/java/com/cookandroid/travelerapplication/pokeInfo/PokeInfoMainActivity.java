@@ -10,18 +10,22 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.meetup.PokeListActivity;
+import com.cookandroid.travelerapplication.meetup.PokeListAdapter;
+import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.mypage.MyTravelActivity;
 import com.cookandroid.travelerapplication.record.PlanningMain;
 import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
-public class PokeInfoMainActivity extends AppCompatActivity {
+public class PokeInfoMainActivity extends AppCompatActivity implements SelectData_UserInfo.AsyncTaskCompleteListener{
     ImageButton backBtn;
     ImageView profilePhoto;
     TextView userName;
@@ -36,7 +40,7 @@ public class PokeInfoMainActivity extends AppCompatActivity {
 
     FileHelper fileHelper;
     String IP_ADDRESS, user_id;
-
+    SimpleDateFormat inputFormat, outputFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +59,12 @@ public class PokeInfoMainActivity extends AppCompatActivity {
         int failNum=0;
         String imageURL="https://ibb.co/f2tmMDG";
 
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy.MM.dd");
+        inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        outputFormat = new SimpleDateFormat("yyyy.MM.dd");
 
         backBtn = findViewById(R.id.backBtn2);
         profilePhoto = findViewById(R.id.profilePhoto);
+        profilePhoto.setClipToOutline(true);
         userName = findViewById(R.id.uesrName);
         userNickname = findViewById(R.id.userNickName);
         userSex = findViewById(R.id.userSex);
@@ -71,28 +76,12 @@ public class PokeInfoMainActivity extends AppCompatActivity {
         layout3 = findViewById(R.id.LinearLayout3);
 
         //todo: db에서 사용자 정보 받아오기 코드 추가
+        ArrayList<UserInfo> userInfoArrayList = new ArrayList<>();
+        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList, this);
+        selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", getIntent().getStringExtra("request_user_id"));
         //닉네임, 이름, 성별, 생년월일, 매칭 완료 횟수, 매칭 실패 횟수, 프로필url
 
 
-
-        //불러온 정보로 ui 세팅
-        userNickname.setText(nickname);
-        userName.setText(name);
-        if(sex == "MALE"){
-            userSex.setImageResource(R.drawable.man_icon);
-        } else{
-            userSex.setImageResource(R.drawable.woman_icon);
-        }
-        userBirth.setText("");
-        try {
-            Date date = inputFormat.parse(birth);
-            String formattedDate = outputFormat.format(date);
-            userBirth.setText(formattedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        meetupSuccessNum.setText("매칭 완료 " + successNum + "회");
-        meetupFailNum.setText("매칭 실패 " + successNum + "회");
 
 
         //페이지 이동
@@ -127,6 +116,40 @@ public class PokeInfoMainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MyTravelActivity.class);
                 intent.putExtra("visited/not", "visited");
                 startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onTaskComplete(UserInfo result) {
+        runOnUiThread(() -> {
+            //불러온 정보로 ui 세팅
+            userNickname.setText(result.getNickname());
+            userName.setText(result.getName());
+            if(result.getSex() == "MALE"){
+                userSex.setImageResource(R.drawable.man_icon);
+            } else if(result.getSex() == "FEMALE"){
+                userSex.setImageResource(R.drawable.woman_icon);
+            } else{
+                userSex.setImageResource(android.R.color.transparent); // null 처리
+            }
+            userBirth.setText("");
+            try {
+                if (!(result.getBirth_date() == "null")) {
+                    Date date = inputFormat.parse(result.getBirth_date());
+                    String formattedDate = outputFormat.format(date);
+                    userBirth.setText(formattedDate);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            meetupSuccessNum.setText("매칭 완료 " + result.getMeet_up_completed_count() + "회");
+            meetupFailNum.setText("매칭 실패 " + result.getMeet_up_cancelled_count() + "회");
+
+            if(result.getStored_file_url() != "null") {
+                Glide.with(this)
+                        .load(result.getStored_file_url())
+                        .into(profilePhoto);
             }
         });
     }

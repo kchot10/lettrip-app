@@ -1,6 +1,7 @@
 package com.cookandroid.travelerapplication.mission;
 
 public class UserInfo {
+    String name;
     String point;
     String nickname;
     String stored_file_url;
@@ -10,6 +11,34 @@ public class UserInfo {
     String meet_up_cancelled_count;
     String meet_up_completed_count;
     String user_id;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getBirth_date() {
+        return birth_date;
+    }
+
+    public String getMeet_up_cancelled_count() {
+        return meet_up_cancelled_count;
+    }
+
+    public String getMeet_up_completed_count() {
+        return meet_up_completed_count;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void setSex(String sex) {
         this.sex = sex;

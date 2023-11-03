@@ -142,6 +142,6 @@ public class MypageMainActivity extends AppCompatActivity implements SelectData_
 
 
     @Override
-    public void onTaskComplete(ArrayList<UserInfo> result) {
+    public void onTaskComplete(UserInfo result) {
     }
 }

@@ -128,6 +128,7 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // í†µì
             UserInfo userInfo = new UserInfo();
 
             String nickname = jsonObject.getString("nickname");
+            String name = jsonObject.getString("name");
             String image_url = jsonObject.getString("image_url");
             String email = jsonObject.getString("email");
             String point = jsonObject.getString("point");
@@ -137,6 +138,7 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // í†µì
             String meet_up_completed_count = jsonObject.getString("meet_up_completed_count");
             String user_id = jsonObject.getString("user_id");
             userInfo.setNickname(nickname);
+            userInfo.setName(name);
             userInfo.setStored_file_url(image_url);
             userInfo.setEmail(email);
             userInfo.setPoint(point);
@@ -148,9 +150,9 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // í†µì
 
             articleArrayList.add(userInfo);
 
+            callback.onTaskComplete(userInfo);
         }
 
-        callback.onTaskComplete(articleArrayList);
 
     }
 
@@ -168,7 +170,7 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // í†µì
     }
 
     public interface AsyncTaskCompleteListener {
-        void onTaskComplete(ArrayList<UserInfo> result);
+        void onTaskComplete(UserInfo result);
     }
 
 }
