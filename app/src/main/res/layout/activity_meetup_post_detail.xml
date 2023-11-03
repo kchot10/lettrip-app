@@ -339,7 +339,7 @@
                     android:textSize="9sp" />
 
                 <TextView
-                    android:id="@+id/textView23"
+                    android:id="@+id/planCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

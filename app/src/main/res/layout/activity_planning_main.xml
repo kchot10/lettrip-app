@@ -131,6 +131,7 @@
             android:inputType="text"
             android:textSize="16sp" />
 
+
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,8 +164,8 @@
                     android:layout_height="32dp"
                     android:layout_marginRight="3dp"
                     android:layout_weight="1"
-                    android:fontFamily="@font/inter"
                     android:background="@drawable/planning_city1"
+                    android:fontFamily="@font/inter"
                     android:scaleType="fitCenter"
                     android:text="지역이름"
                     android:textColor="#BBBBBB"
@@ -174,10 +175,10 @@
                     android:id="@+id/cityDropdown_detail"
                     android:layout_width="105dp"
                     android:layout_height="32dp"
-                    android:fontFamily="@font/inter"
                     android:layout_marginRight="3dp"
                     android:layout_weight="1"
                     android:background="@drawable/planning_city1"
+                    android:fontFamily="@font/inter"
                     android:scaleType="fitCenter"
                     android:text="지역이름"
                     android:textColor="#BBBBBB"
@@ -209,7 +210,6 @@
 
             </LinearLayout>
         </HorizontalScrollView>
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerView_Record"

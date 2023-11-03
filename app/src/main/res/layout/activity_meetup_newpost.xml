@@ -45,6 +45,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/addPlanBtn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -137,7 +138,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/planTitle"
@@ -203,7 +204,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/userPlanTitle"
@@ -264,7 +265,7 @@
                     android:textSize="9sp" />
 
                 <TextView
-                    android:id="@+id/textView23"
+                    android:id="@+id/planCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -293,7 +294,7 @@
                 app:srcCompat="@drawable/meetup_post_icon1" />
 
             <ImageButton
-                android:id="@+id/imageButton12"
+                android:id="@+id/addPlanBtn"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_marginLeft="5dp"

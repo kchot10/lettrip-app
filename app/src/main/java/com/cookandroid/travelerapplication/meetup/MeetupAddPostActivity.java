@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.databinding.ActivityMeetupNewpostBinding;
-import com.cookandroid.travelerapplication.meetup.model.GpsType;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,6 +52,9 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     private String IP_ADDRESS;
     FileHelper fileHelper = new FileHelper(this);
 
+    TextView placeName; TextView placeCategory; TextView placeAddress;
+    TextView planTitleTextView; TextView planDate; TextView planInfo; TextView planCategory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,17 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         dateTextView = findViewById(R.id.dateSelectTextView);
         context = findViewById(R.id.meetupPostContext);
         addPostBtn = findViewById(R.id.addPostBtn);
+        addPlaceBtn = findViewById(R.id.addPlaceBtn);
+        addPlanBtn = findViewById(R.id.addPlanBtn);
+
+        placeName = findViewById(R.id.placeName);
+        placeCategory = findViewById(R.id.placeCategory);
+        placeAddress = findViewById(R.id.placeAddress);
+        planTitleTextView = findViewById(R.id.planTitleTextView);
+        planDate = findViewById(R.id.planDate);
+        planInfo = findViewById(R.id.planInfo);
+        planCategory = findViewById(R.id.planCategory);
+
 
 
         //gpsSpinner
@@ -169,12 +182,20 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         //본문 입력 받기
         userInputContext = context.getText().toString();
 
+
+        //선택 옵션 처리 - 장소 & 계획 추가
+        OptionalBtnClickListener btnClickListener = new OptionalBtnClickListener(getApplicationContext(), placeName, placeCategory, placeAddress);
+        addPlaceBtn.setOnClickListener(btnClickListener);
+        addPlanBtn.setOnClickListener(btnClickListener);
+
+
+
         String user_id = fileHelper.readFromFile("user_id");
 
+        //데이터베이스 저장
         addPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //데이터베이스 저장
                 saveMeetupPostData(user_id);
             }
         });
