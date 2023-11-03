@@ -1,6 +1,7 @@
 package com.cookandroid.travelerapplication.chat;
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -8,11 +9,17 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.TimePicker
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cookandroid.travelerapplication.R
 import com.cookandroid.travelerapplication.article.ArticleAdapter
@@ -88,6 +95,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         binding.send.setOnClickListener(this)
         binding.leave.setOnClickListener(this)
         binding.image.setOnClickListener(this)
+        binding.promise.setOnClickListener(this)
 
         Log.d("erros", "write_user_id:"+write_user_id+" request_user_id:"+request_user_id);
 
@@ -126,6 +134,10 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     private fun requestImageUpload() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, REQUEST_CODE_IMAGE)
+    }
+
+    private fun requestMeetUpUpload() {
+        showDialog()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -224,6 +236,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             R.id.send -> sendMessage()
             R.id.leave -> onDestroy()
             R.id.image -> requestImageUpload()
+            R.id.promise -> requestMeetUpUpload()
         }
     }
 
@@ -293,5 +306,28 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         }
 
 
+    }
+    fun showDialog() {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.time_picker_layout, null)
+        builder.setView(dialogView)
+
+
+        val datePicker = dialogView.findViewById<DatePicker>(R.id.datePicker)
+        val timePicker = dialogView.findViewById<TimePicker>(R.id.timePicker)
+
+        builder.setPositiveButton("확인") { dialog, which ->
+            val selectedDate = "${datePicker.year}-${datePicker.month + 1}-${datePicker.dayOfMonth}"
+            val selectedTime = "${timePicker.currentHour}:${timePicker.currentMinute}"
+            Toast.makeText(this, selectedDate + "\n" + selectedTime, Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("취소") { dialog, which ->
+            // 다이얼로그 취소 버튼을 클릭한 경우 수행할 작업을 여기에 추가하세요.
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }
