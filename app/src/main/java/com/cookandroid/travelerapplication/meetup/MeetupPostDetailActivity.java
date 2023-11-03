@@ -119,7 +119,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         }
 
         city1.setText(city1Text);
-        city2.setText(city1Text);
+        city2.setText(city2Text);
 
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         meetupDate.setText("📆 " + reformatDate(dateString));

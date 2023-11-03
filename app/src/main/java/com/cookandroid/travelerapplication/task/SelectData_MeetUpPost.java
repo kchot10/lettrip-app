@@ -97,6 +97,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // í†
                 parseJSONArray(sb.toString());
             }catch (Exception e){
                 Log.d("youn", "JSON Error\n");
+                callback.onTaskComplete(new ArrayList<MeetupPost>());
             }
 
 
