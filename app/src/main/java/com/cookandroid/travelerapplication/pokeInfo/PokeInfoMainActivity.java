@@ -41,6 +41,7 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
     FileHelper fileHelper;
     String IP_ADDRESS, user_id;
     SimpleDateFormat inputFormat, outputFormat;
+    String request_user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,8 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MyTravelActivity.class);
+                intent.putExtra("previousActivity", "PokeInfoMainActivity");
+                intent.putExtra("request_user_id", request_user_id);
                 intent.putExtra("visited/not", "not");
                 startActivity(intent);
             }
@@ -123,6 +126,7 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
     @Override
     public void onTaskComplete(UserInfo result) {
         runOnUiThread(() -> {
+            request_user_id = result.getUser_id();
             //불러온 정보로 ui 세팅
             userNickname.setText(result.getNickname());
             userName.setText(result.getName());

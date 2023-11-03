@@ -59,7 +59,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.textview_arrived_time.setText(arrayList.get(position).getArrived_time());
         holder.textview_cost.setText(arrayList.get(position).getCost()+"원");
         holder.textview_daycount.setText(arrayList.get(position).getDay_count()+"일차");
-        holder.ratingBar_rating.setRating(Integer.parseInt(arrayList.get(position).getRating()));
+        holder.ratingBar_rating.setRating((arrayList.get(position).getRating().equals("null") ? 0: Integer.parseInt(arrayList.get(position).getRating())));
         holder.ratingBar_rating.setIsIndicator(true);
 
     }

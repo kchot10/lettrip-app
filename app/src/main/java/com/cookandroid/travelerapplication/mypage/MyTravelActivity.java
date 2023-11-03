@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.pokeInfo.PokeInfoMainActivity;
 import com.cookandroid.travelerapplication.search.Travel;
 import com.cookandroid.travelerapplication.search.TravelAdapter;
 import com.cookandroid.travelerapplication.task.SelectData_Travel;
@@ -41,6 +42,10 @@ public class MyTravelActivity extends AppCompatActivity {
     }
 
     public void Refresh() {
+        if ("PokeInfoMainActivity".equals(getIntent().getStringExtra("previousActivity"))) {
+            user_id = getIntent().getStringExtra("request_user_id");
+        }
+
         TextView titleText = findViewById(R.id.titleText);
         travelArrayList = new ArrayList<>();
         String is_visited = "0";
