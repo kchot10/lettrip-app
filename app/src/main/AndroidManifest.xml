@@ -185,6 +185,9 @@
         <activity android:name=".pokeInfo.PokeInfoMainActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".pokeInfo.OneLineReviewActivity"
+            android:exported="true">
+        </activity>
 
     </application>
 
