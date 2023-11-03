@@ -182,6 +182,9 @@
         <activity android:name=".meetup.MeetupPostDetailActivity"
             android:exported="true" >
         </activity>
+        <activity android:name=".pokeInfo.PokeInfoMainActivity"
+            android:exported="true">
+        </activity>
 
     </application>
 
