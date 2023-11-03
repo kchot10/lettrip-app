@@ -176,8 +176,7 @@
                         android:layout_width="14dp"
                         android:layout_height="14dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="4dp"
-                        app:srcCompat="@drawable/man_icon" />
+                        android:layout_marginRight="4dp" />
 
                     <TextView
                         android:id="@+id/userBirth"

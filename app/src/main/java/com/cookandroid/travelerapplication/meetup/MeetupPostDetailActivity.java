@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -74,19 +75,21 @@ public class MeetupPostDetailActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        MeetupPost meetupPost = (MeetupPost) intent.getSerializableExtra("meetup_post");
+
         //db에서 데이터 받아와서 화면 구성
-        String city1Text = "서울특별시", city2Text="서울";
-        Date date = new Date();
-        String userNameText = "서정후";
-        String userSexText = "female";
-        Date userBirthText = new Date();
-        String contentsText = "테스트";
-        boolean isGPSenabled = true;
+        String city1Text = meetupPost.getProvince();//"서울특별시";
+        String city2Text= meetupPost.getCity();//"서울";
+        String dateString = meetupPost.getCreated_date();//dateFormat.format(date);
+        String userNameText = meetupPost.getNickname();
+        String userSexText = meetupPost.getSex();
+        String contentsText = meetupPost.getContent();
 
         //- 데이터 불러오는 코드 추가**
 
         //불러온 데이터로 화면 업데이트
-        if(isGPSenabled == true){
+        if(meetupPost.getIs_gps_enabled().equals("1")){
             gpsInfo.setImageResource(R.drawable.meetup_post_gps_icon);
         } else{
             gpsInfo.setImageResource(R.drawable.meetup_post_gps_icon);
@@ -95,23 +98,37 @@ public class MeetupPostDetailActivity extends AppCompatActivity {
         city1.setText(city1Text);
         city2.setText(city1Text);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = dateFormat.format(date);
-        meetupDate.setText("📆 " + dateString);
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        meetupDate.setText("📆 " + reformatDate(dateString));
 
         userName.setText(userNameText);
-        if(userSexText == "female"){
+        if(userSexText == "FEMALE"){
             userSex.setImageResource(R.drawable.woman_icon);
-        } else{
+        } else if(userSexText == "MALE"){
             userSex.setImageResource(R.drawable.man_icon);
         }
 
-        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString2 = dateFormat.format(userBirthText);
+        String dateString2 = (meetupPost.getBirth_date().equals("null") ? "":
+                reformatDate(meetupPost.getBirth_date()));
         userBirth.setText(dateString2);
 
         contents.setText(contentsText);
 
         //수정, 삭제 버튼 추가
+    }
+
+    public static String reformatDate(String originalDate) {
+        try {
+            String originalFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS";
+            String targetFormat = "yyyy.MM.dd";
+            SimpleDateFormat sourceDateFormat = new SimpleDateFormat(originalFormat);
+            SimpleDateFormat targetDateFormat = new SimpleDateFormat(targetFormat);
+
+            Date date = sourceDateFormat.parse(originalDate);
+            return targetDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

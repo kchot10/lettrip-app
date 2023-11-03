@@ -442,7 +442,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                     },500);
 
                     placeName.setText(place_name);
-                    placeCategory.setText((category_name));
+                    placeCategory.setText(category_name);
                     placeAddress.setText(address);
                 }
             }
