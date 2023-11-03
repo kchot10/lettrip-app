@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "54.180.96.176", user_id="25";
+    String IP_ADDRESS = "13.125.79.183", user_id="25";
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
