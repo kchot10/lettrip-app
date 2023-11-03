@@ -52,7 +52,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
     @Override
     public void onBindViewHolder(@NonNull TravelAdapter.TravelViewHolder holder, int position) {
         holder.textView_city.setText(arrayList.get(position).getCity());
-        holder.textView_places.setText(arrayList.get(position).getPlaces());
+        holder.textView_places.setText((!arrayList.get(position).getPlaces().equals("null") ? arrayList.get(position).getPlaces():"장소 없음"));
         holder.textView_travel_theme.setText(arrayList.get(position).getTravel_theme());
         holder.textView_total_cost.setText(arrayList.get(position).getTotal_cost()+"원");
         if(arrayList.get(position).getUser_id().equals(mUser_id)){

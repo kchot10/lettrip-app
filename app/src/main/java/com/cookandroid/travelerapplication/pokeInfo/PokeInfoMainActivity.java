@@ -130,12 +130,10 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
                 userSex.setImageResource(R.drawable.man_icon);
             } else if(result.getSex() == "FEMALE"){
                 userSex.setImageResource(R.drawable.woman_icon);
-            } else{
-                userSex.setImageResource(android.R.color.transparent); // null 처리
             }
             userBirth.setText("");
             try {
-                if (!(result.getBirth_date() == "null")) {
+                if (result.getBirth_date() != "null") {
                     Date date = inputFormat.parse(result.getBirth_date());
                     String formattedDate = outputFormat.format(date);
                     userBirth.setText(formattedDate);
