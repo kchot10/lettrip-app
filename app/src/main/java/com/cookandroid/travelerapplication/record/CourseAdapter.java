@@ -51,10 +51,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     @Override
     public void onBindViewHolder(@NonNull CourseAdapter.CourseViewHolder holder, int position) {
-        Glide.with(holder.itemView.getContext())
-                .load(arrayList.get(position).getStored_file_url())
-                .placeholder(R.drawable.logo)
-                .into(holder.placePhoto);
+        if(!arrayList.get(position).getStored_file_url().equals("null")){
+            Glide.with(holder.itemView.getContext())
+                    .load(arrayList.get(position).getStored_file_url())
+                    .into(holder.placePhoto);
+        }
         holder.textview_place_name.setText(arrayList.get(position).getPlace_name());
         holder.textview_arrived_time.setText(arrayList.get(position).getArrived_time());
         holder.textview_cost.setText(arrayList.get(position).getCost()+"원");
@@ -97,8 +98,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 intent.putExtra("arrived_time", arrayList.get(curpos).getArrived_time());
                 intent.putExtra("cost", arrayList.get(curpos).getCost());
                 intent.putExtra("place_name", arrayList.get(curpos).getPlace_name());
-                intent.putExtra("category_name", arrayList.get(curpos).getCategory_name());
-                intent.putExtra("detailed_review", arrayList.get(curpos).getDetailed_review());
+                intent.putExtra("category_name", (arrayList.get(curpos).getCategory_name().equals("null") ? "":arrayList.get(curpos).getCategory_name()));
+                intent.putExtra("detailed_review", (arrayList.get(curpos).getDetailed_review().equals("null") ? "리뷰 없음":arrayList.get(curpos).getDetailed_review()));
                 intent.putExtra("arrived_time_real", arrayList.get(curpos).getArrived_time_real());
 
                 context.startActivity(intent);

@@ -50,7 +50,7 @@ public class MyTravelActivity extends AppCompatActivity {
         TextView titleText = findViewById(R.id.titleText);
         travelArrayList = new ArrayList<>();
         String is_visited = "0";
-        if (getIntent().getStringExtra("visited/not").equals("visited")){
+        if (getIntent().getStringExtra("visited/not").equals("visited")) {
             is_visited = "1";
             titleText.setText("RECORD");
         }
@@ -58,15 +58,22 @@ public class MyTravelActivity extends AppCompatActivity {
         selectData_travel_mine.execute("http://" + IP_ADDRESS + "/0601/selectData_travel_mine.php", user_id, is_visited);
         try {
             new Handler().postDelayed(() -> {
-                if(travelArrayList.isEmpty()){
-                    Toast.makeText(this,"기록된 여행이 없습니다.", Toast.LENGTH_SHORT).show();
-                }else {
+                if (travelArrayList.isEmpty()) {
+                    Toast.makeText(this, "기록된 여행이 없습니다.", Toast.LENGTH_SHORT).show();
+                } else {
                     recyclerView_adapter = new TravelAdapter(travelArrayList, this);
                     recyclerView.setAdapter(recyclerView_adapter);
                 }
             }, 1000); // 0.5초 지연 시간
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+//    Todo: 혹시 다시 활성화 하게 될 수도..
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Refresh();
+//    }
 }
