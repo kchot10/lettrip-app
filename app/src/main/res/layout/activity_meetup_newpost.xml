@@ -31,7 +31,6 @@
                 app:srcCompat="@drawable/left_arrow_black" />
 
             <TextView
-                android:id="@+id/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
