@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.cookandroid.travelerapplication.meetup.PokeItem;
 import com.cookandroid.travelerapplication.mission.UserInfo;
 
 import org.json.JSONArray;
@@ -23,9 +24,11 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
     public ArrayList articleArrayList;
+    private AsyncTaskCompleteListener callback;
 
-    public <T> SelectData_UserInfo(ArrayList<T> articleArrayList) {
+    public <T> SelectData_UserInfo(ArrayList<T> articleArrayList, AsyncTaskCompleteListener callback) {
         this.articleArrayList = articleArrayList;
+        this.callback = callback;
     }
 
     private String return_string = "";
@@ -147,6 +150,8 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
 
         }
 
+        callback.onTaskComplete(articleArrayList);
+
     }
 
     public String get_return_string(){
@@ -160,6 +165,10 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
             result = str.substring(index + searchString.length(), index + searchString.length() + 2);
         }
         return result;
+    }
+
+    public interface AsyncTaskCompleteListener {
+        void onTaskComplete(ArrayList<UserInfo> result);
     }
 
 }

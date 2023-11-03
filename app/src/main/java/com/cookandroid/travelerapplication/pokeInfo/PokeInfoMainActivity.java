@@ -15,6 +15,7 @@ import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.meetup.PokeListActivity;
 import com.cookandroid.travelerapplication.mypage.MyTravelActivity;
 import com.cookandroid.travelerapplication.record.PlanningMain;
+import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -70,7 +71,6 @@ public class PokeInfoMainActivity extends AppCompatActivity {
         layout3 = findViewById(R.id.LinearLayout3);
 
         //todo: db에서 사용자 정보 받아오기 코드 추가
-
         //닉네임, 이름, 성별, 생년월일, 매칭 완료 횟수, 매칭 실패 횟수, 프로필url
 
 

@@ -18,13 +18,14 @@ import com.cookandroid.travelerapplication.account.LoginActivity;
 import com.cookandroid.travelerapplication.account.WithdrawActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.main.MainActivity;
+import com.cookandroid.travelerapplication.meetup.PokeItem;
 import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.task.SelectData_Travel_Count;
 import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
 import java.util.ArrayList;
 
-public class MypageMainActivity extends AppCompatActivity {
+public class MypageMainActivity extends AppCompatActivity implements SelectData_UserInfo.AsyncTaskCompleteListener{
     TextView tripLikeBtn;
     FileHelper fileHelper;
     String IP_ADDRESS, user_id;
@@ -104,7 +105,7 @@ public class MypageMainActivity extends AppCompatActivity {
 
     private void Refresh() {
         userInfoArrayList = new ArrayList<>();
-        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList);
+        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList, this);
         selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
         new Handler().postDelayed(() -> {
             try {
@@ -137,5 +138,10 @@ public class MypageMainActivity extends AppCompatActivity {
                 Log.e("nullException", "여행 카운트 불러오기 실패");
             }
         }, 300); // 0.5초 지연 시간
+    }
+
+
+    @Override
+    public void onTaskComplete(ArrayList<UserInfo> result) {
     }
 }

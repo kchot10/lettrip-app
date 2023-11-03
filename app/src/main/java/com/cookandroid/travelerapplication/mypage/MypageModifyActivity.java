@@ -29,6 +29,8 @@ import com.cookandroid.travelerapplication.MbEditText;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.helper.S3Uploader;
+import com.cookandroid.travelerapplication.meetup.PokeItem;
+import com.cookandroid.travelerapplication.meetup.PokeListAdapter;
 import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 import com.cookandroid.travelerapplication.task.UpdateData_UserInfo;
@@ -37,7 +39,7 @@ import com.kakao.sdk.user.model.User;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MypageModifyActivity extends AppCompatActivity implements S3Uploader.OnUploadListener{
+public class MypageModifyActivity extends AppCompatActivity implements S3Uploader.OnUploadListener, SelectData_UserInfo.AsyncTaskCompleteListener{
     private static final int PICK_IMAGE_REQUEST_CODE = 1;
     private static final int REQUEST_CODE_PERMISSION = 100;
     private static final int REQUEST_CODE_IMAGE = 200;
@@ -95,7 +97,7 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
 
     private void Refresh() {
         userInfoArrayList = new ArrayList<>();
-        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList);
+        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList, this);
         selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
         new Handler().postDelayed(() -> {
             try {
@@ -204,5 +206,9 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
     @Override
     public void onFailure() {
 
+    }
+
+    @Override
+    public void onTaskComplete(ArrayList<UserInfo> result) {
     }
 }
