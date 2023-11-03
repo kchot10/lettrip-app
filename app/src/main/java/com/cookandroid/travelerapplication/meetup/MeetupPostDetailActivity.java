@@ -10,16 +10,20 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.task.SelectData_Poke;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
-public class MeetupPostDetailActivity extends AppCompatActivity {
+public class MeetupPostDetailActivity extends AppCompatActivity implements SelectData_Poke.AsyncTaskCompleteListener {
     ImageButton backBtn;
     ImageView chatBtn;
     ImageView gpsInfo;
@@ -35,11 +39,15 @@ public class MeetupPostDetailActivity extends AppCompatActivity {
     TextView contents;
     ImageView pokeBtn;
     TextView pokeNumTextView;
+    String IP_ADDRESS;
+    int resultSize = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_post_detail);
+        FileHelper fileHelper = new FileHelper(this);
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         backBtn = findViewById(R.id.backBtn);
         chatBtn = findViewById(R.id.chatBtn);
@@ -57,12 +65,24 @@ public class MeetupPostDetailActivity extends AppCompatActivity {
         pokeBtn = findViewById(R.id.pokeBtn);
         pokeNumTextView = findViewById(R.id.pokeNumTextView);
 
-        //포크 리스트 불러오기
+        //밋업포스트 불러오기
+        Intent intent = getIntent();
+        MeetupPost meetupPost = (MeetupPost) intent.getSerializableExtra("meetup_post");
+
+        ArrayList<PokeItem> pokeItemArrayList = new ArrayList<>();
+        SelectData_Poke task = new SelectData_Poke(pokeItemArrayList, this);
+        task.execute("http://" + IP_ADDRESS + "/1028/SelectData_Poke.php", meetupPost.getMeet_up_post_id());
+
         pokeNumTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), PokeListActivity.class);
-                startActivity(intent);
+                if(resultSize == 0) {
+                    Toast.makeText(getApplicationContext(),"쿸 찌른 사람이 없습니다",Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = new Intent(getApplicationContext(), PokeListActivity.class);
+                    intent.putExtra("meet_up_post_id",meetupPost.getMeet_up_post_id());
+                    startActivity(intent);
+                }
             }
         });
 
@@ -74,9 +94,6 @@ public class MeetupPostDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        Intent intent = getIntent();
-        MeetupPost meetupPost = (MeetupPost) intent.getSerializableExtra("meetup_post");
 
         //db에서 데이터 받아와서 화면 구성
         String city1Text = meetupPost.getProvince();//"서울특별시";
@@ -92,7 +109,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity {
         if(meetupPost.getIs_gps_enabled().equals("1")){
             gpsInfo.setImageResource(R.drawable.meetup_post_gps_icon);
         } else{
-            gpsInfo.setImageResource(R.drawable.meetup_post_gps_icon);
+            gpsInfo.setImageResource(R.drawable.meetup_post_nongps_icon);
         }
 
         city1.setText(city1Text);
@@ -130,5 +147,16 @@ public class MeetupPostDetailActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    @Override
+    public void onTaskComplete(ArrayList<PokeItem> result) {
+        runOnUiThread(()->{
+            pokeNumTextView.setText((result == null ? "0명이 쿸 찔렀습니다." :result.size()+"명이 쿸 찔렀습니다."));
+            if(result != null){
+                resultSize = result.size();
+            }
+        });
     }
 }

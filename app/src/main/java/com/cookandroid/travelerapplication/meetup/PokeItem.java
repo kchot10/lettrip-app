@@ -1,6 +1,8 @@
 package com.cookandroid.travelerapplication.meetup;
 
-public class PokeItem {
+import java.io.Serializable;
+
+public class PokeItem implements Serializable {
     private String meet_up_post_id;
     private String userName;
     private String userSex;
