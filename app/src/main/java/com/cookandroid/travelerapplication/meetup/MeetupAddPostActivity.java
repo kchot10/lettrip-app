@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.databinding.ActivityMeetupNewpostBinding;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,7 +47,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     String selectedCity1;
     String selectedCity2;
     String userInputContext;
-    ActivityMeetupNewpostBinding binding;
     private String IP_ADDRESS;
     FileHelper fileHelper = new FileHelper(this);
 
@@ -59,7 +57,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_newpost);
-        binding = ActivityMeetupNewpostBinding.inflate(getLayoutInflater());
 
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
