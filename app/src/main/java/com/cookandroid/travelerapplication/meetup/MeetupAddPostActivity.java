@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
@@ -215,7 +216,20 @@ public class MeetupAddPostActivity extends AppCompatActivity {
             }
         });
 
+        //뒤로가기 버튼
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MeetupPostMainAcitivty.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
+
+
+
 
 
     public void saveMeetupPostData(String user_id) {

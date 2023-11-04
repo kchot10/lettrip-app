@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "13.125.79.183", user_id="25";
+    String IP_ADDRESS = "43.201.78.198", user_id="25";
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
@@ -104,7 +104,11 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             }
         });
 
+        recyclerView.addItemDecoration(new RecyclerViewDecoration(30));
+
     }
+
+
 
     private void Refresh(String gpsType) {
         SelectData_MeetUpPost selectData_meetUpPost = new SelectData_MeetUpPost(this);
