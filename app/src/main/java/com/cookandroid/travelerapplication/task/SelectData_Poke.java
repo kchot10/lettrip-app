@@ -96,6 +96,7 @@ public class SelectData_Poke extends AsyncTask<String,Void,String> { // 통신�
             try{
                 parseJSONArray(sb.toString());
             }catch (Exception e){
+                callback.onTaskComplete(null);
                 Log.d("youn", "JSON Error\n");
             }
 

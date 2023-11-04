@@ -83,8 +83,7 @@
             android:id="@+id/userSex"
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:layout_marginLeft="4dp"
-            app:srcCompat="@drawable/man_icon" />
+            android:layout_marginLeft="4dp" />
 
         <TextView
             android:id="@+id/userBirth"

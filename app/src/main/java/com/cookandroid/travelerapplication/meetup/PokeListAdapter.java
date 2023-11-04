@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.chat.ChatRoomActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.pokeInfo.PokeInfoMainActivity;
 
 import java.util.ArrayList;
 
@@ -85,6 +86,14 @@ public class PokeListAdapter extends RecyclerView.Adapter<PokeListAdapter.PokeVi
                 intent.putExtra("request_user_id", arrayList.get(curpos).getRequest_user_id());
                 intent.putExtra("meet_up_post_id", arrayList.get(curpos).getMeet_up_post_id());
                 intent.putExtra("first_chat", true);
+                context.startActivity(intent);
+            });
+            itemView.setOnClickListener(v -> {
+                int curpos = getAbsoluteAdapterPosition();
+                Intent intent;
+                intent = new Intent(context, PokeInfoMainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("request_user_id", arrayList.get(curpos).getRequest_user_id());
                 context.startActivity(intent);
             });
         }

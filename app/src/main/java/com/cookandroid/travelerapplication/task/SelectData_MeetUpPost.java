@@ -97,6 +97,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // í†
                 parseJSONArray(sb.toString());
             }catch (Exception e){
                 Log.d("youn", "JSON Error\n");
+                callback.onTaskComplete(new ArrayList<MeetupPost>());
             }
 
 
@@ -135,6 +136,9 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // í†
             String nickname = jsonObject.getString("nickname");
             String sex = jsonObject.getString("sex");
             String image_url = jsonObject.getString("image_url");
+            String province = jsonObject.getString("province");
+            String birth_date = jsonObject.getString("birth_date");
+            String user_id = jsonObject.getString("user_id");
             meetupPost.setMeet_up_post_id(meet_up_post_id);
             meetupPost.setIs_gps_enabled(is_gps_enabled);
             meetupPost.setCity(city);
@@ -143,6 +147,9 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // í†
             meetupPost.setNickname(nickname);
             meetupPost.setSex(sex);
             meetupPost.setImage_url(image_url);
+            meetupPost.setProvince(province);
+            meetupPost.setBirth_date(birth_date);
+            meetupPost.setUser_id(user_id);
             articleArrayList.add(meetupPost);
         }
 

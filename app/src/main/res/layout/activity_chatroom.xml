@@ -30,6 +30,16 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
+    <ImageView
+        android:id="@+id/promise"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/promise"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextLayout"
         android:layout_width="0dp"
@@ -43,7 +53,7 @@
         android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send"
-        app:layout_constraintStart_toEndOf="@+id/image">
+        app:layout_constraintStart_toEndOf="@+id/promise">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText"

@@ -5,21 +5,29 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.TimePicker
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cookandroid.travelerapplication.R
-import com.cookandroid.travelerapplication.article.ArticleAdapter
 import com.cookandroid.travelerapplication.chat.model.MessageType
 import com.cookandroid.travelerapplication.databinding.ActivityChatroomBinding
 import com.cookandroid.travelerapplication.helper.FileHelper
+import com.cookandroid.travelerapplication.helper.GMailSender
 import com.cookandroid.travelerapplication.helper.S3Uploader
+import com.cookandroid.travelerapplication.meetup.MeetupPostDetailActivity
 import com.cookandroid.travelerapplication.task.InsertData_Chat
 import com.cookandroid.travelerapplication.task.InsertData_ChatRoom
 import com.cookandroid.travelerapplication.task.InsertData_Meetup
@@ -50,6 +58,8 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     lateinit var IP_ADDRESS: String
     lateinit var user_id: String
     lateinit var room_id: String
+    lateinit var meet_up_date: String
+    lateinit var code: String
 
     val gson: Gson = Gson()
 
@@ -73,6 +83,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         user_id = fileHelper.readFromFile("user_id");
 //        user_id = "25";
         meet_up_id = "-1"
+        meet_up_date = "";
 
         userName = fileHelper.readFromFile("nickname");
         if(intent.getBooleanExtra("first_chat", false)){
@@ -88,14 +99,9 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         binding.send.setOnClickListener(this)
         binding.leave.setOnClickListener(this)
         binding.image.setOnClickListener(this)
+        binding.promise.setOnClickListener(this)
 
         Log.d("erros", "write_user_id:"+write_user_id+" request_user_id:"+request_user_id);
-
-        //Todo: 밋업 버튼 만들기 (당근마켓의 약속잡기처럼) (현재 아래 코드는 버튼이 없어 if 문으로 대체 중)
-        if(false){
-            val insertdataMeetup = InsertData_Meetup(this)
-            insertdataMeetup.execute("http://" + IP_ADDRESS + "/1028/InsertData_Meetup.php",meet_up_post_id,write_user_id,request_user_id)
-        }
 
         val insertdata_chat_room = InsertData_ChatRoom(this)
         insertdata_chat_room.execute(
@@ -105,6 +111,8 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             write_user_id,
             request_user_id
         )
+
+        //Todo: select를 통해 MeetUp에 만남이 있는지 확인 후 meet_up_date 수정 (현재는 미구현으로 if로 대체)
 
 
 
@@ -126,6 +134,50 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     private fun requestImageUpload() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, REQUEST_CODE_IMAGE)
+    }
+
+    private fun requestMeetUpUpload() {
+        if(meet_up_date.equals("")){
+            showDialog()
+        }else {
+            showMeetUp()
+        }
+    }
+
+    private fun showMeetUp() {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.fragment_authentication, null)
+        builder.setView(dialogView)
+
+        val layout1 = dialogView.findViewById<LinearLayout>(R.id.layout1)
+        val textView = dialogView.findViewById<TextView>(R.id.textView)
+        val authSend = dialogView.findViewById<Button>(R.id.authSend)
+        val editText = dialogView.findViewById<EditText>(R.id.editText)
+        val auth = dialogView.findViewById<Button>(R.id.auth)
+
+        code = ""
+        auth.visibility = View.INVISIBLE
+        editText.visibility = View.INVISIBLE
+
+        authSend.setOnClickListener{
+            code = GMailSender.createEmailCode()
+            textView.setText(code)
+            authSend.visibility = View.INVISIBLE
+            auth.visibility = View.VISIBLE
+        }
+
+        auth.setOnClickListener{
+            //Todo: update를 통해 resultOK라면 인증 성공
+        }
+
+        if(true){ // Todo: 몽고디비에 새로운 커넥션 만들어서 거기에서 만남 id를 통해 인증할게 있는지 확인
+            // Todo: 있으면 번호를 입력하면됨
+        }else{
+            // Todo: 없으면 번호 받고 대기
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -224,6 +276,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             R.id.send -> sendMessage()
             R.id.leave -> onDestroy()
             R.id.image -> requestImageUpload()
+            R.id.promise -> requestMeetUpUpload();
         }
     }
 
@@ -259,6 +312,20 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     override fun onTaskComplete(result_string: String) {
         runOnUiThread {
             meet_up_id = result_string;
+
+            val promise_text = userName+ " 님이 약속을 등록했습니다.\n"+
+                    MeetupPostDetailActivity.reformatDate(meet_up_date,"yyyy-MM-dd HH:mm:ss","'날짜:' yyyy-MM-dd (E)\n'시간:' hh'시' mm'분'")
+            binding.editText.setText(promise_text)
+            IS_IMAGE = false;
+            sendMessage()
+
+            promiseRefresh()
+        }
+    }
+
+    private fun promiseRefresh() {
+        if(!meet_up_date.equals("")){
+            binding.promise
         }
     }
 
@@ -293,5 +360,48 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         }
 
 
+    }
+    fun showDialog() {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.time_picker_layout, null)
+        builder.setView(dialogView)
+
+
+        val datePicker = dialogView.findViewById<DatePicker>(R.id.datePicker)
+        val timePicker = dialogView.findViewById<TimePicker>(R.id.timePicker)
+
+        builder.setPositiveButton("확인") { dialog, which ->
+            val meet_up_post_id = intent.getStringExtra("meet_up_post_id")!!
+            val request_user_id = if (intent.getStringExtra("request_user_id") == null) {
+                user_id
+            } else {
+                intent.getStringExtra("request_user_id")
+            }
+            val write_user_id = if (intent.getStringExtra("write_user_id") == null) {
+                user_id
+            } else {
+                intent.getStringExtra("write_user_id")
+            }
+            val selectedDate = "${datePicker.year}-${datePicker.month + 1}-${datePicker.dayOfMonth}"
+            val selectedTime = "${String.format("%02d", timePicker.currentHour)}:${String.format("%02d", timePicker.currentMinute)}:00"
+            meet_up_date = "$selectedDate $selectedTime"
+
+            if(meet_up_post_id.isNullOrEmpty() || request_user_id.isNullOrEmpty() || write_user_id.isNullOrEmpty() || meet_up_date.isNullOrEmpty()){
+                Log.e("errors","showDialog 에러 발생")
+            }else{
+                val insertdataMeetup = InsertData_Meetup(this)
+                insertdataMeetup.execute("http://" + IP_ADDRESS + "/1028/InsertData_Meetup.php",meet_up_post_id,write_user_id,request_user_id, meet_up_date)
+            }
+
+            Toast.makeText(this, meet_up_date, Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("취소") { dialog, which ->
+            // 다이얼로그 취소 버튼을 클릭한 경우 수행할 작업을 여기에 추가하세요.
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }

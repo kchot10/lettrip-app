@@ -47,13 +47,22 @@ public class MeetupPostAdapter extends RecyclerView.Adapter<MeetupPostAdapter.Me
             nicknameTextView = itemView.findViewById(R.id.nickName);
             sexIcon = itemView.findViewById(R.id.sexIcon);
             circle_iv = itemView.findViewById(R.id.circle_iv);
+//
+//            itemView.setOnClickListener(v -> {
+//                int curpos = getAbsoluteAdapterPosition();
+//                Intent intent;
+//                intent = new Intent(context, PokeListActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra("meet_up_post_id", meetupPostList.get(curpos).getMeet_up_post_id());
+//                context.startActivity(intent);
+//            });
 
             itemView.setOnClickListener(v -> {
                 int curpos = getAbsoluteAdapterPosition();
                 Intent intent;
-                intent = new Intent(context, PokeListActivity.class);
+                intent = new Intent(context, MeetupPostDetailActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("meet_up_post_id", meetupPostList.get(curpos).getMeet_up_post_id());
+                intent.putExtra("meetup_post", meetupPostList.get(curpos)); // MeetupPost 클래스 형태로 보내는건 오류
                 context.startActivity(intent);
             });
         }

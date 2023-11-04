@@ -1,6 +1,8 @@
 package com.cookandroid.travelerapplication.meetup;
 
-public class MeetupPost {
+import java.io.Serializable;
+
+public class MeetupPost implements Serializable {
     private String meet_up_post_id;
     private String is_gps_enabled;
     private String city;
@@ -9,6 +11,34 @@ public class MeetupPost {
     private String nickname;
     private String sex;
     private String image_url;
+    private String province;
+    private String birth_date;
+    private String user_id;
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getBirth_date() {
+        return birth_date;
+    }
+
+    public void setBirth_date(String birth_date) {
+        this.birth_date = birth_date;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
     public MeetupPost() {
     }
 

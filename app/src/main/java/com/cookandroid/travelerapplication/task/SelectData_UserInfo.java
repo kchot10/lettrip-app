@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.cookandroid.travelerapplication.meetup.PokeItem;
 import com.cookandroid.travelerapplication.mission.UserInfo;
 
 import org.json.JSONArray;
@@ -23,9 +24,11 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
     private static String TAG = "youn"; //phptest log 찍으려는 용도
 
     public ArrayList articleArrayList;
+    private AsyncTaskCompleteListener callback;
 
-    public <T> SelectData_UserInfo(ArrayList<T> articleArrayList) {
+    public <T> SelectData_UserInfo(ArrayList<T> articleArrayList, AsyncTaskCompleteListener callback) {
         this.articleArrayList = articleArrayList;
+        this.callback = callback;
     }
 
     private String return_string = "";
@@ -125,17 +128,31 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
             UserInfo userInfo = new UserInfo();
 
             String nickname = jsonObject.getString("nickname");
+            String name = jsonObject.getString("name");
             String image_url = jsonObject.getString("image_url");
             String email = jsonObject.getString("email");
             String point = jsonObject.getString("point");
+            String sex = jsonObject.getString("sex");
+            String birth_date = jsonObject.getString("birth_date");
+            String meet_up_cancelled_count = jsonObject.getString("meet_up_cancelled_count");
+            String meet_up_completed_count = jsonObject.getString("meet_up_completed_count");
+            String user_id = jsonObject.getString("user_id");
             userInfo.setNickname(nickname);
+            userInfo.setName(name);
             userInfo.setStored_file_url(image_url);
             userInfo.setEmail(email);
             userInfo.setPoint(point);
+            userInfo.setSex(sex);
+            userInfo.setBirth_date(birth_date);
+            userInfo.setMeet_up_cancelled_count(meet_up_cancelled_count);
+            userInfo.setMeet_up_completed_count(meet_up_completed_count);
+            userInfo.setUser_id(user_id);
 
             articleArrayList.add(userInfo);
 
+            callback.onTaskComplete(userInfo);
         }
+
 
     }
 
@@ -150,6 +167,10 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
             result = str.substring(index + searchString.length(), index + searchString.length() + 2);
         }
         return result;
+    }
+
+    public interface AsyncTaskCompleteListener {
+        void onTaskComplete(UserInfo result);
     }
 
 }

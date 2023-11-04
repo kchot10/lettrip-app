@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "54.180.96.176", user_id="25";
+    String IP_ADDRESS = "13.125.79.183", user_id="25";
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
@@ -115,7 +116,9 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
+                if(result.size() == 0){
+                    Toast.makeText(getApplicationContext(),"관련 친구매칭 글이 없습니다",Toast.LENGTH_SHORT).show();
+                }
                 adapter = new MeetupPostAdapter(result, getApplicationContext());
                 recyclerView.setAdapter(adapter);
 

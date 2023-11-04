@@ -45,7 +45,7 @@ public class GMailSender extends javax.mail.Authenticator {
         return emailCode;
     } //생성된 이메일 인증코드 반환
 
-    private String createEmailCode() { //이메일 인증코드 생성
+    public static String createEmailCode() { //이메일 인증코드 생성
         CodeGenerator codeGenerator = new CodeGenerator();
         return codeGenerator.generateCode();
     }
