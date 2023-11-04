@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.chat.ChatListActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.meetup.model.GpsType;
 import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
@@ -105,6 +106,15 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         });
 
         recyclerView.addItemDecoration(new RecyclerViewDecoration(30));
+
+        //채팅 목록 보기
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ChatListActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
