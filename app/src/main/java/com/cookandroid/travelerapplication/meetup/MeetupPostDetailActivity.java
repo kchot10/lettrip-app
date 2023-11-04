@@ -3,6 +3,7 @@ package com.cookandroid.travelerapplication.meetup;
 import static org.jetbrains.anko.Sdk27PropertiesKt.setImageResource;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Layout;
@@ -159,10 +160,14 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
             @Override
             public void onClick(View view) {
                 showPopup();
+                // 팝업창의 배경 설정
+                WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+                layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                layoutParams.dimAmount = 0.7f;
+                getWindow().setAttributes(layoutParams);
             }
         });
     }
-
 
 
 
@@ -172,12 +177,8 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
 
         // 팝업을 위한 레이아웃을 담은 뷰를 사용하여 팝업 윈도우를 생성
         popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setOutsideTouchable(true); // 외부를 터치해도 닫히도록 설정
 
-        // 팝업창의 배경 설정
-        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParams.dimAmount = 0.7f;
-        getWindow().setAttributes(layoutParams);
 
         // 팝업창 크기 조절
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -197,9 +198,19 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
             @Override
             public void onClick(View view) {
                 message = pokeMessage.getText().toString();
-                //todo:message db 저장 - poke 테이블에 추가
-                popupWindow.dismiss();
-                Toast.makeText(getApplicationContext(), "찌르기 완료!", Toast.LENGTH_SHORT).show();
+                if(message.equals("")){
+                    Toast.makeText(getApplicationContext(), "메시지를 입력하세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    //todo:message db 저장 - poke 테이블에 추가
+                    popupWindow.dismiss();
+                    Toast.makeText(getApplicationContext(), "찌르기 완료!", Toast.LENGTH_SHORT).show();
+                    WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+                    layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                    layoutParams.dimAmount = 0.0f; // 배경 어둡게 설정을 해제
+                    getWindow().setAttributes(layoutParams);
+                }
+
+
             }
         });
     }
