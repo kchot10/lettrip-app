@@ -27,10 +27,10 @@ import com.cookandroid.travelerapplication.databinding.ActivityChatroomBinding
 import com.cookandroid.travelerapplication.helper.FileHelper
 import com.cookandroid.travelerapplication.helper.GMailSender
 import com.cookandroid.travelerapplication.helper.S3Uploader
+import com.cookandroid.travelerapplication.meetup.MeetUp
+import com.cookandroid.travelerapplication.meetup.MeetupPost
 import com.cookandroid.travelerapplication.meetup.MeetupPostDetailActivity
-import com.cookandroid.travelerapplication.task.InsertData_Chat
-import com.cookandroid.travelerapplication.task.InsertData_ChatRoom
-import com.cookandroid.travelerapplication.task.InsertData_Meetup
+import com.cookandroid.travelerapplication.task.*
 import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -38,7 +38,7 @@ import io.socket.emitter.Emitter
 
 
 class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.OnUploadListener,
-    InsertData_Meetup.AsyncTaskCompleteListener, InsertData_ChatRoom.AsyncTaskCompleteListener {
+    InsertData_Meetup.AsyncTaskCompleteListener, InsertData_ChatRoom.AsyncTaskCompleteListener, InsertData_Auth.AsyncTaskCompleteListener, SelectData_MeetUp.AsyncTaskCompleteListener {
 
     private var IS_IMAGE = false;
 
@@ -60,6 +60,11 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     lateinit var room_id: String
     lateinit var meet_up_date: String
     lateinit var code: String
+    lateinit var editText: EditText
+    lateinit var layout1 :LinearLayout
+    lateinit var auth :Button
+    lateinit var dialog :AlertDialog
+    lateinit var meet_up: MeetUp
 
     val gson: Gson = Gson()
 
@@ -113,7 +118,12 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         )
 
         //Todo: select를 통해 MeetUp에 만남이 있는지 확인 후 meet_up_date 수정 (현재는 미구현으로 if로 대체)
-
+        val selectdata_meetup = SelectData_MeetUp(this)
+        selectdata_meetup.execute(
+            "http://" + IP_ADDRESS + "/1028/SelectData_MeetUp.php",
+            write_user_id,
+            request_user_id
+        )
 
 
         requestPermissions()
@@ -137,6 +147,11 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     }
 
     private fun requestMeetUpUpload() {
+        try{
+            meet_up_date = meet_up.meet_up_date;
+        }catch (e:java.lang.Exception){
+            Log.e("errors", "밋업이 없어서 오류가 났습니다.")
+        }
         if(meet_up_date.equals("")){
             showDialog()
         }else {
@@ -145,17 +160,30 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     }
 
     private fun showMeetUp() {
+
+        code = ""
+        val insertdata_auth = InsertData_Auth(this)
+        insertdata_auth.execute(
+            "http://" + IP_ADDRESS + "/0930/insert_auth.php",
+            request_user_id,
+            write_user_id,
+            code
+        )
+
+
         val builder = AlertDialog.Builder(this)
         val dialogView = LayoutInflater.from(this).inflate(R.layout.fragment_authentication, null)
         builder.setView(dialogView)
 
-        val layout1 = dialogView.findViewById<LinearLayout>(R.id.layout1)
+        layout1 = dialogView.findViewById<LinearLayout>(R.id.layout1)
         val textView = dialogView.findViewById<TextView>(R.id.textView)
         val authSend = dialogView.findViewById<Button>(R.id.authSend)
-        val editText = dialogView.findViewById<EditText>(R.id.editText)
-        val auth = dialogView.findViewById<Button>(R.id.auth)
+        editText = dialogView.findViewById<EditText>(R.id.editText)
+        auth = dialogView.findViewById<Button>(R.id.auth)
 
-        code = ""
+        val request_user_id = if (intent.getStringExtra("request_user_id") == null) { user_id } else { intent.getStringExtra("request_user_id") }
+        val write_user_id = if (intent.getStringExtra("write_user_id") == null) { user_id } else { intent.getStringExtra("write_user_id") }
+
         auth.visibility = View.INVISIBLE
         editText.visibility = View.INVISIBLE
 
@@ -164,20 +192,34 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             textView.setText(code)
             authSend.visibility = View.INVISIBLE
             auth.visibility = View.VISIBLE
+
+            val insertdata_auth = InsertData_Auth(this)
+            insertdata_auth.execute(
+                "http://" + IP_ADDRESS + "/0930/insert_auth.php",
+                request_user_id,
+                write_user_id,
+                code
+            )
         }
 
         auth.setOnClickListener{
-            //Todo: update를 통해 resultOK라면 인증 성공
+            if(code == "sender"){
+                code = "sender"
+            }else {
+                code = editText.text.toString();
+            }
+            val insertdata_auth = InsertData_Auth(this)
+            insertdata_auth.execute(
+                "http://" + IP_ADDRESS + "/0930/insert_auth.php",
+                request_user_id,
+                write_user_id,
+                code
+            )
         }
 
-        if(true){ // Todo: 몽고디비에 새로운 커넥션 만들어서 거기에서 만남 id를 통해 인증할게 있는지 확인
-            // Todo: 있으면 번호를 입력하면됨
-        }else{
-            // Todo: 없으면 번호 받고 대기
-        }
-
-        val dialog = builder.create()
+        dialog = builder.create()
         dialog.show()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -403,5 +445,39 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
         val dialog = builder.create()
         dialog.show()
+    }
+
+    override fun onTaskComplete_InsertData_Auth(result_string: String) {
+        runOnUiThread {
+
+            if(result_string.equals("NOAUTH")) {
+                Toast.makeText(this, "전송 버튼을 눌러주세요.", Toast.LENGTH_SHORT).show()
+            }else if(result_string.equals("INSERTAUTH")) {
+                Toast.makeText(this, "인증하기 코드를 전송했습니다.", Toast.LENGTH_SHORT).show()
+                code = "sender"
+//                auth.visibility = View.VISIBLE
+            }else if (result_string.equals("MATCH")) {
+                code = "COMPLETE"
+                Toast.makeText(this, "인증이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                //Todo: 인증이 완료되었으니 MeetUpStatus를 COMPLETE로 바꿔야함
+                //Todo: 그리고 다음에 똑같은 사람하고 또 약속 잡을 수 있으므로 auth 파기해야함
+                dialog.dismiss()
+            }else if (result_string.equals("NOTMATCH")) {
+                layout1.visibility = View.INVISIBLE
+                editText.visibility = View.VISIBLE
+                auth.visibility = View.VISIBLE
+                if(editText.text.toString().equals("")){
+                    Toast.makeText(this, "약속이 있습니다. 인증코드를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(this, "코드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    override fun onTaskComplete_SelectData_MeetUp(result: MeetUp?) {
+        if(result != null){
+            meet_up = result
+        }
     }
 }
