@@ -123,6 +123,9 @@ public class MissionTripActivity extends AppCompatActivity {
 
     private String[] findProvinceCity(String address) {
 
+        String[] mProvince = {"서울", "광주", "대구", "대전", "부산", "울산", "인천"};
+        String[] mProvince2 = {"제주특별자치도, 세종특별자치시"};
+
         String[] stringsAddress = address.split(" ");
         if (Arrays.asList(mProvince).contains(stringsAddress[0])){
             stringsAddress[1] = stringsAddress[0];
@@ -132,11 +135,13 @@ public class MissionTripActivity extends AppCompatActivity {
                 stringsAddress[0] += "광역시";
             }
         }else if (Arrays.asList(mProvince2).contains(stringsAddress[0])){
-            stringsAddress[1] = stringsAddress[0].substring(0, 2);
+            if(stringsAddress[0].equals("세종특별자치시")){
+                stringsAddress[1] = stringsAddress[0].substring(0, 2);
+            }
         }else{
             switch (stringsAddress[0]) {
                 case "강원":
-                    stringsAddress[0] = "강원도";
+                    stringsAddress[0] = "강원특별자치도";
                     break;
                 case "경기":
                     stringsAddress[0] = "경기도";
@@ -160,7 +165,6 @@ public class MissionTripActivity extends AppCompatActivity {
                     stringsAddress[0] = "충청북도";
                     break;
             }
-            stringsAddress[1] = stringsAddress[1].substring(0,2);
         }
         return stringsAddress;
     }

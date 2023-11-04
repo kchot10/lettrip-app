@@ -80,7 +80,7 @@
         <item>부산광역시</item>
         <item>울산광역시</item>
         <item>인천광역시</item>
-        <item>강원도</item>
+        <item>강원특별자치도</item>
         <item>경기도</item>
         <item>경상북도</item>
         <item>경상남도</item>
@@ -120,7 +120,7 @@
         <item>인천</item>
     </string-array>
 
-    <string-array name="강원도">
+    <string-array name="강원특별자치도">
         <item>춘천시</item>
         <item>원주시</item>
         <item>강릉시</item>

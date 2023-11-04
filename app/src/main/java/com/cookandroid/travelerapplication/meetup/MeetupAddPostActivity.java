@@ -289,7 +289,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     private List<String> getCityList1() {
         return Arrays.asList(
                 "서울특별시", "광주광역시", "대구광역시", "대전광역시", "부산광역시", "울산광역시", "인천광역시",
-                "경기도", "강원도", "충청북도", "충청남도", "전라북도",
+                "경기도", "강원특별자치도", "충청북도", "충청남도", "전라북도",
                 "전라남도", "경상북도", "경상남도", "제주특별자치도", "세종특별자치시"
                 );
     }
@@ -314,7 +314,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                 return City.SEJONG;
             case "경기도":
                 return City.GYEONGGI_CITY;
-            case "강원도":
+            case "강원특별자치도":
                 return City.GANGWON_CITY;
             case "충청북도":
                 return City.CHUNGCHEONG_BUKDO_CITY;
@@ -463,11 +463,13 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                 stringsAddress[0] += "광역시";
             }
         }else if (Arrays.asList(mProvince2).contains(stringsAddress[0])){
-            stringsAddress[1] = stringsAddress[0].substring(0, 2);
+            if(stringsAddress[0].equals("세종특별자치시")){
+                stringsAddress[1] = stringsAddress[0].substring(0, 2);
+            }
         }else{
             switch (stringsAddress[0]) {
                 case "강원":
-                    stringsAddress[0] = "강원도";
+                    stringsAddress[0] = "강원특별자치도";
                     break;
                 case "경기":
                     stringsAddress[0] = "경기도";
@@ -491,7 +493,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                     stringsAddress[0] = "충청북도";
                     break;
             }
-            stringsAddress[1] = stringsAddress[1].substring(0,2);
         }
         return stringsAddress;
     }

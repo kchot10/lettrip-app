@@ -125,7 +125,7 @@ public class RecordMain extends AppCompatActivity{
                         setCitySpinnerAdapterItem(R.array.인천광역시);
                         break;
                     case 8:
-                        setCitySpinnerAdapterItem(R.array.강원도);
+                        setCitySpinnerAdapterItem(R.array.강원특별자치도);
                         break;
                     case 9:
                         setCitySpinnerAdapterItem(R.array.경기도);
