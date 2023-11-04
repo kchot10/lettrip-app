@@ -3,12 +3,21 @@ package com.cookandroid.travelerapplication.meetup;
 import static org.jetbrains.anko.Sdk27PropertiesKt.setImageResource;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +50,9 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
     TextView pokeNumTextView;
     String IP_ADDRESS, user_id;
     int resultSize = 0;
+    String message = "초기화메시지"; //poke 한줄메시지
+    private PopupWindow popupWindow;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +153,71 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         contents.setText(contentsText);
 
         //수정, 삭제 버튼 추가
+
+        //쿸 찌르기
+        pokeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopup();
+            }
+        });
     }
+
+
+
+
+    private void showPopup() {
+        // 팝업을 위한 레이아웃 파일을 inflate
+        View popupView = getLayoutInflater().inflate(R.layout.popup_poke, null);
+
+        // 팝업을 위한 레이아웃을 담은 뷰를 사용하여 팝업 윈도우를 생성
+        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        // 팝업창의 배경 설정
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        layoutParams.dimAmount = 0.7f;
+        getWindow().setAttributes(layoutParams);
+
+        // 팝업창 크기 조절
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        int width = (int) (dm.widthPixels * 0.8);
+        int height = (int) (dm.heightPixels * 0.3);
+
+        popupWindow.setWidth(width);
+        popupWindow.setHeight(height);
+
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+        // 팝업 내부의 버튼이나 위젯에 대한 이벤트 처리 등을 추가
+        Button addPokeBtn = popupView.findViewById(R.id.addPokeBtn);
+        EditText pokeMessage = popupView.findViewById(R.id.pokeMessage);
+
+        addPokeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                message = pokeMessage.getText().toString();
+                //todo:message db 저장 - poke 테이블에 추가
+                popupWindow.dismiss();
+                Toast.makeText(getApplicationContext(), "찌르기 완료!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            // 팝업이 떠 있는지 확인하고 떠 있으면 닫습니다.
+            if (popupWindow != null && popupWindow.isShowing()) {
+                popupWindow.dismiss();
+                return true;
+            }
+        }
+        return super.onTouchEvent(event);
+    }
+
+
+
 
     public static String reformatDate(String originalDate, String originalFormat, String targetFormat) {
         try {

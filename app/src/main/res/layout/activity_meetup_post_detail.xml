@@ -44,11 +44,12 @@
 
             <ImageView
                 android:id="@+id/chatBtn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
 
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="30dp"
+                android:foregroundGravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/bottombar_chat_icon" />
