@@ -30,6 +30,7 @@ public class InsertData_Meetup extends AsyncTask<String, Void, String> {
         String meet_up_post_id = params[1];
         String write_user_id = params[2];
         String request_user_id = params[3];
+        String meet_up_date = params[4];
 
         try {
             URL url = new URL(serverURL);
@@ -43,7 +44,8 @@ public class InsertData_Meetup extends AsyncTask<String, Void, String> {
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
             String postData = "meet_up_post_id=" + meet_up_post_id +
                     "&write_user_id=" + write_user_id +
-                    "&request_user_id=" + request_user_id;
+                    "&request_user_id=" + request_user_id +
+                    "&meet_up_date=" + meet_up_date;
             bufferedWriter.write(postData);
             bufferedWriter.flush();
             bufferedWriter.close();

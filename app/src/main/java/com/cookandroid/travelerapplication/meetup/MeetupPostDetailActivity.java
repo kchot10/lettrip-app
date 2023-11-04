@@ -121,8 +121,11 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         city1.setText(city1Text);
         city2.setText(city2Text);
 
+        String originalFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS";
+        String targetFormat = "yyyy.MM.dd";
+
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        meetupDate.setText("📆 " + reformatDate(dateString));
+        meetupDate.setText("📆 " + reformatDate(dateString, originalFormat, targetFormat));
 
         userName.setText(userNameText);
         if(userSexText == "FEMALE"){
@@ -132,7 +135,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         }
 
         String dateString2 = (meetupPost.getBirth_date().equals("null") ? "":
-                reformatDate(meetupPost.getBirth_date()));
+                reformatDate(meetupPost.getBirth_date(), originalFormat, targetFormat));
         userBirth.setText(dateString2);
 
         contents.setText(contentsText);
@@ -140,10 +143,8 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         //수정, 삭제 버튼 추가
     }
 
-    public static String reformatDate(String originalDate) {
+    public static String reformatDate(String originalDate, String originalFormat, String targetFormat) {
         try {
-            String originalFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS";
-            String targetFormat = "yyyy.MM.dd";
             SimpleDateFormat sourceDateFormat = new SimpleDateFormat(originalFormat);
             SimpleDateFormat targetDateFormat = new SimpleDateFormat(targetFormat);
 
