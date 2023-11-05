@@ -281,10 +281,10 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
     @Override
     public void onTaskComplete_InsertData_Poke(String result) {
         runOnUiThread(() ->{
-            if (result.equals("실패")){
-                Toast.makeText(getApplicationContext(), "찌르기 실패입니다. php 파일을 확인하세요", Toast.LENGTH_SHORT).show();
+            if (result.equals("연결 실패")){
+                Toast.makeText(getApplicationContext(), "찌르기 실패입니다. serverURL을 확인하세요", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(getApplicationContext(), "찌르기 완료!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "찌르기 완료! poke_id" + result, Toast.LENGTH_SHORT).show();
             }
         });
     }

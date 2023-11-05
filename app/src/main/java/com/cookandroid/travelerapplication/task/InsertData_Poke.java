@@ -87,7 +87,7 @@ public class InsertData_Poke extends AsyncTask<String,Void,String> { // 통신�
             Log.d("php 값 :", sb.toString());
 
             if(callback == null){
-                callback.onTaskComplete_InsertData_Poke("실패");
+                callback.onTaskComplete_InsertData_Poke("연결 실패");
             }else{
                 callback.onTaskComplete_InsertData_Poke(sb.toString());
             }
