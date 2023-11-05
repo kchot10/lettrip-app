@@ -4,12 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cookandroid.travelerapplication.meetup.MeetupPost;
 import com.cookandroid.travelerapplication.meetup.PokeItem;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -19,28 +14,27 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_Poke extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
     private AsyncTaskCompleteListener callback;
-    public ArrayList articleArrayList;
+    private String return_string;
 
-    public <T> SelectData_MeetUpPost(AsyncTaskCompleteListener callback) {
-        this.articleArrayList = new ArrayList();
+    public InsertData_Poke(AsyncTaskCompleteListener callback) {
         this.callback = callback;
     }
 
-    private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
-        String serverURL = (String) params[0];
 
-        String postParameters = "";
-        try {
-            String is_gps_enabled = (String) params[1];
-            postParameters ="is_gps_enabled="+is_gps_enabled;
-        }catch (Exception e){
-        }
+        String serverURL = (String) params[0];
+        String brief_message = (String)params[1];
+        String meet_up_post_id = (String)params[2];
+        String user_id = (String)params[3];
+
+        String postParameters ="brief_message="+brief_message
+                +"&meet_up_post_id="+meet_up_post_id
+                +"&user_id="+user_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -92,15 +86,11 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
 
             Log.d("php 값 :", sb.toString());
 
-            try{
-                parseJSONArray(sb.toString());
-            }catch (Exception e){
-                Log.d("youn", "JSON Error\n");
-                callback.onTaskComplete(new ArrayList<MeetupPost>());
+            if(callback == null){
+                callback.onTaskComplete_InsertData_Poke("실패");
+            }else{
+                callback.onTaskComplete_InsertData_Poke(sb.toString());
             }
-
-
-
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -110,7 +100,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
 
         catch (Exception e) {
 
-            Log.d(TAG, "SelectData_MyMission: Error",e);
+            Log.d(TAG, "InsertData_Travel: Error",e);
 
             return  new String("Error " + e.getMessage());
 
@@ -118,58 +108,10 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
 
     }
 
-    private void parseJSONArray(String result) throws JSONException {
-        // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
-        JSONArray jsonArray = new JSONArray(result);
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-            MeetupPost meetupPost = new MeetupPost();
-
-            String meet_up_post_id = jsonObject.getString("meet_up_post_id");
-            String is_gps_enabled = jsonObject.getString("is_gps_enabled");
-            String city = jsonObject.getString("city");
-            String content = jsonObject.getString("content");
-            String created_date = jsonObject.getString("created_date");
-            String nickname = jsonObject.getString("nickname");
-            String sex = jsonObject.getString("sex");
-            String image_url = jsonObject.getString("image_url");
-            String province = jsonObject.getString("province");
-            String birth_date = jsonObject.getString("birth_date");
-            String user_id = jsonObject.getString("user_id");
-            meetupPost.setMeet_up_post_id(meet_up_post_id);
-            meetupPost.setIs_gps_enabled(is_gps_enabled);
-            meetupPost.setCity(city);
-            meetupPost.setContent(content);
-            meetupPost.setCreated_date(created_date);
-            meetupPost.setNickname(nickname);
-            meetupPost.setSex(sex);
-            meetupPost.setImage_url(image_url);
-            meetupPost.setProvince(province);
-            meetupPost.setBirth_date(birth_date);
-            meetupPost.setUser_id(user_id);
-            articleArrayList.add(meetupPost);
-        }
-
-        callback.onTaskComplete(articleArrayList);
-    }
-
-    public String get_return_string(){
-        return return_string;
-    }
-
-    public String getTwoCharsAfterString(String str, String searchString) {
-        String result = "";
-        int index = str.indexOf(searchString);
-        if (index != -1 && index + searchString.length() + 2 <= str.length()) {
-            result = str.substring(index + searchString.length(), index + searchString.length() + 2);
-        }
-        return result;
-    }
 
     public interface AsyncTaskCompleteListener {
-        void onTaskComplete(ArrayList<MeetupPost> result);
+        void onTaskComplete_InsertData_Poke(String result);
     }
 
 }
+

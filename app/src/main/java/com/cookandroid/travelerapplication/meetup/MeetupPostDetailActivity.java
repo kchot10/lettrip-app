@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -26,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.task.InsertData_Poke;
 import com.cookandroid.travelerapplication.task.SelectData_Poke;
 
 import java.text.ParseException;
@@ -33,7 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MeetupPostDetailActivity extends AppCompatActivity implements SelectData_Poke.AsyncTaskCompleteListener {
+public class MeetupPostDetailActivity extends AppCompatActivity implements SelectData_Poke.AsyncTaskCompleteListener, InsertData_Poke.AsyncTaskCompleteListener {
     ImageButton backBtn;
     ImageView chatBtn;
     ImageView gpsInfo;
@@ -53,6 +55,8 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
     int resultSize = 0;
     String message = "초기화메시지"; //poke 한줄메시지
     private PopupWindow popupWindow;
+    String meet_up_post_id = "";
+    MeetupPost meetupPost;
 
 
     @Override
@@ -62,6 +66,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         FileHelper fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
+        meetupPost = new MeetupPost(); // 오류 방지를 위한 초기화
 
         backBtn = findViewById(R.id.backBtn);
         chatBtn = findViewById(R.id.chatBtn);
@@ -81,20 +86,35 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
 
         //밋업포스트 불러오기
         Intent intent = getIntent();
-        MeetupPost meetupPost = (MeetupPost) intent.getSerializableExtra("meetup_post");
+        meetupPost = (MeetupPost) intent.getSerializableExtra("meetup_post");
 
         ArrayList<PokeItem> pokeItemArrayList = new ArrayList<>();
         SelectData_Poke task = new SelectData_Poke(pokeItemArrayList, this);
         task.execute("http://" + IP_ADDRESS + "/1028/SelectData_Poke.php", meetupPost.getMeet_up_post_id());
 
         if(!meetupPost.getUser_id().equals(user_id)){
+            // 자신의 글이 아니라면
             edit.setVisibility(View.INVISIBLE);
             delete.setVisibility(View.INVISIBLE);
-        };
+
+            pokeBtn.setVisibility(View.VISIBLE);
+        }else{
+            // 자신의 글이라면
+            edit.setVisibility(View.VISIBLE);
+            delete.setVisibility(View.VISIBLE);
+
+            pokeBtn.setVisibility(View.INVISIBLE);
+        }
 
         pokeNumTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!meetupPost.getUser_id().equals(user_id)){
+                    // 자신의 글이 아니라면
+                    Toast.makeText(getApplicationContext(),"타인의 글에 찌른 목록은 볼 수 없습니다",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if(resultSize == 0) {
                     Toast.makeText(getApplicationContext(),"쿸 찌른 사람이 없습니다",Toast.LENGTH_SHORT).show();
                 }else{
@@ -194,6 +214,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         Button addPokeBtn = popupView.findViewById(R.id.addPokeBtn);
         EditText pokeMessage = popupView.findViewById(R.id.pokeMessage);
 
+        InsertData_Poke insertData_poke = new InsertData_Poke(this);
         addPokeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -201,13 +222,16 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
                 if(message.equals("")){
                     Toast.makeText(getApplicationContext(), "메시지를 입력하세요.", Toast.LENGTH_SHORT).show();
                 }else{
-                    //todo:message db 저장 - poke 테이블에 추가
                     popupWindow.dismiss();
-                    Toast.makeText(getApplicationContext(), "찌르기 완료!", Toast.LENGTH_SHORT).show();
                     WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
                     layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
                     layoutParams.dimAmount = 0.0f; // 배경 어둡게 설정을 해제
                     getWindow().setAttributes(layoutParams);
+
+                    //todo:message db 저장 - poke 테이블에 추가
+                    String brief_message = message;
+                    String meet_up_post_id =  meetupPost.getMeet_up_post_id();
+                    insertData_poke.execute("http://" + IP_ADDRESS + "/1028/InsertData_Poke.php", brief_message, meet_up_post_id, user_id);
                 }
 
 
@@ -250,6 +274,17 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
             pokeNumTextView.setText((result == null ? "0명이 쿸 찔렀습니다." :result.size()+"명이 쿸 찔렀습니다."));
             if(result != null){
                 resultSize = result.size();
+            }
+        });
+    }
+
+    @Override
+    public void onTaskComplete_InsertData_Poke(String result) {
+        runOnUiThread(() ->{
+            if (result.equals("실패")){
+                Toast.makeText(getApplicationContext(), "찌르기 실패입니다. php 파일을 확인하세요", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "찌르기 완료!", Toast.LENGTH_SHORT).show();
             }
         });
     }
