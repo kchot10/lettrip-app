@@ -39,10 +39,13 @@
 
         <Button
             android:id="@+id/chat_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="수락한 사람과 채팅" />
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom"
+            android:background="#6F7AA3"
+            android:gravity="center"
+            android:text="채팅"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
     <LinearLayout

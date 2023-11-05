@@ -188,7 +188,9 @@
         <activity android:name=".pokeInfo.OneLineReviewActivity"
             android:exported="true">
         </activity>
-
+        <activity android:name=".chat.ChatListActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
