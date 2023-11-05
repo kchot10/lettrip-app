@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cookandroid.travelerapplication.R;
@@ -43,9 +44,13 @@ public class OptionalBtnClickListener implements View.OnClickListener{
             String categoryGroupCode = data.getStringExtra("category_group_code"); //장소카테고리
             String address = data.getStringExtra("address"); //장소 도로명주소
 
+            LinearLayout placeLayout = ((Activity) mContext).findViewById(R.id.placeLayout);
+
             placeName.setText(name);
             placeCategory.setText(categoryGroupCode);
             placeAddress.setText(address);
+
+            placeLayout.setVisibility(View.VISIBLE);
 
             //todo:선택된 장소 db 추가 - place 테이블에 정보 추가 & meet_up_post 테이블에 place_id 추가
 
