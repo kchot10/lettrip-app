@@ -88,20 +88,19 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         addPost = findViewById(R.id.writeBtn);
 
         //gps 스피너
-        String[] gpsStatus = {"전체", "GPS 정보 사용", "GPS 정보 미사용"};
+        String[] gpsStatus = {"GPS 정보 사용", "GPS 정보 미사용"};
         ArrayAdapter<String> adapterGpsSpinner = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, gpsStatus); //추후 스피너 레이아웃 커스텀하기
         adapterGpsSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gpsSelected.setAdapter(adapterGpsSpinner);
 
-        Refresh(GpsType.GPS_ALL.toString());
+        gpsSelected.setSelection(1);
+
+        Refresh(GpsType.GPS_DISABLE.toString());
         gpsSelected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 String selectedGpsStatus = gpsStatus[position];
                 switch (selectedGpsStatus) {
-                    case "전체":
-                        Refresh(GpsType.GPS_ALL.toString());
-                        break;
                     case "GPS 정보 사용":
                         Refresh(GpsType.GPS_ENABLE.toString());
                         city1.setEnabled(false);
