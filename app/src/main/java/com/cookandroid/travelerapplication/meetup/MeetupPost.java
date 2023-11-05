@@ -1,10 +1,28 @@
 package com.cookandroid.travelerapplication.meetup;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 
 public class MeetupPost implements Serializable {
     private String meet_up_post_id;
     private String is_gps_enabled;
+
+    public MeetupPost(String meet_up_post_id, String is_gps_enabled, String city, String content, String created_date, String nickname, String sex, @Nullable String image_url, String province, @Nullable String birth_date, String user_id, String postTitle) {
+        this.meet_up_post_id = meet_up_post_id;
+        this.is_gps_enabled = is_gps_enabled;
+        this.city = city;
+        this.content = content;
+        this.created_date = created_date;
+        this.nickname = nickname;
+        this.sex = sex;
+        this.image_url = image_url;
+        this.province = province;
+        this.birth_date = birth_date;
+        this.user_id = user_id;
+        this.postTitle = postTitle;
+    }
+
     private String city;
     private String content;
     private String created_date;
@@ -115,6 +133,8 @@ public class MeetupPost implements Serializable {
     public void setPostTitle(String postTitle) {
         this.postTitle = postTitle;
     }
+
+
 }
 
 

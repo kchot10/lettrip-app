@@ -1,7 +1,10 @@
 package com.cookandroid.travelerapplication.chat;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.meetup.MeetupPostMainAcitivty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,7 @@ import javax.security.auth.callback.CallbackHandler;
 public class ChatListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
+    ImageButton backBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,5 +40,13 @@ public class ChatListActivity extends AppCompatActivity {
 
         chatAdapter = new ChatAdapter(itemList);
         recyclerView.setAdapter(chatAdapter);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MeetupPostMainAcitivty.class);
+                startActivity(intent);
+            }
+        });
     }
 }
