@@ -469,8 +469,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         String[] mProvince2 = {"제주특별자치도, 세종특별자치시"};
 
         String[] stringsAddress = address.split(" ");
-        Log.e("errors", "에러검사 "+stringsAddress[0]+", "+stringsAddress[1]);
-        Log.e("errors", "에러검사 "+ Arrays.asList(mProvince2).contains(stringsAddress[0]));
         if (Arrays.asList(mProvince).contains(stringsAddress[0])){
             stringsAddress[1] = stringsAddress[0];
             if (stringsAddress[0].equals("서울")){
@@ -508,7 +506,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                     break;
             }
         }
-        Log.e("errors", "에러검사 "+stringsAddress[0]+", "+stringsAddress[1]);
         return stringsAddress;
     }
 

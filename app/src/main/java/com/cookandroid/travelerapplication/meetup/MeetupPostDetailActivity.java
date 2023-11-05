@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -53,6 +54,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
     int resultSize = 0;
     String message = "초기화메시지"; //poke 한줄메시지
     private PopupWindow popupWindow;
+    String meet_up_post_id = "";
 
 
     @Override
@@ -250,6 +252,11 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
             pokeNumTextView.setText((result == null ? "0명이 쿸 찔렀습니다." :result.size()+"명이 쿸 찔렀습니다."));
             if(result != null){
                 resultSize = result.size();
+            }
+            try{
+                meet_up_post_id = result.get(0).getMeet_up_post_id();
+            }catch (Exception e){
+                Log.e("errors", "상세 페이지에서 밋업포스트 아이디 가져오기 실패");
             }
         });
     }
