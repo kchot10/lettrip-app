@@ -90,13 +90,28 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         task.execute("http://" + IP_ADDRESS + "/1028/SelectData_Poke.php", meetupPost.getMeet_up_post_id());
 
         if(!meetupPost.getUser_id().equals(user_id)){
+            // 자신의 글이 아니라면
             edit.setVisibility(View.INVISIBLE);
             delete.setVisibility(View.INVISIBLE);
-        };
+
+            pokeBtn.setVisibility(View.VISIBLE);
+        }else{
+            // 자신의 글이라면
+            edit.setVisibility(View.VISIBLE);
+            delete.setVisibility(View.VISIBLE);
+
+            pokeBtn.setVisibility(View.INVISIBLE);
+        }
 
         pokeNumTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!meetupPost.getUser_id().equals(user_id)){
+                    // 자신의 글이 아니라면
+                    Toast.makeText(getApplicationContext(),"타인의 글에 찌른 목록은 볼 수 없습니다",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if(resultSize == 0) {
                     Toast.makeText(getApplicationContext(),"쿸 찌른 사람이 없습니다",Toast.LENGTH_SHORT).show();
                 }else{
@@ -252,11 +267,6 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
             pokeNumTextView.setText((result == null ? "0명이 쿸 찔렀습니다." :result.size()+"명이 쿸 찔렀습니다."));
             if(result != null){
                 resultSize = result.size();
-            }
-            try{
-                meet_up_post_id = result.get(0).getMeet_up_post_id();
-            }catch (Exception e){
-                Log.e("errors", "상세 페이지에서 밋업포스트 아이디 가져오기 실패");
             }
         });
     }
