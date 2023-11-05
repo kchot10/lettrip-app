@@ -70,6 +70,15 @@
             android:layout_marginTop="25dp"
             app:srcCompat="@drawable/meetup_post_gps_icon" />
 
+        <TextView
+            android:id="@+id/postTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="전시회 동행 구해요 !!"
+            android:textSize="18sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="29dp"
@@ -80,9 +89,9 @@
                 android:id="@+id/city1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_bold"
+                android:fontFamily="@font/mont_medium"
                 android:text="서울특별시"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/city2"
