@@ -24,10 +24,12 @@ import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
 import com.cookandroid.travelerapplication.task.SelectData_Poke;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "43.201.78.198", user_id="25";
+    String IP_ADDRESS = "3.34.136.218", user_id="25";
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
@@ -35,6 +37,9 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
     Spinner city2;
     Button addPost;
     String is_gps_enabled = "all";
+    String selectedCity1;
+    String selectedCity2;
+    ArrayAdapter<String> city1Adapter; // 어댑터 선언
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -79,9 +84,13 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                         break;
                     case "GPS 정보 사용":
                         Refresh(GpsType.GPS_ENABLE.toString());
+                        city1.setEnabled(false);
+                        city2.setEnabled(false);
                         break;
                     case "GPS 정보 미사용":
                         Refresh(GpsType.GPS_DISABLE.toString());
+                        city1.setEnabled(true);
+                        city2.setEnabled(true);
                         break;
                     // 다른 GPS 상태에 대한 case 문 추가
                     default:
@@ -93,6 +102,42 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        //citySpinner
+        city1Adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, getCityList1());
+        city1Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        city1.setAdapter(city1Adapter);
+
+        city1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCity1 = (String) parent.getItemAtPosition(position); // city1의 선택된 값 저장
+
+                String selectedCity = (String) parent.getItemAtPosition(position);
+                List<String> cityList = getCityList2(selectedCity);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                city2.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 아무 것도 선택되지 않았을 때의 동작 수행
+            }
+        });
+
+        city2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCity2 = (String) parent.getItemAtPosition(position); // city2의 선택된 값 저장
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 아무 것도 선택되지 않았을 때의 동작 수행
             }
         });
 
@@ -122,7 +167,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
 
     private void Refresh(String gpsType) {
         SelectData_MeetUpPost selectData_meetUpPost = new SelectData_MeetUpPost(this);
-        selectData_meetUpPost.execute("http://" + IP_ADDRESS + "/1028/SelectData_MeetUpPost.php", gpsType);
+        selectData_meetUpPost.execute("http://" + IP_ADDRESS + "/1028/SelectData_MeetUpPost.php", gpsType, selectedCity1, selectedCity2);
     }
 
     @Override
@@ -138,5 +183,63 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
 
             }
         });
+    }
+
+    private List<String> getCityList1() {
+        return Arrays.asList(
+                "서울특별시", "광주광역시", "대구광역시", "대전광역시", "부산광역시", "울산광역시", "인천광역시",
+                "경기도", "강원특별자치도", "충청북도", "충청남도", "전라북도",
+                "전라남도", "경상북도", "경상남도", "제주특별자치도", "세종특별자치시"
+        );
+    }
+
+    private List<String> getCityList2(String selectedCity) {
+        switch (selectedCity) {
+            case "서울특별시":
+                return City.SEOUL;
+            case "부산광역시":
+                return City.BUSAN;
+            case "대구광역시":
+                return City.DAEGU;
+            case "인천광역시":
+                return City.INCHEON;
+            case "광주광역시":
+                return City.GWANGJU;
+            case "대전광역시":
+                return City.DAEJEON;
+            case "울산광역시":
+                return City.ULSAN;
+            case "세종특별자치시":
+                return City.SEJONG;
+            case "경기도":
+                return City.GYEONGGI_CITY;
+            case "강원특별자치도":
+                return City.GANGWON_CITY;
+            case "충청북도":
+                return City.CHUNGCHEONG_BUKDO_CITY;
+            case "충청남도":
+                return City.CHUNGCHEONG_NAMDO_CITY;
+            case "전라북도":
+                return City.JEOLLA_BUKDO_CITY;
+            case "전라남도":
+                return City.JEOLLA_NAMDO_CITY;
+            case "경상북도":
+                return City.GYEONGSANG_BUKDO_CITY;
+            case "경상남도":
+                return City.GYEONGSANG_NAMDO_CITY;
+            case "제주특별자치도":
+                return City.JEJU_CITY;
+            default:
+                return Collections.emptyList();
+        }
+    }
+
+    public String getSelectedCity1() {
+        return selectedCity1;
+    }
+
+
+    public String getSelectedCity2() {
+        return selectedCity2;
     }
 }

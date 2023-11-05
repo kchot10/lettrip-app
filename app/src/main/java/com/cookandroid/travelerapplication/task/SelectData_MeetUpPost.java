@@ -40,6 +40,12 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
             String is_gps_enabled = (String) params[1];
             postParameters ="is_gps_enabled="+is_gps_enabled;
             Log.d("errors", is_gps_enabled);
+
+            // is_gps_enabled가 0인 경우에만 city 파라미터를 추가
+            if ("0".equals(is_gps_enabled)) {
+                String city = (String) params[2];
+                postParameters += "&city=" + city;
+            }
         }catch (Exception e){
         }
 
