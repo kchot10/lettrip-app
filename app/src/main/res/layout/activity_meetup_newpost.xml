@@ -93,11 +93,6 @@
                 android:layout_height="30dp"
                 android:background="@drawable/meetup_newpost_spinner" />
 
-            <TextView
-                android:id="@+id/lo1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
         </LinearLayout>
 
         <TextView

@@ -35,14 +35,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.databinding.ActivityMeetupNewpostBinding;
 import com.cookandroid.travelerapplication.kotlin.KotlinActivity;
+import com.cookandroid.travelerapplication.mission.UserInfo;
+import com.cookandroid.travelerapplication.mypage.MyTravelActivity;
 import com.cookandroid.travelerapplication.record.CourseActivity;
 import com.cookandroid.travelerapplication.record.Place;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
 import com.cookandroid.travelerapplication.task.SelectData_Place;
+import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,7 +78,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     String selectedCity1;
     String selectedCity2;
     String userInputContext;
-    ActivityMeetupNewpostBinding binding;
+    //ActivityMeetupNewpostBinding binding;
     private String IP_ADDRESS;
     FileHelper fileHelper = new FileHelper(this);
 
@@ -86,14 +89,14 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     TextView planDate;
     TextView planInfo;
     TextView planCategory;
-    LinearLayout placeLayout;
-    TextView lo1;
+    LinearLayout placeLayout, planLayout;
+    String request_user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_newpost);
-        binding = ActivityMeetupNewpostBinding.inflate(getLayoutInflater());
+        //binding = ActivityMeetupNewpostBinding.inflate(getLayoutInflater());
 
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
@@ -116,7 +119,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         planCategory = findViewById(R.id.planCategory);
         backBtn = findViewById(R.id.backBtn);
         placeLayout = findViewById(R.id.placeLayout);
-        lo1 = findViewById(R.id.lo1);
+        planLayout = findViewById(R.id.PlanLayout);
 
 
         //gpsSpinner
@@ -159,7 +162,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
 
                             // TODO: fullAddress를 사용하여 UI 업데이트 또는 저장 등의 작업 수행
 
-                            lo1.setText(fullAddress);
                         } else {
                             // 주소를 가져오지 못한 경우 처리
                         }
@@ -263,6 +265,25 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         });
         //addPlaceBtn.setOnClickListener(btnClickListener);
 
+        addPlanBtn.setOnClickListener(v -> {
+            String title = "서울 여행";
+            String date = "2020.10.10 - 2020.10.20";
+            int courseNum = 3;
+            String course = "코스 " +  courseNum + "개";
+            int moneyNum = 100000;
+            String money = "비용 " + formatNumber(moneyNum) + "원";
+            String categoryString = "문화여행";
+            String category = "#" + categoryString;
+
+            //todo:여행 계획 리스트에서 하나를 선택하면 그 여행에 대한 정보들을 받아와서 변수에 저장하기
+
+            planLayout.setVisibility(VISIBLE);
+            planTitleTextView.setText(title);
+            planDate.setText(date);
+            planCategory.setText(category);
+            planInfo.setText(course + " / " + money);
+
+        });
 
         String user_id = fileHelper.readFromFile("user_id");
 
@@ -289,7 +310,13 @@ public class MeetupAddPostActivity extends AppCompatActivity {
 
 //---------------------------------------------------------------------------------
 
+    //비용 천 단위로 쉼표 붙이기
+    public static String formatNumber(int number) {
+        Locale locale = new Locale("ko", "KR"); // 한국 로케일
+        NumberFormat nf = NumberFormat.getNumberInstance(locale);
 
+        return nf.format(number);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -305,6 +332,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                 placeCategory.setText(category);
                 placeAddress.setText(address);
                 placeLayout.setVisibility(VISIBLE);
+
             }
         }
     }
