@@ -1,5 +1,6 @@
 package com.cookandroid.travelerapplication.chat;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 import com.sun.mail.imap.protocol.Item;
 
@@ -16,9 +18,11 @@ import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     private List<ChatRoom> itemList;
+    private Context context;
 
-    public ChatAdapter(List<ChatRoom> itemList) {
+    public ChatAdapter(List<ChatRoom> itemList, Context context) {
         this.itemList = itemList;
+        this.context = context;
     }
 
     @NonNull
@@ -33,11 +37,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         ChatRoom chatRoom = itemList.get(position);
         holder.bind(chatRoom);
 
-        if (chatRoom.getProfileURI() != null) {
-            holder.profilePhoto.setImageURI(chatRoom.getProfileURI());
-        } else {
-            holder.profilePhoto.setImageResource(R.drawable.profile_photo_mypage);
-        }
+//        if (chatRoom.getProfileURI() != null) {
+//            holder.profilePhoto.setImageURI(chatRoom.getProfileURI());
+//        } else {
+//        }
     }
 
     @Override
@@ -62,10 +65,26 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
         public void bind(ChatRoom ChatRoom) {
             userNickName.setText(ChatRoom.getUserName());
-            chatContent.setText(ChatRoom.getChatContent());
 
-            profilePhoto.setImageURI(ChatRoom.getProfileURI());
-            time.setText(ChatRoom.getTime());
+            if(!ChatRoom.getChatContent().equals("null")){
+                chatContent.setText(ChatRoom.getChatContent());
+            }else{
+                chatContent.setText("(채팅 내용이 없습니다)");
+            }
+
+            String image_url = ChatRoom.getProfileURI();
+            if(!(image_url == null || image_url.equals("null") || image_url.isEmpty() || image_url.equals(""))) {
+                Glide.with(context)
+                        .load(image_url)
+                        .into(profilePhoto);
+            }else{
+                profilePhoto.setImageResource(R.drawable.profile_photo_mypage);
+            }
+            if(!ChatRoom.getTime().equals("null")){
+                time.setText(ChatRoom.getTime());
+            }else{
+                time.setText("");
+            }
         }
     }
 }
