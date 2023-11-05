@@ -9,9 +9,12 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.TimePicker
@@ -31,6 +34,7 @@ import com.cookandroid.travelerapplication.meetup.MeetUp
 import com.cookandroid.travelerapplication.meetup.MeetupPost
 import com.cookandroid.travelerapplication.meetup.MeetupPostDetailActivity
 import com.cookandroid.travelerapplication.task.*
+import com.google.android.material.internal.ViewUtils.dpToPx
 import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -106,6 +110,12 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         binding.image.setOnClickListener(this)
         binding.promise.setOnClickListener(this)
 
+        val plusBtn = findViewById<ImageButton>(R.id.plusBtn)
+        plusBtn.setOnClickListener {
+            toggleExpandLayout()
+        }
+
+
         Log.d("erros", "write_user_id:"+write_user_id+" request_user_id:"+request_user_id);
 
         val insertdata_chat_room = InsertData_ChatRoom(this)
@@ -125,10 +135,69 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             request_user_id
         )
 
+        //인증버튼
+        val certificationBtn = findViewById<ImageView>(R.id.review)
+        certificationBtn.setOnClickListener {
+            showCertificationPopup()
+        }
+
+
 
         requestPermissions()
     }
 
+
+    //후기 작성 팝업 띄우기
+    private fun showCertificationPopup() {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.popup_one_line_review, null)
+        builder.setView(dialogView)
+
+        val editText = dialogView.findViewById<EditText>(R.id.oneLineReviewMessage)
+        val completeBtn = dialogView.findViewById<Button>(R.id.addOneLineReviewBtn)
+
+        val dialog = builder.create()
+
+        // 크기 조정
+        val dpWidth = 300
+        val dpHeight = 225
+        dialog.window!!.setLayout(dpToPx(dpWidth), dpToPx(dpHeight))
+
+        // 배경을 투명하게 설정
+        val layoutParams = WindowManager.LayoutParams()
+        layoutParams.copyFrom(dialog.window!!.attributes)
+        layoutParams.dimAmount = 0f // 0으로 설정하면 완전 투명, 1로 설정하면 완전 불투명
+        dialog.window!!.attributes = layoutParams
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+
+        completeBtn.setOnClickListener {
+            val userInput = editText.text.toString() // 사용자가 입력한 내용을 가져옴
+            // todo: 리뷰 내용 DB에 저장
+
+            dialog.dismiss() // 팝업 닫기
+        }
+
+        // 팝업 외부를 클릭하여 닫을 수 있도록 설정
+        builder.setCancelable(true)
+
+        dialog.show()
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        val scale = resources.displayMetrics.density
+        return (dp * scale + 0.5f).toInt()
+    }
+
+
+    //확장레이아웃 가시성 변경
+    private fun toggleExpandLayout() {
+        val expandLayout = findViewById<LinearLayout>(R.id.expandLayout)
+        if (expandLayout.visibility == View.VISIBLE) {
+            expandLayout.visibility = View.GONE
+        } else {
+            expandLayout.visibility = View.VISIBLE
+        }
+    }
 
     private fun requestPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)

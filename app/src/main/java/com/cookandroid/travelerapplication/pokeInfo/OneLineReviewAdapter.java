@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class OneLineReviewAdapter extends FragmentPagerAdapter {
     private static final int NUM_PAGES = 2;
+    private int selectedTab = 0; // 기본값을 매칭 성공 탭으로 설정
+
 
     OneLineReviewAdapter(FragmentManager fm){
         super(fm);
@@ -43,5 +45,13 @@ public class OneLineReviewAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }
+    }
+
+    public void setSelectedTab(int tab) {
+        selectedTab = tab;
+    }
+
+    public int getSelectedTab() {
+        return selectedTab;
     }
 }
