@@ -117,6 +117,10 @@ public class MeetupPostAdapter extends RecyclerView.Adapter<MeetupPostAdapter.Me
             Glide.with(context)
                     .load(image_url)
                     .into(holder.circle_iv);
+
+        } else{
+            holder.circle_iv.setImageResource(R.drawable.profile_photo_mypage);
+
         }
 
     }

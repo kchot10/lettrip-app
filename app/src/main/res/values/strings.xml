@@ -306,5 +306,8 @@
         <item>세종</item>
     </string-array>
 
-
+    <string-array name="gender_options">
+        <item>남자</item>
+        <item>여자</item>
+    </string-array>
 </resources>

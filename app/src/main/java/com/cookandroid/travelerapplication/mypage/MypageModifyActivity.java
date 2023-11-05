@@ -3,6 +3,7 @@ package com.cookandroid.travelerapplication.mypage;
 import static android.provider.LiveFolders.INTENT;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -12,10 +13,14 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +42,12 @@ import com.cookandroid.travelerapplication.task.UpdateData_UserInfo;
 import com.kakao.sdk.user.model.User;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class MypageModifyActivity extends AppCompatActivity implements S3Uploader.OnUploadListener, SelectData_UserInfo.AsyncTaskCompleteListener{
     private static final int PICK_IMAGE_REQUEST_CODE = 1;
@@ -46,16 +56,19 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
 
     FileHelper fileHelper;
     String IP_ADDRESS, user_id;
-    String newNickName, image_url;
+    String newNickName, image_url, newBirth;
     Uri selectedImageUri;
     MbEditText userNickName_editText;
+
     TextView userName;
     String mImageUrl = "";
 
-    ImageButton editBtn_userName, editBtn_userEmail, profilePhotoBtn;
+    ImageButton editBtn_userName, editBtn_userEmail, profilePhotoBtn, editBtn_userBirth;
 
     ArrayList<UserInfo> userInfoArrayList;
-    
+    ImageButton backBtn; TextView userBirth; TextView userEmail;
+    Spinner userSexSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +81,10 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
         editBtn_userEmail = findViewById(R.id.editBtn_userEmail);
         Button Modify_fisnishBtn = findViewById(R.id.modifyOkBtn);
         userName = findViewById(R.id.userName);
+        editBtn_userBirth = findViewById(R.id.editBtn_userBirth);
+        backBtn = findViewById(R.id.backBtn);
+        userBirth = findViewById(R.id.userBirth);
+        userSexSpinner = findViewById(R.id.userSexSpinner);
 
         Refresh();
 
@@ -85,6 +102,13 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
             }
         });
 
+        editBtn_userBirth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Modify_userBirth();
+            }
+        });
+
         Modify_fisnishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +117,51 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
         });
 
         requestPermissions();
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed(); // 뒤로가기 버튼을 눌른 것과 동일한 동작
+            }
+        });
+
+        //성별 선택 스피너
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.gender_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userSexSpinner.setAdapter(adapter);
+        String selectedGender = ""; // 성별을 저장할 변수
+
+        userSexSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedGender = (String) parent.getItemAtPosition(position);
+
+                // 선택된 성별에 따라 변수에 값을 저장
+                if (selectedGender.equals("남자")) {
+                    selectedGender = "MALE";
+                } else if (selectedGender.equals("여자")) {
+                    selectedGender = "FEMALE";
+                }
+                // TODO: 선택된 성별 DB 추가 (selectedGender변수에 저장되어 있음)
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 아무 것도 선택되지 않았을 때의 동작 수행
+            }
+        });
+
     }
+
+
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
 
     private void Refresh() {
         userInfoArrayList = new ArrayList<>();
@@ -145,6 +213,7 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
     private void Modify_finish() {
         try {
             newNickName = String.valueOf(userNickName_editText.getText());
+
         }catch (Exception e){
             newNickName = "";
         }
@@ -158,6 +227,7 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
             if (image_url.equals("")){
                 image_url = userInfoArrayList.get(0).getStored_file_url();
             }
+
             UpdateData_UserInfo updateData_userInfo = new UpdateData_UserInfo();
             updateData_userInfo.execute("http://" + IP_ADDRESS + "/0601/UpdateData_UserInfo.php", user_id, newNickName, image_url);
             Toast.makeText(getApplicationContext(), "수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
@@ -182,7 +252,53 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
         String name = (String) userNickName.getText();
         userNickName_editText.setText(name);
         parent.addView(userNickName_editText, index);
+
     }
+
+    private void Modify_userBirth() {
+
+            // DatePickerDialog를 통해 날짜 선택
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            // 사용자가 날짜를 선택했을 때 호출되는 콜백
+                            String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+
+                            // 선택된 날짜를 EditText에 설정
+                            userBirth.setText(selectedDate);
+
+                            // 선택된 날짜를 newBirth 변수에 저장
+                            newBirth = selectedDate;
+                        }
+                    }, year, month, day);
+
+            // DatePickerDialog 표시
+            datePickerDialog.show();
+
+        String selectedDate = year + "-" + (month + 1) + "-" + day;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = null;
+
+        try {
+            date = sdf.parse(selectedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (date != null) {
+            // TODO:DB에 생년월일 저장 - date 변수에 저장되어 있는 상태
+        } else {
+            // 변환에 실패한 경우
+        }
+
+    }
+
 
     private void openGallery(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

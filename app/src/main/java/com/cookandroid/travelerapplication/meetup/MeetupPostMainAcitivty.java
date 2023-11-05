@@ -1,7 +1,18 @@
 package com.cookandroid.travelerapplication.meetup;
 
+import static androidx.constraintlayout.motion.widget.Debug.getLocation;
+
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,22 +22,30 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.article.ArticleListActivity;
 import com.cookandroid.travelerapplication.chat.ChatListActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.meetup.model.GpsType;
+import com.cookandroid.travelerapplication.mission.MissionMainActivity;
+import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
+import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
 import com.cookandroid.travelerapplication.task.SelectData_Poke;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
     String IP_ADDRESS = "3.34.136.218", user_id="25";
@@ -40,10 +59,11 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
     String selectedCity1;
     String selectedCity2;
     ArrayAdapter<String> city1Adapter; // 어댑터 선언
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
+    Location currentLocation;
 
 
     @Override
@@ -86,6 +106,9 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                         Refresh(GpsType.GPS_ENABLE.toString());
                         city1.setEnabled(false);
                         city2.setEnabled(false);
+
+                        //gps 정보 사용해서 지역 알아내기
+
                         break;
                     case "GPS 정보 미사용":
                         Refresh(GpsType.GPS_DISABLE.toString());
@@ -117,6 +140,9 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
 
                 String selectedCity = (String) parent.getItemAtPosition(position);
                 List<String> cityList = getCityList2(selectedCity);
+                //if (locality != null) {
+                    //cityList.add(locality);
+                //}
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -161,7 +187,44 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             }
         });
 
+        ImageButton mypage = findViewById(R.id.mypageBtn);
+        mypage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MypageMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton mission = findViewById(R.id.missionBtn);
+        mission.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MissionMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton board = findViewById(R.id.boardBtn);
+        board.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
+            }
+        });
+
+        ImageButton record = findViewById(R.id.recordBtn);
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RecordMain.class);
+                //TODO:POPUP 띄워서 후기 기록과 계획 기록으로 나눠서 들어가도록 설정
+            }
+        });
+
     }
+
+
 
 
 

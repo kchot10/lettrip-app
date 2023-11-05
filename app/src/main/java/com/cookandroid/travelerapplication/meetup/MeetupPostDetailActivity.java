@@ -5,6 +5,7 @@ import static org.jetbrains.anko.Sdk27PropertiesKt.setImageResource;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.DisplayMetrics;
@@ -144,6 +145,8 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         String userSexText = meetupPost.getSex();
         String contentsText = meetupPost.getContent();
         String title = meetupPost.getPostTitle();
+        Uri profileUri = Uri.parse(meetupPost.getImage_url());
+
 
         //- 데이터 불러오는 코드 추가**
 
@@ -176,6 +179,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
 
         contents.setText(contentsText);
         postTitle.setText(title);
+        profilePhoto.setImageURI(profileUri);
 
         //수정, 삭제 버튼 추가
 

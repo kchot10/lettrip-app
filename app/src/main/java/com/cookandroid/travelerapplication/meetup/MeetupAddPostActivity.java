@@ -2,8 +2,16 @@ package com.cookandroid.travelerapplication.meetup;
 
 import static android.view.View.VISIBLE;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,6 +30,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
@@ -33,6 +42,7 @@ import com.cookandroid.travelerapplication.record.Place;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
 import com.cookandroid.travelerapplication.task.SelectData_Place;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,9 +79,15 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     private String IP_ADDRESS;
     FileHelper fileHelper = new FileHelper(this);
 
-    TextView placeName; TextView placeCategory; TextView placeAddress;
-    TextView planTitleTextView; TextView planDate; TextView planInfo; TextView planCategory;
+    TextView placeName;
+    TextView placeCategory;
+    TextView placeAddress;
+    TextView planTitleTextView;
+    TextView planDate;
+    TextView planInfo;
+    TextView planCategory;
     LinearLayout placeLayout;
+    TextView lo1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +116,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         planCategory = findViewById(R.id.planCategory);
         backBtn = findViewById(R.id.backBtn);
         placeLayout = findViewById(R.id.placeLayout);
-
+        lo1 = findViewById(R.id.lo1);
 
 
         //gpsSpinner
@@ -113,14 +129,44 @@ public class MeetupAddPostActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedStatus = (String) parent.getItemAtPosition(position);
-                switch (selectedStatus){
+                switch (selectedStatus) {
                     case "GPS 사용":
-                        is_gps_enabled =  "1";
+                        is_gps_enabled = "1";
                         city1.setEnabled(false);
                         city2.setEnabled(false);
+
+                        // GPS 정보 사용해서 현재 위치 확인
+                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                        Location loc_current = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        double cur_lat = loc_current.getLatitude(); //위도
+                        double cur_lon = loc_current.getLongitude(); //경도
+
+                        // 위도와 경도를 이용하여 주소 가져오기
+                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                        List<Address> addresses = null;
+                        try {
+                            addresses = geocoder.getFromLocation(cur_lat, cur_lon, 1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (addresses != null && addresses.size() > 0) {
+                            Address address = addresses.get(0);
+                            String fullAddress = address.getAddressLine(0); // 전체 주소
+
+                            // TODO: fullAddress를 사용하여 UI 업데이트 또는 저장 등의 작업 수행
+
+                            lo1.setText(fullAddress);
+                        } else {
+                            // 주소를 가져오지 못한 경우 처리
+                        }
                         break;
+
                     case "GPS 미사용":
-                        is_gps_enabled =  "0";
+                        is_gps_enabled = "0";
                         city1.setEnabled(true);
                         city2.setEnabled(true);
                         break;
@@ -131,6 +177,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                 }
 
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -241,6 +288,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
 
 
 //---------------------------------------------------------------------------------
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

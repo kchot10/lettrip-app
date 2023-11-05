@@ -444,7 +444,7 @@
                 app:srcCompat="@drawable/meetup_btn" />
 
             <ImageButton
-                android:id="@+id/imageButton8"
+                android:id="@+id/mypageBtn"
                 android:layout_width="20dp"
                 android:layout_height="23dp"
                 android:layout_weight="1"
