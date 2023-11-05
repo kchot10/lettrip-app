@@ -13,11 +13,14 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,12 +63,12 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
     TextView userName;
     String mImageUrl = "";
 
-    ImageButton editBtn_userName, editBtn_userEmail, profilePhotoBtn, editBtn_userBirth, editBtn_userSex;
+    ImageButton editBtn_userName, editBtn_userEmail, profilePhotoBtn, editBtn_userBirth;
 
     ArrayList<UserInfo> userInfoArrayList;
     ImageButton backBtn; TextView userBirth; TextView userEmail;
+    Spinner userSexSpinner;
 
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +82,9 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
         Button Modify_fisnishBtn = findViewById(R.id.modifyOkBtn);
         userName = findViewById(R.id.userName);
         editBtn_userBirth = findViewById(R.id.editBtn_userBirth);
-        editBtn_userSex = findViewById(R.id.editBtn_userSex);
         backBtn = findViewById(R.id.backBtn);
         userBirth = findViewById(R.id.userBirth);
-
+        userSexSpinner = findViewById(R.id.userSexSpinner);
 
         Refresh();
 
@@ -123,7 +125,37 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
             }
         });
 
+        //성별 선택 스피너
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.gender_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userSexSpinner.setAdapter(adapter);
+        String selectedGender = ""; // 성별을 저장할 변수
+
+        userSexSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedGender = (String) parent.getItemAtPosition(position);
+
+                // 선택된 성별에 따라 변수에 값을 저장
+                if (selectedGender.equals("남자")) {
+                    selectedGender = "MALE";
+                } else if (selectedGender.equals("여자")) {
+                    selectedGender = "FEMALE";
+                }
+                // TODO: 선택된 성별 DB 추가 (selectedGender변수에 저장되어 있음)
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 아무 것도 선택되지 않았을 때의 동작 수행
+            }
+        });
+
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -181,14 +213,12 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
     private void Modify_finish() {
         try {
             newNickName = String.valueOf(userNickName_editText.getText());
-            newBirth = String.valueOf(userNickName_editText.getText());
 
         }catch (Exception e){
             newNickName = "";
-            newBirth = "";
         }
         image_url = mImageUrl;
-        if (newNickName.equals("")&&mImageUrl.equals("") && newBirth.equals("")){
+        if (newNickName.equals("")&&mImageUrl.equals("")){
             Toast.makeText(this,"변경사항이 없습니다!",Toast.LENGTH_SHORT).show();
         }else {
             if (newNickName.equals("")){
@@ -242,6 +272,9 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
 
                             // 선택된 날짜를 EditText에 설정
                             userBirth.setText(selectedDate);
+
+                            // 선택된 날짜를 newBirth 변수에 저장
+                            newBirth = selectedDate;
                         }
                     }, year, month, day);
 
@@ -259,7 +292,7 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
         }
 
         if (date != null) {
-            // TODO:DB에 생년월일 저장
+            // TODO:DB에 생년월일 저장 - date 변수에 저장되어 있는 상태
         } else {
             // 변환에 실패한 경우
         }

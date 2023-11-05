@@ -148,22 +148,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5.5dp"
                 android:textColor="@color/black" />
-            <ImageView
-                android:id="@+id/userSex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5.5dp"
-                app:srcCompat="@drawable/woman_icon" />
 
-            <ImageButton
-                android:id="@+id/editBtn_userSex"
+            <Spinner
+                android:id="@+id/userSexSpinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="1.5dp"
-                android:background="#FFFFFF"
-                android:visibility="visible"
-                app:srcCompat="@drawable/edit_btn" />
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
 
