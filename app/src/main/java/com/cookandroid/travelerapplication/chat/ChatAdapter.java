@@ -1,6 +1,7 @@
 package com.cookandroid.travelerapplication.chat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.article.ArticleContentActivity;
 import com.sun.mail.imap.protocol.Item;
 
 import java.util.List;
@@ -61,6 +63,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
             chatContent = itemView.findViewById(R.id.chatCurrentText);
             profilePhoto = itemView.findViewById(R.id.profilePhoto);
             time = itemView.findViewById(R.id.chatCurrentTime);
+
+            itemView.setOnClickListener(v -> {
+                int curpos = getAbsoluteAdapterPosition();
+                Intent intent = new Intent(context, ChatRoomActivity.class);
+                intent.putExtra("meet_up_post_id",itemList.get(curpos).getMeet_up_post_id());
+                intent.putExtra("request_user_id",itemList.get(curpos).getRequest_user_id());
+                intent.putExtra("write_user_id",itemList.get(curpos).getWrite_user_id());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            });
         }
 
         public void bind(ChatRoom ChatRoom) {

@@ -54,8 +54,6 @@ public class ChatListActivity extends AppCompatActivity implements SelectData_Ch
     public void onTaskComplete_SelectData_ChatRoom(ArrayList<ChatRoom> result) {
         format_result = result;
 
-        ArrayList<String> array_user_id = new ArrayList<>();
-
         for (ChatRoom chatRoom:result) {
             SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(new ArrayList<ChatRoom>(),this);
             selectData_userInfo.execute("http://" + IP_ADDRESS + "/0601/selectData_userInfo.php", chatRoom.getWrite_user_id());

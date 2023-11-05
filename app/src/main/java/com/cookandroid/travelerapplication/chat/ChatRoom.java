@@ -5,6 +5,7 @@ import android.net.Uri;
 import androidx.annotation.Nullable;
 
 public class ChatRoom {
+    private String meet_up_post_id;
     private String profileURI;
     private String write_user_id;
     private String request_user_id;
@@ -20,6 +21,14 @@ public class ChatRoom {
         this.userName = userName;
         this.time = time;
         this.chatContent = chatContent;
+    }
+
+    public String getMeet_up_post_id() {
+        return meet_up_post_id;
+    }
+
+    public void setMeet_up_post_id(String meet_up_post_id) {
+        this.meet_up_post_id = meet_up_post_id;
     }
 
     public String getWrite_user_id() {
