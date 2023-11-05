@@ -1,5 +1,7 @@
 package com.cookandroid.travelerapplication.meetup;
 
+import static android.view.View.VISIBLE;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +46,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class MeetupAddPostActivity extends AppCompatActivity {
+    private final int REQUEST_CODE = 1;
+
     private String place_id;
     ImageButton backBtn;
     Spinner gpsSpinner;
@@ -66,6 +71,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
 
     TextView placeName; TextView placeCategory; TextView placeAddress;
     TextView planTitleTextView; TextView planDate; TextView planInfo; TextView planCategory;
+    LinearLayout placeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +98,8 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         planDate = findViewById(R.id.planDate);
         planInfo = findViewById(R.id.planInfo);
         planCategory = findViewById(R.id.planCategory);
+        backBtn = findViewById(R.id.backBtn);
+        placeLayout = findViewById(R.id.placeLayout);
 
 
 
@@ -108,9 +116,13 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                 switch (selectedStatus){
                     case "GPS 사용":
                         is_gps_enabled =  "1";
+                        city1.setEnabled(false);
+                        city2.setEnabled(false);
                         break;
                     case "GPS 미사용":
                         is_gps_enabled =  "0";
+                        city1.setEnabled(true);
+                        city2.setEnabled(true);
                         break;
                     // 다른 GPS 상태에 대한 case 문 추가
                     default:
@@ -196,14 +208,13 @@ public class MeetupAddPostActivity extends AppCompatActivity {
 
 
         //선택 옵션 처리 - 장소 & 계획 추가
-//        OptionalBtnClickListener btnClickListener = new OptionalBtnClickListener(getApplicationContext(), placeName, placeCategory, placeAddress);
+        //OptionalBtnClickListener btnClickListener = new OptionalBtnClickListener(getApplicationContext(), placeName, placeCategory, placeAddress);
         addPlaceBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(this, KotlinActivity.class);
+            Intent intent = new Intent(getApplicationContext(), KotlinActivity.class);
             getKotlinActivityResult.launch(intent);
+
         });
-//        addPlanBtn.setOnClickListener(btnClickListener);
-
-
+        //addPlaceBtn.setOnClickListener(btnClickListener);
 
 
         String user_id = fileHelper.readFromFile("user_id");
@@ -229,8 +240,26 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     }
 
 
+//---------------------------------------------------------------------------------
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // 여기에 결과를 처리하는 코드를 작성합니다.
+                String name = data.getStringExtra("name");
+                String category = data.getStringExtra("category");
+                String address = data.getStringExtra("address");
+
+                placeName.setText(name);
+                placeCategory.setText(category);
+                placeAddress.setText(address);
+                placeLayout.setVisibility(VISIBLE);
+            }
+        }
+    }
 
     public void saveMeetupPostData(String user_id) {
 
@@ -455,9 +484,11 @@ public class MeetupAddPostActivity extends AppCompatActivity {
 
                     },500);
 
-                    placeName.setText(place_name);
+                    placeName.setText("📍 " + place_name);
                     placeCategory.setText(category_name);
                     placeAddress.setText(address);
+
+                    placeLayout.setVisibility(VISIBLE);
                 }
             }
     );

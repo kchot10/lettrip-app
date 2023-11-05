@@ -14,6 +14,8 @@ public class MeetupPost implements Serializable {
     private String province;
     private String birth_date;
     private String user_id;
+    private String postTitle;
+
 
     public String getUser_id() {
         return user_id;
@@ -104,6 +106,14 @@ public class MeetupPost implements Serializable {
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
+    }
+
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
     }
 }
 

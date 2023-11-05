@@ -57,6 +57,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
     private PopupWindow popupWindow;
     String meet_up_post_id = "";
     MeetupPost meetupPost;
+    TextView postTitle;
 
 
     @Override
@@ -83,6 +84,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         contents = findViewById(R.id.meetupPostContext);
         pokeBtn = findViewById(R.id.pokeBtn);
         pokeNumTextView = findViewById(R.id.pokeNumTextView);
+        postTitle = findViewById(R.id.postTitle);
 
         //밋업포스트 불러오기
         Intent intent = getIntent();
@@ -141,6 +143,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         String userNameText = meetupPost.getNickname();
         String userSexText = meetupPost.getSex();
         String contentsText = meetupPost.getContent();
+        String title = meetupPost.getPostTitle();
 
         //- 데이터 불러오는 코드 추가**
 
@@ -172,6 +175,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         userBirth.setText(dateString2);
 
         contents.setText(contentsText);
+        postTitle.setText(title);
 
         //수정, 삭제 버튼 추가
 
