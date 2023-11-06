@@ -182,6 +182,12 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         postTitle.setText(title);
         profilePhoto.setImageURI(profileUri);
 
+        if(profileUri.equals("") || profileUri.equals(null) ||profileUri.equals("null")){
+            profilePhoto.setImageURI(profileUri);
+        } else{
+            profilePhoto.setImageResource(R.drawable.profile_photo_mypage);
+        }
+
         //수정, 삭제 버튼 추가
 
         //쿸 찌르기
