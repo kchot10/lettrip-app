@@ -47,10 +47,12 @@
                 android:src="@drawable/left_arrow_black" />
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="15dp"
+                android:background="@drawable/meetup_profile_round"
                 android:src="@drawable/profile_photo_mypage" />
 
             <LinearLayout

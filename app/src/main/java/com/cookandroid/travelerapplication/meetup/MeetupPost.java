@@ -33,6 +33,7 @@ public class MeetupPost implements Serializable {
     private String birth_date;
     private String user_id;
     private String postTitle;
+    private String meet_up_id;
 
 
     public String getUser_id() {

@@ -4,45 +4,27 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cookandroid.travelerapplication.meetup.MeetUp;
-import com.cookandroid.travelerapplication.meetup.MeetupPost;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
-public class SelectData_MeetUp extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class UpdateData_MeetUp extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
-    private AsyncTaskCompleteListener callback;
-    public ArrayList articleArrayList;
 
-    public SelectData_MeetUp(AsyncTaskCompleteListener callback) {
-        this.articleArrayList = new ArrayList();
-        this.callback = callback;
-    }
-
-    private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
-        String serverURL = (String) params[0];
 
-        String postParameters = "";
-        try {
-            String write_user_id = (String) params[1];
-            String request_user_id = (String) params[2];
-            postParameters ="write_user_id="+write_user_id
-            +"&request_user_id="+request_user_id;
-        }catch (Exception e){
-        }
+        String serverURL = (String) params[0];
+        String meet_up_id = (String)params[1];
+        String meet_up_status = (String)params[2];
+
+
+        String postParameters ="meet_up_id="+meet_up_id
+                +"&meet_up_status="+meet_up_status;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -94,15 +76,6 @@ public class SelectData_MeetUp extends AsyncTask<String,Void,String> { // 통신
 
             Log.d("php 값 :", sb.toString());
 
-            try{
-                parseJSONArray(sb.toString());
-            }catch (Exception e){
-                Log.d("youn", "JSON Error\n");
-                callback.onTaskComplete_SelectData_MeetUp(new MeetUp());
-            }
-
-
-
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -112,56 +85,12 @@ public class SelectData_MeetUp extends AsyncTask<String,Void,String> { // 통신
 
         catch (Exception e) {
 
-            Log.d(TAG, "SelectData_MeetUp: Error",e);
+            Log.d(TAG, "UpdateData_UserInfo: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
     }
-
-    private void parseJSONArray(String result) throws JSONException {
-        // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
-        JSONArray jsonArray = new JSONArray(result);
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-            MeetUp meetup = new MeetUp();
-
-            String meet_up_post_id = jsonObject.getString("meet_up_post_id");
-            String meet_up_id = jsonObject.getString("meet_up_id");
-            String meet_up_date = jsonObject.getString("meet_up_date");
-            String meet_up_status = jsonObject.getString("meet_up_status");
-            String write_user_id = jsonObject.getString("write_user_id");
-            String request_user_id = jsonObject.getString("request_user_id");
-            meetup.setMeet_up_post_id(meet_up_post_id);
-            meetup.setMeet_up_id(meet_up_id);
-            meetup.setMeet_up_date(meet_up_date);
-            meetup.setMeet_up_status(meet_up_status);
-            meetup.setWrite_user_id(write_user_id);
-            meetup.setRequest_user_id(request_user_id);
-            articleArrayList.add(meetup);
-            callback.onTaskComplete_SelectData_MeetUp(meetup);
-        }
-
-    }
-
-    public String get_return_string(){
-        return return_string;
-    }
-
-    public String getTwoCharsAfterString(String str, String searchString) {
-        String result = "";
-        int index = str.indexOf(searchString);
-        if (index != -1 && index + searchString.length() + 2 <= str.length()) {
-            result = str.substring(index + searchString.length(), index + searchString.length() + 2);
-        }
-        return result;
-    }
-
-    public interface AsyncTaskCompleteListener {
-        void onTaskComplete_SelectData_MeetUp(MeetUp result);
-    }
-
 }
+

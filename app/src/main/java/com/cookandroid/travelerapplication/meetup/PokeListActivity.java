@@ -61,17 +61,6 @@ public class PokeListActivity extends AppCompatActivity implements SelectData_Po
                 ((Activity) context).finish();
             }
         });
-
-        findViewById(R.id.chat_btn).setOnClickListener(v -> {
-            fileHelper.writeToFile("user_id", "20");
-            fileHelper.writeToFile("nickname", "김정우주인");
-            Intent intent;
-            intent = new Intent(this, ChatRoomActivity.class);
-            intent.putExtra("write_user_id", "1"); //Todo: 현재 액티비티에 저장되어있는 정보를 들고올 것 (현재 이 버튼은 다른 액티비티로 옮길 예정)
-            intent.putExtra("meet_up_post_id", "1"); //Todo: 현재 액티비티에 저장되어있는 정보를 들고올 것 (현재 이 버튼은 다른 액티비티로 옮길 예정)
-            intent.putExtra("first_chat", false);
-            this.startActivity(intent);
-        });
     }
 
 

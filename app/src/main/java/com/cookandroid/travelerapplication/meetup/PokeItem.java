@@ -13,6 +13,15 @@ public class PokeItem implements Serializable {
     private String birthDate;
     private String write_user_id;
     private String request_user_id;
+    private String meet_up_id;
+
+    public String getMeet_up_id() {
+        return meet_up_id;
+    }
+
+    public void setMeet_up_id(String meet_up_id) {
+        this.meet_up_id = meet_up_id;
+    }
 
     public String getRequest_user_id() {
         return request_user_id;
