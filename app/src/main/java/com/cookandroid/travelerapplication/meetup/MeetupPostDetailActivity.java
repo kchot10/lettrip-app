@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -324,6 +325,10 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
     @Override
     public void onTaskComplete_SelectData_Travel_Place(Travel travel, Place place) {
         runOnUiThread(()->{
+            LinearLayout placeLayout = findViewById(R.id.placeLayout);
+            LinearLayout planLayout = findViewById(R.id.planLayout);
+
+
             TextView planTitleTextView = findViewById(R.id.planTitleTextView);
             TextView planDate = findViewById(R.id.planDate);
             TextView planInfo = findViewById(R.id.planInfo);
@@ -334,7 +339,7 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
 
 
             if(travel == null) {
-                findViewById(R.id.PlanLayout).setVisibility(View.INVISIBLE);
+                planLayout.setVisibility(View.INVISIBLE);
             }else{
                 planTitleTextView.setText(travel.getTitle());
                 planDate.setText(travel.getDepart_date()+" ~ "+travel.getLast_date());
@@ -342,7 +347,7 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
                 planCategory.setText(travel.getTravel_theme());
             }
             if(place == null) {
-                findViewById(R.id.placeLayout).setVisibility(View.INVISIBLE);
+                placeLayout.setVisibility(View.INVISIBLE);
             }else{
                 placeAddress.setText(place.getPlace_name());
                 placeCategory.setText(place.getCategory_name());
