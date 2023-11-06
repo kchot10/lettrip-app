@@ -107,12 +107,6 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             room_id = intent.getStringExtra("room_id")!!
         }
 
-        val selectdata_meetup = SelectData_MeetUp(this)
-        selectdata_meetup.execute(
-            "http://" + IP_ADDRESS + "/1028/SelectData_MeetUp.php",
-            meet_up_post_id
-        )
-
         binding.send.setOnClickListener(this)
         binding.leave.setOnClickListener(this)
         binding.image.setOnClickListener(this)
@@ -140,6 +134,8 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         //인증버튼
         val certificationBtn = findViewById<ImageView>(R.id.review)
         certificationBtn.setOnClickListener {
+
+
             showCertificationPopup()
         }
 
@@ -172,6 +168,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
         completeBtn.setOnClickListener {
             val userInput = editText.text.toString() // 사용자가 입력한 내용을 가져옴
+//            InsertData_MeetUp_Review()
             // todo: 리뷰 내용 DB에 저장
 
             dialog.dismiss() // 팝업 닫기
@@ -256,6 +253,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             }else{
                 val insertdataMeetup = InsertData_Meetup(this)
                 insertdataMeetup.execute("http://" + IP_ADDRESS + "/1028/InsertData_Meetup.php",meet_up_post_id,write_user_id,request_user_id, meet_up_date)
+                binding.planTextView.text = "만남 인증"
             }
 
             Toast.makeText(this, meet_up_date, Toast.LENGTH_SHORT).show()
@@ -325,6 +323,8 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
                         "http://" + IP_ADDRESS + "/1028/UpdateData_MeetUp.php",
                         meet_up_id, "COMPLETED"
                     );
+                    val updatedata_meetup_mongo = UpdateData_MeetUp_Mongo()
+                    updatedata_meetup_mongo.execute("http://" + IP_ADDRESS + "/1107/Update_MeetUp_Mongo.php",meet_up_post_id,meet_up_id,"COMPLETED")
                     Toast.makeText(this, "인증이 완료되었습니다. 상대의 인증하기도 눌러주세요", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 } else {
@@ -366,14 +366,14 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
                 Toast.makeText(this, "약속이 없습니다. 약속을 잡으세요!", Toast.LENGTH_SHORT).show()
                 showDialog();
             }else{
-                if(result.meet_up_status.equals("COMPLETED")){
-                    binding.promise.isEnabled = false;
-                    binding.planTextView.text = "만남 완료"
-                }else {
+//                if(result.meet_up_status.equals("COMPLETED")){
+//                    binding.promise.isEnabled = false;
+//                    binding.planTextView.text = "만남 완료"
+//                }
+//                else {
                     Toast.makeText(this, "약속이 있습니다. 인증을 진행하세요", Toast.LENGTH_SHORT).show()
-                    binding.planTextView.text = "만남 인증"
                     showMeetUp();
-                }
+//                }
             }
         }
 
@@ -558,6 +558,8 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
     override fun onFailure() {}
     override fun onTaskComplete(result_string: String) {
+        val updatedata_meetup_mongo = UpdateData_MeetUp_Mongo()
+        updatedata_meetup_mongo.execute("http://" + IP_ADDRESS + "/1107/Update_MeetUp_Mongo.php",meet_up_post_id,result_string,"PENDING")
         runOnUiThread {
             meet_up_id = result_string;
 
@@ -620,7 +622,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
     }
 
-    override fun onTaskComplete_InsertData_Auth(result_string: String?) {
+    override fun onTaskComplete_InsertData_Auth(result_string: String) {
         ready = "true"
     }
 
