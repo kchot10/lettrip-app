@@ -29,14 +29,18 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.databinding.ActivityMeetupNewpostBinding;
+import com.cookandroid.travelerapplication.kotlin.KakaoAPI3;
 import com.cookandroid.travelerapplication.kotlin.KotlinActivity;
+import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
 import com.cookandroid.travelerapplication.record.CourseActivity;
 import com.cookandroid.travelerapplication.record.Place;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
@@ -55,8 +59,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MeetupAddPostActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 1;
+    String[] parts;
+    ArrayAdapter<String> adapter2;
+
+    private static final int ACCESS_FINE_LOCATION = 1000;
+    private static final String BASE_URL = "https://dapi.kakao.com/";
+    private static final String API_KEY = "KakaoAK 43a9d1617d8fb89af04db23790b3dd22";
+    private double latitude = 1.0;
+    private double longitude = 1.0;
 
     private String place_id;
     ImageButton backBtn;
@@ -94,6 +112,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_newpost);
         binding = ActivityMeetupNewpostBinding.inflate(getLayoutInflater());
+        searchKeyword();
 
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
@@ -541,6 +560,58 @@ public class MeetupAddPostActivity extends AppCompatActivity {
             }
     );
 
+
+    private void searchKeyword() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Location userNowLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            if (userNowLocation != null) {
+                latitude = userNowLocation.getLatitude();
+                longitude = userNowLocation.getLongitude();
+                Log.e("errors", "Successfully retrieved location: " + latitude + ", " + longitude);
+            } else {
+                Log.e("errors", "Unable to retrieve location information");
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_FINE_LOCATION);
+            Log.e("errors", "Request location permission from the user");
+        }
+
+        KakaoAPI3 api = retrofit.create(KakaoAPI3.class);
+        Call<ResultSearchKeyword> call = api.getSearchKeyword(API_KEY, String.valueOf(longitude), String.valueOf(latitude));
+
+        call.enqueue(new Callback<ResultSearchKeyword>() {
+            @Override
+            public void onResponse(@NonNull Call<ResultSearchKeyword> call, @NonNull Response<ResultSearchKeyword> response) {
+                if (response.body() != null && !response.body().getDocuments().isEmpty()) {
+                    for (com.cookandroid.travelerapplication.kotlin.Place place: response.body().getDocuments()) {
+                        String addressName = place.getAddress_name();
+                        parts = findProvinceCity(addressName);
+
+                        int position = city1Adapter.getPosition(parts[0]);
+                        city1.setSelection(position);
+
+                        List<String> cityList = getCityList2(parts[0]);
+                        adapter2 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
+                        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        int position2 = adapter2.getPosition(parts[1]);
+                        city2.setSelection(position2);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResultSearchKeyword> call, @NonNull Throwable t) {
+                Log.w("LocalSearch", "Communication failed: " + t.getMessage());
+            }
+        });
+    }
 
     private String[] findProvinceCity(String address) {
 
