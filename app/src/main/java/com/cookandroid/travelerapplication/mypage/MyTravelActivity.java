@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.chat.ChatRoom;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.pokeInfo.PokeInfoMainActivity;
 import com.cookandroid.travelerapplication.search.Travel;
@@ -22,7 +25,7 @@ import com.cookandroid.travelerapplication.task.SelectData_Travel_Mylike;
 
 import java.util.ArrayList;
 
-public class MyTravelActivity extends AppCompatActivity {
+public class MyTravelActivity extends AppCompatActivity implements TravelAdapter.AsyncTaskCompleteListener{
     ArrayList<Travel> travelArrayList;
     String IP_ADDRESS, user_id;
     FileHelper fileHelper;
@@ -72,13 +75,22 @@ public class MyTravelActivity extends AppCompatActivity {
                 if (travelArrayList.isEmpty()) {
                     Toast.makeText(this, "기록된 여행이 없습니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    recyclerView_adapter = new TravelAdapter(travelArrayList, this);
+                    recyclerView_adapter = new TravelAdapter(travelArrayList, this, getIntent().getBooleanExtra("select", false), this);
                     recyclerView.setAdapter(recyclerView_adapter);
                 }
             }, 1000); // 0.5초 지연 시간
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void onTaskComplete(Travel result) {
+        Intent intent = new Intent();
+        intent.putExtra("travel", result);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 //    Todo: 혹시 다시 활성화 하게 될 수도..

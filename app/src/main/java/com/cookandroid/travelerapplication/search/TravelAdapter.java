@@ -18,9 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
+import com.cookandroid.travelerapplication.chat.ChatRoom;
 import com.cookandroid.travelerapplication.comment.CommentListActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.task.DeleteData_Travel;
+import com.cookandroid.travelerapplication.task.SelectData_ChatRoom;
 import com.cookandroid.travelerapplication.task.UpdateData_Place;
 
 import java.util.ArrayList;
@@ -31,10 +33,23 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
     ArrayList<Travel> arrayList;
     Context context;
     String mUser_id, IP_ADDRESS;
+    Boolean is_select;
+    private AsyncTaskCompleteListener callback;
 
     public TravelAdapter(ArrayList<Travel> arrayList, Context mContext) {
         this.arrayList = arrayList;
         this.context = mContext;
+        this.is_select = is_select;
+        FileHelper fileHelper = new FileHelper(context);
+        mUser_id = fileHelper.readFromFile("user_id");
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+    }
+
+    public TravelAdapter(ArrayList<Travel> arrayList, Context mContext, Boolean is_select, AsyncTaskCompleteListener callback) {
+        this.arrayList = arrayList;
+        this.context = mContext;
+        this.is_select = is_select;
+        this.callback = callback;
         FileHelper fileHelper = new FileHelper(context);
         mUser_id = fileHelper.readFromFile("user_id");
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
@@ -106,15 +121,23 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
 
             itemView.setOnClickListener(v -> {
                 int curpos = getAbsoluteAdapterPosition();
-                Intent intent;
-                intent = new Intent(context, RecordMainSearch.class);
-                intent.putExtra("travel_id", arrayList.get(curpos).getTravel_id());
-                intent.putExtra("city", arrayList.get(curpos).getCity());
-                intent.putExtra("total_cost", arrayList.get(curpos).getTotal_cost());
-                intent.putExtra("number_of_courses", arrayList.get(curpos).getNumber_of_courses());
-                intent.putExtra("travel_theme", arrayList.get(curpos).getTravel_theme());
-                context.startActivity(intent);
+                if(is_select == true){
+                    Log.e("errors", arrayList.get(curpos).toString()+arrayList.get(curpos).getTitle());
+                    callback.onTaskComplete(arrayList.get(curpos));
+                }else {
+                    Intent intent;
+                    intent = new Intent(context, RecordMainSearch.class);
+                    intent.putExtra("travel_id", arrayList.get(curpos).getTravel_id());
+                    intent.putExtra("city", arrayList.get(curpos).getCity());
+                    intent.putExtra("total_cost", arrayList.get(curpos).getTotal_cost());
+                    intent.putExtra("number_of_courses", arrayList.get(curpos).getNumber_of_courses());
+                    intent.putExtra("travel_theme", arrayList.get(curpos).getTravel_theme());
+                    context.startActivity(intent);
+                }
             });
         }
+    }
+    public interface AsyncTaskCompleteListener {
+        void onTaskComplete(Travel result);
     }
 }

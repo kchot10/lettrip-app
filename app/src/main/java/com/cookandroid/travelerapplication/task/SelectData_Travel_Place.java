@@ -4,8 +4,9 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cookandroid.travelerapplication.meetup.MeetupPost;
-import com.cookandroid.travelerapplication.meetup.PokeItem;
+import com.cookandroid.travelerapplication.meetup.MeetUp;
+import com.cookandroid.travelerapplication.record.Place;
+import com.cookandroid.travelerapplication.search.Travel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,15 +20,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_Travel_Place extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
     private AsyncTaskCompleteListener callback;
+
     public ArrayList articleArrayList;
 
-    public <T> SelectData_MeetUpPost(AsyncTaskCompleteListener callback) {
-        this.articleArrayList = new ArrayList();
+    public SelectData_Travel_Place(AsyncTaskCompleteListener callback) {
         this.callback = callback;
+        this.articleArrayList = articleArrayList;
     }
 
     private String return_string = "";
@@ -37,8 +39,11 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
 
         String postParameters = "";
         try {
-            String is_gps_enabled = (String) params[1];
-            postParameters ="is_gps_enabled="+is_gps_enabled;
+            String travel_id = (String) params[1];
+            String place_id = (String) params[2];
+            postParameters ="travel_id="+travel_id
+                    +"&place_id="+place_id;
+
         }catch (Exception e){
         }
 
@@ -96,7 +101,6 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
                 parseJSONArray(sb.toString());
             }catch (Exception e){
                 Log.d("youn", "JSON Error\n");
-                callback.onTaskComplete(new ArrayList<MeetupPost>());
             }
 
 
@@ -110,7 +114,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
 
         catch (Exception e) {
 
-            Log.d(TAG, "SelectData_MyMission: Error",e);
+            Log.d(TAG, "SelectData_Travel_Mine: Error",e);
 
             return  new String("Error " + e.getMessage());
 
@@ -122,43 +126,46 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
         // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
         JSONArray jsonArray = new JSONArray(result);
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
+        Travel travel = new Travel();
+        JSONObject jsonObject = jsonArray.getJSONObject(0);
 
-            MeetupPost meetupPost = new MeetupPost();
-
-            String travel_id = jsonObject.getString("travel_id");
-            String place_id = jsonObject.getString("place_id");
-            String meet_up_id = jsonObject.getString("meet_up_id");
-            String meet_up_post_id = jsonObject.getString("meet_up_post_id");
-            String is_gps_enabled = jsonObject.getString("is_gps_enabled");
+        if(jsonArray.getJSONObject(0).length() != 0){
+            //Travel
+            String title = jsonObject.getString("title");
+            String depart_date = jsonObject.getString("depart_date");
+            String last_date = jsonObject.getString("last_date");
+            String travel_theme = jsonObject.getString("travel_theme");
+            String total_cost = jsonObject.getString("total_cost");
             String city = jsonObject.getString("city");
-            String content = jsonObject.getString("content");
-            String created_date = jsonObject.getString("created_date");
-            String nickname = jsonObject.getString("nickname");
-            String sex = jsonObject.getString("sex");
-            String image_url = jsonObject.getString("image_url");
-            String province = jsonObject.getString("province");
-            String birth_date = jsonObject.getString("birth_date");
-            String user_id = jsonObject.getString("user_id");
-            meetupPost.setTravel_id(travel_id);
-            meetupPost.setPlace_id(place_id);
-            meetupPost.setMeet_up_id(meet_up_id);
-            meetupPost.setMeet_up_post_id(meet_up_post_id);
-            meetupPost.setIs_gps_enabled(is_gps_enabled);
-            meetupPost.setCity(city);
-            meetupPost.setContent(content);
-            meetupPost.setCreated_date(created_date);
-            meetupPost.setNickname(nickname);
-            meetupPost.setSex(sex);
-            meetupPost.setImage_url(image_url);
-            meetupPost.setProvince(province);
-            meetupPost.setBirth_date(birth_date);
-            meetupPost.setUser_id(user_id);
-            articleArrayList.add(meetupPost);
+            String number_of_courses = jsonObject.getString("number_of_courses");
+            travel.setTitle(title);
+            travel.setDepart_date(depart_date);
+            travel.setLast_date(last_date);
+            travel.setTravel_theme(travel_theme);
+            travel.setTotal_cost(total_cost);
+            travel.setCity(city);
+            travel.setNumber_of_courses(number_of_courses);
+        }else{
+            travel = null;
         }
 
-        callback.onTaskComplete(articleArrayList);
+        Place place = new Place();
+        jsonObject = jsonArray.getJSONObject(1);
+
+        if(jsonArray.getJSONObject(1).length() != 0) {
+
+            //Place
+            String place_name = jsonObject.getString("place_name");
+            String category_name = jsonObject.getString("category_name");
+            String address = jsonObject.getString("address");
+            place.setPlace_name(place_name);
+            place.setCategory_name(category_name);
+            place.setAddress(address);
+        }else{
+            place = null;
+        }
+        callback.onTaskComplete_SelectData_Travel_Place(travel,place);
+
     }
 
     public String get_return_string(){
@@ -175,7 +182,6 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
     }
 
     public interface AsyncTaskCompleteListener {
-        void onTaskComplete(ArrayList<MeetupPost> result);
+        void onTaskComplete_SelectData_Travel_Place(Travel travel, Place place);
     }
-
 }

@@ -1,16 +1,13 @@
 package com.cookandroid.travelerapplication.meetup;
 
 import static android.view.View.VISIBLE;
-
+import com.cookandroid.travelerapplication.databinding.ActivityMeetupNewpostBinding;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,21 +30,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.databinding.ActivityMeetupNewpostBinding;
 import com.cookandroid.travelerapplication.kotlin.KakaoAPI3;
 import com.cookandroid.travelerapplication.kotlin.KotlinActivity;
 import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
-import com.cookandroid.travelerapplication.record.CourseActivity;
+import com.cookandroid.travelerapplication.mypage.MyTravelActivity;
 import com.cookandroid.travelerapplication.record.Place;
+import com.cookandroid.travelerapplication.search.Travel;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
 import com.cookandroid.travelerapplication.task.SelectData_Place;
-import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,7 +73,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     private double longitude = 1.0;
     ActivityMeetupNewpostBinding binding;
 
-    private String place_id;
+    private String place_id = "null", travel_id="null";
     ImageButton backBtn;
     Spinner gpsSpinner;
     Spinner city1;
@@ -137,7 +131,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         planCategory = findViewById(R.id.planCategory);
         backBtn = findViewById(R.id.backBtn);
         placeLayout = findViewById(R.id.placeLayout);
-        planLayout = findViewById(R.id.PlanLayout);
+        planLayout = findViewById(R.id.placeLayout);
 
 
         //gpsSpinner
@@ -255,22 +249,12 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         //addPlaceBtn.setOnClickListener(btnClickListener);
 
         addPlanBtn.setOnClickListener(v -> {
-            String title = "서울 여행";
-            String date = "2020.10.10 - 2020.10.20";
-            int courseNum = 3;
-            String course = "코스 " +  courseNum + "개";
-            int moneyNum = 100000;
-            String money = "비용 " + formatNumber(moneyNum) + "원";
-            String categoryString = "문화여행";
-            String category = "#" + categoryString;
-
             //todo:여행 계획 리스트에서 하나를 선택하면 그 여행에 대한 정보들을 받아와서 변수에 저장하기
 
-            planLayout.setVisibility(VISIBLE);
-            planTitleTextView.setText(title);
-            planDate.setText(date);
-            planCategory.setText(category);
-            planInfo.setText(course + " / " + money);
+            Intent intent = new Intent(this, MyTravelActivity.class);
+            intent.putExtra("visited/not", "not");
+            intent.putExtra("select", true);
+            getTravelActivityResult.launch(intent);
 
         });
 
@@ -306,25 +290,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
 
         return nf.format(number);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                // 여기에 결과를 처리하는 코드를 작성합니다.
-                String name = data.getStringExtra("name");
-                String category = data.getStringExtra("category");
-                String address = data.getStringExtra("address");
-
-                placeName.setText(name);
-                placeCategory.setText(category);
-                placeAddress.setText(address);
-                placeLayout.setVisibility(VISIBLE);
-
-            }
-        }
-    }
 
     public void saveMeetupPostData(String user_id) {
 
@@ -337,7 +302,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         String province = getSelectedCity1();
         String city = getSelectedCity2();
         String title = (Title.getText().toString().isEmpty() || Title.getText().toString().equals("")) ? Title.getHint().toString() : Title.getText().toString();
-        String travel_id = "";
         String created_date = getCurrentTime();
         String modified_date = getCurrentTime();
 
@@ -360,6 +324,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                 }
             }
         }
+
         if(errors.isEmpty()) {
             InsertData_MeetupPost task = new InsertData_MeetupPost();
             task.execute(
@@ -521,7 +486,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                     SelectData_Place selectData_place = new SelectData_Place(arrayListPlace);
                     selectData_place.execute("http://"+IP_ADDRESS+"/0601/select_location_point.php",location_point);
                     new Handler().postDelayed(() -> {
-                        place_id = "";
                         try {
                             place_id = arrayListPlace.get(0).getPlace_id();
                         }catch (Exception e){
@@ -542,7 +506,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(this, "장소 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                                     place_id = withdraw_result;
-                                    fileHelper.writeToFile("place_id", withdraw_result);
                                 }
                             }, 1000); // 0.5초 지연 시간
                         }
@@ -661,6 +624,35 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         }
         return stringsAddress;
     }
+
+    private final ActivityResultLauncher<Intent> getTravelActivityResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Travel travel = (Travel)result.getData().getSerializableExtra("travel");
+
+                    String title = travel.getTitle();//"";//travel.gettit//"서울 여행";
+                    String depart_date = travel.getDepart_date();//"2020.10.10 - 2020.10.20";
+                    String last_date = travel.getLast_date();//"2020.10.10 - 2020.10.20";
+                    String date = depart_date + " ~ " +last_date;
+                    int courseNum = Integer.parseInt(travel.getNumber_of_courses());
+                    String course = "코스 " +  courseNum + "개";
+                    int moneyNum = Integer.parseInt(travel.getTotal_cost());
+                    String money = "비용 " + formatNumber(moneyNum) + "원";
+                    String categoryString = travel.getTravel_theme();//"문화여행";
+                    String category = "#" + categoryString;
+
+                    planLayout.setVisibility(VISIBLE);
+                    planTitleTextView.setText(title);
+                    planDate.setText(date);
+                    planCategory.setText(category);
+                    planInfo.setText(course + " / " + money);
+
+                    travel_id = travel.getTravel_id();
+
+                }
+            }
+    );
 
 
 }

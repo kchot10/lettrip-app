@@ -1,6 +1,11 @@
 package com.cookandroid.travelerapplication.search;
 
-public class Travel {
+import java.io.Serializable;
+
+public class Travel implements Serializable {
+    String title;
+    String depart_date;
+    String last_date;
     String city;
     String total_cost;
     String travel_theme;
@@ -8,6 +13,30 @@ public class Travel {
     String travel_id;
     String number_of_courses;
     String user_id;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDepart_date() {
+        return depart_date;
+    }
+
+    public void setDepart_date(String depart_date) {
+        this.depart_date = depart_date;
+    }
+
+    public String getLast_date() {
+        return last_date;
+    }
+
+    public void setLast_date(String last_date) {
+        this.last_date = last_date;
+    }
 
     public String getUser_id() {
         return user_id;

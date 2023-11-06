@@ -130,6 +130,9 @@ public class SelectData_Travel_Mine extends AsyncTask<String,Void,String> { // í
 
             Travel travel = new Travel();
 
+            String title = jsonObject.getString("title");
+            String depart_date = jsonObject.getString("depart_date");
+            String last_date = jsonObject.getString("last_date");
             String travel_theme = jsonObject.getString("travel_theme");
             String total_cost = jsonObject.getString("total_cost");
             String city = jsonObject.getString("city");
@@ -138,6 +141,9 @@ public class SelectData_Travel_Mine extends AsyncTask<String,Void,String> { // í
             String number_of_courses = jsonObject.getString("number_of_courses");
             String user_id = jsonObject.getString("user_id");
 
+            travel.setTitle(title);
+            travel.setDepart_date(depart_date);
+            travel.setLast_date(last_date);
             travel.setTravel_theme(travel_theme);
             travel.setTotal_cost(total_cost);
             travel.setCity(city);
@@ -147,9 +153,7 @@ public class SelectData_Travel_Mine extends AsyncTask<String,Void,String> { // í
             travel.setUser_id(user_id);
 
             articleArrayList.add(travel);
-
         }
-
     }
 
     public String get_return_string(){

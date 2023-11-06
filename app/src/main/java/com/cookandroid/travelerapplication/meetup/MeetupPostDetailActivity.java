@@ -1,7 +1,7 @@
 package com.cookandroid.travelerapplication.meetup;
 
 import static org.jetbrains.anko.Sdk27PropertiesKt.setImageResource;
-
+import com.cookandroid.travelerapplication.databinding.ActivityMeetupPostDetailBinding;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,17 +26,25 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.record.Place;
+import com.cookandroid.travelerapplication.search.Travel;
 import com.cookandroid.travelerapplication.task.InsertData_Poke;
 import com.cookandroid.travelerapplication.task.SelectData_Poke;
+import com.cookandroid.travelerapplication.task.SelectData_Travel;
+import com.cookandroid.travelerapplication.task.SelectData_Travel_Mine;
+import com.cookandroid.travelerapplication.task.SelectData_Travel_Place;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MeetupPostDetailActivity extends AppCompatActivity implements SelectData_Poke.AsyncTaskCompleteListener, InsertData_Poke.AsyncTaskCompleteListener {
+public class MeetupPostDetailActivity extends AppCompatActivity implements SelectData_Poke.AsyncTaskCompleteListener, InsertData_Poke.AsyncTaskCompleteListener,
+SelectData_Travel_Place.AsyncTaskCompleteListener{
+    ActivityMeetupPostDetailBinding binding;
     ImageButton backBtn;
     ImageView chatBtn;
     ImageView gpsInfo;
@@ -69,6 +77,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
         meetupPost = new MeetupPost(); // 오류 방지를 위한 초기화
+        binding = ActivityMeetupPostDetailBinding.inflate(getLayoutInflater());
 
         backBtn = findViewById(R.id.backBtn);
         chatBtn = findViewById(R.id.chatBtn);
@@ -87,6 +96,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         pokeNumTextView = findViewById(R.id.pokeNumTextView);
         postTitle = findViewById(R.id.postTitle);
 
+        new SelectData_Travel_Mine(new ArrayList<>());
         //밋업포스트 불러오기
         Intent intent = getIntent();
         meetupPost = (MeetupPost) intent.getSerializableExtra("meetup_post");
@@ -94,6 +104,10 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         ArrayList<PokeItem> pokeItemArrayList = new ArrayList<>();
         SelectData_Poke task = new SelectData_Poke(pokeItemArrayList, this);
         task.execute("http://" + IP_ADDRESS + "/1028/SelectData_Poke.php", meetupPost.getMeet_up_post_id());
+
+
+        SelectData_Travel_Place selectData_travel_place = new SelectData_Travel_Place(this);
+        selectData_travel_place.execute("http://" + IP_ADDRESS + "/1107/SelectData_Travel_Place.php",meetupPost.getTravel_id(), meetupPost.getPlace_id());
 
         if(!meetupPost.getUser_id().equals(user_id)){
             // 자신의 글이 아니라면
@@ -106,7 +120,7 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
             edit.setVisibility(View.VISIBLE);
             delete.setVisibility(View.VISIBLE);
 
-            pokeBtn.setClickable(false);
+            pokeBtn.setEnabled(false);
             Toast.makeText(getApplicationContext(), "자신의 글은 쿸 찌를 수 없습니다.", Toast.LENGTH_SHORT).show();
         }
 
@@ -146,7 +160,6 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
         String userSexText = meetupPost.getSex();
         String contentsText = meetupPost.getContent();
         String title = meetupPost.getPostTitle();
-        Uri profileUri = Uri.parse(meetupPost.getImage_url());
 
 
         //- 데이터 불러오는 코드 추가**
@@ -180,10 +193,13 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
 
         contents.setText(contentsText);
         postTitle.setText(title);
-        profilePhoto.setImageURI(profileUri);
+        profilePhoto.setClipToOutline(true);
 
-        if(profileUri.equals("") || profileUri.equals(null) ||profileUri.equals("null")){
-            profilePhoto.setImageURI(profileUri);
+        String image_url = meetupPost.getImage_url();
+        if(!(image_url.isEmpty() || image_url.equals("null"))){
+            Glide.with(this)
+                    .load(meetupPost.getImage_url())
+                    .into(profilePhoto);
         } else{
             profilePhoto.setImageResource(R.drawable.profile_photo_mypage);
         }
@@ -301,6 +317,38 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
             }else{
                 Toast.makeText(getApplicationContext(), "찌르기 완료! poke_id" + result, Toast.LENGTH_SHORT).show();
             }
+        });
+    }
+
+
+    @Override
+    public void onTaskComplete_SelectData_Travel_Place(Travel travel, Place place) {
+        runOnUiThread(()->{
+            TextView planTitleTextView = findViewById(R.id.planTitleTextView);
+            TextView planDate = findViewById(R.id.planDate);
+            TextView planInfo = findViewById(R.id.planInfo);
+            TextView planCategory = findViewById(R.id.planCategory);
+            TextView placeName = findViewById(R.id.placeName);
+            TextView placeCategory = findViewById(R.id.placeCategory);
+            TextView placeAddress = findViewById(R.id.placeAddress);
+
+
+            if(travel == null) {
+                findViewById(R.id.PlanLayout).setVisibility(View.INVISIBLE);
+            }else{
+                planTitleTextView.setText(travel.getTitle());
+                planDate.setText(travel.getDepart_date()+" ~ "+travel.getLast_date());
+                planInfo.setText("코스 "+travel.getNumber_of_courses()+"개 / 비용 "+travel.getTotal_cost()+"원");
+                planCategory.setText(travel.getTravel_theme());
+            }
+            if(place == null) {
+                findViewById(R.id.placeLayout).setVisibility(View.INVISIBLE);
+            }else{
+                placeAddress.setText(place.getPlace_name());
+                placeCategory.setText(place.getCategory_name());
+                placeName.setText(place.getAddress());
+            }
+
         });
     }
 }
