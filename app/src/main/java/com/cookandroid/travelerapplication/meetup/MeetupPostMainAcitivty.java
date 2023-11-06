@@ -110,12 +110,10 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         addPost = findViewById(R.id.writeBtn);
 
         //gps 스피너
-        String[] gpsStatus = {"GPS 사용", "GPS 미사용"};
+        String[] gpsStatus = {"GPS 미사용", "GPS 사용"};
         ArrayAdapter<String> adapterGpsSpinner = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, gpsStatus); //추후 스피너 레이아웃 커스텀하기
         adapterGpsSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gpsSelected.setAdapter(adapterGpsSpinner);
-
-        gpsSelected.setSelection(1);
 
         Refresh(GpsType.GPS_DISABLE.toString());
         gpsSelected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -125,8 +123,6 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                 switch (selectedGpsStatus) {
                     case "GPS 사용":
                         Refresh(GpsType.GPS_ENABLE.toString());
-                        city1.setEnabled(false);
-                        city2.setEnabled(false);
                         searchKeyword();
                         //gps 정보 사용해서 지역 알아내기
                         break;
@@ -346,9 +342,10 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             public void onResponse(@NonNull Call<ResultSearchKeyword> call, @NonNull Response<ResultSearchKeyword> response) {
                 if (response.body() != null && !response.body().getDocuments().isEmpty()) {
                     for (Place place: response.body().getDocuments()) {
+                        city1.setEnabled(false);
+                        city2.setEnabled(false);
                         String addressName = place.getAddress_name();
                         parts = findProvinceCity(addressName);
-
                         int position = city1Adapter.getPosition(parts[0]);
                         city1.setSelection(position);
 
@@ -358,6 +355,9 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                         int position2 = adapter2.getPosition(parts[1]);
                         city2.setSelection(position2);
                     }
+                }else{
+                    gpsSelected.setSelection(0);
+                    Toast.makeText(getApplicationContext(),"사용자의 위치를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 

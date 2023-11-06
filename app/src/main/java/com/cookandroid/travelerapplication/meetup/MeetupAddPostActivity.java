@@ -153,8 +153,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                 switch (selectedStatus) {
                     case "GPS 사용":
                         is_gps_enabled = "1";
-                        city1.setEnabled(false);
-                        city2.setEnabled(false);
                         searchKeyword();
                         break;
 
@@ -593,6 +591,8 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                     for (com.cookandroid.travelerapplication.kotlin.Place place: response.body().getDocuments()) {
                         String addressName = place.getAddress_name();
                         parts = findProvinceCity(addressName);
+                        city1.setEnabled(false);
+                        city2.setEnabled(false);
 
                         int position = city1Adapter.getPosition(parts[0]);
                         city1.setSelection(position);
@@ -603,6 +603,9 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                         int position2 = adapter2.getPosition(parts[1]);
                         city2.setSelection(position2);
                     }
+                }else{
+                    gpsSpinner.setSelection(0);
+                    Toast.makeText(getApplicationContext(),"사용자의 위치를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
