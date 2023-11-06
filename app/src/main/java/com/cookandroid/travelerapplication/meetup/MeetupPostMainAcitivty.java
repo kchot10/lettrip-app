@@ -92,7 +92,6 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_main);
-        searchKeyword();
 
         fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", IP_ADDRESS);//Todo: 나중에 쓰는 부분은 지울듯
@@ -111,7 +110,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         addPost = findViewById(R.id.writeBtn);
 
         //gps 스피너
-        String[] gpsStatus = {"GPS 정보 사용", "GPS 정보 미사용"};
+        String[] gpsStatus = {"GPS 사용", "GPS 미사용"};
         ArrayAdapter<String> adapterGpsSpinner = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, gpsStatus); //추후 스피너 레이아웃 커스텀하기
         adapterGpsSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gpsSelected.setAdapter(adapterGpsSpinner);
@@ -124,13 +123,14 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 String selectedGpsStatus = gpsStatus[position];
                 switch (selectedGpsStatus) {
-                    case "GPS 정보 사용":
+                    case "GPS 사용":
                         Refresh(GpsType.GPS_ENABLE.toString());
                         city1.setEnabled(false);
                         city2.setEnabled(false);
+                        searchKeyword();
                         //gps 정보 사용해서 지역 알아내기
                         break;
-                    case "GPS 정보 미사용":
+                    case "GPS 미사용":
                         Refresh(GpsType.GPS_DISABLE.toString());
                         city1.setEnabled(true);
                         city2.setEnabled(true);

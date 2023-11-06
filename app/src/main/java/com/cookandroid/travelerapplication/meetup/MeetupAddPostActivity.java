@@ -77,6 +77,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     private static final String API_KEY = "KakaoAK 43a9d1617d8fb89af04db23790b3dd22";
     private double latitude = 1.0;
     private double longitude = 1.0;
+    ActivityMeetupNewpostBinding binding;
 
     private String place_id;
     ImageButton backBtn;
@@ -114,7 +115,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_newpost);
         binding = ActivityMeetupNewpostBinding.inflate(getLayoutInflater());
-        searchKeyword();
 
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
@@ -155,34 +155,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                         is_gps_enabled = "1";
                         city1.setEnabled(false);
                         city2.setEnabled(false);
-
-                        // GPS 정보 사용해서 현재 위치 확인
-                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            return;
-                        }
-                        Location loc_current = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        double cur_lat = loc_current.getLatitude(); //위도
-                        double cur_lon = loc_current.getLongitude(); //경도
-
-                        // 위도와 경도를 이용하여 주소 가져오기
-                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                        List<Address> addresses = null;
-                        try {
-                            addresses = geocoder.getFromLocation(cur_lat, cur_lon, 1);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (addresses != null && addresses.size() > 0) {
-                            Address address = addresses.get(0);
-                            String fullAddress = address.getAddressLine(0); // 전체 주소
-
-                            // TODO: fullAddress를 사용하여 UI 업데이트 또는 저장 등의 작업 수행
-
-                        } else {
-                            // 주소를 가져오지 못한 경우 처리
-                        }
+                        searchKeyword();
                         break;
 
                     case "GPS 미사용":
