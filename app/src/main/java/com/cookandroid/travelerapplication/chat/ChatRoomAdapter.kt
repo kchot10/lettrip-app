@@ -29,7 +29,6 @@ class ChatRoomAdapter(val context : Context, val chatList : ArrayList<Message>) 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        Log.d("chatlist size",chatList.size.toString())
         var view : View? = null
         when(viewType){
 
