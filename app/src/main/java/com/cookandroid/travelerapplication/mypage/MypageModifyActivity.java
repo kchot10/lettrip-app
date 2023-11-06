@@ -325,6 +325,7 @@ public class MypageModifyActivity extends AppCompatActivity implements S3Uploade
     }
 
     @Override
-    public void onTaskComplete(UserInfo result) {
+    public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
+
     }
 }

@@ -50,8 +50,9 @@ public class ChatListActivity extends AppCompatActivity implements SelectData_Ch
 
 
     }
+
     @Override
-    public void onTaskComplete(UserInfo result) {
+    public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
         for (ChatRoom chatRoom : format_result) {
             if (chatRoom.getWrite_user_id().equals(result.getUser_id())) {
                 chatRoom.setUserName(result.getNickname());

@@ -132,6 +132,7 @@ public class SelectData_ChatRoom extends AsyncTask<String,Void,String>{ // í†µì‹
 
             ChatRoom chatRoom = new ChatRoom();
 
+            String room_id = jsonObject.getJSONObject("_id").getString("$oid");
             String meet_up_post_id = jsonObject.getString("meet_up_post_id");
             String request_user_id = jsonObject.getString("request_user_id");
             String meet_up_id = jsonObject.getString("meet_up_id");
@@ -147,6 +148,7 @@ public class SelectData_ChatRoom extends AsyncTask<String,Void,String>{ // í†µì‹
                 formattedDate = dateFormat.format(date);
             }
 
+            chatRoom.setRoom_id(room_id);
             chatRoom.setMeet_up_post_id(meet_up_post_id);
             chatRoom.setRequest_user_id(request_user_id);
             chatRoom.setMeet_up_id(meet_up_id);

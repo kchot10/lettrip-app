@@ -33,7 +33,7 @@ import io.socket.emitter.Emitter
 
 
 class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.OnUploadListener,
-    InsertData_Meetup.AsyncTaskCompleteListener, InsertData_ChatRoom.AsyncTaskCompleteListener,InsertData_Auth.AsyncTaskCompleteListener, SelectData_MeetUp.AsyncTaskCompleteListener, SelectData_Auth.AsyncTaskCompleteListener {
+    InsertData_Meetup.AsyncTaskCompleteListener, InsertData_ChatRoom.AsyncTaskCompleteListener,InsertData_Auth.AsyncTaskCompleteListener, SelectData_MeetUp.AsyncTaskCompleteListener, SelectData_Auth.AsyncTaskCompleteListener, SelectData_Chat.AsyncTaskCompleteListener {
 
     private var IS_IMAGE = false;
 
@@ -62,6 +62,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     lateinit var meet_up: MeetUp
     lateinit var performer_id: String
     lateinit var ready: String
+    lateinit var your_nickname: String
 
     val gson: Gson = Gson()
 
@@ -87,13 +88,15 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         performer_id = "-1"
         ready = "false";
 
+
         binding.imageView.setClipToOutline(true)
         Glide.with(applicationContext)
             .load(intent.getStringExtra("image_url")!!)
             .into(binding.imageView)
+        your_nickname = intent.getStringExtra("nickname")!!;
         meet_up_id = intent.getStringExtra("meet_up_id")!!
-        userName = intent.getStringExtra("nickname")!!;
-        binding.partnerName.text = userName;
+        userName = intent.getStringExtra("my_nickname")!!
+        binding.partnerName.text = your_nickname;
         if(intent.getBooleanExtra("first_chat", false)){
             meet_up_post_id = intent.getStringExtra("meet_up_post_id")!!
             write_user_id = user_id;
@@ -101,8 +104,8 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         }else{
             meet_up_post_id = intent.getStringExtra("meet_up_post_id")!!
             write_user_id = intent.getStringExtra("write_user_id")!!;
-            request_user_id = user_id; // 채팅 누르고 들어오면 자기 자신 Todo: 이전 Activty에서 상대방 넘겨주기
-            //Todo: 채팅 불러오기
+            request_user_id = intent.getStringExtra("request_user_id")!!;
+            room_id = intent.getStringExtra("room_id")!!
         }
 
         binding.send.setOnClickListener(this)
@@ -591,6 +594,16 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             mSocket.on("updateChat", onUpdateChat)
             mSocket.on("userLeftChatRoom", onUserLeft)
 
+            try{
+                val selectData_chat = SelectData_Chat(this)
+                selectData_chat.execute(
+                    "http://" + IP_ADDRESS + "/0930/select_chat.php",
+                    room_id.toString()
+                )
+            }catch(e:Exception){
+                Log.e("good","첫 채팅이라서 오류남")
+            }
+
         }
 
 
@@ -599,5 +612,36 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     override fun onTaskComplete_InsertData_Auth(result_string: String?) {
         ready = "true"
     }
+
+    override fun onTaskComplete_SelectData_Chat(result: java.util.ArrayList<Chat>) {
+        runOnUiThread{
+            result.forEach { chat ->
+//                Log.e("errors", user_id+" ");
+                val viewType = if (user_id.equals(chat.getSend_user_id().toString()) && chat.is_image == false) {
+                    MessageType.CHAT_MINE.index
+                } else if(user_id.equals(chat.getSend_user_id().toString()) && chat.is_image == true){
+                    MessageType.IMAGE_MINE.index
+                } else if(!user_id.equals(chat.getSend_user_id().toString()) && chat.is_image == false){
+                    MessageType.CHAT_PARTNER.index
+                } else{
+                    MessageType.IMAGE_PARTNER.index
+                }
+
+                val nickname = if (user_id.equals(chat.getSend_user_id().toString())) {
+                    userName
+                } else{
+                    your_nickname
+                }
+
+
+//                Log.e("errors", viewType.toString()+" "+ (chat.getSend_user_id().equals(user_id)).toString + (chat.is_image == false).toString());
+                val newMessage = Message(nickname, chat.getMessage(), chat.getRoom_id(), viewType, chat.getIs_image())
+                addItemToRecyclerView(newMessage)
+            }
+
+        }
+
+    }
 }
+
 

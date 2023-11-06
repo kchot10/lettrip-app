@@ -2,6 +2,8 @@ package com.cookandroid.travelerapplication.chat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +17,30 @@ import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.article.ArticleContentActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.mission.UserInfo;
+import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 import com.sun.mail.imap.protocol.Item;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> implements SelectData_UserInfo.AsyncTaskCompleteListener {
     private List<ChatRoom> itemList;
     private Context context;
+    ArrayList<UserInfo> userInfoArrayList;
+    String IP_ADDRESS, user_id;
+    String my_nickname;
 
     public ChatAdapter(List<ChatRoom> itemList, Context context) {
         this.itemList = itemList;
         this.context = context;
+
+        FileHelper fileHelper = new FileHelper(context);
+        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        user_id = fileHelper.readFromFile("user_id");
+        userInfoArrayList = new ArrayList<>();
+        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList, this);
+        selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
     }
 
     @NonNull
@@ -39,16 +54,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ChatAdapter.ViewHolder holder, int position) {
         ChatRoom chatRoom = itemList.get(position);
         holder.bind(chatRoom);
-
-//        if (chatRoom.getProfileURI() != null) {
-//            holder.profilePhoto.setImageURI(chatRoom.getProfileURI());
-//        } else {
-//        }
     }
 
     @Override
     public int getItemCount() {
         return itemList.size();
+    }
+
+    @Override
+    public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
+        my_nickname = result.getNickname();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -68,6 +83,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
             itemView.setOnClickListener(v -> {
                 int curpos = getAbsoluteAdapterPosition();
                 Intent intent = new Intent(context, ChatRoomActivity.class);
+                intent.putExtra("my_nickname", my_nickname);
+                intent.putExtra("room_id", itemList.get(curpos).getRoom_id());
                 intent.putExtra("image_url", itemList.get(curpos).getProfileURI());
                 intent.putExtra("nickname", itemList.get(curpos).getUserName());
                 intent.putExtra("meet_up_id",itemList.get(curpos).getMeet_up_id());
