@@ -2,6 +2,7 @@ package com.cookandroid.travelerapplication.meetup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.chat.ChatRoomActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.pokeInfo.PokeInfoMainActivity;
+import com.cookandroid.travelerapplication.task.UpdateData_MeetUp;
+import com.cookandroid.travelerapplication.task.UpdateData_Poke;
 
 import java.util.ArrayList;
 
@@ -76,16 +79,20 @@ public class PokeListAdapter extends RecyclerView.Adapter<PokeListAdapter.PokeVi
 
             this.acceptBtn.setOnClickListener(v -> {
                 FileHelper fileHelper = new FileHelper(context);
-                fileHelper.writeToFile("user_id", "1");
-                fileHelper.writeToFile("nickname", "테스트");
-
+                String IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
                 int curpos = getAbsoluteAdapterPosition();
                 Intent intent;
                 intent = new Intent(context, ChatRoomActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("image_url", arrayList.get(curpos).getImageResource());
+                intent.putExtra("nickname", arrayList.get(curpos).getUserName());
                 intent.putExtra("request_user_id", arrayList.get(curpos).getRequest_user_id());
                 intent.putExtra("meet_up_post_id", arrayList.get(curpos).getMeet_up_post_id());
+                intent.putExtra("meet_up_id", arrayList.get(curpos).getMeet_up_id());
                 intent.putExtra("first_chat", true);
+
+                UpdateData_Poke updateData_poke = new UpdateData_Poke();
+                updateData_poke.execute("http://" + IP_ADDRESS + "/1028/UpdateData_Poke.php", arrayList.get(curpos).getRequest_user_id(), arrayList.get(curpos).getMeet_up_post_id());
                 context.startActivity(intent);
             });
             itemView.setOnClickListener(v -> {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.article.ArticleContentActivity;
+import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.sun.mail.imap.protocol.Item;
 
 import java.util.List;
@@ -67,6 +68,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
             itemView.setOnClickListener(v -> {
                 int curpos = getAbsoluteAdapterPosition();
                 Intent intent = new Intent(context, ChatRoomActivity.class);
+                intent.putExtra("image_url", itemList.get(curpos).getProfileURI());
+                intent.putExtra("nickname", itemList.get(curpos).getUserName());
+                intent.putExtra("meet_up_id",itemList.get(curpos).getMeet_up_id());
                 intent.putExtra("meet_up_post_id",itemList.get(curpos).getMeet_up_post_id());
                 intent.putExtra("request_user_id",itemList.get(curpos).getRequest_user_id());
                 intent.putExtra("write_user_id",itemList.get(curpos).getWrite_user_id());

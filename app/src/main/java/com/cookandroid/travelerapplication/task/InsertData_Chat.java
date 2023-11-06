@@ -20,13 +20,15 @@ public class InsertData_Chat extends AsyncTask<String,Void,String> { // 통신�
     protected String doInBackground(String... params) {
 
         String serverURL = (String) params[0];
-        String message = (String)params[1];
-        String send_user_id = (String)params[2];
-        String receive_user_id = (String)params[3];
-        String is_image = (String)params[4];
+        String room_id = (String)params[1];
+        String message = (String)params[2];
+        String send_user_id = (String)params[3];
+        String receive_user_id = (String)params[4];
+        String is_image = (String)params[5];
 
         String postParameters ="message="+message
                 +"&send_user_id="+send_user_id
+                +"&room_id="+room_id
                 +"&receive_user_id="+receive_user_id
                 +"&is_image="+is_image;
 

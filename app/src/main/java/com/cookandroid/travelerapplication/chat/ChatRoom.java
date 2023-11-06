@@ -12,6 +12,8 @@ public class ChatRoom {
     private String userName;
     private String time;
     private String chatContent;
+    private String meet_up_id;
+    private String meet_up_status;
 
     public ChatRoom() {
     }
@@ -21,6 +23,22 @@ public class ChatRoom {
         this.userName = userName;
         this.time = time;
         this.chatContent = chatContent;
+    }
+
+    public String getMeet_up_status() {
+        return meet_up_status;
+    }
+
+    public void setMeet_up_status(String meet_up_status) {
+        this.meet_up_status = meet_up_status;
+    }
+
+    public String getMeet_up_id() {
+        return meet_up_id;
+    }
+
+    public void setMeet_up_id(String meet_up_id) {
+        this.meet_up_id = meet_up_id;
     }
 
     public String getMeet_up_post_id() {

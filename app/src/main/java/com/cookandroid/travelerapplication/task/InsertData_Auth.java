@@ -24,13 +24,15 @@ public class InsertData_Auth extends AsyncTask<String,Void,String> { // 통신�
     @Override
     protected String doInBackground(String... params) {
         String serverURL = (String) params[0];
-        String request_user_id = (String)params[1];
-        String write_user_id = (String)params[2];
-        String code = (String)params[3];
+        String meet_up_id = (String)params[1];
+        String requester_id = (String)params[2];
+        String performer_id = (String)params[3];
+        String code = (String)params[4];
 
-        String postParameters ="request_user_id="+request_user_id
-                +"&write_user_id="+write_user_id
-                +"&code="+code;
+        String postParameters ="requester_id="+requester_id
+                +"&performer_id="+performer_id
+                +"&code="+code
+                +"&meet_up_id="+meet_up_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -61,10 +63,12 @@ public class InsertData_Auth extends AsyncTask<String,Void,String> { // 통신�
             if(responseStatusCode == httpURLConnection.HTTP_OK){ //만약 정상적인 응답 데이터 라면
                 inputStream=httpURLConnection.getInputStream();
                 Log.d("php정상: ","정상적으로 출력"); //로그 메세지로 정상적으로 출력을 찍는다.
+                callback.onTaskComplete_InsertData_Auth("auth 삽입 성공\n");
             }
             else {
                 inputStream = httpURLConnection.getErrorStream(); //만약 에러가 발생한다면
                 Log.d("php비정상: ","비정상적으로 출력"); // 로그 메세지로 비정상적으로 출력을 찍는다.
+                callback.onTaskComplete_InsertData_Auth("auth 삽입 실패\n");
             }
 
             // StringBuilder를 사용하여 수신되는 데이터를 저장한다.
@@ -86,7 +90,6 @@ public class InsertData_Auth extends AsyncTask<String,Void,String> { // 통신�
 
 
 
-            callback.onTaskComplete_InsertData_Auth(sb.toString().split(" ")[0]);
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();

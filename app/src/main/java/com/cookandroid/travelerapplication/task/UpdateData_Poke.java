@@ -1,19 +1,8 @@
 package com.cookandroid.travelerapplication.task;
 
-import static com.cookandroid.travelerapplication.meetup.MeetupPostDetailActivity.reformatDate;
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.cookandroid.travelerapplication.chat.ChatRoom;
-import com.cookandroid.travelerapplication.helper.FileHelper;
-import com.cookandroid.travelerapplication.meetup.PokeItem;
-import com.cookandroid.travelerapplication.mission.UserInfo;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,30 +10,20 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
 
-public class SelectData_ChatRoom extends AsyncTask<String,Void,String>{ // 통신을 위한 InsertData 생성
+public class UpdateData_Poke extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
-    private ArrayList<ChatRoom> arrayList;
-    private AsyncTaskCompleteListener callback;
-    private String return_string;
-
-    public SelectData_ChatRoom(AsyncTaskCompleteListener callback) {
-        this.arrayList = new ArrayList<>();
-        this.callback = callback;
-    }
 
     @Override
     protected String doInBackground(String... params) {
 
         String serverURL = (String) params[0];
         String user_id = (String)params[1];
+        String meet_up_post_id = (String)params[2];
 
-        String postParameters ="user_id="+user_id;
+        String postParameters ="user_id="+user_id
+                +"&meet_up_post_id="+meet_up_post_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -96,11 +75,6 @@ public class SelectData_ChatRoom extends AsyncTask<String,Void,String>{ // 통�
 
             Log.d("php 값 :", sb.toString());
 
-            if(callback == null){
-                callback.onTaskComplete_SelectData_ChatRoom(null);
-            }else{
-                parseJSONArray(sb.toString());
-            }
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -110,61 +84,12 @@ public class SelectData_ChatRoom extends AsyncTask<String,Void,String>{ // 통�
 
         catch (Exception e) {
 
-            Log.d(TAG, "InsertData_Travel: Error",e);
+            Log.d(TAG, "UpdateData_UserInfo: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
     }
-
-
-
-    private void parseJSONArray(String result) throws JSONException {
-        // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
-        JSONArray jsonArray = new JSONArray(result);
-
-        // 날짜 형식을 지정하고 TimeZone을 한국 시간으로 설정
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-            ChatRoom chatRoom = new ChatRoom();
-
-            String meet_up_post_id = jsonObject.getString("meet_up_post_id");
-            String request_user_id = jsonObject.getString("request_user_id");
-            String meet_up_id = jsonObject.getString("meet_up_id");
-            String meet_up_status = jsonObject.getString("meet_up_status");
-            String write_user_id = jsonObject.getString("write_user_id");
-            String last_message = jsonObject.getString("last_message");
-            String formattedDate = "null";
-            if(!jsonObject.getString("last_message_time").equals("null")){
-                JSONObject lastMessageTimeObject = jsonObject.getJSONObject("last_message_time");
-                JSONObject lastMessageTimeObject2 = lastMessageTimeObject.getJSONObject("$date");
-                long timestamp2 = lastMessageTimeObject2.getLong("$numberLong");
-                Date date = new Date(timestamp2);
-                formattedDate = dateFormat.format(date);
-            }
-
-            chatRoom.setMeet_up_post_id(meet_up_post_id);
-            chatRoom.setRequest_user_id(request_user_id);
-            chatRoom.setMeet_up_id(meet_up_id);
-            chatRoom.setMeet_up_status(meet_up_status);
-            chatRoom.setWrite_user_id(write_user_id);
-            chatRoom.setChatContent(last_message);
-            chatRoom.setTime(formattedDate);
-
-            arrayList.add(chatRoom);
-        }
-
-        callback.onTaskComplete_SelectData_ChatRoom(arrayList);
-    }
-
-
-    public interface AsyncTaskCompleteListener {
-        void onTaskComplete_SelectData_ChatRoom(ArrayList<ChatRoom> result);
-    }
-
 }
 
