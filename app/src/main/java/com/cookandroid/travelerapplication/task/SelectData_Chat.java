@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cookandroid.travelerapplication.meetup.PokeItem;
-import com.cookandroid.travelerapplication.mission.UserInfo;
+import com.cookandroid.travelerapplication.chat.Chat;
+import com.cookandroid.travelerapplication.chat.ChatRoom;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,31 +17,29 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_Chat extends AsyncTask<String,Void,String>{ // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
-
-    public ArrayList articleArrayList;
+    private ArrayList<Chat> arrayList;
     private AsyncTaskCompleteListener callback;
+    private String return_string;
 
-    public <T> SelectData_UserInfo(ArrayList<T> articleArrayList, AsyncTaskCompleteListener callback) {
-        this.articleArrayList = articleArrayList;
+    public SelectData_Chat(AsyncTaskCompleteListener callback) {
+        this.arrayList = new ArrayList<>();
         this.callback = callback;
     }
 
-    private String return_string = "";
     @Override
     protected String doInBackground(String... params) {
-        String serverURL = (String) params[0];
 
-        String postParameters = "";
-        try {
-            String user_id = (String) params[1];
-            postParameters ="user_id="+user_id;
-        }catch (Exception e){
-        }
+        String serverURL = (String) params[0];
+        String room_id = (String)params[1];
+
+        String postParameters ="room_id="+room_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -93,14 +91,11 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
 
             Log.d("php 값 :", sb.toString());
 
-            try{
+            if(callback == null){
+                callback.onTaskComplete_SelectData_Chat(null);
+            }else{
                 parseJSONArray(sb.toString());
-            }catch (Exception e){
-                Log.d("youn", "JSON Error\n");
             }
-
-
-
 
             //저장된 데이터를 스트링으로 변환하여 리턴값으로 받는다.
             return  sb.toString();
@@ -110,7 +105,7 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
 
         catch (Exception e) {
 
-            Log.d(TAG, "SelectData_UserInfo: Error",e);
+            Log.d(TAG, "SelectData_Chat: Error",e);
 
             return  new String("Error " + e.getMessage());
 
@@ -118,59 +113,44 @@ public class SelectData_UserInfo extends AsyncTask<String,Void,String> { // 통�
 
     }
 
+
+
     private void parseJSONArray(String result) throws JSONException {
         // JSON 형태의 데이터를 파싱하여 JSONArray로 변환
         JSONArray jsonArray = new JSONArray(result);
 
+        // 날짜 형식을 지정하고 TimeZone을 한국 시간으로 설정
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            UserInfo userInfo = new UserInfo();
+            Chat chat = new Chat();
+            String room_id = jsonObject.getString("room_id");
+            String message = jsonObject.getString("message");
+            int send_user_id = jsonObject.getInt("send_user_id");
+            int receive_user_id = jsonObject.getInt("receive_user_id");
+            String created_at = jsonObject.getString("created_at");
+            Boolean is_image = jsonObject.getBoolean("is_image");
 
-            String nickname = jsonObject.getString("nickname");
-            String name = jsonObject.getString("name");
-            String image_url = jsonObject.getString("image_url");
-            String email = jsonObject.getString("email");
-            String point = jsonObject.getString("point");
-            String sex = jsonObject.getString("sex");
-            String birth_date = jsonObject.getString("birth_date");
-            String meet_up_cancelled_count = jsonObject.getString("meet_up_cancelled_count");
-            String meet_up_completed_count = jsonObject.getString("meet_up_completed_count");
-            String user_id = jsonObject.getString("user_id");
-            userInfo.setNickname(nickname);
-            userInfo.setName(name);
-            userInfo.setStored_file_url(image_url);
-            userInfo.setEmail(email);
-            userInfo.setPoint(point);
-            userInfo.setSex(sex);
-            userInfo.setBirth_date(birth_date);
-            userInfo.setMeet_up_cancelled_count(meet_up_cancelled_count);
-            userInfo.setMeet_up_completed_count(meet_up_completed_count);
-            userInfo.setUser_id(user_id);
+            chat.setRoom_id(room_id);
+            chat.setMessage(message);
+            chat.setSend_user_id(send_user_id);
+            chat.setReceive_user_id(receive_user_id);
+            chat.setCreated_at(created_at);
+            chat.setIs_image(is_image);
 
-            articleArrayList.add(userInfo);
+            arrayList.add(chat);
 
-            callback.onTaskComplete_SelectData_UserInfo(userInfo);
         }
 
-
+        callback.onTaskComplete_SelectData_Chat(arrayList);
     }
 
-    public String get_return_string(){
-        return return_string;
-    }
-
-    public String getTwoCharsAfterString(String str, String searchString) {
-        String result = "";
-        int index = str.indexOf(searchString);
-        if (index != -1 && index + searchString.length() + 2 <= str.length()) {
-            result = str.substring(index + searchString.length(), index + searchString.length() + 2);
-        }
-        return result;
-    }
 
     public interface AsyncTaskCompleteListener {
-        void onTaskComplete_SelectData_UserInfo(UserInfo result);
+        void onTaskComplete_SelectData_Chat(ArrayList<Chat> result);
     }
 
 }
+

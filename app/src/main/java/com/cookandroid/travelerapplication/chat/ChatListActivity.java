@@ -1,6 +1,7 @@
 package com.cookandroid.travelerapplication.chat;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,19 +44,26 @@ public class ChatListActivity extends AppCompatActivity implements SelectData_Ch
     public void onTaskComplete_SelectData_ChatRoom(ArrayList<ChatRoom> result) {
         format_result = result;
 
+
         for (ChatRoom chatRoom:result) {
+            String other_user_id = (user_id.equals(chatRoom.getWrite_user_id()) ? chatRoom.getRequest_user_id():chatRoom.getWrite_user_id());
             SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(new ArrayList<ChatRoom>(),this);
-            selectData_userInfo.execute("http://" + IP_ADDRESS + "/0601/selectData_userInfo.php", chatRoom.getWrite_user_id());
+            selectData_userInfo.execute("http://" + IP_ADDRESS + "/0601/selectData_userInfo.php", other_user_id);
         }
 
 
     }
+
     @Override
-    public void onTaskComplete(UserInfo result) {
+    public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
+        Log.e("errors", result.getNickname()+result.getUser_id()+result.getStored_file_url());
         for (ChatRoom chatRoom : format_result) {
-            if (chatRoom.getWrite_user_id().equals(result.getUser_id())) {
+            String other_user_id = (user_id.equals(chatRoom.getWrite_user_id()) ? chatRoom.getRequest_user_id():chatRoom.getWrite_user_id());
+            if (other_user_id.equals(result.getUser_id())) {
                 chatRoom.setUserName(result.getNickname());
                 chatRoom.setProfileURI(result.getStored_file_url());
+
+                Log.e("errors", result.getUser_id()+result.getNickname()+ result.getStored_file_url());
             }
         }
         runOnUiThread(()->{

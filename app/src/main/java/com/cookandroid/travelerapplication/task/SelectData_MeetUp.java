@@ -37,10 +37,8 @@ public class SelectData_MeetUp extends AsyncTask<String,Void,String> { // 통신
 
         String postParameters = "";
         try {
-            String write_user_id = (String) params[1];
-            String request_user_id = (String) params[2];
-            postParameters ="write_user_id="+write_user_id
-            +"&request_user_id="+request_user_id;
+            String meet_up_post_id = (String) params[1];
+            postParameters ="meet_up_post_id="+meet_up_post_id;
         }catch (Exception e){
         }
 

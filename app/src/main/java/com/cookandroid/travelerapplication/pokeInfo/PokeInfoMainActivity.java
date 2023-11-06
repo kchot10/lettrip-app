@@ -129,7 +129,7 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
     }
 
     @Override
-    public void onTaskComplete(UserInfo result) {
+    public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
         runOnUiThread(() -> {
             request_user_id = result.getUser_id();
             //불러온 정보로 ui 세팅
@@ -159,5 +159,6 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
                         .into(profilePhoto);
             }
         });
+
     }
 }

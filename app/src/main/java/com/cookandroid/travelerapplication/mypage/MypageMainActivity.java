@@ -140,8 +140,8 @@ public class MypageMainActivity extends AppCompatActivity implements SelectData_
         }, 300); // 0.5초 지연 시간
     }
 
-
     @Override
-    public void onTaskComplete(UserInfo result) {
+    public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
+
     }
 }
