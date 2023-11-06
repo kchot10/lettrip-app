@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.cookandroid.travelerapplication.R;
@@ -75,6 +76,8 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
         layout1 = findViewById(R.id.LinearLayout1);
         layout2 = findViewById(R.id.LinearLayout2);
         layout3 = findViewById(R.id.LinearLayout3);
+
+
 
         //todo: db에서 사용자 정보 받아오기 코드 추가
         ArrayList<UserInfo> userInfoArrayList = new ArrayList<>();

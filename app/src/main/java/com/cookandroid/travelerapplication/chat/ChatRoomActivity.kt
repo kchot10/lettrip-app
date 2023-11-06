@@ -117,6 +117,10 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         binding.leave.setOnClickListener(this)
         binding.image.setOnClickListener(this)
         binding.promise.setOnClickListener(this)
+        // leave 이미지 버튼 클릭 시 이전 액티비티로 돌아가기
+        binding.leave.setOnClickListener {
+            onBackPressed()
+        }
 
         val plusBtn = findViewById<ImageButton>(R.id.plusBtn)
         plusBtn.setOnClickListener {
@@ -156,13 +160,11 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
         val dialog = builder.create()
 
-        // 크기 조정
-        val dpWidth = 300
-        val dpHeight = 225
-        dialog.window!!.setLayout(dpToPx(dpWidth), dpToPx(dpHeight))
+        val layoutParams = WindowManager.LayoutParams()
+        val displayMetrics = resources.displayMetrics
+        val dialogWidth = (displayMetrics.widthPixels * 0.5).toInt() // 화면 너비의 90%
 
         // 배경을 투명하게 설정
-        val layoutParams = WindowManager.LayoutParams()
         layoutParams.copyFrom(dialog.window!!.attributes)
         layoutParams.dimAmount = 0f // 0으로 설정하면 완전 투명, 1로 설정하면 완전 불투명
         dialog.window!!.attributes = layoutParams

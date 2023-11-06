@@ -1,57 +1,44 @@
 package com.cookandroid.travelerapplication.pokeInfo;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class OneLineReviewAdapter extends FragmentPagerAdapter {
-    private static final int NUM_PAGES = 2;
-    private int selectedTab = 0; // 기본값을 매칭 성공 탭으로 설정
+import com.cookandroid.travelerapplication.R;
+
+import java.util.List;
 
 
-    OneLineReviewAdapter(FragmentManager fm){
-        super(fm);
+public class OneLineReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder>  {
+    private List<OneLineReviewData> dataList;
+    private Context context;
+
+    public OneLineReviewAdapter(List<OneLineReviewData> dataList, Context context) {
+        this.dataList = dataList;
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new OneLineReivewTab1();
-            case 1:
-                return new OneLineReivewTab2();
-            default:
-                return null;
-        }
+    public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_one_line_review, parent, false);
+        return new ReviewViewHolder(view);
     }
-
 
     @Override
-    public int getCount() {
-        return NUM_PAGES;
+    public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
+        OneLineReviewData data = dataList.get(position);
+
+        // 데이터를 바인딩합니다.
+        holder.profilePhoto.setImageResource(data.getProfilePhoto());
+        holder.oneLineReview.setText(data.getOneLineReview());
     }
 
-    @Nullable
     @Override
-    public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return "매칭 성공";
-            case 1:
-                return "매칭 실패";
-            default:
-                return null;
-        }
-    }
-
-    public void setSelectedTab(int tab) {
-        selectedTab = tab;
-    }
-
-    public int getSelectedTab() {
-        return selectedTab;
+    public int getItemCount() {
+        return dataList.size();
     }
 }
