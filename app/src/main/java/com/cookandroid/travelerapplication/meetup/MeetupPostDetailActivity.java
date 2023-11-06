@@ -106,7 +106,8 @@ public class MeetupPostDetailActivity extends AppCompatActivity implements Selec
             edit.setVisibility(View.VISIBLE);
             delete.setVisibility(View.VISIBLE);
 
-            pokeBtn.setVisibility(View.INVISIBLE);
+            pokeBtn.setClickable(false);
+            Toast.makeText(getApplicationContext(), "자신의 글은 쿸 찌를 수 없습니다.", Toast.LENGTH_SHORT).show();
         }
 
         pokeNumTextView.setOnClickListener(new View.OnClickListener() {
