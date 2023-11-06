@@ -90,11 +90,11 @@ class ChatRoomAdapter(val context : Context, val chatList : ArrayList<Message>) 
                 holder.message.setText(content)
             }
             USER_JOIN -> {
-                val text = "${userName} has entered the room"
+                val text = "${userName}님이 방에 입장했습니다."
                 holder.text.setText(text)
             }
             USER_LEAVE -> {
-                val text = "${userName} has leaved the room"
+                val text = "${userName}님이 방에 나갔습니다."
                 holder.text.setText(text)
             }
             IMAGE_MINE -> {
