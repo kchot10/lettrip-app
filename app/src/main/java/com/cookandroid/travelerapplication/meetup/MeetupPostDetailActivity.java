@@ -120,9 +120,6 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
             // 자신의 글이라면
             edit.setVisibility(View.VISIBLE);
             delete.setVisibility(View.VISIBLE);
-
-            pokeBtn.setEnabled(false);
-            Toast.makeText(getApplicationContext(), "자신의 글은 쿸 찌를 수 없습니다.", Toast.LENGTH_SHORT).show();
         }
 
         pokeNumTextView.setOnClickListener(new View.OnClickListener() {
@@ -211,12 +208,16 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
         pokeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopup();
-                // 팝업창의 배경 설정
-                WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-                layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-                layoutParams.dimAmount = 0.7f;
-                getWindow().setAttributes(layoutParams);
+                if(meetupPost.getUser_id().equals(user_id)) {
+                    Toast.makeText(getApplicationContext(), "자신의 글은 쿸 찌를 수 없습니다.", Toast.LENGTH_SHORT).show();
+                }else {
+                    showPopup();
+                    // 팝업창의 배경 설정
+                    WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+                    layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                    layoutParams.dimAmount = 0.7f;
+                    getWindow().setAttributes(layoutParams);
+                }
             }
         });
     }
