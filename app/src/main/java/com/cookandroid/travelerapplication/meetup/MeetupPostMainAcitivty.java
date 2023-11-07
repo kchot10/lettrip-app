@@ -5,6 +5,7 @@ import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -15,16 +16,21 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -39,10 +45,12 @@ import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.kotlin.KakaoAPI3;
 import com.cookandroid.travelerapplication.kotlin.Place;
 import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
+import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.meetup.model.GpsType;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
 import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
+import com.cookandroid.travelerapplication.record.PlanningMain;
 import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
 import com.cookandroid.travelerapplication.task.SelectData_Poke;
@@ -65,9 +73,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener, SelectData_UserInfo.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "3.34.136.218", user_id="2"; // 여기가 2번 또는 25번
+    String IP_ADDRESS = "3.34.136.218", user_id = "16"; // 여기가 2번 또는 25번
     FileHelper fileHelper;
-    ImageButton chatBtn;
+    ImageButton chatBtn, logoBtn;
     Spinner gpsSelected;
     Spinner city1;
     Spinner city2;
@@ -112,6 +120,15 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         city1 = findViewById(R.id.citySpinner);
         city2 = findViewById(R.id.citySpinner2);
         addPost = findViewById(R.id.writeBtn);
+        logoBtn = findViewById(R.id.logoBtn);
+
+        logoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //gps 스피너
         String[] gpsStatus = {"GPS 미사용", "GPS 사용"};
@@ -161,7 +178,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                 adapter2 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 city2.setAdapter(adapter2);
-                
+
                 //selectedCity에 해당하는 리스트만 불러오는 코드 추가
             }
 
@@ -176,6 +193,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedCity2 = (String) parent.getItemAtPosition(position); // city2의 선택된 값 저장
+
             }
 
             @Override
@@ -227,6 +245,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -234,13 +253,46 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RecordMain.class);
-                //TODO:POPUP 띄워서 후기 기록과 계획 기록으로 나눠서 들어가도록 설정
+                // 레이아웃 인플레이션
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.popup_record_and_plan, null);
+
+                // AlertDialog 생성
+                AlertDialog.Builder builder = new AlertDialog.Builder(MeetupPostMainAcitivty.this);
+                builder.setView(dialogView);
+
+                // 다이얼로그 버튼 설정
+                Button buttonRecord = dialogView.findViewById(R.id.button_record);
+                Button buttonPlan = dialogView.findViewById(R.id.button_plan);
+
+                buttonRecord.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // 여행 후기 기록하기 버튼 클릭 시 동작
+                        Intent intent = new Intent(MeetupPostMainAcitivty.this, RecordMain.class);
+                        intent.putExtra("record/plan", "record");
+                        startActivity(intent);
+                    }
+                });
+
+                buttonPlan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // 여행 계획 기록하기 버튼 클릭 시 동작
+                        Intent intent = new Intent(MeetupPostMainAcitivty.this, PlanningMain.class);
+                        intent.putExtra("record/plan", "plan");
+                        startActivity(intent);
+                    }
+                });
+
+                // AlertDialog 표시
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
+
         });
 
     }
-
 
 
 

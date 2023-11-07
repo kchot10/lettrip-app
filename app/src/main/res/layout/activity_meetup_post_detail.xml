@@ -390,59 +390,5 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <LinearLayout
-            android:id="@+id/BottomLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="22.5dp"
-                android:layout_height="25dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/bottombar_mission_icon" />
-
-            <ImageButton
-                android:id="@+id/imageButton3"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/bottombar_community_icon" />
-
-            <ImageButton
-                android:id="@+id/imageButton4"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/bottombar_record_icon" />
-
-            <ImageButton
-                android:id="@+id/imageButton5"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/meetup_btn" />
-
-            <ImageButton
-                android:id="@+id/mypageBtn"
-                android:layout_width="20dp"
-                android:layout_height="23dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/bottombar_mypage_icon" />
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
