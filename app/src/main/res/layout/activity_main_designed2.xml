@@ -323,6 +323,7 @@
                 android:orientation="horizontal"></LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ad_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
