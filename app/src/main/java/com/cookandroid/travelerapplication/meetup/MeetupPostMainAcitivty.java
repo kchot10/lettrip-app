@@ -41,6 +41,7 @@ import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.kotlin.KakaoAPI3;
 import com.cookandroid.travelerapplication.kotlin.Place;
 import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
+import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.meetup.model.GpsType;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
 import com.cookandroid.travelerapplication.mission.UserInfo;
@@ -286,6 +287,15 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MeetupPostMainAcitivty.this, SearchReviewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton logoBtn = findViewById(R.id.logoBtn);
+        logoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
