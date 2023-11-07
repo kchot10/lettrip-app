@@ -9,6 +9,7 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.article.ArticleListActivity;
 import com.cookandroid.travelerapplication.account.WithdrawActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.meetup.MeetupPostMainAcitivty;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
 import com.cookandroid.travelerapplication.mypage.MypageModifyActivity;
@@ -71,7 +72,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
+        findViewById(R.id.meetupBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MeetupPostMainAcitivty.class);
+            startActivity(intent);
+        });
 
     }
 

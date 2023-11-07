@@ -275,6 +275,16 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/meetupBtn"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="#FFFFFF"
+                        android:elevation="7dp"
+                        android:text="친구매칭" />
+
+                    <Button
                         android:id="@+id/button_board"
                         android:layout_width="100dp"
                         android:layout_height="35dp"
