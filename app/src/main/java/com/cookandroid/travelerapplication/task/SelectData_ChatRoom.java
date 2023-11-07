@@ -132,20 +132,42 @@ public class SelectData_ChatRoom extends AsyncTask<String,Void,String>{ // í†µì‹
 
             ChatRoom chatRoom = new ChatRoom();
 
+
+
             String room_id = jsonObject.getJSONObject("_id").getString("$oid");
             String meet_up_post_id = jsonObject.getString("meet_up_post_id");
             String request_user_id = jsonObject.getString("request_user_id");
-            String meet_up_id = jsonObject.getString("meet_up_id");
-            String meet_up_status = jsonObject.getString("meet_up_status");
             String write_user_id = jsonObject.getString("write_user_id");
-            String last_message = jsonObject.getString("last_message");
-            String formattedDate = "null";
-            if(!jsonObject.getString("last_message_time").equals("null")){
-                JSONObject lastMessageTimeObject = jsonObject.getJSONObject("last_message_time");
-                JSONObject lastMessageTimeObject2 = lastMessageTimeObject.getJSONObject("$date");
-                long timestamp2 = lastMessageTimeObject2.getLong("$numberLong");
-                Date date = new Date(timestamp2);
-                formattedDate = dateFormat.format(date);
+
+
+
+
+            String meet_up_id, meet_up_status, last_message, last_message_time = "null";
+            try{
+                meet_up_id = jsonObject.getString("meet_up_id");
+            }catch (Exception e){
+                meet_up_id = "null";
+            }
+            try{
+                meet_up_status = jsonObject.getString("meet_up_status");
+            }catch (Exception e){
+                meet_up_status = "null";
+            }
+            try{
+                last_message = jsonObject.getString("last_message");
+            }catch (Exception e){
+                last_message = "null";
+            }
+            try{
+                if(!jsonObject.getString("last_message_time").equals("null")){
+                    JSONObject lastMessageTimeObject = jsonObject.getJSONObject("last_message_time");
+                    JSONObject lastMessageTimeObject2 = lastMessageTimeObject.getJSONObject("$date");
+                    long timestamp2 = lastMessageTimeObject2.getLong("$numberLong");
+                    Date date = new Date(timestamp2);
+                    last_message_time = dateFormat.format(date);
+                }
+            }catch (Exception e){
+                last_message_time = "null";
             }
 
             chatRoom.setRoom_id(room_id);
@@ -155,7 +177,7 @@ public class SelectData_ChatRoom extends AsyncTask<String,Void,String>{ // í†µì‹
             chatRoom.setMeet_up_status(meet_up_status);
             chatRoom.setWrite_user_id(write_user_id);
             chatRoom.setChatContent(last_message);
-            chatRoom.setTime(formattedDate);
+            chatRoom.setTime(last_message_time);
 
             arrayList.add(chatRoom);
         }
