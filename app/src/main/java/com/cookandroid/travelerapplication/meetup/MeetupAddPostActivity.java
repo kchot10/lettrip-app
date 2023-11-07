@@ -131,7 +131,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         planCategory = findViewById(R.id.planCategory);
         backBtn = findViewById(R.id.backBtn);
         placeLayout = findViewById(R.id.placeLayout);
-        planLayout = findViewById(R.id.placeLayout);
+        planLayout = findViewById(R.id.PlanLayout);
 
 
         //gpsSpinner
@@ -255,6 +255,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
             intent.putExtra("visited/not", "not");
             intent.putExtra("select", true);
             getTravelActivityResult.launch(intent);
+
 
         });
 
@@ -506,17 +507,18 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(this, "장소 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                                     place_id = withdraw_result;
+
+                                    placeName.setText("📍 " + place_name);
+                                    placeCategory.setText(category_name);
+                                    placeAddress.setText(address);
+                                    placeLayout.setVisibility(VISIBLE);
                                 }
                             }, 1000); // 0.5초 지연 시간
                         }
 
                     },500);
 
-                    placeName.setText("📍 " + place_name);
-                    placeCategory.setText(category_name);
-                    placeAddress.setText(address);
 
-                    placeLayout.setVisibility(VISIBLE);
                 }
             }
     );
@@ -642,14 +644,13 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                     String categoryString = travel.getTravel_theme();//"문화여행";
                     String category = "#" + categoryString;
 
-                    planLayout.setVisibility(VISIBLE);
                     planTitleTextView.setText(title);
                     planDate.setText(date);
                     planCategory.setText(category);
                     planInfo.setText(course + " / " + money);
 
                     travel_id = travel.getTravel_id();
-
+                    planLayout.setVisibility(VISIBLE);
                 }
             }
     );
