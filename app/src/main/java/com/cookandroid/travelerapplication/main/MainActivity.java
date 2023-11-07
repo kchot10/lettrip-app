@@ -72,13 +72,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
-        findViewById(R.id.ad_btn).setOnClickListener(v -> {
+        findViewById(R.id.meetupBtn).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, MeetupPostMainAcitivty.class);
             startActivity(intent);
         });
-
-
 
     }
 

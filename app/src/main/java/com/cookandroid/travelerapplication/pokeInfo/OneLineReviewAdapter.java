@@ -31,6 +31,7 @@ public class OneLineReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
+
         OneLineReviewData data = dataList.get(position);
 
         Glide.with(context)

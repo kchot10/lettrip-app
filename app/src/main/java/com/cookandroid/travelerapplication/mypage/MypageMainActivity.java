@@ -30,8 +30,9 @@ public class MypageMainActivity extends AppCompatActivity implements SelectData_
     FileHelper fileHelper;
     String IP_ADDRESS, user_id;
     ArrayList<UserInfo> userInfoArrayList;
-    TextView userName, userEmail, pointNum, tripPlanNum, tripPlanNum2, tripReviewNum, tripReviewNum2;
+    TextView userName, userEmail, pointNum, tripPlanNum, tripPlanNum2, tripReviewNum, tripReviewNum2, MeetUpBtn;
     ImageView profile_imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MypageMainActivity extends AppCompatActivity implements SelectData_
         tripPlanNum2 = findViewById(R.id.tripPlanNum2);
         tripReviewNum2 = findViewById(R.id.tripReviewNum2);
         profile_imageView = findViewById(R.id.profile_imageView);
+        MeetUpBtn = findViewById(R.id.MeetUpBtn);
 
         Refresh();
 
@@ -72,6 +74,14 @@ public class MypageMainActivity extends AppCompatActivity implements SelectData_
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+        });
+
+        MeetUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MypageMeetUpPostList.class);
+                startActivity(intent);
+            }
         });
 
         //회원 수정 팝업 열기

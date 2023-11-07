@@ -34,6 +34,8 @@
         android:inputType="text"
         android:paddingLeft="23dp"
         android:paddingRight="23dp"
+        android:scrollbarSize="2dp"
+        android:scrollbars="horizontal"
         android:textColorHint="#C0C0C0"
         android:textSize="11sp" />
 

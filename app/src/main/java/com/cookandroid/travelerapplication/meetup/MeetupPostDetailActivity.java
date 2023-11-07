@@ -45,7 +45,7 @@ import java.util.Date;
 
 public class MeetupPostDetailActivity extends AppCompatActivity implements SelectData_Poke.AsyncTaskCompleteListener, InsertData_Poke.AsyncTaskCompleteListener,
 SelectData_Travel_Place.AsyncTaskCompleteListener{
-    ActivityMeetupPostDetailBinding binding;
+    //ActivityMeetupPostDetailBinding binding;
     ImageButton backBtn;
     ImageView chatBtn;
     ImageView gpsInfo;
@@ -78,7 +78,7 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
         meetupPost = new MeetupPost(); // 오류 방지를 위한 초기화
-        binding = ActivityMeetupPostDetailBinding.inflate(getLayoutInflater());
+        //binding = ActivityMeetupPostDetailBinding.inflate(getLayoutInflater());
 
         backBtn = findViewById(R.id.backBtn);
         chatBtn = findViewById(R.id.chatBtn);
@@ -352,7 +352,11 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
                 placeLayout.setVisibility(View.INVISIBLE);
             }else{
                 placeName.setText("📍 "  + place.getPlace_name());
-                placeCategory.setText(place.getCategory_name());
+                if(place.getCategory_name().equals(null) || place.getCategory_name().equals("null") || place.getCategory_name().equals("")){
+                    placeCategory.setText("");
+                }else{
+                    placeCategory.setText(place.getCategory_name());
+                }
                 placeAddress.setText(place.getAddress());
             }
 

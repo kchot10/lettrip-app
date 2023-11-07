@@ -128,7 +128,6 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                     case "GPS 사용":
                         Refresh(GpsType.GPS_ENABLE.toString());
                         searchKeyword();
-                        //gps 정보 사용해서 지역 알아내기
                         break;
                     case "GPS 미사용":
                         Refresh(GpsType.GPS_DISABLE.toString());
@@ -157,13 +156,13 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         city1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedCity1 = (String) parent.getItemAtPosition(position); // city1의 선택된 값 저장
-
                 String selectedCity = (String) parent.getItemAtPosition(position);
                 List<String> cityList = getCityList2(selectedCity);
                 adapter2 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 city2.setAdapter(adapter2);
+                
+                //selectedCity에 해당하는 리스트만 불러오는 코드 추가
             }
 
             @Override

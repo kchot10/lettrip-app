@@ -326,6 +326,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/mypage_trip"
                     android:orientation="vertical">
 
@@ -352,6 +353,36 @@
 
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/MeetUpTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:text="매칭글"
+                    android:textColor="#878787 "
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:background="@drawable/mypage_poke"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/MeetUpBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="59dp"
+                        android:layout_marginLeft="27dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical"
+                        android:text="내가 쓴 매칭 글"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
