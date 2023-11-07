@@ -38,7 +38,11 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // í†
         String postParameters = "";
         try {
             String is_gps_enabled = (String) params[1];
-            postParameters ="is_gps_enabled="+is_gps_enabled;
+            String selectedCity1 = (String) params[2];
+            String selectedCity2 = (String) params[3];
+            postParameters ="is_gps_enabled="+is_gps_enabled
+            +"&province="+selectedCity1
+            +"&city="+selectedCity2;
         }catch (Exception e){
         }
 
