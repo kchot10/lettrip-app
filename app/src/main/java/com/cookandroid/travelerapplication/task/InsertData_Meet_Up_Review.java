@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.cookandroid.travelerapplication.meetup.MeetUp;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,23 +13,25 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class UpdateData_MeetUp_Mongo extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class InsertData_Meet_Up_Review extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
+    private String return_string;
+
 
     @Override
     protected String doInBackground(String... params) {
 
         String serverURL = (String) params[0];
-        String meet_up_post_id = (String)params[1];
-        String meet_up_id = (String)params[2];
-        String meet_up_status = (String)params[3];
+        String content = (String)params[1];
+        String meet_up_status = (String)params[2];
+        String meet_up_id = (String)params[3];
+        String object_user_id = (String)params[4];
+        String write_user_id = (String)params[5];
 
-
-        String postParameters ="meet_up_post_id="+meet_up_post_id+
-                "&meet_up_id="+meet_up_id
-                +"&meet_up_status="+meet_up_status;
-        Log.e("errors", postParameters);
+        String postParameters ="content="+content+"&meet_up_status="+meet_up_status
+                +"&meet_up_id="+meet_up_id+"&object_user_id="+object_user_id
+                +"&write_user_id="+write_user_id;
 
         try{ // HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송한다.
             URL url = new URL(serverURL); //주소가 저장된 변수를 이곳에 입력한다.
@@ -88,12 +92,28 @@ public class UpdateData_MeetUp_Mongo extends AsyncTask<String,Void,String> { // 
 
         catch (Exception e) {
 
-            Log.d(TAG, "UpdateData_UserInfo: Error",e);
+            Log.d(TAG, "InsertData_Meet_Up_Review: Error",e);
 
             return  new String("Error " + e.getMessage());
 
         }
 
     }
-}
 
+    public String getReturn_string() {
+        return return_string;
+    }
+
+    public String getTwoCharsAfterString(String str, String searchString) {
+        String result = "";
+        int index = str.indexOf(searchString);
+        if (index != -1) {
+            int endIndex = str.indexOf(" ", index + searchString.length());
+            if (endIndex == -1) {
+                endIndex = str.length();
+            }
+            result = str.substring(index + searchString.length(), endIndex);
+        }
+        return result;
+    }
+}

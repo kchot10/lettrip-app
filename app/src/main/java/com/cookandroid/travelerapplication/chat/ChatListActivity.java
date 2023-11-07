@@ -63,14 +63,11 @@ public class ChatListActivity extends AppCompatActivity implements SelectData_Ch
 
     @Override
     public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
-        Log.e("errors", result.getNickname()+result.getUser_id()+result.getStored_file_url());
         for (ChatRoom chatRoom : format_result) {
             String other_user_id = (user_id.equals(chatRoom.getWrite_user_id()) ? chatRoom.getRequest_user_id():chatRoom.getWrite_user_id());
             if (other_user_id.equals(result.getUser_id())) {
                 chatRoom.setUserName(result.getNickname());
                 chatRoom.setProfileURI(result.getStored_file_url());
-
-                Log.e("errors", result.getUser_id()+result.getNickname()+ result.getStored_file_url());
             }
         }
         runOnUiThread(()->{

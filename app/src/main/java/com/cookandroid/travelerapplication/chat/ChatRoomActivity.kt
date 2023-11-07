@@ -32,7 +32,7 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 
 
-class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.OnUploadListener,
+class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.OnUploadListener, SelectData_MeetUpOne.AsyncTaskCompleteListener,
     InsertData_Meetup.AsyncTaskCompleteListener, InsertData_ChatRoom.AsyncTaskCompleteListener,InsertData_Auth.AsyncTaskCompleteListener, SelectData_MeetUp.AsyncTaskCompleteListener, SelectData_Auth.AsyncTaskCompleteListener, SelectData_Chat.AsyncTaskCompleteListener {
 
     private var IS_IMAGE = false;
@@ -61,8 +61,8 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     lateinit var dialog :AlertDialog
     lateinit var meet_up: MeetUp
     lateinit var performer_id: String
-    lateinit var ready: String
     lateinit var your_nickname: String
+    lateinit var real_meet_up: MeetUp
 
     val gson: Gson = Gson()
 
@@ -82,11 +82,12 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         setContentView(view)
         val fileHelper = FileHelper(this)
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS")
-        user_id = fileHelper.readFromFile("user_id");
+        user_id = fileHelper.readFromFile("user_id")
+        userName = fileHelper.readFromFile("my_nickname")
+
         meet_up_id = "-1"
         meet_up_date = "";
         performer_id = "-1"
-        ready = "false";
 
         binding.imageView.setClipToOutline(true)
         Glide.with(applicationContext)
@@ -94,7 +95,6 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             .into(binding.imageView)
         your_nickname = intent.getStringExtra("nickname")!!;
         meet_up_id = intent.getStringExtra("meet_up_id")!!
-        userName = intent.getStringExtra("my_nickname")!!
         binding.partnerName.text = your_nickname;
         if(intent.getBooleanExtra("first_chat", false)){
             meet_up_post_id = intent.getStringExtra("meet_up_post_id")!!
@@ -106,6 +106,9 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             request_user_id = intent.getStringExtra("request_user_id")!!;
             room_id = intent.getStringExtra("room_id")!!
         }
+        real_meet_up = MeetUp() // 오류처리 방지를 위한 선언
+        meetUpRequest()
+
 
         binding.send.setOnClickListener(this)
         binding.leave.setOnClickListener(this)
@@ -134,14 +137,26 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         //인증버튼
         val certificationBtn = findViewById<ImageView>(R.id.review)
         certificationBtn.setOnClickListener {
-
-
-            showCertificationPopup()
+            meetUpRequest()
+            if(real_meet_up.meet_up_id.isNullOrEmpty() || real_meet_up.meet_up_status.equals("PENDING")){
+                Toast.makeText(this, "만남을 성공하시거나 취소하신 후 리뷰를 작성해주세요.", Toast.LENGTH_SHORT).show()
+            }else{
+                // 성공했거나 실패했을 경우
+                showCertificationPopup()
+            }
         }
 
 
 
         requestPermissions()
+    }
+
+    private fun meetUpRequest() {
+        val selectdata_meetup_one = SelectData_MeetUpOne(this)
+        selectdata_meetup_one.execute(
+            "http://" + IP_ADDRESS + "/1107/SelectData_MeetUpOne.php",
+            meet_up_post_id
+        )
     }
 
 
@@ -168,10 +183,25 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
         completeBtn.setOnClickListener {
             val userInput = editText.text.toString() // 사용자가 입력한 내용을 가져옴
-//            InsertData_MeetUp_Review()
-            // todo: 리뷰 내용 DB에 저장
-
-            dialog.dismiss() // 팝업 닫기
+            if(userInput.length <= 5){
+                Toast.makeText(this, "다섯 글자 이상 입력해주세요", Toast.LENGTH_SHORT).show()
+            }else {
+                val object_user_id = if (user_id.equals(write_user_id)) {
+                    request_user_id
+                } else {
+                    write_user_id
+                }
+                val insertdata_meet_up_review = InsertData_Meet_Up_Review();
+                insertdata_meet_up_review.execute(
+                    "http://" + IP_ADDRESS + "/1107/InsertData_Meet_Up_Review.php",
+                    userInput,
+                    real_meet_up.meet_up_status,
+                    real_meet_up.meet_up_id,
+                    object_user_id,
+                    user_id
+                )
+                dialog.dismiss() // 팝업 닫기
+            }
         }
 
         // 팝업 외부를 클릭하여 닫을 수 있도록 설정
@@ -308,14 +338,18 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
         auth.setOnClickListener{
 
-            if(ready.equals("true")){
-                Toast.makeText(this, "인증이 확인되었으면 화면을 닫으셔도 좋습니다.", Toast.LENGTH_SHORT).show()
-            }else if(!performer_id.equals(user_id)){
-                val selectdata_meetup = SelectData_MeetUp(this)
-                selectdata_meetup.execute(
-                    "http://" + IP_ADDRESS + "/1028/SelectData_MeetUp.php",
-                    meet_up_post_id
-                )
+            if(!performer_id.equals(user_id)){
+                meetUpRequest()
+                if(real_meet_up.meet_up_status.equals("COMPLETED")){
+                    Toast.makeText(this, "인증이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }else {
+                    val selectdata_meetup = SelectData_MeetUp(this)
+                    selectdata_meetup.execute(
+                        "http://" + IP_ADDRESS + "/1028/SelectData_MeetUp.php",
+                        meet_up_post_id
+                    )
+                }
             }else{
                 if (code.equals(editText.text.toString())) {
                     val updateData_meetUp = UpdateData_MeetUp();
@@ -363,17 +397,21 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
         runOnUiThread{
             if(result.meet_up_id.isNullOrEmpty()){
-                Toast.makeText(this, "약속이 없습니다. 약속을 잡으세요!", Toast.LENGTH_SHORT).show()
-                showDialog();
+                if(user_id.equals(write_user_id)) {
+                    Toast.makeText(this, "약속이 없습니다. 약속 만들어 만남을 가지세요!", Toast.LENGTH_SHORT).show()
+                    showDialog();
+                }else{
+                    Toast.makeText(this, "약속은 포스트 작성자만 만들 수 있습니다.", Toast.LENGTH_SHORT).show()
+                }
             }else{
-//                if(result.meet_up_status.equals("COMPLETED")){
-//                    binding.promise.isEnabled = false;
-//                    binding.planTextView.text = "만남 완료"
-//                }
-//                else {
+                if(result.meet_up_status.equals("COMPLETED")){
+                    binding.promise.isEnabled = false;
+                    binding.planTextView.text = "만남 완료"
+                }
+                else {
                     Toast.makeText(this, "약속이 있습니다. 인증을 진행하세요", Toast.LENGTH_SHORT).show()
                     showMeetUp();
-//                }
+                }
             }
         }
 
@@ -559,7 +597,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     override fun onFailure() {}
     override fun onTaskComplete(result_string: String) {
         val updatedata_meetup_mongo = UpdateData_MeetUp_Mongo()
-        updatedata_meetup_mongo.execute("http://" + IP_ADDRESS + "/1107/Update_MeetUp_Mongo.php",meet_up_post_id,result_string,"PENDING")
+        updatedata_meetup_mongo.execute("http://" + IP_ADDRESS + "/1107/Update_MeetUp_Mongo.php",real_meet_up.meet_up_post_id,real_meet_up.meet_up_id,"PENDING")
         runOnUiThread {
             meet_up_id = result_string;
 
@@ -623,7 +661,6 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     }
 
     override fun onTaskComplete_InsertData_Auth(result_string: String) {
-        ready = "true"
     }
 
     override fun onTaskComplete_SelectData_Chat(result: java.util.ArrayList<Chat>) {
@@ -654,6 +691,12 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
 
         }
 
+    }
+
+    override fun onTaskComplete_SelectData_MeetUpOne(result: MeetUp) {
+        if(result.meet_up_id != null){
+            real_meet_up = result;
+        }
     }
 }
 

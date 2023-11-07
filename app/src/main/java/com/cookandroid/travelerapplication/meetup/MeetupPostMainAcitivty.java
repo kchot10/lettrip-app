@@ -41,10 +41,12 @@ import com.cookandroid.travelerapplication.kotlin.Place;
 import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
 import com.cookandroid.travelerapplication.meetup.model.GpsType;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
+import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
 import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
 import com.cookandroid.travelerapplication.task.SelectData_Poke;
+import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
 import org.w3c.dom.Document;
 
@@ -62,8 +64,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "3.34.136.218", user_id="25"; // 여기가 2번 또는 25번
+public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener, SelectData_UserInfo.AsyncTaskCompleteListener {
+    String IP_ADDRESS = "3.34.136.218", user_id="2"; // 여기가 2번 또는 25번
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
@@ -96,6 +98,8 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", IP_ADDRESS);//Todo: 나중에 쓰는 부분은 지울듯
         fileHelper.writeToFile("user_id", user_id);//Todo: 나중에 쓰는 부분은 지울듯
+        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(new ArrayList(), this);
+        selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         recyclerView = findViewById(R.id.RecyclerView_MeetUpPost);
@@ -413,4 +417,8 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         return stringsAddress;
     }
 
+    @Override
+    public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
+        fileHelper.writeToFile("my_nickname", result.getNickname());
+    }
 }
