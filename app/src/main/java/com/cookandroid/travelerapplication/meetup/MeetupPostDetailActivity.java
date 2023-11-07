@@ -322,6 +322,7 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
     }
 
 
+    //장소 & 계획 추가
     @Override
     public void onTaskComplete_SelectData_Travel_Place(Travel travel, Place place) {
         runOnUiThread(()->{
@@ -349,9 +350,9 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
             if(place == null) {
                 placeLayout.setVisibility(View.INVISIBLE);
             }else{
-                placeAddress.setText(place.getPlace_name());
+                placeName.setText("📍 "  + place.getPlace_name());
                 placeCategory.setText(place.getCategory_name());
-                placeName.setText(place.getAddress());
+                placeAddress.setText(place.getAddress());
             }
 
         });
