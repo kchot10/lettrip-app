@@ -1,19 +1,12 @@
 package com.cookandroid.travelerapplication.meetup;
 
-import static androidx.constraintlayout.motion.widget.Debug.getLocation;
-
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
@@ -45,17 +36,13 @@ import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
 import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
-import com.cookandroid.travelerapplication.task.SelectData_Poke;
 import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
-import org.w3c.dom.Document;
-
-import java.io.IOException;
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,16 +52,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener, SelectData_UserInfo.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "3.34.136.218", user_id; // 여기가 2번 또는 25번
+    String IP_ADDRESS = "3.34.136.218", user_id = "25"; // 여기가 2번 또는 25번
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
     Spinner city1;
     Spinner city2;
     Button addPost;
-    String is_gps_enabled = "all";
-    String selectedCity1;
-    String selectedCity2;
+    String is_gps;
+    String selectedCity1 = "서울특별시";
+    String selectedCity2 = "서울";
     String[] parts;
     ArrayAdapter<String> city1Adapter; // 어댑터 선언
     ArrayAdapter<String> adapter2;
@@ -94,10 +81,11 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_main);
+        is_gps = GpsType.GPS_DISABLE.toString();
 
         fileHelper = new FileHelper(this);
 //        fileHelper.writeToFile("IP_ADDRESS", IP_ADDRESS);//Todo: 나중에 쓰는 부분은 지울듯
-//        fileHelper.writeToFile("user_id", user_id);//Todo: 나중에 쓰는 부분은 지울듯
+        fileHelper.writeToFile("user_id", user_id);//Todo: 나중에 쓰는 부분은 지울듯
         SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(new ArrayList(), this);
         selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
@@ -120,20 +108,21 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         adapterGpsSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gpsSelected.setAdapter(adapterGpsSpinner);
 
-        Refresh(GpsType.GPS_DISABLE.toString());
+        Refresh(GpsType.GPS_DISABLE.toString(), selectedCity1, selectedCity2);
         gpsSelected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 String selectedGpsStatus = gpsStatus[position];
                 switch (selectedGpsStatus) {
                     case "GPS 사용":
-                        Refresh(GpsType.GPS_ENABLE.toString());
                         searchKeyword();
+                        is_gps = GpsType.GPS_ENABLE.toString();
                         break;
                     case "GPS 미사용":
-                        Refresh(GpsType.GPS_DISABLE.toString());
+                        Refresh(GpsType.GPS_DISABLE.toString(), selectedCity1, selectedCity2);
                         city1.setEnabled(true);
                         city2.setEnabled(true);
+                        is_gps = GpsType.GPS_DISABLE.toString();
                         break;
                     // 다른 GPS 상태에 대한 case 문 추가
                     default:
@@ -164,6 +153,8 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                 city2.setAdapter(adapter2);
                 
                 //selectedCity에 해당하는 리스트만 불러오는 코드 추가
+                selectedCity1 = selectedCity;
+                Refresh(is_gps, selectedCity1, cityList.get(0)); // 선택된 province의 city 중 제일 첫번째 city
             }
 
             @Override
@@ -177,6 +168,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedCity2 = (String) parent.getItemAtPosition(position); // city2의 선택된 값 저장
+                Refresh(is_gps, selectedCity1, selectedCity2);
             }
 
             @Override
@@ -245,8 +237,12 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
 
 
 
+    private void Refresh() {
+        SelectData_MeetUpPost selectData_meetUpPost = new SelectData_MeetUpPost(this);
+        selectData_meetUpPost.execute("http://" + IP_ADDRESS + "/1028/SelectData_MeetUpPost.php", is_gps, selectedCity1, selectedCity2);
+    }
 
-    private void Refresh(String gpsType) {
+    private void Refresh(String gpsType, String selectedCity, String 서울) {
         SelectData_MeetUpPost selectData_meetUpPost = new SelectData_MeetUpPost(this);
         selectData_meetUpPost.execute("http://" + IP_ADDRESS + "/1028/SelectData_MeetUpPost.php", gpsType, selectedCity1, selectedCity2);
     }
@@ -359,6 +355,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                         int position2 = adapter2.getPosition(parts[1]);
                         city2.setSelection(position2);
                     }
+                    Refresh(GpsType.GPS_ENABLE.toString(), selectedCity1, selectedCity2);
                 }else{
                     gpsSelected.setSelection(0);
                     Toast.makeText(getApplicationContext(),"사용자의 위치를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
