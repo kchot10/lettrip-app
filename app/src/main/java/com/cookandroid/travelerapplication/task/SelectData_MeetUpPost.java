@@ -141,6 +141,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // í†
             String province = jsonObject.getString("province");
             String birth_date = jsonObject.getString("birth_date");
             String user_id = jsonObject.getString("user_id");
+            String title = jsonObject.getString("title");
             meetupPost.setTravel_id(travel_id);
             meetupPost.setPlace_id(place_id);
             meetupPost.setMeet_up_id(meet_up_id);
@@ -155,6 +156,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // í†
             meetupPost.setProvince(province);
             meetupPost.setBirth_date(birth_date);
             meetupPost.setUser_id(user_id);
+            meetupPost.setPostTitle(title);
             articleArrayList.add(meetupPost);
         }
 
