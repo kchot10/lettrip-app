@@ -55,6 +55,8 @@
             android:layout_marginTop="2dp"
             android:fontFamily="@font/inter"
             android:text="그 근처에 맛집 찾아볼게"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textColor="#9F9F9F"
             android:textSize="12sp" />
     </LinearLayout>
