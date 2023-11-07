@@ -25,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +50,8 @@ import java.util.Locale;
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
     String IP_ADDRESS = "3.34.136.218", user_id="25"; // 여기가 2번 또는 25번
+    private static final int REQUEST_LOCATION_PERMISSION = 123;
+
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
@@ -64,7 +67,8 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
     private RecyclerView.LayoutManager layoutManager;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
     Location currentLocation;
-
+    LocationManager locationManager;
+    LocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,8 +226,6 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         });
 
     }
-
-
 
 
 
