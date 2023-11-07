@@ -32,6 +32,7 @@ import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.meetup.MeetupPostMainAcitivty;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
+import com.cookandroid.travelerapplication.search.SearchReviewActivity;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
 import com.cookandroid.travelerapplication.task.UpdateData_Travel;
@@ -400,7 +401,14 @@ public class RecordMain extends AppCompatActivity{
             }
 
         });
-
+        ImageButton searchBtn = findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecordMain.this, SearchReviewActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

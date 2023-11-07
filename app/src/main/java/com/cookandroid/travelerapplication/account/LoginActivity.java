@@ -244,14 +244,6 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        findViewById(R.id.menuBtn).setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ChatRoomActivity.class);
-            intent.putExtra("userName", "유충열");
-            intent.putExtra("roomName", "2075");
-            startActivity(intent);
-        });
-
-
 
     }
 

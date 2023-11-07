@@ -39,6 +39,7 @@ import com.cookandroid.travelerapplication.meetup.MeetupPostMainAcitivty;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
 import com.cookandroid.travelerapplication.recommend.PlaceScore;
+import com.cookandroid.travelerapplication.search.SearchReviewActivity;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.Recommend_Place;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
@@ -557,6 +558,15 @@ public class PlanningMain extends AppCompatActivity{
                 dialog.show();
             }
 
+        });
+
+        ImageButton searchBtn = findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PlanningMain.this, SearchReviewActivity.class);
+                startActivity(intent);
+            }
         });
 
     }

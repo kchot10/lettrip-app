@@ -52,6 +52,7 @@ import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
 import com.cookandroid.travelerapplication.record.PlanningMain;
 import com.cookandroid.travelerapplication.record.RecordMain;
+import com.cookandroid.travelerapplication.search.SearchReviewActivity;
 import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
 import com.cookandroid.travelerapplication.task.SelectData_Poke;
 import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
@@ -290,6 +291,15 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                 dialog.show();
             }
 
+        });
+
+        ImageButton searchBtn = findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MeetupPostMainAcitivty.this, SearchReviewActivity.class);
+                startActivity(intent);
+            }
         });
 
     }
