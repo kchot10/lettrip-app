@@ -5,8 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.cookandroid.travelerapplication.meetup.MeetUp;
+import com.cookandroid.travelerapplication.meetup.MeetupPost;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,13 +18,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SelectData_MeetUpOne extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_MeetUpPostOne extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
     private AsyncTaskCompleteListener callback;
     public ArrayList articleArrayList;
 
-    public SelectData_MeetUpOne(AsyncTaskCompleteListener callback) {
+    public SelectData_MeetUpPostOne(AsyncTaskCompleteListener callback) {
         this.articleArrayList = new ArrayList();
         this.callback = callback;
     }
@@ -95,7 +95,7 @@ public class SelectData_MeetUpOne extends AsyncTask<String,Void,String> { // 통
                 parseJSONArray(sb.toString());
             }catch (Exception e){
                 Log.d("youn", "JSON Error\n");
-                callback.onTaskComplete_SelectData_MeetUpOne(new MeetUp());
+                callback.onTaskComplete_SelectData_MeetUpPostOne(new MeetupPost());
             }
 
 
@@ -118,28 +118,44 @@ public class SelectData_MeetUpOne extends AsyncTask<String,Void,String> { // 통
     }
 
     private void parseJSONArray(String result) throws JSONException {
+        Log.e("result99", result);
+
         JSONObject jsonObject = new JSONObject(result);
 
-        MeetUp meetup = new MeetUp();
+        MeetupPost meetupPost = new MeetupPost();
 
-        String meet_up_post_id = jsonObject.getString("meet_up_post_id");
+        String travel_id = jsonObject.getString("travel_id");
+        String place_id = jsonObject.getString("place_id");
         String meet_up_id = jsonObject.getString("meet_up_id");
-        String meet_up_date = jsonObject.getString("meet_up_date");
-        String meet_up_status = jsonObject.getString("meet_up_status");
-        String write_user_id = jsonObject.getString("write_user_id");
-        String request_user_id = jsonObject.getString("request_user_id");
-        meetup.setMeet_up_post_id(meet_up_post_id);
-        meetup.setMeet_up_id(meet_up_id);
-        meetup.setMeet_up_date(meet_up_date);
-        meetup.setMeet_up_status(meet_up_status);
-        meetup.setWrite_user_id(write_user_id);
-        meetup.setRequest_user_id(request_user_id);
-        articleArrayList.add(meetup);
-        callback.onTaskComplete_SelectData_MeetUpOne(meetup);
-
-//        for (int i = 0; i < jsonArray.length(); i++) {
+        String meet_up_post_id = jsonObject.getString("meet_up_post_id");
+        String is_gps_enabled = jsonObject.getString("is_gps_enabled");
+        String city = jsonObject.getString("city");
+        String content = jsonObject.getString("content");
+        String created_date = jsonObject.getString("created_date");
+        String nickname = jsonObject.getString("nickname");
+        String sex = jsonObject.getString("sex");
+        String image_url = jsonObject.getString("image_url");
+        String province = jsonObject.getString("province");
+        String birth_date = jsonObject.getString("birth_date");
+        String user_id = jsonObject.getString("user_id");
+        String title = jsonObject.getString("title");
+        meetupPost.setTravel_id(travel_id);
+        meetupPost.setPlace_id(place_id);
+        meetupPost.setMeet_up_id(meet_up_id);
+        meetupPost.setMeet_up_post_id(meet_up_post_id);
+        meetupPost.setIs_gps_enabled(is_gps_enabled);
+        meetupPost.setCity(city);
+        meetupPost.setContent(content);
+        meetupPost.setCreated_date(created_date);
+        meetupPost.setNickname(nickname);
+        meetupPost.setSex(sex);
+        meetupPost.setImage_url(image_url);
+        meetupPost.setProvince(province);
+        meetupPost.setBirth_date(birth_date);
+        meetupPost.setUser_id(user_id);
+        meetupPost.setPostTitle(title);
 //
-//        }
+        callback.onTaskComplete_SelectData_MeetUpPostOne(meetupPost);
 
     }
 
@@ -157,7 +173,7 @@ public class SelectData_MeetUpOne extends AsyncTask<String,Void,String> { // 통
     }
 
     public interface AsyncTaskCompleteListener {
-        void onTaskComplete_SelectData_MeetUpOne(MeetUp result);
+        void onTaskComplete_SelectData_MeetUpPostOne(MeetupPost result);
     }
 
 }

@@ -24,7 +24,9 @@ import com.cookandroid.travelerapplication.helper.FileHelper
 import com.cookandroid.travelerapplication.helper.GMailSender
 import com.cookandroid.travelerapplication.helper.S3Uploader
 import com.cookandroid.travelerapplication.meetup.MeetUp
+import com.cookandroid.travelerapplication.meetup.MeetupPost
 import com.cookandroid.travelerapplication.meetup.MeetupPostDetailActivity
+import com.cookandroid.travelerapplication.search.SearchReviewActivity
 import com.cookandroid.travelerapplication.task.*
 import com.google.gson.Gson
 import io.socket.client.IO
@@ -32,7 +34,7 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 
 
-class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.OnUploadListener, SelectData_MeetUpOne.AsyncTaskCompleteListener,
+class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.OnUploadListener, SelectData_MeetUpOne.AsyncTaskCompleteListener, SelectData_MeetUpPostOne.AsyncTaskCompleteListener,
     InsertData_Meetup.AsyncTaskCompleteListener, InsertData_ChatRoom.AsyncTaskCompleteListener,InsertData_Auth.AsyncTaskCompleteListener, SelectData_MeetUp.AsyncTaskCompleteListener, SelectData_Auth.AsyncTaskCompleteListener, SelectData_Chat.AsyncTaskCompleteListener {
 
     private var IS_IMAGE = false;
@@ -108,6 +110,9 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         }
         real_meet_up = MeetUp() // 오류처리 방지를 위한 선언
         meetUpRequest()
+        meetUpPostRequest()
+
+
 
 
         binding.send.setOnClickListener(this)
@@ -155,6 +160,15 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         val selectdata_meetup_one = SelectData_MeetUpOne(this)
         selectdata_meetup_one.execute(
             "http://" + IP_ADDRESS + "/1107/SelectData_MeetUpOne.php",
+            meet_up_post_id
+        )
+    }
+
+
+    private fun meetUpPostRequest() {
+        val selectdata_meetup_post_one = SelectData_MeetUpPostOne(this)
+        selectdata_meetup_post_one.execute(
+            "http://" + IP_ADDRESS + "/1107/SelectData_MeetUpPostOne.php",
             meet_up_post_id
         )
     }
@@ -696,6 +710,19 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     override fun onTaskComplete_SelectData_MeetUpOne(result: MeetUp) {
         if(result.meet_up_id != null){
             real_meet_up = result;
+        }
+    }
+
+    override fun onTaskComplete_SelectData_MeetUpPostOne(result: MeetupPost) {
+        Log.e("errors",result.postTitle);
+        binding.postTitle.text = result.postTitle;
+        binding.city1.text = result.province;
+        binding.city2.text = result.city;
+        binding.postBtn.setOnClickListener{
+            val intent: Intent
+            intent = Intent(this, MeetupPostDetailActivity::class.java)
+            intent.putExtra("meetup_post", result) // MeetupPost 클래스 형태로 보내는건 오류
+            startActivity(intent)
         }
     }
 }
