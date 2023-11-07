@@ -507,11 +507,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(this, "장소 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                                     place_id = withdraw_result;
-
-                                    placeName.setText("📍 " + place_name);
-                                    placeCategory.setText(category_name);
-                                    placeAddress.setText(address);
-                                    placeLayout.setVisibility(VISIBLE);
                                 }
                             }, 1000); // 0.5초 지연 시간
                         }
@@ -519,6 +514,10 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                     },500);
 
 
+                    placeName.setText("📍 " + place_name);
+                    placeCategory.setText(category_name);
+                    placeAddress.setText(address);
+                    placeLayout.setVisibility(VISIBLE);
                 }
             }
     );
