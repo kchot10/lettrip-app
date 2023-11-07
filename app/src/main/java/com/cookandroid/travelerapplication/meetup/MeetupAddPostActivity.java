@@ -1,16 +1,13 @@
 package com.cookandroid.travelerapplication.meetup;
 
 import static android.view.View.VISIBLE;
-
+import com.cookandroid.travelerapplication.databinding.ActivityMeetupNewpostBinding;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,22 +26,22 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.kotlin.KakaoAPI3;
 import com.cookandroid.travelerapplication.kotlin.KotlinActivity;
-import com.cookandroid.travelerapplication.mission.UserInfo;
+import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
 import com.cookandroid.travelerapplication.mypage.MyTravelActivity;
-import com.cookandroid.travelerapplication.record.CourseActivity;
 import com.cookandroid.travelerapplication.record.Place;
+import com.cookandroid.travelerapplication.search.Travel;
 import com.cookandroid.travelerapplication.task.InsertData_Place;
 import com.cookandroid.travelerapplication.task.SelectData_Place;
-import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,10 +55,25 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MeetupAddPostActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 1;
+    String[] parts;
+    ArrayAdapter<String> adapter2;
 
-    private String place_id;
+    private static final int ACCESS_FINE_LOCATION = 1000;
+    private static final String BASE_URL = "https://dapi.kakao.com/";
+    private static final String API_KEY = "KakaoAK 43a9d1617d8fb89af04db23790b3dd22";
+    private double latitude = 1.0;
+    private double longitude = 1.0;
+    ActivityMeetupNewpostBinding binding;
+
+    private String place_id = "null", travel_id="null";
     ImageButton backBtn;
     Spinner gpsSpinner;
     Spinner city1;
@@ -96,7 +108,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_newpost);
-        //binding = ActivityMeetupNewpostBinding.inflate(getLayoutInflater());
+        binding = ActivityMeetupNewpostBinding.inflate(getLayoutInflater());
 
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
@@ -119,7 +131,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         planCategory = findViewById(R.id.planCategory);
         backBtn = findViewById(R.id.backBtn);
         placeLayout = findViewById(R.id.placeLayout);
-        planLayout = findViewById(R.id.PlanLayout);
+        planLayout = findViewById(R.id.placeLayout);
 
 
         //gpsSpinner
@@ -135,36 +147,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                 switch (selectedStatus) {
                     case "GPS 사용":
                         is_gps_enabled = "1";
-                        city1.setEnabled(false);
-                        city2.setEnabled(false);
-
-                        // GPS 정보 사용해서 현재 위치 확인
-                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            return;
-                        }
-                        Location loc_current = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        double cur_lat = loc_current.getLatitude(); //위도
-                        double cur_lon = loc_current.getLongitude(); //경도
-
-                        // 위도와 경도를 이용하여 주소 가져오기
-                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                        List<Address> addresses = null;
-                        try {
-                            addresses = geocoder.getFromLocation(cur_lat, cur_lon, 1);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (addresses != null && addresses.size() > 0) {
-                            Address address = addresses.get(0);
-                            String fullAddress = address.getAddressLine(0); // 전체 주소
-
-                            // TODO: fullAddress를 사용하여 UI 업데이트 또는 저장 등의 작업 수행
-
-                        } else {
-                            // 주소를 가져오지 못한 경우 처리
-                        }
+                        searchKeyword();
                         break;
 
                     case "GPS 미사용":
@@ -266,22 +249,12 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         //addPlaceBtn.setOnClickListener(btnClickListener);
 
         addPlanBtn.setOnClickListener(v -> {
-            String title = "서울 여행";
-            String date = "2020.10.10 - 2020.10.20";
-            int courseNum = 3;
-            String course = "코스 " +  courseNum + "개";
-            int moneyNum = 100000;
-            String money = "비용 " + formatNumber(moneyNum) + "원";
-            String categoryString = "문화여행";
-            String category = "#" + categoryString;
-
             //todo:여행 계획 리스트에서 하나를 선택하면 그 여행에 대한 정보들을 받아와서 변수에 저장하기
 
-            planLayout.setVisibility(VISIBLE);
-            planTitleTextView.setText(title);
-            planDate.setText(date);
-            planCategory.setText(category);
-            planInfo.setText(course + " / " + money);
+            Intent intent = new Intent(this, MyTravelActivity.class);
+            intent.putExtra("visited/not", "not");
+            intent.putExtra("select", true);
+            getTravelActivityResult.launch(intent);
 
         });
 
@@ -317,25 +290,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
 
         return nf.format(number);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                // 여기에 결과를 처리하는 코드를 작성합니다.
-                String name = data.getStringExtra("name");
-                String category = data.getStringExtra("category");
-                String address = data.getStringExtra("address");
-
-                placeName.setText(name);
-                placeCategory.setText(category);
-                placeAddress.setText(address);
-                placeLayout.setVisibility(VISIBLE);
-
-            }
-        }
-    }
 
     public void saveMeetupPostData(String user_id) {
 
@@ -348,7 +302,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         String province = getSelectedCity1();
         String city = getSelectedCity2();
         String title = (Title.getText().toString().isEmpty() || Title.getText().toString().equals("")) ? Title.getHint().toString() : Title.getText().toString();
-        String travel_id = "";
         String created_date = getCurrentTime();
         String modified_date = getCurrentTime();
 
@@ -371,6 +324,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                 }
             }
         }
+
         if(errors.isEmpty()) {
             InsertData_MeetupPost task = new InsertData_MeetupPost();
             task.execute(
@@ -532,7 +486,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                     SelectData_Place selectData_place = new SelectData_Place(arrayListPlace);
                     selectData_place.execute("http://"+IP_ADDRESS+"/0601/select_location_point.php",location_point);
                     new Handler().postDelayed(() -> {
-                        place_id = "";
                         try {
                             place_id = arrayListPlace.get(0).getPlace_id();
                         }catch (Exception e){
@@ -553,7 +506,6 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(this, "장소 추가에 성공했습니다.", Toast.LENGTH_SHORT).show();
                                     place_id = withdraw_result;
-                                    fileHelper.writeToFile("place_id", withdraw_result);
                                 }
                             }, 1000); // 0.5초 지연 시간
                         }
@@ -569,6 +521,63 @@ public class MeetupAddPostActivity extends AppCompatActivity {
             }
     );
 
+
+    private void searchKeyword() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Location userNowLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            if (userNowLocation != null) {
+                latitude = userNowLocation.getLatitude();
+                longitude = userNowLocation.getLongitude();
+                Log.e("errors", "Successfully retrieved location: " + latitude + ", " + longitude);
+            } else {
+                Log.e("errors", "Unable to retrieve location information");
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_FINE_LOCATION);
+            Log.e("errors", "Request location permission from the user");
+        }
+
+        KakaoAPI3 api = retrofit.create(KakaoAPI3.class);
+        Call<ResultSearchKeyword> call = api.getSearchKeyword(API_KEY, String.valueOf(longitude), String.valueOf(latitude));
+
+        call.enqueue(new Callback<ResultSearchKeyword>() {
+            @Override
+            public void onResponse(@NonNull Call<ResultSearchKeyword> call, @NonNull Response<ResultSearchKeyword> response) {
+                if (response.body() != null && !response.body().getDocuments().isEmpty()) {
+                    for (com.cookandroid.travelerapplication.kotlin.Place place: response.body().getDocuments()) {
+                        String addressName = place.getAddress_name();
+                        parts = findProvinceCity(addressName);
+                        city1.setEnabled(false);
+                        city2.setEnabled(false);
+
+                        int position = city1Adapter.getPosition(parts[0]);
+                        city1.setSelection(position);
+
+                        List<String> cityList = getCityList2(parts[0]);
+                        adapter2 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
+                        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        int position2 = adapter2.getPosition(parts[1]);
+                        city2.setSelection(position2);
+                    }
+                }else{
+                    gpsSpinner.setSelection(0);
+                    Toast.makeText(getApplicationContext(),"사용자의 위치를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResultSearchKeyword> call, @NonNull Throwable t) {
+                Log.w("LocalSearch", "Communication failed: " + t.getMessage());
+            }
+        });
+    }
 
     private String[] findProvinceCity(String address) {
 
@@ -615,6 +624,35 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         }
         return stringsAddress;
     }
+
+    private final ActivityResultLauncher<Intent> getTravelActivityResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Travel travel = (Travel)result.getData().getSerializableExtra("travel");
+
+                    String title = travel.getTitle();//"";//travel.gettit//"서울 여행";
+                    String depart_date = travel.getDepart_date();//"2020.10.10 - 2020.10.20";
+                    String last_date = travel.getLast_date();//"2020.10.10 - 2020.10.20";
+                    String date = depart_date + " ~ " +last_date;
+                    int courseNum = Integer.parseInt(travel.getNumber_of_courses());
+                    String course = "코스 " +  courseNum + "개";
+                    int moneyNum = Integer.parseInt(travel.getTotal_cost());
+                    String money = "비용 " + formatNumber(moneyNum) + "원";
+                    String categoryString = travel.getTravel_theme();//"문화여행";
+                    String category = "#" + categoryString;
+
+                    planLayout.setVisibility(VISIBLE);
+                    planTitleTextView.setText(title);
+                    planDate.setText(date);
+                    planCategory.setText(category);
+                    planInfo.setText(course + " / " + money);
+
+                    travel_id = travel.getTravel_id();
+
+                }
+            }
+    );
 
 
 }

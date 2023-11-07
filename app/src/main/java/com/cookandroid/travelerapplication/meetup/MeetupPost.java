@@ -7,6 +7,8 @@ import java.io.Serializable;
 public class MeetupPost implements Serializable {
     private String meet_up_post_id;
     private String is_gps_enabled;
+    private String travel_id;
+    private String place_id;
 
     public MeetupPost(String meet_up_post_id, String is_gps_enabled, String city, String content, String created_date, String nickname, String sex, @Nullable String image_url, String province, @Nullable String birth_date, String user_id, String postTitle) {
         this.meet_up_post_id = meet_up_post_id;
@@ -35,6 +37,29 @@ public class MeetupPost implements Serializable {
     private String postTitle;
     private String meet_up_id;
 
+    public String getTravel_id() {
+        return travel_id;
+    }
+
+    public void setTravel_id(String travel_id) {
+        this.travel_id = travel_id;
+    }
+
+    public String getPlace_id() {
+        return place_id;
+    }
+
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
+    }
+
+    public String getMeet_up_id() {
+        return meet_up_id;
+    }
+
+    public void setMeet_up_id(String meet_up_id) {
+        this.meet_up_id = meet_up_id;
+    }
 
     public String getUser_id() {
         return user_id;

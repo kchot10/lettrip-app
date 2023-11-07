@@ -2,6 +2,7 @@ package com.cookandroid.travelerapplication.meetup;
 
 import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,12 +36,19 @@ import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.article.ArticleListActivity;
 import com.cookandroid.travelerapplication.chat.ChatListActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.kotlin.KakaoAPI3;
+import com.cookandroid.travelerapplication.kotlin.Place;
+import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
 import com.cookandroid.travelerapplication.meetup.model.GpsType;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
+import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
 import com.cookandroid.travelerapplication.record.RecordMain;
 import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
 import com.cookandroid.travelerapplication.task.SelectData_Poke;
+import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
+
+import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,10 +57,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "3.34.136.218", user_id="25"; // 여기가 2번 또는 25번
-    private static final int REQUEST_LOCATION_PERMISSION = 123;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
+
+public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener, SelectData_UserInfo.AsyncTaskCompleteListener {
+    String IP_ADDRESS = "3.34.136.218", user_id="2"; // 여기가 2번 또는 25번
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
@@ -61,14 +75,20 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
     String is_gps_enabled = "all";
     String selectedCity1;
     String selectedCity2;
+    String[] parts;
     ArrayAdapter<String> city1Adapter; // 어댑터 선언
+    ArrayAdapter<String> adapter2;
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
-    Location currentLocation;
-    LocationManager locationManager;
-    LocationListener locationListener;
+
+    private static final int ACCESS_FINE_LOCATION = 1000;
+    private static final String BASE_URL = "https://dapi.kakao.com/";
+    private static final String API_KEY = "KakaoAK 43a9d1617d8fb89af04db23790b3dd22";
+    private double latitude = 1.0;
+    private double longitude = 1.0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +98,8 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         fileHelper = new FileHelper(this);
         fileHelper.writeToFile("IP_ADDRESS", IP_ADDRESS);//Todo: 나중에 쓰는 부분은 지울듯
         fileHelper.writeToFile("user_id", user_id);//Todo: 나중에 쓰는 부분은 지울듯
+        SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(new ArrayList(), this);
+        selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         recyclerView = findViewById(R.id.RecyclerView_MeetUpPost);
@@ -92,12 +114,10 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         addPost = findViewById(R.id.writeBtn);
 
         //gps 스피너
-        String[] gpsStatus = {"GPS 정보 사용", "GPS 정보 미사용"};
+        String[] gpsStatus = {"GPS 미사용", "GPS 사용"};
         ArrayAdapter<String> adapterGpsSpinner = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, gpsStatus); //추후 스피너 레이아웃 커스텀하기
         adapterGpsSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gpsSelected.setAdapter(adapterGpsSpinner);
-
-        gpsSelected.setSelection(1);
 
         Refresh(GpsType.GPS_DISABLE.toString());
         gpsSelected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -105,15 +125,12 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 String selectedGpsStatus = gpsStatus[position];
                 switch (selectedGpsStatus) {
-                    case "GPS 정보 사용":
+                    case "GPS 사용":
                         Refresh(GpsType.GPS_ENABLE.toString());
-                        city1.setEnabled(false);
-                        city2.setEnabled(false);
-
+                        searchKeyword();
                         //gps 정보 사용해서 지역 알아내기
-
                         break;
-                    case "GPS 정보 미사용":
+                    case "GPS 미사용":
                         Refresh(GpsType.GPS_DISABLE.toString());
                         city1.setEnabled(true);
                         city2.setEnabled(true);
@@ -136,6 +153,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         city1Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         city1.setAdapter(city1Adapter);
 
+
         city1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -143,13 +161,9 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
 
                 String selectedCity = (String) parent.getItemAtPosition(position);
                 List<String> cityList = getCityList2(selectedCity);
-                //if (locality != null) {
-                    //cityList.add(locality);
-                //}
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                city2.setAdapter(adapter);
+                adapter2 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                city2.setAdapter(adapter2);
             }
 
             @Override
@@ -157,6 +171,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                 // 아무 것도 선택되지 않았을 때의 동작 수행
             }
         });
+
 
         city2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -229,6 +244,8 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
 
 
 
+
+
     private void Refresh(String gpsType) {
         SelectData_MeetUpPost selectData_meetUpPost = new SelectData_MeetUpPost(this);
         selectData_meetUpPost.execute("http://" + IP_ADDRESS + "/1028/SelectData_MeetUpPost.php", gpsType, selectedCity1, selectedCity2);
@@ -298,12 +315,110 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         }
     }
 
-    public String getSelectedCity1() {
-        return selectedCity1;
+
+    private void searchKeyword() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Location userNowLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            if (userNowLocation != null) {
+                latitude = userNowLocation.getLatitude();
+                longitude = userNowLocation.getLongitude();
+                Log.e("errors", "Successfully retrieved location: " + latitude + ", " + longitude);
+            } else {
+                Log.e("errors", "Unable to retrieve location information");
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_FINE_LOCATION);
+            Log.e("errors", "Request location permission from the user");
+        }
+
+        KakaoAPI3 api = retrofit.create(KakaoAPI3.class);
+        Call<ResultSearchKeyword> call = api.getSearchKeyword(API_KEY, String.valueOf(longitude), String.valueOf(latitude));
+
+        call.enqueue(new Callback<ResultSearchKeyword>() {
+            @Override
+            public void onResponse(@NonNull Call<ResultSearchKeyword> call, @NonNull Response<ResultSearchKeyword> response) {
+                if (response.body() != null && !response.body().getDocuments().isEmpty()) {
+                    for (Place place: response.body().getDocuments()) {
+                        city1.setEnabled(false);
+                        city2.setEnabled(false);
+                        String addressName = place.getAddress_name();
+                        parts = findProvinceCity(addressName);
+                        int position = city1Adapter.getPosition(parts[0]);
+                        city1.setSelection(position);
+
+                        List<String> cityList = getCityList2(parts[0]);
+                        adapter2 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
+                        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        int position2 = adapter2.getPosition(parts[1]);
+                        city2.setSelection(position2);
+                    }
+                }else{
+                    gpsSelected.setSelection(0);
+                    Toast.makeText(getApplicationContext(),"사용자의 위치를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResultSearchKeyword> call, @NonNull Throwable t) {
+                Log.w("LocalSearch", "Communication failed: " + t.getMessage());
+            }
+        });
+    }
+    private String[] findProvinceCity(String address) {
+
+        String[] mProvince = {"서울", "광주", "대구", "대전", "부산", "울산", "인천"};
+        String[] mProvince2 = {"제주특별자치도, 세종특별자치시"};
+
+        String[] stringsAddress = address.split(" ");
+        if (Arrays.asList(mProvince).contains(stringsAddress[0])){
+            stringsAddress[1] = stringsAddress[0];
+            if (stringsAddress[0].equals("서울")){
+                stringsAddress[0] = "서울특별시";
+            }else {
+                stringsAddress[0] += "광역시";
+            }
+        }else if (stringsAddress[0].equals("세종특별자치시")){
+            stringsAddress[1] = stringsAddress[0].substring(0, 2);
+        }else{
+            switch (stringsAddress[0]) {
+                case "강원":
+                    stringsAddress[0] = "강원특별자치도";
+                    break;
+                case "경기":
+                    stringsAddress[0] = "경기도";
+                    break;
+                case "경남":
+                    stringsAddress[0] = "경상남도";
+                    break;
+                case "경북":
+                    stringsAddress[0] = "경상북도";
+                    break;
+                case "전남":
+                    stringsAddress[0] = "전라남도";
+                    break;
+                case "전북":
+                    stringsAddress[0] = "전라북도";
+                    break;
+                case "충남":
+                    stringsAddress[0] = "충청남도";
+                    break;
+                case "충북":
+                    stringsAddress[0] = "충청북도";
+                    break;
+            }
+        }
+        return stringsAddress;
     }
 
-
-    public String getSelectedCity2() {
-        return selectedCity2;
+    @Override
+    public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
+        fileHelper.writeToFile("my_nickname", result.getNickname());
     }
 }

@@ -1,15 +1,15 @@
 package com.cookandroid.travelerapplication.pokeInfo;
 
 public class OneLineReviewData {
-    private int profilePhoto;
+    private String profilePhoto;
     private String oneLineReview;
 
-    public OneLineReviewData(int profilePhoto, String oneLineReview) {
+    public OneLineReviewData(String profilePhoto, String oneLineReview) {
         this.profilePhoto = profilePhoto;
         this.oneLineReview = oneLineReview;
     }
 
-    public int getProfilePhoto() {
+    public String getProfilePhoto() {
         return profilePhoto;
     }
 

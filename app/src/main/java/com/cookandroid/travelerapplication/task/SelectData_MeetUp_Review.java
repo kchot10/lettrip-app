@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.cookandroid.travelerapplication.meetup.MeetupPost;
-import com.cookandroid.travelerapplication.meetup.PokeItem;
+import com.cookandroid.travelerapplication.pokeInfo.MeetUpReview;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,13 +19,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
+public class SelectData_MeetUp_Review extends AsyncTask<String,Void,String> { // 통신을 위한 InsertData 생성
     ProgressDialog progressDialog;
     private static String TAG = "youn"; //phptest log 찍으려는 용도
     private AsyncTaskCompleteListener callback;
     public ArrayList articleArrayList;
 
-    public <T> SelectData_MeetUpPost(AsyncTaskCompleteListener callback) {
+    public SelectData_MeetUp_Review(AsyncTaskCompleteListener callback) {
         this.articleArrayList = new ArrayList();
         this.callback = callback;
     }
@@ -37,8 +37,11 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
 
         String postParameters = "";
         try {
-            String is_gps_enabled = (String) params[1];
-            postParameters ="is_gps_enabled="+is_gps_enabled;
+            String object_user_id = (String) params[1];
+            String is_completed = (String) params[2];
+            postParameters ="object_user_id="+object_user_id
+            +"&is_completed="+is_completed;
+
         }catch (Exception e){
         }
 
@@ -96,7 +99,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
                 parseJSONArray(sb.toString());
             }catch (Exception e){
                 Log.d("youn", "JSON Error\n");
-                callback.onTaskComplete(new ArrayList<MeetupPost>());
+                callback.onTaskComplete(new ArrayList<MeetUpReview>());
             }
 
 
@@ -125,37 +128,17 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            MeetupPost meetupPost = new MeetupPost();
+            MeetUpReview meetUpReview = new MeetUpReview();
 
-            String travel_id = jsonObject.getString("travel_id");
-            String place_id = jsonObject.getString("place_id");
-            String meet_up_id = jsonObject.getString("meet_up_id");
-            String meet_up_post_id = jsonObject.getString("meet_up_post_id");
-            String is_gps_enabled = jsonObject.getString("is_gps_enabled");
-            String city = jsonObject.getString("city");
             String content = jsonObject.getString("content");
-            String created_date = jsonObject.getString("created_date");
-            String nickname = jsonObject.getString("nickname");
-            String sex = jsonObject.getString("sex");
             String image_url = jsonObject.getString("image_url");
-            String province = jsonObject.getString("province");
-            String birth_date = jsonObject.getString("birth_date");
-            String user_id = jsonObject.getString("user_id");
-            meetupPost.setTravel_id(travel_id);
-            meetupPost.setPlace_id(place_id);
-            meetupPost.setMeet_up_id(meet_up_id);
-            meetupPost.setMeet_up_post_id(meet_up_post_id);
-            meetupPost.setIs_gps_enabled(is_gps_enabled);
-            meetupPost.setCity(city);
-            meetupPost.setContent(content);
-            meetupPost.setCreated_date(created_date);
-            meetupPost.setNickname(nickname);
-            meetupPost.setSex(sex);
-            meetupPost.setImage_url(image_url);
-            meetupPost.setProvince(province);
-            meetupPost.setBirth_date(birth_date);
-            meetupPost.setUser_id(user_id);
-            articleArrayList.add(meetupPost);
+            meetUpReview.setContent(content);
+            meetUpReview.setImage_url(image_url);
+
+            Log.e("errors", content);
+            Log.e("errors", jsonArray.length()+"");
+
+            articleArrayList.add(meetUpReview);
         }
 
         callback.onTaskComplete(articleArrayList);
@@ -175,7 +158,7 @@ public class SelectData_MeetUpPost extends AsyncTask<String,Void,String> { // �
     }
 
     public interface AsyncTaskCompleteListener {
-        void onTaskComplete(ArrayList<MeetupPost> result);
+        void onTaskComplete(ArrayList<MeetUpReview> result);
     }
 
 }

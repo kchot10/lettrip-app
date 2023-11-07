@@ -35,6 +35,13 @@ public class ChatListActivity extends AppCompatActivity implements SelectData_Ch
         recyclerView = findViewById(R.id.recyclerView_chatList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        List<ChatRoom> itemList = new ArrayList<>();
+
+        itemList.add(new ChatRoom(null, "닉네임", "2023-11-05", "최근 메시지입니다.")); //uri가 null이면 기본 프로필 적용
+
+        //todo:db에서 최근 채팅에 대한 정보가져와서 리스트에 추가
+        //todo:같은 날짜면 시간을, 다른 날짜면 날짜를 보여주도록 추가하기
+
         SelectData_ChatRoom selectData_chatRoom= new SelectData_ChatRoom(this);
         selectData_chatRoom.execute("http://" + IP_ADDRESS + "/0930/select_chatroom.php", user_id);
 
@@ -56,14 +63,11 @@ public class ChatListActivity extends AppCompatActivity implements SelectData_Ch
 
     @Override
     public void onTaskComplete_SelectData_UserInfo(UserInfo result) {
-        Log.e("errors", result.getNickname()+result.getUser_id()+result.getStored_file_url());
         for (ChatRoom chatRoom : format_result) {
             String other_user_id = (user_id.equals(chatRoom.getWrite_user_id()) ? chatRoom.getRequest_user_id():chatRoom.getWrite_user_id());
             if (other_user_id.equals(result.getUser_id())) {
                 chatRoom.setUserName(result.getNickname());
                 chatRoom.setProfileURI(result.getStored_file_url());
-
-                Log.e("errors", result.getUser_id()+result.getNickname()+ result.getStored_file_url());
             }
         }
         runOnUiThread(()->{
