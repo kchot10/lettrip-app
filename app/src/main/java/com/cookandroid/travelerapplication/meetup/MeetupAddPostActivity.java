@@ -515,8 +515,11 @@ public class MeetupAddPostActivity extends AppCompatActivity {
 
 
                     placeName.setText("📍 " + place_name);
-                    placeCategory.setText(category_name);
-                    placeAddress.setText(address);
+                    if(category_name.equals(null) || category_name.equals("null") || category_name.equals("")){
+                        placeCategory.setText("");
+                    }else{
+                        placeCategory.setText(category_name);
+                    }
                     placeLayout.setVisibility(VISIBLE);
                 }
             }
