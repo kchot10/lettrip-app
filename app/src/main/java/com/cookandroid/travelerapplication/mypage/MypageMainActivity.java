@@ -79,7 +79,8 @@ public class MypageMainActivity extends AppCompatActivity implements SelectData_
         MeetUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo:내가 찌른 목록 보여주는 액티비티로 연결
+                Intent intent = new Intent(getApplicationContext(), MypageMeetUpPostList.class);
+                startActivity(intent);
             }
         });
 

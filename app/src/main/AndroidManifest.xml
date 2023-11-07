@@ -193,6 +193,10 @@
             android:exported="true">
         </activity>
 
+        <activity android:name=".mypage.MypageMeetUpPostList"
+            android:exported="true">
+        </activity>
+
     </application>
 
 </manifest>
