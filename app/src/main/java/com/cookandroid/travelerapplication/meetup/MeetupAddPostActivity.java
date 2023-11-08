@@ -102,6 +102,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
     TextView planInfo;
     TextView planCategory;
     LinearLayout placeLayout, planLayout;
+    String user_id;
     String request_user_id;
 
     @Override
@@ -109,6 +110,7 @@ public class MeetupAddPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_newpost);
         binding = ActivityMeetupNewpostBinding.inflate(getLayoutInflater());
+        user_id = fileHelper.readFromFile("user_id");
 
         fileHelper = new FileHelper(this);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
