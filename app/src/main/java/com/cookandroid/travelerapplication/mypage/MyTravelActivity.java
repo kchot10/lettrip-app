@@ -53,7 +53,6 @@ public class MyTravelActivity extends AppCompatActivity implements TravelAdapter
                 finish();
             }
         });
-        Refresh();
     }
 
     public void Refresh() {
@@ -93,10 +92,9 @@ public class MyTravelActivity extends AppCompatActivity implements TravelAdapter
         finish();
     }
 
-//    Todo: 혹시 다시 활성화 하게 될 수도..
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Refresh();
-//    }
+    @Override
+    protected void onResume() { //
+        super.onResume();
+        Refresh();
+    }
 }

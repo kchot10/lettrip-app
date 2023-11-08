@@ -78,7 +78,6 @@ public class ArticleContentActivity extends AppCompatActivity {
         recyclerView_comment.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView_comment.setLayoutManager(layoutManager);
-        Refresh();
 
         UpdateData_Article_Hit updateData_article_hit = new UpdateData_Article_Hit();
         updateData_article_hit.execute("http://"+IP_ADDRESS+"/0422/UpdateData_Article_Hit.php", article_id);
@@ -163,7 +162,7 @@ public class ArticleContentActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume() { //
         super.onResume();
         Refresh();
     }
