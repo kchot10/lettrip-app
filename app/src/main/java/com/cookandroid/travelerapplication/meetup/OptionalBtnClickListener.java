@@ -52,7 +52,7 @@ public class OptionalBtnClickListener implements View.OnClickListener{
 
             placeLayout.setVisibility(View.VISIBLE);
 
-            //todo:선택된 장소 db 추가 - place 테이블에 정보 추가 & meet_up_post 테이블에 place_id 추가
+            //(안쓰는 activity)todo:선택된 장소 db 추가 - place 테이블에 정보 추가 & meet_up_post 테이블에 place_id 추가
 
         }
     }

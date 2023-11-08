@@ -260,7 +260,6 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
                     layoutParams.dimAmount = 0.0f; // 배경 어둡게 설정을 해제
                     getWindow().setAttributes(layoutParams);
 
-                    //todo:message db 저장 - poke 테이블에 추가
                     String brief_message = message;
                     String meet_up_post_id =  meetupPost.getMeet_up_post_id();
                     insertData_poke.execute("http://" + IP_ADDRESS + "/1028/InsertData_Poke.php", brief_message, meet_up_post_id, user_id);

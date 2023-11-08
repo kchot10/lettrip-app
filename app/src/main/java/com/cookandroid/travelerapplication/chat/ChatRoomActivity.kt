@@ -87,6 +87,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         user_id = fileHelper.readFromFile("user_id")
         userName = fileHelper.readFromFile("my_nickname")
 
+
         meet_up_id = "-1"
         meet_up_date = "";
         performer_id = "-1"
@@ -353,17 +354,12 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
         auth.setOnClickListener{
 
             if(!performer_id.equals(user_id)){
-                meetUpRequest()
-                if(real_meet_up.meet_up_status.equals("COMPLETED")){
-                    Toast.makeText(this, "인증이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }else {
                     val selectdata_meetup = SelectData_MeetUp(this)
                     selectdata_meetup.execute(
                         "http://" + IP_ADDRESS + "/1028/SelectData_MeetUp.php",
                         meet_up_post_id
                     )
-                }
+
             }else{
                 if (code.equals(editText.text.toString())) {
                     val updateData_meetUp = UpdateData_MeetUp();
@@ -541,7 +537,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             addItemToRecyclerView(message)
         }
 
-        val room_id = roomName // Todo: 만남글 업데이트 후 고치기 (만남글을 보고 수락을 누르면 생성될듯)
+        val room_id = roomName
         val message = content
         val send_user_id = user_id
         val receive_user_id = if(write_user_id.equals(user_id)) {request_user_id} else {write_user_id}
@@ -714,16 +710,19 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
     }
 
     override fun onTaskComplete_SelectData_MeetUpPostOne(result: MeetupPost) {
-        Log.e("errors",result.postTitle);
-        binding.postTitle.text = result.postTitle;
-        binding.city1.text = result.province;
-        binding.city2.text = result.city;
-        binding.postBtn.setOnClickListener{
-            val intent: Intent
-            intent = Intent(this, MeetupPostDetailActivity::class.java)
-            intent.putExtra("meetup_post", result) // MeetupPost 클래스 형태로 보내는건 오류
-            startActivity(intent)
+//        Log.e("errors", result.meet_up_id+result.created_date+result.postTitle);
+        runOnUiThread{
+            binding.postTitle.text = result.postTitle;
+            binding.city1.text = result.province;
+            binding.city2.text = result.city;
+            binding.postBtn.setOnClickListener{
+                val intent: Intent
+                intent = Intent(this, MeetupPostDetailActivity::class.java)
+                intent.putExtra("meetup_post", result) // MeetupPost 클래스 형태로 보내는건 오류
+                startActivity(intent)
+            }
         }
+
     }
 }
 

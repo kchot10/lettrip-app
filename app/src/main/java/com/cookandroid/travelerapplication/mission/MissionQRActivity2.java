@@ -47,7 +47,7 @@ public class MissionQRActivity2 extends AppCompatActivity {
         }
 
         @Override
-        protected void onResume() {
+        protected void onResume() { //
             super.onResume();
             barcodeView.resume();
         }

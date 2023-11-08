@@ -473,8 +473,8 @@ public class RecordMain extends AppCompatActivity{
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {//
+        super.onResume();
         Refresh();
     }
 

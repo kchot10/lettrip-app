@@ -94,7 +94,7 @@ public class SelectData_MeetUpOne extends AsyncTask<String,Void,String> { // 통
             try{
                 parseJSONArray(sb.toString());
             }catch (Exception e){
-                Log.d("youn", "JSON Error\n");
+                Log.d("youn", "밋업 가져오기 오류 발생\n");
                 callback.onTaskComplete_SelectData_MeetUpOne(new MeetUp());
             }
 
@@ -136,6 +136,8 @@ public class SelectData_MeetUpOne extends AsyncTask<String,Void,String> { // 통
         meetup.setRequest_user_id(request_user_id);
         articleArrayList.add(meetup);
         callback.onTaskComplete_SelectData_MeetUpOne(meetup);
+
+        Log.e("errors", meet_up_post_id+meet_up_status+meet_up_date);
 
 //        for (int i = 0; i < jsonArray.length(); i++) {
 //

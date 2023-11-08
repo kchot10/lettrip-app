@@ -135,7 +135,7 @@ public class SelectData_Poke extends AsyncTask<String,Void,String> { // 통신�
             String nickname = jsonObject.getString("nickname");
             String sex = jsonObject.getString("sex");
             String birth_date = jsonObject.getString("birth_date");
-            String meet_up_post_id = jsonObject.getString("meet_up_post_id"); // Todo: 데이터베이스 이름이 잘못되어있음
+            String meet_up_post_id = jsonObject.getString("meet_up_post_id");
             String write_user_id = jsonObject.getString("write_user_id");
             String request_user_id = jsonObject.getString("user_id");
             String meet_up_id = jsonObject.getString("meet_up_id");
