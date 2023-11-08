@@ -31,15 +31,6 @@
                 android:gravity="center">
 
                 <ImageButton
-                    android:id="@+id/menuBtn"
-                    android:layout_width="50dp"
-                    android:src="@drawable/bottombar_chat_icon"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:backgroundTint="@color/white"
-                    android:scaleType="fitCenter" />
-
-                <ImageButton
                     android:id="@+id/logoBtn"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -48,14 +39,6 @@
                     android:backgroundTint="@color/white"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/logo" />
-
-                <ImageButton
-                    android:id="@+id/heartBtn"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:adjustViewBounds="true"
-                    android:backgroundTint="@color/white"
-                    android:scaleType="fitCenter" />
 
             </LinearLayout>
 

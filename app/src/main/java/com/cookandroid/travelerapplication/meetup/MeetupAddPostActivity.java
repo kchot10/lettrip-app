@@ -266,6 +266,8 @@ public class MeetupAddPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 saveMeetupPostData(user_id);
+                Intent intent = new Intent(getApplicationContext(), MeetupPostMainAcitivty.class);
+                startActivity(intent);
             }
         });
 

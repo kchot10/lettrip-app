@@ -7,57 +7,46 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/topLayout"
-        android:layout_width="wrap_content"
+        android:id="@+id/TopLinearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="12.5dp"
-        android:layout_marginRight="30dp"
+        android:background="#FFFFFF"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
 
         <ImageButton
-            android:id="@+id/menuBtn"
+            android:id="@+id/searchBtn"
             android:layout_width="23dp"
             android:layout_height="23dp"
-            android:background="#FFFFFF"
+            android:background="@color/white"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/home" />
-
-        <View
-            android:id="@+id/view6"
-            android:layout_width="wrap_content"
-            android:layout_height="10dp"
-            android:layout_weight="1" />
+            app:srcCompat="@drawable/search" />
 
         <ImageButton
             android:id="@+id/logoBtn"
             android:layout_width="39dp"
-            android:layout_height="33.3dp"
-            android:background="#FFFFFF"
+            android:layout_height="33.29dp"
+            android:layout_weight="1"
+            android:background="@color/white"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/logo" />
 
-        <View
-            android:id="@+id/view7"
-            android:layout_width="wrap_content"
-            android:layout_height="10dp"
-            android:layout_weight="1" />
-
         <ImageButton
-            android:id="@+id/bellBtn"
-            android:layout_width="20dp"
-            android:layout_height="24.7dp"
-            android:background="#FFFFFF"
+            android:id="@+id/chatBtn"
+            android:layout_width="24.99dp"
+            android:layout_height="25dp"
+            android:background="@color/white"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/bell" />
+            app:srcCompat="@drawable/bottombar_chat_icon" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/middleLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -125,8 +114,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="30dp"
-            android:fontFamily="@font/inter"
             android:ems="10"
+            android:fontFamily="@font/inter"
             android:hint="Planning Title"
             android:inputType="text"
             android:textSize="16sp" />
@@ -236,11 +225,9 @@
         app:srcCompat="@drawable/floating_icon" />
 
     <LinearLayout
-        android:id="@+id/bottomLayout"
-        android:layout_width="wrap_content"
+        android:id="@+id/BottomLinearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
@@ -248,63 +235,44 @@
             android:id="@+id/missionBtn"
             android:layout_width="22.5dp"
             android:layout_height="25dp"
-            android:background="#FFFFFF"
+            android:layout_weight="1"
+            android:background="@color/white"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/bottombar_mission_icon" />
-
-        <View
-            android:id="@+id/view8"
-            android:layout_width="wrap_content"
-            android:layout_height="10dp"
-            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/boardBtn"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="#FFFFFF"
+            android:layout_weight="1"
+            android:background="@color/white"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/bottombar_community_icon" />
 
-        <View
-            android:id="@+id/view9"
-            android:layout_width="wrap_content"
-            android:layout_height="10dp"
-            android:layout_weight="1" />
-
         <ImageButton
-            android:id="@+id/planningAndRecordBtn"
+            android:id="@+id/recordBtn"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="#FFFFFF"
+            android:layout_weight="1"
+            android:background="@color/white"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/bottombar_record_icon" />
 
-        <View
-            android:id="@+id/view10"
-            android:layout_width="wrap_content"
-            android:layout_height="10dp"
-            android:layout_weight="1" />
-
         <ImageButton
-            android:id="@+id/chattingBtn"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="#FFFFFF"
+            android:id="@+id/meetupBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@color/white"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/bottombar_chat_icon" />
-
-        <View
-            android:id="@+id/view11"
-            android:layout_width="wrap_content"
-            android:layout_height="10dp"
-            android:layout_weight="1" />
+            app:srcCompat="@drawable/meetup_btn" />
 
         <ImageButton
             android:id="@+id/mypageBtn"
             android:layout_width="20dp"
             android:layout_height="23dp"
-            android:background="#FFFFFF"
+            android:layout_weight="1"
+            android:background="@color/white"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/bottombar_mypage_icon" />
     </LinearLayout>

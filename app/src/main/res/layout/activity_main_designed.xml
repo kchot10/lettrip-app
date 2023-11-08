@@ -17,13 +17,6 @@
         android:layout_marginRight="41dp"
         android:gravity="center">
 
-        <ImageButton
-            android:id="@+id/menuBtn"
-            android:layout_width="22.15dp"
-            android:layout_height="19.31dp"
-            android:background="#FFFFFF"
-            app:srcCompat="@drawable/menu" />
-
         <ImageView
             android:id="@+id/logo"
             android:layout_width="41dp"
@@ -35,10 +28,6 @@
             tools:layout_editor_absoluteX="158dp"
             tools:layout_editor_absoluteY="16dp" />
 
-        <View
-            android:id="@+id/view5"
-            android:layout_width="22.15dp"
-            android:layout_height="19.31dp" />
     </LinearLayout>
 
     <LinearLayout

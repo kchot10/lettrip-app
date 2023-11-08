@@ -1,26 +1,37 @@
 package com.cookandroid.travelerapplication.meetup;
 
+import static androidx.constraintlayout.motion.widget.Debug.getLocation;
+
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
@@ -30,12 +41,16 @@ import com.cookandroid.travelerapplication.helper.FileHelper;
 import com.cookandroid.travelerapplication.kotlin.KakaoAPI3;
 import com.cookandroid.travelerapplication.kotlin.Place;
 import com.cookandroid.travelerapplication.kotlin.ResultSearchKeyword;
+import com.cookandroid.travelerapplication.main.MainActivity;
 import com.cookandroid.travelerapplication.meetup.model.GpsType;
 import com.cookandroid.travelerapplication.mission.MissionMainActivity;
 import com.cookandroid.travelerapplication.mission.UserInfo;
 import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
+import com.cookandroid.travelerapplication.record.PlanningMain;
 import com.cookandroid.travelerapplication.record.RecordMain;
+import com.cookandroid.travelerapplication.search.SearchReviewActivity;
 import com.cookandroid.travelerapplication.task.SelectData_MeetUpPost;
+import com.cookandroid.travelerapplication.task.SelectData_Poke;
 import com.cookandroid.travelerapplication.task.SelectData_UserInfo;
 
 import java.sql.Ref;
@@ -43,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +68,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectData_MeetUpPost.AsyncTaskCompleteListener, SelectData_UserInfo.AsyncTaskCompleteListener {
-    String IP_ADDRESS = "3.34.136.218", user_id = "25"; // 여기가 2번 또는 25번
+    String IP_ADDRESS = "3.34.136.218", user_id; // 여기가 2번 또는 25번
     FileHelper fileHelper;
     ImageButton chatBtn;
     Spinner gpsSelected;
@@ -227,11 +243,62 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RecordMain.class);
-                //TODO:POPUP 띄워서 후기 기록과 계획 기록으로 나눠서 들어가도록 설정
+                // 레이아웃 인플레이션
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.popup_record_and_plan, null);
+
+                // AlertDialog 생성
+                AlertDialog.Builder builder = new AlertDialog.Builder(MeetupPostMainAcitivty.this);
+                builder.setView(dialogView);
+
+                // 다이얼로그 버튼 설정
+                Button buttonRecord = dialogView.findViewById(R.id.button_record);
+                Button buttonPlan = dialogView.findViewById(R.id.button_plan);
+
+                buttonRecord.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // 여행 후기 기록하기 버튼 클릭 시 동작
+                        Intent intent = new Intent(MeetupPostMainAcitivty.this, RecordMain.class);
+                        intent.putExtra("record/plan", "record");
+                        startActivity(intent);
+                    }
+                });
+
+                buttonPlan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // 여행 계획 기록하기 버튼 클릭 시 동작
+                        Intent intent = new Intent(MeetupPostMainAcitivty.this, PlanningMain.class);
+                        intent.putExtra("record/plan", "plan");
+                        startActivity(intent);
+                    }
+                });
+
+                // AlertDialog 표시
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
+        });
+
+        ImageButton searchBtn = findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MeetupPostMainAcitivty.this, SearchReviewActivity.class);
+                startActivity(intent);
             }
         });
 
+        ImageButton logoBtn = findViewById(R.id.logoBtn);
+        logoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

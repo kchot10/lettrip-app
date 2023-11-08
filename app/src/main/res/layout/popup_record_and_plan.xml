@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="90dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/radius_planning_popup"
-    android:elevation="10dp"
-    android:orientation="vertical">
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/addPlaceBtn"
-        android:layout_width="match_parent"
+        android:id="@+id/dialog_message"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="19dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="19dp"
-        android:background="#4F5A80"
-        android:fontFamily="@font/inter"
-        android:gravity="center"
-        android:text="여행 계획"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="30dp"
+        android:text="기록하기 유형을 선택해주세요."
+        android:textSize="16sp" />
 
-    <View
-        android:id="@+id/line1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="9dp"
-        android:background="#747D9D" />
-
-    <TextView
-        android:id="@+id/recordTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="19dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="19dp"
-        android:layout_marginBottom="10dp"
-        android:background="#4F5A80"
-        android:fontFamily="@font/inter"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:text="여행 기록"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_plan"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="#4F5A80"
+            android:text="여행 계획 기록"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button_record"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:background="#4F5A80"
+            android:text="여행 후기 기록"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
 
 </LinearLayout>

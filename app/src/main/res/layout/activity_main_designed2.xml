@@ -5,20 +5,61 @@
     android:id="@+id/tripSearchEx2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="43.39dp">
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/TopLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12.5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <ImageButton
+            android:id="@+id/searchBtn"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/search" />
+
+        <ImageButton
+            android:id="@+id/logoBtn"
+            android:layout_width="39dp"
+            android:layout_height="33.29dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/logo" />
+
+        <ImageButton
+            android:id="@+id/chatBtn"
+            android:layout_width="24.99dp"
+            android:layout_height="25dp"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/bottombar_chat_icon" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:overScrollMode="always"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="36dp"
             android:layout_marginTop="50dp"
             android:layout_marginRight="36dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/button_search"
@@ -264,59 +305,6 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/meetupBtn"
-                        android:layout_width="100dp"
-                        android:layout_height="35dp"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:background="#FFFFFF"
-                        android:elevation="7dp"
-                        android:text="친구매칭" />
-
-                    <Button
-                        android:id="@+id/button_board"
-                        android:layout_width="100dp"
-                        android:layout_height="35dp"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:background="#FFFFFF"
-                        android:elevation="7dp"
-                        android:text="게시판" />
-
-                    <Button
-                        android:id="@+id/searchReview"
-                        android:layout_width="100dp"
-                        android:layout_height="35dp"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:background="#FFFFFF"
-                        android:elevation="7dp"
-                        android:text="장소 검색" />
-
-                    <Button
-                        android:id="@+id/mypage"
-                        android:layout_width="100dp"
-                        android:layout_height="35dp"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:background="#FFFFFF"
-                        android:elevation="7dp"
-                        android:text="마이페이지" />
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -325,10 +313,12 @@
             <LinearLayout
                 android:id="@+id/ad_btn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/main_ad"
-                android:orientation="vertical">
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -369,5 +359,58 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/BottomLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/missionBtn2"
+            android:layout_width="22.5dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/bottombar_mission_icon" />
+
+        <ImageButton
+            android:id="@+id/boardBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/bottombar_community_icon" />
+
+        <ImageButton
+            android:id="@+id/recordBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/bottombar_record_icon" />
+
+        <ImageButton
+            android:id="@+id/meetupBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/meetup_btn" />
+
+        <ImageButton
+            android:id="@+id/mypageBtn"
+            android:layout_width="20dp"
+            android:layout_height="23dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/bottombar_mypage_icon" />
+    </LinearLayout>
 
 </LinearLayout>
