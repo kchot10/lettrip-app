@@ -487,4 +487,10 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
         fileHelper.writeToFile("my_nickname", result.getNickname());
         Log.e("errors", result.getNickname()+", user_id:"+fileHelper.readFromFile("user_id"));
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Refresh(is_gps, selectedCity1, selectedCity2);
+    }
 }

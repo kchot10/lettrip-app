@@ -147,8 +147,8 @@ public class ArticleListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         Refresh(NEW);
     }
 }
