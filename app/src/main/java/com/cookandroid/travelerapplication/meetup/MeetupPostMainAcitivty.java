@@ -85,7 +85,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
 
         fileHelper = new FileHelper(this);
 //        fileHelper.writeToFile("IP_ADDRESS", IP_ADDRESS);//Todo: 나중에 쓰는 부분은 지울듯
-        fileHelper.writeToFile("user_id", user_id);//Todo: 나중에 쓰는 부분은 지울듯
+//        fileHelper.writeToFile("user_id", user_id);//Todo: 나중에 쓰는 부분은 지울듯
         SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(new ArrayList(), this);
         selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", user_id);
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
