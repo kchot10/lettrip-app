@@ -77,16 +77,9 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
         layout2 = findViewById(R.id.LinearLayout2);
         layout3 = findViewById(R.id.LinearLayout3);
 
-
-
-        //todo: db에서 사용자 정보 받아오기 코드 추가
         ArrayList<UserInfo> userInfoArrayList = new ArrayList<>();
         SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList, this);
         selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", getIntent().getStringExtra("request_user_id"));
-        //닉네임, 이름, 성별, 생년월일, 매칭 완료 횟수, 매칭 실패 횟수, 프로필url
-
-
-
 
         //페이지 이동
         backBtn.setOnClickListener(new View.OnClickListener() {

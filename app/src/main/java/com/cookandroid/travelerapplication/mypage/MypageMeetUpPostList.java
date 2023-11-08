@@ -72,12 +72,6 @@ public class MypageMeetUpPostList extends AppCompatActivity implements SelectDat
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
         user_id = fileHelper.readFromFile("user_id");
 
-//        backBtn = findViewById(R.id.backBtn);
-//        recyclerView = findViewById(R.id.recyclerView);
-
-        //현재는 모든 매칭 글을 불러옴
-        //todo:유저 아이디가 현재 로그인된 유저 아이디와 일치하는 포스트들만 불러오는 코드 추가
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(this, 2);

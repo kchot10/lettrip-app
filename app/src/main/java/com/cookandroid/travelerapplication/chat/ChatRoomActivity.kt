@@ -541,7 +541,7 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener, S3Uploader.O
             addItemToRecyclerView(message)
         }
 
-        val room_id = roomName // Todo: 만남글 업데이트 후 고치기 (만남글을 보고 수락을 누르면 생성될듯)
+        val room_id = roomName
         val message = content
         val send_user_id = user_id
         val receive_user_id = if(write_user_id.equals(user_id)) {request_user_id} else {write_user_id}

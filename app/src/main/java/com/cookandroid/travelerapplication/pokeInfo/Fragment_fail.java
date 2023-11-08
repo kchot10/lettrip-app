@@ -44,7 +44,6 @@ public class Fragment_fail extends Fragment implements SelectData_MeetUp_Review.
         dataList = new ArrayList<>();
         //dataList.add(new OneLineReviewData(R.drawable.profile_photo_mypage, "시간 약속을 안지켜요.."));
         //dataList.add(new OneLineReviewData(R.drawable.profile_photo_mypage, "마음대로 약속 취소해버림 ㅜ"));
-        //todo:매칭 성공 한줄리뷰 불러와서 리스트에 추가(프로필, 한줄리뷰 내용)
         Boolean isComleted = false;
         SelectData_MeetUp_Review selectData_meetUp_review = new SelectData_MeetUp_Review(this);
         selectData_meetUp_review.execute("http://" + IP_ADDRESS + "/1107/SelectData_MeetUp_Review.php",user_id,isComleted.toString());
