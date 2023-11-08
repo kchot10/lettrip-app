@@ -94,7 +94,7 @@ public class SelectData_MeetUpPostOne extends AsyncTask<String,Void,String> { //
             try{
                 parseJSONArray(sb.toString());
             }catch (Exception e){
-                Log.d("youn", "JSON Error\n");
+                Log.d("youn", "밋업 포스트 원 가져오기 실패\n");
                 callback.onTaskComplete_SelectData_MeetUpPostOne(new MeetupPost());
             }
 
@@ -118,7 +118,6 @@ public class SelectData_MeetUpPostOne extends AsyncTask<String,Void,String> { //
     }
 
     private void parseJSONArray(String result) throws JSONException {
-        Log.e("result99", result);
 
         JSONObject jsonObject = new JSONObject(result);
 
