@@ -64,6 +64,7 @@ public class RecordMainSearch extends AppCompatActivity {
         total_cost = getIntent().getStringExtra("total_cost");
         number_of_courses = getIntent().getStringExtra("number_of_courses");
         travel_id = getIntent().getStringExtra("travel_id");
+        Refresh();
 
         RefreshLike();
 
@@ -81,7 +82,7 @@ public class RecordMainSearch extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() { //
+    protected void onResume() {
         super.onResume();
         Refresh();
     }
