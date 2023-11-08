@@ -10,6 +10,16 @@ public class MeetupPost implements Serializable {
     private String travel_id;
     private String place_id;
 
+    public MeetupPost(String city, String created_date, String content, String nickname, String sex, String image_url) {
+        this.image_url = image_url;
+        this.city = city;
+        this.created_date = created_date;
+        this.content = content;
+        this.nickname = nickname;
+        this.sex = sex;
+
+    }
+
     public MeetupPost(String meet_up_post_id, String is_gps_enabled, String city, String content, String created_date, String nickname, String sex, @Nullable String image_url, String province, @Nullable String birth_date, String user_id, String postTitle) {
         this.meet_up_post_id = meet_up_post_id;
         this.is_gps_enabled = is_gps_enabled;
@@ -36,6 +46,9 @@ public class MeetupPost implements Serializable {
     private String user_id;
     private String postTitle;
     private String meet_up_id;
+
+
+
 
     public String getTravel_id() {
         return travel_id;

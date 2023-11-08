@@ -6,12 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +25,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 import com.cookandroid.travelerapplication.account.LoginActivity;
+import com.cookandroid.travelerapplication.article.ArticleListActivity;
+import com.cookandroid.travelerapplication.chat.ChatListActivity;
 import com.cookandroid.travelerapplication.helper.FileHelper;
+import com.cookandroid.travelerapplication.main.MainActivity;
+import com.cookandroid.travelerapplication.meetup.MeetupPostMainAcitivty;
+import com.cookandroid.travelerapplication.mission.MissionMainActivity;
+import com.cookandroid.travelerapplication.mypage.MypageMainActivity;
+import com.cookandroid.travelerapplication.search.SearchReviewActivity;
 import com.cookandroid.travelerapplication.task.InsertData_Travel;
 import com.cookandroid.travelerapplication.task.SelectData_Course;
 import com.cookandroid.travelerapplication.task.UpdateData_Travel;
@@ -72,11 +81,7 @@ public class RecordMain extends AppCompatActivity{
         courseArrayList = new ArrayList<>();
 
 
-        findViewById(R.id.menuBtn).setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        });
+
 
 
         //도시 선택
@@ -299,6 +304,111 @@ public class RecordMain extends AppCompatActivity{
 
         });
 
+        ImageButton chatBtn = findViewById(R.id.chatBtn);
+
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ChatListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton mypage = findViewById(R.id.mypageBtn);
+        mypage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MypageMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton mission = findViewById(R.id.missionBtn);
+        mission.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MissionMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton board = findViewById(R.id.boardBtn);
+        board.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton meetupBtn = findViewById(R.id.meetupBtn);
+        meetupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MeetupPostMainAcitivty.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton logoBtn = findViewById(R.id.logoBtn);
+        logoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton record = findViewById(R.id.recordBtn);
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 레이아웃 인플레이션
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.popup_record_and_plan, null);
+
+                // AlertDialog 생성
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(RecordMain.this);
+                builder.setView(dialogView);
+
+                // 다이얼로그 버튼 설정
+                Button buttonRecord = dialogView.findViewById(R.id.button_record);
+                Button buttonPlan = dialogView.findViewById(R.id.button_plan);
+
+                buttonRecord.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // 여행 후기 기록하기 버튼 클릭 시 동작
+                        Intent intent = new Intent(RecordMain.this, RecordMain.class);
+                        intent.putExtra("record/plan", "record");
+                        startActivity(intent);
+                    }
+                });
+
+                buttonPlan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // 여행 계획 기록하기 버튼 클릭 시 동작
+                        Intent intent = new Intent(RecordMain.this, PlanningMain.class);
+                        intent.putExtra("record/plan", "plan");
+                        startActivity(intent);
+                    }
+                });
+
+                // AlertDialog 표시
+                androidx.appcompat.app.AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
+        });
+        ImageButton searchBtn = findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecordMain.this, SearchReviewActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

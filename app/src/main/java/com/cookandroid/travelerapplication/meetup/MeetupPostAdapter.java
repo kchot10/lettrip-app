@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +28,9 @@ import java.util.List;
 public class MeetupPostAdapter extends RecyclerView.Adapter<MeetupPostAdapter.MeetupPostViewHolder> {
     private List<MeetupPost> meetupPostList;
     private Context context;
+    private String selectedCityName;
+
+
 
     public class MeetupPostViewHolder extends RecyclerView.ViewHolder {
         public ImageView isGPSselected;
@@ -112,6 +116,7 @@ public class MeetupPostAdapter extends RecyclerView.Adapter<MeetupPostAdapter.Me
                     .load(R.drawable.woman_icon)
                     .into(holder.sexIcon);
         }
+
         String image_url = meetupPost.getImage_url();
         if(!(image_url == null || image_url.equals("null") || image_url.isEmpty() || image_url.equals(""))) {
             Glide.with(context)
@@ -121,6 +126,12 @@ public class MeetupPostAdapter extends RecyclerView.Adapter<MeetupPostAdapter.Me
         } else{
             holder.circle_iv.setImageResource(R.drawable.profile_photo_mypage);
 
+        }
+
+        //city 필터링
+        if (selectedCityName != null && !selectedCityName.isEmpty() && !meetupPost.getCity().equals(selectedCityName)) {
+            holder.itemView.setVisibility(View.GONE); // 선택된 도시와 일치하지 않는 아이템을 숨김
+            return; // 선택된 도시와 일치하지 않으면 더 이상 코드를 실행하지 않음
         }
 
     }

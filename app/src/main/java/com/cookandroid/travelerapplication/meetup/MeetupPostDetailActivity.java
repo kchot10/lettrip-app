@@ -81,7 +81,6 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
         //binding = ActivityMeetupPostDetailBinding.inflate(getLayoutInflater());
 
         backBtn = findViewById(R.id.backBtn);
-        chatBtn = findViewById(R.id.chatBtn);
         gpsInfo = findViewById(R.id.gpsInfo);
         city1 = findViewById(R.id.city1);
         city2 = findViewById(R.id.city2);

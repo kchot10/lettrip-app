@@ -122,10 +122,10 @@
         <activity
             android:name=".account.LoginActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".record.RecordMain"
@@ -172,13 +172,8 @@
             android:exported="true" />
 
         <activity android:name=".meetup.MeetupPostMainAcitivty"
-            android:exported="true" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            android:exported="true" />
 
-        </activity>
         <activity android:name=".meetup.MeetupAddPostActivity"
             android:exported="true" />
         <activity android:name=".meetup.PokeListActivity"
@@ -198,11 +193,6 @@
 
         <activity android:name=".mypage.MypageMeetUpPostList"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
 
     </application>
