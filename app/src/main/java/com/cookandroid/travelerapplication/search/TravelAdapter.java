@@ -39,7 +39,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
     public TravelAdapter(ArrayList<Travel> arrayList, Context mContext) {
         this.arrayList = arrayList;
         this.context = mContext;
-        this.is_select = is_select;
+        this.is_select = false;
         FileHelper fileHelper = new FileHelper(context);
         mUser_id = fileHelper.readFromFile("user_id");
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
