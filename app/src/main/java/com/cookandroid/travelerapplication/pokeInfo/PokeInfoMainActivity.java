@@ -80,7 +80,7 @@ public class PokeInfoMainActivity extends AppCompatActivity implements SelectDat
         ArrayList<UserInfo> userInfoArrayList = new ArrayList<>();
         SelectData_UserInfo selectData_userInfo = new SelectData_UserInfo(userInfoArrayList, this);
         selectData_userInfo.execute("http://"+IP_ADDRESS+"/0601/selectData_userInfo.php", getIntent().getStringExtra("request_user_id"));
-
+        fileHelper.writeToFile("partner_user_id", getIntent().getStringExtra("request_user_id"));
         //페이지 이동
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -38,6 +38,9 @@ public class Fragment_success extends Fragment implements SelectData_MeetUp_Revi
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+
+        String partner_user_id = fileHelper.readFromFile("partner_user_id");
+
         // 데이터 리스트 생성 (예시)
         dataList = new ArrayList<>();
         //dataList.add(new OneLineReviewData(R.drawable.profile_photo_mypage, "약속 시간을 잘 지켜요!"));
@@ -45,7 +48,7 @@ public class Fragment_success extends Fragment implements SelectData_MeetUp_Revi
 
         Boolean isComleted = true;
         SelectData_MeetUp_Review selectData_meetUp_review = new SelectData_MeetUp_Review(this);
-        selectData_meetUp_review.execute("http://" + IP_ADDRESS + "/1107/SelectData_MeetUp_Review.php",user_id,isComleted.toString());
+        selectData_meetUp_review.execute("http://" + IP_ADDRESS + "/1107/SelectData_MeetUp_Review.php",partner_user_id,isComleted.toString());
 
 
         result= new ArrayList<>();

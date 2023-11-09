@@ -170,7 +170,7 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                 
                 //selectedCity에 해당하는 리스트만 불러오는 코드 추가
                 selectedCity1 = selectedCity;
-                Refresh(is_gps, selectedCity1, cityList.get(0)); // 선택된 province의 city 중 제일 첫번째 city
+//                Refresh(is_gps, selectedCity1, cityList.get(0)); // 선택된 province의 city 중 제일 첫번째 city
             }
 
             @Override
@@ -413,16 +413,20 @@ public class MeetupPostMainAcitivty extends AppCompatActivity implements SelectD
                         city2.setEnabled(false);
                         String addressName = place.getAddress_name();
                         parts = findProvinceCity(addressName);
+                        Log.e("errors", addressName);
+                        Log.e("errors", parts[0]+parts[1]);
                         int position = city1Adapter.getPosition(parts[0]);
                         city1.setSelection(position);
-
+//
                         List<String> cityList = getCityList2(parts[0]);
                         adapter2 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
                         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         int position2 = adapter2.getPosition(parts[1]);
-                        city2.setSelection(position2);
+                        new Handler().postDelayed(()->{
+                            city2.setSelection(position2);
+                        },300);
                     }
-                    Refresh(GpsType.GPS_ENABLE.toString(), selectedCity1, selectedCity2);
+//                    Refresh(GpsType.GPS_ENABLE.toString(), selectedCity1, selectedCity2);
                 }else{
                     gpsSelected.setSelection(0);
                     Toast.makeText(getApplicationContext(),"사용자의 위치를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
