@@ -1,7 +1,5 @@
 # lettrip-app
 
----
-
 렛트립 Android ✈️
 
 [정후](https://github.com/bluemango0312)
