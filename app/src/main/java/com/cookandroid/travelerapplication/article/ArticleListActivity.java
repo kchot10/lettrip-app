@@ -108,6 +108,10 @@ public class ArticleListActivity extends AppCompatActivity {
             }
         });
 
+
+        Refresh(NEW);
+
+
         findViewById(R.id.button_refresh).setOnClickListener(v -> {
             Refresh(NEW);
         });
@@ -143,8 +147,8 @@ public class ArticleListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() { //
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         Refresh(NEW);
     }
 }

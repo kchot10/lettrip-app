@@ -325,7 +325,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/mypage_trip"
                     android:orientation="vertical">
@@ -339,16 +339,6 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="여행 코스"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/placeLikeBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="59dp"
-                        android:layout_marginLeft="27dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="장소"
                         android:textSize="16sp" />
 
 

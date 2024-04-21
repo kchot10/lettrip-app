@@ -73,6 +73,8 @@ public class MissionMainActivity extends AppCompatActivity {
         recyclerView_mission_KINDCITY.setLayoutManager(layoutManagers[4]);
         Refresh(recyclerView_mission_KINDCITY, "KINDCITY", 4);
 
+        Refresh_MyPoint();
+
 
         //QR 코드 미션
         missionQR.setOnClickListener(v -> {
@@ -139,8 +141,8 @@ public class MissionMainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() { //
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         Refresh_MyPoint();
     }
 }

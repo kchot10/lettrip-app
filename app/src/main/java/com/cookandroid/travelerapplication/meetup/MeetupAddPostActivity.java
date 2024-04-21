@@ -572,7 +572,9 @@ public class MeetupAddPostActivity extends AppCompatActivity {
                         adapter2 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
                         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         int position2 = adapter2.getPosition(parts[1]);
-                        city2.setSelection(position2);
+                        new Handler().postDelayed(()->{
+                            city2.setSelection(position2);
+                        },300);
                     }
                 }else{
                     gpsSpinner.setSelection(0);

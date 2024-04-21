@@ -38,6 +38,7 @@ public class MypageLikeTripActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        Refresh();
 
     }
 
@@ -58,8 +59,8 @@ public class MypageLikeTripActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() { //
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         Refresh();
     }
 }

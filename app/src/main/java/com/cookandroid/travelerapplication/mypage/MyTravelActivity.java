@@ -53,6 +53,7 @@ public class MyTravelActivity extends AppCompatActivity implements TravelAdapter
                 finish();
             }
         });
+        Refresh();
     }
 
     public void Refresh() {
@@ -93,8 +94,8 @@ public class MyTravelActivity extends AppCompatActivity implements TravelAdapter
     }
 
     @Override
-    protected void onResume() { //
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         Refresh();
     }
 }

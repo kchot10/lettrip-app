@@ -44,9 +44,13 @@ public class Fragment_fail extends Fragment implements SelectData_MeetUp_Review.
         dataList = new ArrayList<>();
         //dataList.add(new OneLineReviewData(R.drawable.profile_photo_mypage, "시간 약속을 안지켜요.."));
         //dataList.add(new OneLineReviewData(R.drawable.profile_photo_mypage, "마음대로 약속 취소해버림 ㅜ"));
+
+
+        String partner_user_id = fileHelper.readFromFile("partner_user_id");
+
         Boolean isComleted = false;
         SelectData_MeetUp_Review selectData_meetUp_review = new SelectData_MeetUp_Review(this);
-        selectData_meetUp_review.execute("http://" + IP_ADDRESS + "/1107/SelectData_MeetUp_Review.php",user_id,isComleted.toString());
+        selectData_meetUp_review.execute("http://" + IP_ADDRESS + "/1107/SelectData_MeetUp_Review.php",partner_user_id,isComleted.toString());
 
 
         result= new ArrayList<>();
