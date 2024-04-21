@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cookandroid.travelerapplication.R;
 
+import java.text.BreakIterator;
+
 public class ReviewViewHolder  extends RecyclerView.ViewHolder {
+    TextView userNickName;
     ImageView profilePhoto;
     TextView oneLineReview;
 
@@ -18,5 +21,7 @@ public class ReviewViewHolder  extends RecyclerView.ViewHolder {
 
         profilePhoto = itemView.findViewById(R.id.profilePhoto);
         oneLineReview = itemView.findViewById(R.id.oneLineReivew);
+        oneLineReview = itemView.findViewById(R.id.userNickName);
+
     }
 }

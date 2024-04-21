@@ -1,7 +1,7 @@
 package com.cookandroid.travelerapplication.meetup;
 
 import static org.jetbrains.anko.Sdk27PropertiesKt.setImageResource;
-import com.cookandroid.travelerapplication.databinding.ActivityMeetupPostDetailBinding;
+//import com.cookandroid.travelerapplication.databinding.ActivityMeetupPostDetailBinding;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -68,6 +68,8 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
     String meet_up_post_id = "";
     MeetupPost meetupPost;
     TextView postTitle;
+
+    PokeItem pokeItem;
 
 
     @Override
@@ -202,14 +204,13 @@ SelectData_Travel_Place.AsyncTaskCompleteListener{
         }
 
         //수정, 삭제 버튼 추가
-
         //쿸 찌르기
         pokeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(meetupPost.getUser_id().equals(user_id)) {
                     Toast.makeText(getApplicationContext(), "자신의 글은 쿸 찌를 수 없습니다.", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     showPopup();
                     // 팝업창의 배경 설정
                     WindowManager.LayoutParams layoutParams = getWindow().getAttributes();

@@ -69,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity implements S3Uploader.OnUp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FileHelper fileHelper = new FileHelper(this);
-        IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
+        //IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
 
         setContentView(R.layout.activity_sign_up);
 

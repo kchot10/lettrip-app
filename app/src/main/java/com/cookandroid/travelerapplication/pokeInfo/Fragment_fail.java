@@ -53,7 +53,7 @@ public class Fragment_fail extends Fragment implements SelectData_MeetUp_Review.
         new Handler().postDelayed(()->{
             // 어댑터 생성 및 리싸이클러뷰에 설정
             result.forEach(meetUpReview -> {
-                dataList.add(new OneLineReviewData(meetUpReview.getImage_url(), meetUpReview.getContent()));
+                dataList.add(new OneLineReviewData(meetUpReview.getImage_url(), meetUpReview.getContent(), meetUpReview.getNickName()));
             });
             OneLineReviewAdapter adapter = new OneLineReviewAdapter(dataList, getActivity());
             recyclerView.setAdapter(adapter);

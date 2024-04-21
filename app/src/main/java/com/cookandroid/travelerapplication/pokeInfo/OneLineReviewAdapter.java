@@ -40,6 +40,7 @@ public class OneLineReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder>
                 .into(holder.profilePhoto);
 //        holder.profilePhoto.setImageResource();
         holder.oneLineReview.setText(data.getOneLineReview());
+        holder.userNickName.setText(data.getNickName());
     }
 
     @Override
