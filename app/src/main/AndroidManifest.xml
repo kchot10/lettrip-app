@@ -30,13 +30,23 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".account.AddressSetActivity"
+            android:exported="true" >
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+        </activity>
+        <activity
             android:name=".chat.ChatRoomActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".mongo.MongoActivity"
@@ -112,7 +122,7 @@
         <activity
             android:name=".main.MainActivity"
             android:exported="true" />
-            <activity
+        <activity
             android:name=".account.SignUpActivity"
             android:exported="true">
             <meta-data
@@ -124,6 +134,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -170,31 +181,30 @@
         <activity
             android:name=".mypage.MypageLikeTripActivity"
             android:exported="true" />
-
-        <activity android:name=".meetup.MeetupPostMainAcitivty"
+        <activity
+            android:name=".meetup.MeetupPostMainAcitivty"
             android:exported="true" />
-
-        <activity android:name=".meetup.MeetupAddPostActivity"
+        <activity
+            android:name=".meetup.MeetupAddPostActivity"
             android:exported="true" />
-        <activity android:name=".meetup.PokeListActivity"
+        <activity
+            android:name=".meetup.PokeListActivity"
             android:exported="true" />
-        <activity android:name=".meetup.MeetupPostDetailActivity"
-            android:exported="true" >
-        </activity>
-        <activity android:name=".pokeInfo.PokeInfoMainActivity"
-            android:exported="true">
-        </activity>
-        <activity android:name=".pokeInfo.OneLineReviewActivity"
-            android:exported="true">
-        </activity>
-        <activity android:name=".chat.ChatListActivity"
-            android:exported="true">
-        </activity>
-
-        <activity android:name=".mypage.MypageMeetUpPostList"
-            android:exported="true">
-        </activity>
-
+        <activity
+            android:name=".meetup.MeetupPostDetailActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".pokeInfo.PokeInfoMainActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".pokeInfo.OneLineReviewActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".chat.ChatListActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".mypage.MypageMeetUpPostList"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

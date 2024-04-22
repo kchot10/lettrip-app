@@ -83,9 +83,10 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         fileHelper = new FileHelper(this);
-        fileHelper.writeToFile("IP_ADDRESS", ec2_ADDRESS);
+        if(!getIntent().getStringExtra("inputIPAddress").equals("")){
+            fileHelper.writeToFile("IP_ADDRESS", getIntent().getStringExtra("inputIPAddress"));
+        }
         IP_ADDRESS = fileHelper.readFromFile("IP_ADDRESS");
-
 
         SharedPreferences preference = getPreferences(MODE_PRIVATE);
         boolean isFirstCheck = preference.getBoolean("isFirstPermissionCheck", true);
@@ -95,6 +96,12 @@ public class LoginActivity extends AppCompatActivity{
             String[] array = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
             ActivityCompat.requestPermissions(this, array, ACCESS_FINE_LOCATION);
         }
+
+        findViewById(R.id.logoBtn).setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddressSetActivity.class);
+            startActivity(intent);
+        });
+
 
         findViewById(R.id.findPW_Btn).setOnClickListener(v -> {
             Intent intent = new Intent(this, FindPwdActivity.class);
